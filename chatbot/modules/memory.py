@@ -11,6 +11,7 @@ from .config import (
     MEMOBASE_API_KEY,
     MEMOBASE_BASE_URL,
     MEMOBASE_TIMEOUT,
+    MEMOBASE_SYNC_TIMEOUT,
     DEFAULT_MEMORY_PROMPT,
     DEFAULT_MAX_CONTEXT_SIZE,
     MEMORY_CACHE_FILE,
@@ -69,6 +70,7 @@ def memobase_request(
     params: Optional[dict] = None,
     json_payload: Optional[dict] = None,
     allow_404: bool = False,
+    timeout: Optional[float] = None,
 ) -> Any:
     """Make a request to the MemoBase API.
 
@@ -92,7 +94,7 @@ def memobase_request(
         url,
         params=params,
         json=json_payload,
-        timeout=MEMOBASE_TIMEOUT,
+        timeout=timeout or MEMOBASE_TIMEOUT,
     )
     if allow_404 and response.status_code == 404:
         return None
@@ -442,6 +444,8 @@ def append_chat_to_cache(
     speech_duration: float,
     llm_duration: float,
     session_id: str = None,
+    speech_emotion: dict = None,
+    text_emotion: dict = None,
 ) -> None:
     """Append a conversation round to the local cache file (session-based).
 
@@ -453,6 +457,8 @@ def append_chat_to_cache(
         speech_duration: Time taken for speech processing.
         llm_duration: Time taken for LLM generation.
         session_id: Session ID (defaults to current date).
+        speech_emotion: Speech emotion probabilities (dict).
+        text_emotion: Text emotion probabilities (dict).
     """
     if not user_uuid or (not user_text and not assistant_text):
         return
@@ -464,6 +470,8 @@ def append_chat_to_cache(
     # Create conversation entry
     entry = {
         "timestamp": datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "user_text": user_text,
+        "assistant_text": assistant_text,
         "timings": {
             "speech_to_text": round(speech_duration, 2),
             "llm_generation": round(llm_duration, 2),
@@ -474,6 +482,12 @@ def append_chat_to_cache(
             {"role": "assistant", "content": assistant_text},
         ],
     }
+
+    # Add emotion data if provided
+    if speech_emotion:
+        entry["speech_emotion"] = json.dumps(speech_emotion)
+    if text_emotion:
+        entry["text_emotion"] = json.dumps(text_emotion)
 
     # Load existing cache
     cache_data = _load_cache_data()

@@ -118,7 +118,9 @@ gantt
 ```
 chatbot/
 ├── main.py                   # Main application entry point
+├── backend_api.py            # Flask REST API for frontend dashboard
 ├── sync_memory_cache.py      # Utility to sync cache to MemoBase
+├── start_backend.sh          # Script to start backend API
 ├── requirements.txt          # Python dependencies
 ├── memories.sqlite           # SQLite database for user data
 ├── memory_cache.json         # Conversation cache
@@ -136,6 +138,45 @@ chatbot/
 ├── models/                   # Downloaded model cache
 └── legacy/                   # Legacy/backup files
 ```
+## Backend API (backend_api.py)
+
+A Flask REST API server that provides dashboard data to the frontend application.
+
+**Features:**
+- Aggregates data from MemoBase, SQLite database, and memory cache
+- Real-time updates via Server-Sent Events (SSE)
+- Memory management endpoints for deleting profiles and events
+- Health check endpoint for monitoring
+
+**API Endpoints:**
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/api/dashboard/{userId}` | Complete dashboard data (emotion, personality, profiles, events, transcription) |
+| GET | `/api/memories/{userId}` | Profiles and events only |
+| GET | `/api/stream/{userId}` | SSE real-time stream (polls every 2 seconds) |
+| DELETE | `/api/profile/{profileId}?user_id={userId}` | Delete a specific profile from MemoBase |
+| DELETE | `/api/event/{eventId}?user_id={userId}` | Delete a specific event from MemoBase |
+| GET | `/health` | Health check endpoint |
+
+**Data Sources:**
+- **Big5 Personality**: `memories.sqlite` database
+- **Emotions**: `memory_cache.json` (latest conversation)
+- **Profiles**: MemoBase API `/users/profile/{uuid}`
+- **Events**: MemoBase API `/users/event/{uuid}?topk=1000` (retrieves up to 1000 events)
+- **Transcriptions**: `memory_cache.json` (latest conversation)
+
+**Starting the Backend:**
+```bash
+# Using the startup script
+./start_backend.sh
+
+# Or manually
+python backend_api.py
+```
+
+The API will be available at `http://localhost:5000`.
+
 ## TODOs
  - update personality analysis part
  - multi-agent part
@@ -228,6 +269,11 @@ OLLAMA_MAX_TOKENS = 256
 # Default: 60% speech emotion + 40% text emotion
 python main.py
 ```
+
+After initialization, start interacting:
+- Type `r` to start recording (5 seconds)
+- First time: select your microphone device
+- Type `q` to quit
 
 ### Emotion Analysis Configuration
 

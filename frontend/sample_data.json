@@ -1,0 +1,45 @@
+{
+  "description": "Sample memory cache data for testing the dashboard",
+  "default-user": {
+    "user_name": "Test User",
+    "sessions": {
+      "2025-01-14": {
+        "start_time": "2025-01-14T10:00:00Z",
+        "conversations": [
+          {
+            "timestamp": "2025-01-14T10:01:00Z",
+            "user_text": "Hello! How are you today?",
+            "assistant_text": "Hello! I'm doing well, thank you for asking. How can I help you today?",
+            "speech_emotion": "{\"anger\": 0.05, \"disgust\": 0.02, \"fear\": 0.03, \"happy\": 0.65, \"neutral\": 0.15, \"sad\": 0.05, \"surprise\": 0.05}",
+            "text_emotion": "{\"anger\": 0.03, \"disgust\": 0.02, \"fear\": 0.02, \"happy\": 0.70, \"neutral\": 0.18, \"sad\": 0.03, \"surprise\": 0.02}",
+            "timings": {
+              "speech_to_text": 1.2,
+              "llm_generation": 0.8,
+              "total": 2.0
+            },
+            "messages": [
+              {"role": "user", "content": "Hello! How are you today?"},
+              {"role": "assistant", "content": "Hello! I'm doing well, thank you for asking. How can I help you today?"}
+            ]
+          },
+          {
+            "timestamp": "2025-01-14T10:02:00Z",
+            "user_text": "I'm feeling a bit anxious about my presentation tomorrow.",
+            "assistant_text": "I understand. Feeling anxious before a presentation is completely normal. Would you like to talk about it or practice together?",
+            "speech_emotion": "{\"anger\": 0.10, \"disgust\": 0.05, \"fear\": 0.35, \"happy\": 0.08, \"neutral\": 0.20, \"sad\": 0.15, \"surprise\": 0.07}",
+            "text_emotion": "{\"anger\": 0.08, \"disgust\": 0.04, \"fear\": 0.40, \"happy\": 0.05, \"neutral\": 0.25, \"sad\": 0.12, \"surprise\": 0.06}",
+            "timings": {
+              "speech_to_text": 1.5,
+              "llm_generation": 1.0,
+              "total": 2.5
+            },
+            "messages": [
+              {"role": "user", "content": "I'm feeling a bit anxious about my presentation tomorrow."},
+              {"role": "assistant", "content": "I understand. Feeling anxious before a presentation is completely normal. Would you like to talk about it or practice together?"}
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

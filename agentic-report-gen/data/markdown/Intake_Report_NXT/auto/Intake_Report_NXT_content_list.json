@@ -1,0 +1,1303 @@
+[
+    {
+        "type": "text",
+        "text": "Nextherapy AG Tel. +41 44 216 99 90 Uraniastrasse 9 8001 Zürich nextherapy@hin.ch www.nextherapy.ch ",
+        "bbox": [
+            726,
+            24,
+            847,
+            99
+        ],
+        "page_idx": 0
+    },
+    {
+        "type": "text",
+        "text": "Datum: ",
+        "text_level": 1,
+        "bbox": [
+            700,
+            127,
+            764,
+            140
+        ],
+        "page_idx": 0
+    },
+    {
+        "type": "text",
+        "text": "Patientenangaben ",
+        "text_level": 1,
+        "bbox": [
+            188,
+            195,
+            363,
+            210
+        ],
+        "page_idx": 0
+    },
+    {
+        "type": "text",
+        "text": "Vor- und Nachname ",
+        "bbox": [
+            188,
+            222,
+            389,
+            244
+        ],
+        "page_idx": 0
+    },
+    {
+        "type": "text",
+        "text": "Adresse ",
+        "bbox": [
+            189,
+            249,
+            393,
+            273
+        ],
+        "page_idx": 0
+    },
+    {
+        "type": "text",
+        "text": "Inkomplette sensomotorische Tetraplegie sub c4, ASIA D ",
+        "bbox": [
+            389,
+            303,
+            858,
+            318
+        ],
+        "page_idx": 0
+    },
+    {
+        "type": "text",
+        "text": "Arzt / Ärztin ",
+        "text_level": 1,
+        "bbox": [
+            188,
+            374,
+            292,
+            392
+        ],
+        "page_idx": 0
+    },
+    {
+        "type": "text",
+        "text": "Vor- und Nachname ",
+        "bbox": [
+            188,
+            403,
+            386,
+            426
+        ],
+        "page_idx": 0
+    },
+    {
+        "type": "text",
+        "text": "Versicherung ",
+        "bbox": [
+            186,
+            483,
+            937,
+            506
+        ],
+        "page_idx": 0
+    },
+    {
+        "type": "text",
+        "text": "Name ",
+        "bbox": [
+            188,
+            511,
+            394,
+            535
+        ],
+        "page_idx": 0
+    },
+    {
+        "type": "discarded",
+        "text": "",
+        "bbox": [
+            82,
+            52,
+            151,
+            98
+        ],
+        "page_idx": 0
+    },
+    {
+        "type": "discarded",
+        "text": "1 ",
+        "bbox": [
+            934,
+            926,
+            944,
+            936
+        ],
+        "page_idx": 0
+    },
+    {
+        "type": "discarded",
+        "text": "Therapieempfehlung ",
+        "bbox": [
+            188,
+            64,
+            403,
+            82
+        ],
+        "page_idx": 0
+    },
+    {
+        "type": "discarded",
+        "text": "",
+        "bbox": [
+            105,
+            148,
+            126,
+            272
+        ],
+        "page_idx": 0
+    },
+    {
+        "type": "table",
+        "img_path": "images/9ea5b7c3fc6b55cd67d84f8aa4e9288e6baaa1c86e11cd40ce1d8ff040c40cdb.jpg",
+        "table_caption": [],
+        "table_footnote": [],
+        "bbox": [
+            146,
+            0,
+            966,
+            108
+        ],
+        "page_idx": 1
+    },
+    {
+        "type": "text",
+        "text": "Sehr geehrte Damen und Herren ",
+        "bbox": [
+            188,
+            122,
+            462,
+            137
+        ],
+        "page_idx": 1
+    },
+    {
+        "type": "text",
+        "text": "Im Erstgespräch am 19.01.2023 wurden die Möglichkeiten und Schwierigkeiten der Therapie für Herr XXX besprochen. Nachfolgend die Medizinische Vorgeschichte, die persönlich angepassten Ziele, das Eintrittsassessment, unser Therapievorschlag und die Verordnungsempfehlung. ",
+        "bbox": [
+            188,
+            151,
+            941,
+            221
+        ],
+        "page_idx": 1
+    },
+    {
+        "type": "text",
+        "text": "Medizinische Vorgeschichte ",
+        "text_level": 1,
+        "bbox": [
+            188,
+            240,
+            445,
+            258
+        ],
+        "page_idx": 1
+    },
+    {
+        "type": "text",
+        "text": "Herr XXX hatte einen Reitunfall am XX.XX.XXXX und erlitt eine inkomplette sensomotorische Tetraplegie sub C4, Asia D. Er wurde im Balgrist in Zürich nach dem Unfall vier Monate lang behandelt, da hatte er auch Lokomat-Therapie, die für ihn sehr erfolgreich war. Da Herr XXX auch grosse Schwierigkeiten in der Feinmotorik im Alltag hat, würden wir auch Ergotherapie empfehlen. Darum ist es sehr wichtig, dass Herr XXX wieder reguläre Physio - und Ergotherapie bekommt. ",
+        "bbox": [
+            186,
+            282,
+            978,
+            401
+        ],
+        "page_idx": 1
+    },
+    {
+        "type": "text",
+        "text": "Derzeit läuft er mit einem Treckingstock als Hilfsmittel, fühlt sich aber unsicher und unstabil Die rechte Körperhälfte ist stärker betroffen, obwohl auch die linke Seite geschwächt ist. ",
+        "bbox": [
+            184,
+            406,
+            934,
+            444
+        ],
+        "page_idx": 1
+    },
+    {
+        "type": "text",
+        "text": "Sicherheitsfragen ",
+        "text_level": 1,
+        "bbox": [
+            188,
+            473,
+            351,
+            488
+        ],
+        "page_idx": 1
+    },
+    {
+        "type": "text",
+        "text": "☐ Depression u/o Angst ☐ Offene Wunde / Dekubitus ☐ Epilepsie ☐ Osteoporose ☐ Katheter/ PEG-Sonden ☐ Schluckstörung ☒ Hör- u/o Sehstörung Lesebrille ☐ Krebs ☒ Gefühlsstörungen ☒ Schmerzen Wo: ab Schulter Wo: Spastik Rückenbereich rechte Qualität: Stechen, brennen, kribbeln, sehr un- Seite mehr betroffen als links. terschiedlich Intensität: VAS: 8/10 ",
+        "bbox": [
+            193,
+            502,
+            875,
+            686
+        ],
+        "page_idx": 1
+    },
+    {
+        "type": "discarded",
+        "text": "",
+        "bbox": [
+            82,
+            51,
+            151,
+            98
+        ],
+        "page_idx": 1
+    },
+    {
+        "type": "discarded",
+        "text": "",
+        "bbox": [
+            931,
+            926,
+            944,
+            936
+        ],
+        "page_idx": 1
+    },
+    {
+        "type": "discarded",
+        "text": "",
+        "bbox": [
+            105,
+            148,
+            126,
+            272
+        ],
+        "page_idx": 1
+    },
+    {
+        "type": "table",
+        "img_path": "images/b5adbb62d4d5a40552aa50d6561fdcb10c31bf021fd6184d3632571378710f98.jpg",
+        "table_caption": [],
+        "table_footnote": [],
+        "bbox": [
+            168,
+            0,
+            971,
+            108
+        ],
+        "page_idx": 2
+    },
+    {
+        "type": "text",
+        "text": "Angepasste Ziele ",
+        "text_level": 1,
+        "bbox": [
+            188,
+            123,
+            363,
+            141
+        ],
+        "page_idx": 2
+    },
+    {
+        "type": "text",
+        "text": "Basierend auf der medizinischen Vorgeschichte und dem Gespräch mit Herrn XXX wurden die nachfolgenden persönlichen Ziele identifiziert. ",
+        "bbox": [
+            184,
+            162,
+            944,
+            196
+        ],
+        "page_idx": 2
+    },
+    {
+        "type": "text",
+        "text": "Die persönlich identifizierten Ziele wurde gemäss der Canadian Occupational Performance Measurement (COPM) Skala erfasst. Die COPM schätzt Wichtigkeit, Zufriedenheit und Ausführung von Alltagsaktivitäten auf einer Skala von 1 (gar nicht wichtig) bis 10 (sehr wichtig) ein. ",
+        "bbox": [
+            186,
+            217,
+            944,
+            287
+        ],
+        "page_idx": 2
+    },
+    {
+        "type": "table",
+        "img_path": "images/bb3d33763b29bd1b8a5d7bfcc50014354e7287a1bb9de17a3b07fab14f2a9b4f.jpg",
+        "table_caption": [],
+        "table_footnote": [],
+        "bbox": [
+            189,
+            307,
+            941,
+            492
+        ],
+        "page_idx": 2
+    },
+    {
+        "type": "discarded",
+        "text": "",
+        "bbox": [
+            82,
+            52,
+            151,
+            98
+        ],
+        "page_idx": 2
+    },
+    {
+        "type": "discarded",
+        "text": "",
+        "bbox": [
+            931,
+            926,
+            942,
+            936
+        ],
+        "page_idx": 2
+    },
+    {
+        "type": "discarded",
+        "text": "",
+        "bbox": [
+            105,
+            148,
+            126,
+            272
+        ],
+        "page_idx": 2
+    },
+    {
+        "type": "text",
+        "text": "Nextherapy AG Tel. +41 44 216 99 90 Uraniastrasse 9 8001 Zürich nextherapy@hin.ch www.nextherapy.ch ",
+        "bbox": [
+            726,
+            24,
+            847,
+            101
+        ],
+        "page_idx": 3
+    },
+    {
+        "type": "text",
+        "text": "Eintrittassessment ",
+        "text_level": 1,
+        "bbox": [
+            188,
+            123,
+            373,
+            140
+        ],
+        "page_idx": 3
+    },
+    {
+        "type": "text",
+        "text": "Functional Independance Measurements (FIM): ",
+        "bbox": [
+            188,
+            153,
+            583,
+            171
+        ],
+        "page_idx": 3
+    },
+    {
+        "type": "text",
+        "text": "Von den 126 Punkten möglichen wurden 111 Punkte erreicht. Dabei wurden die grössten Schwierigkeiten im Bereich Kontinenz und Fortbewegung festgestellt. ",
+        "bbox": [
+            186,
+            190,
+            905,
+            224
+        ],
+        "page_idx": 3
+    },
+    {
+        "type": "text",
+        "text": "Der FIM evaluiert die Selbständigkeit in Aktivitäten des täglichen Lebens mithilfe von einem Fragebogen mit 18 Fragen auf einer Skala von 1 (totale Hilfe) bis 7 (totale Unabhängigkeit). ",
+        "bbox": [
+            184,
+            243,
+            939,
+            278
+        ],
+        "page_idx": 3
+    },
+    {
+        "type": "text",
+        "text": "Motricity Index (Beweglichkeits-Index): ",
+        "bbox": [
+            189,
+            296,
+            505,
+            313
+        ],
+        "page_idx": 3
+    },
+    {
+        "type": "text",
+        "text": "Motricity Index gibt Auskunft über die Beweglichkeit der Arme und Beine und wird für die Linke- und Rechtekörperhälfte erhoben. ",
+        "bbox": [
+            184,
+            332,
+            921,
+            366
+        ],
+        "page_idx": 3
+    },
+    {
+        "type": "text",
+        "text": "Die Beweglichkeit der Arme besteht aus den Aufgaben Pinzettengriff, Ellbogenflexion und Schulterabduktion. Die Beinbeweglichkeit wird in sitzender Position in die Kategorien; Knö- chel-Dorsalflexion, Kniestreckung, und Hüftbeugung eingeteilt. ",
+        "bbox": [
+            189,
+            368,
+            927,
+            419
+        ],
+        "page_idx": 3
+    },
+    {
+        "type": "text",
+        "text": "Jede Aufgabe wird in die Skala 0 keine Beweglichkeit bis 33 normale Beweglichkeit eingeteilt. ",
+        "bbox": [
+            186,
+            422,
+            929,
+            455
+        ],
+        "page_idx": 3
+    },
+    {
+        "type": "text",
+        "text": "Von 198 möglichen Punkten von beiden Körperhälften wurden insgesamt 187 Punkte erreicht. Von 99 möglichen Punkten von der rechten Körperhälfte wurden 95 Punkte erreicht. Auf der linken Körperhälfte hat er 92 Punkte, da der linke Fussheber schwächer ist. ",
+        "bbox": [
+            186,
+            475,
+            937,
+            527
+        ],
+        "page_idx": 3
+    },
+    {
+        "type": "text",
+        "text": "6-Minuten Gehtest (6MWT): Misst die Gehdistanz während 6 Minuten. ",
+        "bbox": [
+            188,
+            549,
+            759,
+            565
+        ],
+        "page_idx": 3
+    },
+    {
+        "type": "text",
+        "text": "Die zurückgelegte Distanz in 6 Minuten war bei 312 Meter. Ein Treckingstock wurde als Hilfsmittel gebraucht. Während dem Test wurden keine Pausen durchgeführt und Herr XXX war auch nicht müde. ",
+        "bbox": [
+            188,
+            586,
+            942,
+            637
+        ],
+        "page_idx": 3
+    },
+    {
+        "type": "text",
+        "text": "2-Minuten Gehtest auf C-Mill: Misst die Gang auf einem Laufband Der 2-Minuten Gehtest wurde mit Handlauf ohne Hilfsmittel durchgeführt und zeigte: ",
+        "bbox": [
+            186,
+            657,
+            894,
+            690
+        ],
+        "page_idx": 3
+    },
+    {
+        "type": "text",
+        "text": "Distanz in 2 Minuten: 53,1 Meter bei 1,6km/h Schrittlänge: Die detaillierten Ergebnisse finden Sie im Anhang. ",
+        "bbox": [
+            216,
+            709,
+            771,
+            745
+        ],
+        "page_idx": 3
+    },
+    {
+        "type": "discarded",
+        "text": "",
+        "bbox": [
+            82,
+            52,
+            151,
+            98
+        ],
+        "page_idx": 3
+    },
+    {
+        "type": "discarded",
+        "text": "4 ",
+        "bbox": [
+            931,
+            926,
+            944,
+            936
+        ],
+        "page_idx": 3
+    },
+    {
+        "type": "discarded",
+        "text": "Therapieempfehlung ",
+        "bbox": [
+            188,
+            64,
+            403,
+            82
+        ],
+        "page_idx": 3
+    },
+    {
+        "type": "discarded",
+        "text": "",
+        "bbox": [
+            105,
+            148,
+            126,
+            272
+        ],
+        "page_idx": 3
+    },
+    {
+        "type": "table",
+        "img_path": "images/b5a3c6b95e8e68e96e2c3ecaf0a5d95a4512ca0b6c28a53742d43063e41624fa.jpg",
+        "table_caption": [],
+        "table_footnote": [],
+        "bbox": [
+            174,
+            0,
+            963,
+            108
+        ],
+        "page_idx": 4
+    },
+    {
+        "type": "text",
+        "text": "Räumlich und zeitlich: Der grüne Bereich in den räumlichen Ergebnissen zeigt die durchschnittliche Schrittlänge über den angegebenen Zeitraum. Die gepunktete Linie spiegelt die durchschnittliche linke Schrittlänge. Liegt diese innerhalb des grünen Bereichs, ist das Laufmuster symmetrisch. ",
+        "bbox": [
+            184,
+            122,
+            942,
+            192
+        ],
+        "page_idx": 4
+    },
+    {
+        "type": "image",
+        "img_path": "images/17bd89f2720be02146bcc14df51e3cfc49a2e1ea93bd50b3b3ac987118b162c4.jpg",
+        "image_caption": [
+            "Gangsymmetrie (CoP-Gaitogramm) "
+        ],
+        "image_footnote": [],
+        "bbox": [
+            189,
+            210,
+            677,
+            420
+        ],
+        "page_idx": 4
+    },
+    {
+        "type": "image",
+        "img_path": "images/b5ed285514c69ae629eb44db5f6686c838b99d7519f6cc8d7e6028eafd313b72.jpg",
+        "image_caption": [],
+        "image_footnote": [],
+        "bbox": [
+            263,
+            475,
+            504,
+            634
+        ],
+        "page_idx": 4
+    },
+    {
+        "type": "text",
+        "text": "Während des Gehens auf der C-Mill wird der Druckmittelpunkt (CoP) von der Kraftmessplatte erfasst. Das Profil des CoP ist eine sich wiederholende Trajektorie in Form eines Schmetterlings. Anhand dieses Schmetterlings lassen sich einige Merkmale des Gangbildes ableiten. Das folgende Bild zeigt das CoPGaitogramm von Herrn Puch während des Tests. ",
+        "bbox": [
+            546,
+            476,
+            934,
+            636
+        ],
+        "page_idx": 4
+    },
+    {
+        "type": "image",
+        "img_path": "images/7fe5a053b66ffe3b8d018b29e5a26a6157fbc0a64dc510ba8c1fec906fd543e8.jpg",
+        "image_caption": [],
+        "image_footnote": [],
+        "bbox": [
+            188,
+            655,
+            517,
+            802
+        ],
+        "page_idx": 4
+    },
+    {
+        "type": "text",
+        "text": "Während des Tests ist deutlich zu sehen, dass XXX weniger Gewicht auf das rechte Bein verlagert, weil es sich instabiler anfühlt. Die Schrittlängen sind bei der Ganganalyse unterschiedlich. Die rechte Schrittlänge ist 8 % länger als die linke, was in der Schmetterlingsgrafik zu sehen ist, wo man auch die geringe Spurbreite erkennen kann. ",
+        "bbox": [
+            186,
+            820,
+            936,
+            894
+        ],
+        "page_idx": 4
+    },
+    {
+        "type": "discarded",
+        "text": "",
+        "bbox": [
+            82,
+            52,
+            151,
+            98
+        ],
+        "page_idx": 4
+    },
+    {
+        "type": "discarded",
+        "text": "5 ",
+        "bbox": [
+            931,
+            926,
+            942,
+            936
+        ],
+        "page_idx": 4
+    },
+    {
+        "type": "discarded",
+        "text": "",
+        "bbox": [
+            105,
+            148,
+            126,
+            272
+        ],
+        "page_idx": 4
+    },
+    {
+        "type": "text",
+        "text": "Nextherapy AG Tel. +41 44 216 99 90 Uraniastrasse 9 8001 Zürich nextherapy@hin.ch www.nextherapy.ch ",
+        "bbox": [
+            726,
+            24,
+            847,
+            102
+        ],
+        "page_idx": 5
+    },
+    {
+        "type": "text",
+        "text": "Gewichtsverteilung / Aggregierte Kraft ",
+        "bbox": [
+            186,
+            121,
+            509,
+            139
+        ],
+        "page_idx": 5
+    },
+    {
+        "type": "text",
+        "text": "Normal Gait ",
+        "bbox": [
+            312,
+            159,
+            369,
+            168
+        ],
+        "page_idx": 5
+    },
+    {
+        "type": "text",
+        "text": "Das nebenstehende Diagramm zeigt die normale Gewichtsverlagerung beim Gehen. ",
+        "bbox": [
+            551,
+            181,
+            931,
+            216
+        ],
+        "page_idx": 5
+    },
+    {
+        "type": "image",
+        "img_path": "images/777ae01a3ec45dc4956c99850f006ddf1eb9620fb54ac74fc7c2ef99d768ae28.jpg",
+        "image_caption": [],
+        "image_footnote": [],
+        "bbox": [
+            220,
+            167,
+            462,
+            359
+        ],
+        "page_idx": 5
+    },
+    {
+        "type": "text",
+        "text": "In den nachstehenden Diagrammen ist die Gewichtsverlagerung von Herr XXX während der durchgeführten Tests dargestellt. ",
+        "bbox": [
+            551,
+            229,
+            924,
+            284
+        ],
+        "page_idx": 5
+    },
+    {
+        "type": "image",
+        "img_path": "images/d8e63750144c0463f1460407105a5fec6299f7a1cd247e788cd46d21dcedc0dd.jpg",
+        "image_caption": [],
+        "image_footnote": [],
+        "bbox": [
+            188,
+            376,
+            658,
+            581
+        ],
+        "page_idx": 5
+    },
+    {
+        "type": "text",
+        "text": "Schwierigkeit des ersten Fersenkontakts und Gewichtsverlagerung. ",
+        "bbox": [
+            189,
+            599,
+            742,
+            614
+        ],
+        "page_idx": 5
+    },
+    {
+        "type": "discarded",
+        "text": "",
+        "bbox": [
+            82,
+            52,
+            151,
+            98
+        ],
+        "page_idx": 5
+    },
+    {
+        "type": "discarded",
+        "text": "",
+        "bbox": [
+            931,
+            926,
+            942,
+            936
+        ],
+        "page_idx": 5
+    },
+    {
+        "type": "discarded",
+        "text": "",
+        "bbox": [
+            105,
+            148,
+            126,
+            272
+        ],
+        "page_idx": 5
+    },
+    {
+        "type": "discarded",
+        "text": "Therapieempfehlung ",
+        "bbox": [
+            188,
+            64,
+            403,
+            82
+        ],
+        "page_idx": 5
+    },
+    {
+        "type": "text",
+        "text": "Therapievorschlag ",
+        "text_level": 1,
+        "bbox": [
+            188,
+            123,
+            378,
+            141
+        ],
+        "page_idx": 6
+    },
+    {
+        "type": "text",
+        "text": "Basierend auf den durchgeführten Assessments und den persönlichen gesetzten Zielen, empfehlen wir folgenden Therapievorschlag: ",
+        "bbox": [
+            184,
+            154,
+            921,
+            189
+        ],
+        "page_idx": 6
+    },
+    {
+        "type": "text",
+        "text": "Mobilität Programm ",
+        "text_level": 1,
+        "bbox": [
+            188,
+            212,
+            356,
+            228
+        ],
+        "page_idx": 6
+    },
+    {
+        "type": "text",
+        "text": "☐ Erste Bewegungen und Schritte ☐ Funktionelles Gehen ☒ Fortgeschrittenes Gehen ",
+        "bbox": [
+            188,
+            239,
+            472,
+            310
+        ],
+        "page_idx": 6
+    },
+    {
+        "type": "text",
+        "text": "Balance und Koordination Programm ",
+        "text_level": 1,
+        "bbox": [
+            188,
+            340,
+            500,
+            356
+        ],
+        "page_idx": 6
+    },
+    {
+        "type": "text",
+        "text": "☐ Basale Rumpf- und Kopfkontrolle   \n☒ Anfängliche Gang- und Standsicherheit   \n☒ Fortgeschrittene Koordination und Balance sowie Sturzprävention ",
+        "bbox": [
+            188,
+            366,
+            756,
+            437
+        ],
+        "page_idx": 6
+    },
+    {
+        "type": "text",
+        "text": "Hände, Arme und Aktivitäten des täglichen Lebens Programm ",
+        "text_level": 1,
+        "bbox": [
+            186,
+            474,
+            704,
+            489
+        ],
+        "page_idx": 6
+    },
+    {
+        "type": "text",
+        "text": "☐ Erste Bewegungen   \n☐ Basale Funktionen und Aktivitäten   \n☒ Aktivitäten des täglichen Lebens (ADL)   \n☐ Partizipationstraining ",
+        "bbox": [
+            189,
+            501,
+            529,
+            598
+        ],
+        "page_idx": 6
+    },
+    {
+        "type": "text",
+        "text": "Nachfolgend einige der Geräte die für die Klient zum Einsatz kommen werden: ",
+        "bbox": [
+            189,
+            632,
+            836,
+            648
+        ],
+        "page_idx": 6
+    },
+    {
+        "type": "text",
+        "text": "☒Amadeo ☒C-Mill ☐Dessintey ☐FES ☐Lokomat Pro ☒Lokomat Nano ☒Pablo ☒Riablo ☒Rysen ☐Sensopro ☒Telko ☒Vibramoov ",
+        "bbox": [
+            188,
+            656,
+            931,
+            699
+        ],
+        "page_idx": 6
+    },
+    {
+        "type": "discarded",
+        "text": "",
+        "bbox": [
+            82,
+            52,
+            151,
+            98
+        ],
+        "page_idx": 6
+    },
+    {
+        "type": "discarded",
+        "text": "7 ",
+        "bbox": [
+            932,
+            926,
+            942,
+            936
+        ],
+        "page_idx": 6
+    },
+    {
+        "type": "discarded",
+        "text": "",
+        "bbox": [
+            105,
+            148,
+            126,
+            272
+        ],
+        "page_idx": 6
+    },
+    {
+        "type": "discarded",
+        "text": "Therapieempfehlung ",
+        "bbox": [
+            188,
+            64,
+            403,
+            82
+        ],
+        "page_idx": 6
+    },
+    {
+        "type": "text",
+        "text": "Verordnungsempfehlung und Kostenübernahme ",
+        "text_level": 1,
+        "bbox": [
+            184,
+            122,
+            678,
+            141
+        ],
+        "page_idx": 7
+    },
+    {
+        "type": "text",
+        "text": "Intensität: 2-Mal pro Woche • 2 X pro Woche Physiotherapie • 2 X pro Woche Ergotherapie ",
+        "bbox": [
+            188,
+            155,
+            421,
+            170
+        ],
+        "page_idx": 7
+    },
+    {
+        "type": "text",
+        "text": "",
+        "bbox": [
+            216,
+            178,
+            499,
+            216
+        ],
+        "page_idx": 7
+    },
+    {
+        "type": "table",
+        "img_path": "images/f9b05672e62bef9f3ebdbf8dacb45a3d95a31d8fdac7c11b1bf7630992f2d522.jpg",
+        "table_caption": [],
+        "table_footnote": [],
+        "bbox": [
+            186,
+            237,
+            944,
+            468
+        ],
+        "page_idx": 7
+    },
+    {
+        "type": "text",
+        "text": "Bitte beachten Sie, für die Lokomat-Therapie wird pro Therapieeinheit 2x7311 benötigt. ",
+        "bbox": [
+            186,
+            495,
+            892,
+            512
+        ],
+        "page_idx": 7
+    },
+    {
+        "type": "text",
+        "text": "Damit die persönlichen Therapieziele erreicht werden können, bitten wir Sie um eine Langzeitverordnung für eine entsprechende Kostenübernahme. Das persönliche Therapieprogramm ist für eine kontinuierliche Langzeitbehandlung ausgelegt. ",
+        "bbox": [
+            186,
+            523,
+            937,
+            580
+        ],
+        "page_idx": 7
+    },
+    {
+        "type": "text",
+        "text": "Bei Fragen stehen wir Ihnen gerne zur Verfügung. ",
+        "bbox": [
+            186,
+            605,
+            596,
+            621
+        ],
+        "page_idx": 7
+    },
+    {
+        "type": "text",
+        "text": "Freundliche Grüsse Therapeut:in: ",
+        "bbox": [
+            188,
+            642,
+            349,
+            677
+        ],
+        "page_idx": 7
+    },
+    {
+        "type": "discarded",
+        "text": "",
+        "bbox": [
+            82,
+            52,
+            151,
+            98
+        ],
+        "page_idx": 7
+    },
+    {
+        "type": "discarded",
+        "text": "",
+        "bbox": [
+            931,
+            926,
+            942,
+            936
+        ],
+        "page_idx": 7
+    },
+    {
+        "type": "discarded",
+        "text": "",
+        "bbox": [
+            105,
+            148,
+            126,
+            272
+        ],
+        "page_idx": 7
+    },
+    {
+        "type": "discarded",
+        "text": "Therapieempfehlung ",
+        "bbox": [
+            188,
+            64,
+            403,
+            82
+        ],
+        "page_idx": 7
+    },
+    {
+        "type": "discarded",
+        "text": "Nextherapy AG Tel. +41 44 216 99 90 Uraniastrasse 9 8001 Zürich nextherapy@hin.ch www.nextherapy.ch ",
+        "bbox": [
+            726,
+            24,
+            847,
+            101
+        ],
+        "page_idx": 7
+    },
+    {
+        "type": "text",
+        "text": "Nextherapy AG Tel. +41 44 216 99 90 Uraniastrasse 9 8001 Zürich nextherapy@hin.ch www.nextherapy.ch ",
+        "bbox": [
+            726,
+            24,
+            847,
+            102
+        ],
+        "page_idx": 8
+    },
+    {
+        "type": "text",
+        "text": "Die Wissenschaft hinter Nextherapy: ",
+        "text_level": 1,
+        "bbox": [
+            188,
+            122,
+            487,
+            137
+        ],
+        "page_idx": 8
+    },
+    {
+        "type": "text",
+        "text": "Die Interventionen von Nextherapy haben einen starken Fokus auf Intensität, Wiederholung und Spezifität und beinhalten oft den Einsatz von Robotik und Technologien, um die aktivitätsabhängige Plastizität des Gehirns bestmöglich zu aktivieren, was signifikant positive Auswirkungen auf die Genesung von Hirnschäden haben kann (Kwakkel G, 2004; Veerbeek J.M 2014; Spiess M.R, 2017; Schneider E, 2016). ",
+        "bbox": [
+            188,
+            141,
+            537,
+            299
+        ],
+        "page_idx": 8
+    },
+    {
+        "type": "text",
+        "text": "Intensivprogramme mit 25 bis 30 Therapiestunden pro Woche haben Verbesserungen gezeigt, die doppelt so hoch sind wie bei anderen Interventionen mit geringerer Intensität (Daly J et al 2019; Lohse KR et al 2014; Lang CE et al 2016; Rodgers H, 2019). Intensität ist ein wichtiger Faktor für die Genesung (Kwakkel G, 2004; Veerbeek J.M, 2014; Spiess M.R, 2017; Schneider E, 2016) und es gibt genügend Hinweise darauf, dass klinisch signifikante Verbesserungen Monate oder Jahre nach der Verletzung möglich sind, wenn ausreichend Therapie durch Erhöhung der Plastizität bereitgestellt wird und somit ein neues Fenster für Genesung eröffnet wird (Mc Cabe J, 2015; Daly J 2019; Ward N, 2019). ",
+        "bbox": [
+            186,
+            300,
+            537,
+            555
+        ],
+        "page_idx": 8
+    },
+    {
+        "type": "image",
+        "img_path": "images/c072a58260180fed9e4c2d36738ef4d4d9f2b64635e842f9dac71e95d049c258.jpg",
+        "image_caption": [
+            "Fig2: Veränderungen im Gehirnbereich, die die Finger nach 5 Tagen Training darstellt. (PascualLeone et al 2005). "
+        ],
+        "image_footnote": [],
+        "bbox": [
+            184,
+            564,
+            547,
+            636
+        ],
+        "page_idx": 8
+    },
+    {
+        "type": "text",
+        "text": "Eine Hypothese ist, dass es strukturelle, plastische Veränderungen auslöst (Maier M, 2019), die die neuronalen Netze des Gehirns neu organisieren (Kwakkel et al 2015), die kortikale Erregbarkeit erhöhen oder normalisieren und zu nachhaltigen Veränderungen in unserem Gehirn führen (Liepert et al 2000; Schaechter et al 2004). ",
+        "bbox": [
+            188,
+            696,
+            537,
+            824
+        ],
+        "page_idx": 8
+    },
+    {
+        "type": "text",
+        "text": "In Studien haben die Patienten keine Hindernisse in Bezug auf die Durchführung von Programmen mit höherer Intensität wahrgenommen und waren positiv gestimmt, härter zu arbeiten (Janssen J, 2020). Erste objektive Beurteilungen und der Einsatz von Sensoren und Technologien unterstützen Therapeuten dabei, die Patienten stärker anzutreiben (Connell L, 2018). ",
+        "bbox": [
+            594,
+            137,
+            944,
+            279
+        ],
+        "page_idx": 8
+    },
+    {
+        "type": "image",
+        "img_path": "images/916722112ba3b6e36244b86c7d30f212fa4364225ad20b9ec74409df140a49dd.jpg",
+        "image_caption": [
+            "Fig1. Verbesserung der Arm- und Handfunktion bei Schlaganfallpatienten >1 Jahr nach Schlaganfall (Daly et al 2019). "
+        ],
+        "image_footnote": [],
+        "bbox": [
+            631,
+            290,
+            873,
+            462
+        ],
+        "page_idx": 8
+    },
+    {
+        "type": "text",
+        "text": "Die während der Therapie durchgeführten Aufgaben müssen den zu erfüllenden Aufgaben so ähnlich wie möglich sein (Schmidt R.A, 2018). Aufgabenspezifisches Training induziert plastische Veränderungen in unserem Gehirn und verbessert motorisches Lernen und Gedächtnisleistung (Boyd et al 2010; Pascual-Leone et al 2005). ",
+        "bbox": [
+            593,
+            524,
+            944,
+            650
+        ],
+        "page_idx": 8
+    },
+    {
+        "type": "image",
+        "img_path": "images/2fee71fec7b8269d98e333f0ee793f6b3114d31064bdf1bb6807f19cee4e3de2.jpg",
+        "image_caption": [
+            "Fig3: Veränderungen im Gehirn nach dem Training zeigen die Fähigkeit des Gehirns, sich zu verändern, was zur Verbesserung der Funktionen beiträgt (Pascual-Leone et al 2005) "
+        ],
+        "image_footnote": [],
+        "bbox": [
+            573,
+            658,
+            974,
+            771
+        ],
+        "page_idx": 8
+    },
+    {
+        "type": "discarded",
+        "text": "",
+        "bbox": [
+            82,
+            52,
+            151,
+            98
+        ],
+        "page_idx": 8
+    },
+    {
+        "type": "discarded",
+        "text": "9 ",
+        "bbox": [
+            931,
+            926,
+            942,
+            936
+        ],
+        "page_idx": 8
+    },
+    {
+        "type": "discarded",
+        "text": "",
+        "bbox": [
+            105,
+            148,
+            126,
+            272
+        ],
+        "page_idx": 8
+    },
+    {
+        "type": "discarded",
+        "text": "Therapieempfehlung ",
+        "bbox": [
+            188,
+            64,
+            403,
+            82
+        ],
+        "page_idx": 8
+    }
+]

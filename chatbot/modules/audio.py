@@ -85,31 +85,106 @@ def _safe_stop_recording():
         logger.error(f"Failed to stop recording: {e}")
 
 
+def _is_usable_device(device_info) -> bool:
+    """Check if a device is likely usable for recording.
+
+    Args:
+        device_info: Device info dict from sounddevice.
+
+    Returns:
+        True if device seems usable.
+    """
+    name = device_info['name'].lower()
+    channels = device_info['max_input_channels']
+
+    # Filter out virtual/unusable devices
+    if channels == 0:
+        return False
+    if channels > 16:  # Likely virtual device
+        return False
+    if any(skip in name for skip in ['sysdefault', 'default', 'spdif', 'samplerate',
+                                      'speexrate', 'upmix', 'vdownmix', 'pulse']):
+        return False
+
+    return True
+
+
+def _find_best_device(input_devices) -> Optional[int]:
+    """Automatically find the best input device.
+
+    Prioritizes USB devices, then hw devices with reasonable channel counts.
+
+    Args:
+        input_devices: List of input device info dicts.
+
+    Returns:
+        Device index or None.
+    """
+    # First priority: USB devices
+    usb_devices = [d for d in input_devices if 'usb' in d['name'].lower()]
+    if usb_devices:
+        logger.info(f"Auto-selecting USB device: {usb_devices[0]['name']}")
+        return usb_devices[0]['index']
+
+    # Second priority: hw devices with 1-2 channels (typical microphones)
+    hw_devices = [d for d in input_devices
+                  if 'hw:' in d['name'].lower() and d['max_input_channels'] <= 2]
+    if hw_devices:
+        logger.info(f"Auto-selecting hw device: {hw_devices[0]['name']}")
+        return hw_devices[0]['index']
+
+    # Fallback: first available device
+    if input_devices:
+        logger.info(f"Auto-selecting first device: {input_devices[0]['name']}")
+        return input_devices[0]['index']
+
+    return None
+
+
 def select_input_device() -> Optional[int]:
-    """Prompt user to select an audio input device.
+    """Automatically select the best audio input device.
+
+    If USB microphone is found, use it automatically.
+    Otherwise, show filtered list of usable devices.
 
     Returns:
         Device index or None for default device.
     """
-    devices = sd.query_devices()
-    input_devices = [d for d in devices if d['max_input_channels'] > 0]
+    all_devices = sd.query_devices()
+
+    # Filter to usable input devices
+    input_devices = [d for d in all_devices if _is_usable_device(d)]
 
     if not input_devices:
-        logger.error("No input audio devices found.")
+        logger.warning("No usable input devices found. Using system default.")
         return None
 
-    print("Available input devices:")
-    for i, d in enumerate(input_devices):
-        print(f"{i}: {d['name']} (channels: {d['max_input_channels']})")
+    # Try to auto-select best device
+    best_device = _find_best_device(input_devices)
 
+    # Show simplified device list (max 5 devices)
+    print("\nUsable input devices:")
+    for i, d in enumerate(input_devices[:5]):
+        marker = " [SELECTED]" if d['index'] == best_device else ""
+        print(f"{i}: {d['name']} (channels: {d['max_input_channels']}){marker}")
+
+    if len(input_devices) > 5:
+        print(f"... and {len(input_devices) - 5} more devices")
+
+    # Ask if user wants to change
     try:
-        idx = int(input("Enter input device index (or -1 for default): "))
-        if idx == -1:
-            return None
-        return input_devices[idx]['index']
-    except (ValueError, IndexError):
-        logger.error("Invalid device index. Using default.")
-        return None
+        response = input(f"\nPress Enter to use selected device, or enter device number to change: ").strip()
+        if not response:
+            return best_device
+        idx = int(response)
+        if 0 <= idx < len(input_devices):
+            return input_devices[idx]['index']
+        else:
+            logger.warning("Invalid device index. Using auto-selected device.")
+            return best_device
+    except ValueError:
+        logger.warning("Invalid input. Using auto-selected device.")
+        return best_device
 
 
 def record_audio(

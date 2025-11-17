@@ -24,3 +24,12 @@ sudo systemctl daemon-reload
 sudo systemctl restart ollama
 
 systemctl show ollama.service -p Environment
+
+# Backend 日志
+tail -f /tmp/backend_api.log
+
+# Frontend 日志
+tail -f /tmp/frontend.log
+
+# Memobase 日志
+docker logs -f memobase-server-api

@@ -206,10 +206,28 @@ def fuse_emotions(
     return {TEXT_EMOTION_LABELS[i]: float(fused_probs[i]) for i in range(len(TEXT_EMOTION_LABELS))}
 
 
+def log_emotion_scores(speech_emotion: Dict[str, float], text_emotion: Dict[str, float]):
+    """Log speech/text emotion scores using the standard logger format."""
+    if not speech_emotion and not text_emotion:
+        return
+
+    def fmt(value: Optional[float]) -> str:
+        return f"{value:+.3f}" if isinstance(value, (int, float)) else "N/A"
+
+    logger.info("Emotion analysis (speech vs text logits):")
+    for label in TEXT_EMOTION_LABELS:
+        speech_val = speech_emotion.get(label)
+        text_val = text_emotion.get(label)
+        if speech_val is None and text_val is None:
+            continue
+        logger.info("  %-14s speech=%s | text=%s", f"{label}:", fmt(speech_val), fmt(text_val))
+
+
 def build_prompt_context(
     text: str,
     personality_df: pd.DataFrame,
-    emotion_dict: Dict[str, float],
+    speech_emotion: Dict[str, float],
+    text_emotion: Dict[str, float],
     history: List[Dict[str, str]],
     preferences: Dict[str, Any],
     history_window_size: int,
@@ -219,7 +237,8 @@ def build_prompt_context(
     Args:
         text: User input text
         personality_df: Personality analysis dataframe
-        emotion_dict: Emotion probabilities (already normalized)
+        speech_emotion: Speech-based emotion probabilities/logits
+        text_emotion: Text-based emotion probabilities/logits
         history: Conversation history
         preferences: User preferences
         history_window_size: Number of conversation rounds to include
@@ -236,13 +255,26 @@ def build_prompt_context(
     preferences_context = json.dumps(preferences) if preferences else "None."
     memory_context = format_short_term_memory(recent_history)
 
-    # Format emotion context
-    emotion_lines = ", ".join([f"{label}: {prob:.2f}" for label, prob in sorted(emotion_dict.items())])
-    emotion_context = f"user's detected emotion: {emotion_lines}"
+    # Format emotion context for both modalities
+    def _format_emotions(name: str, data: Dict[str, float]) -> str:
+        if not data:
+            return f"{name}: unavailable"
+        ordered = ", ".join(
+            [f"{label}: {data[label]:.2f}" for label in sorted(data.keys())]
+        )
+        return f"{name}: {ordered}"
+
+    speech_context = _format_emotions("speech emotion", speech_emotion)
+    text_context = _format_emotions("text emotion", text_emotion)
+    emotion_context = f"user's detected emotions => {speech_context}; {text_context}"
 
     # Build system prompt
     system_prompt = "\n\n".join([
-        "You are Hackcelerate, a helpful healthcare assistant.",
+        (
+            "You are Hackcelerate, a helpful healthcare assistant. "
+            "Use the provided memory, personality, emotion, and preference context to craft concise, empathetic replies. "
+            "Never repeat or expose these context blocks verbatim; respond as a natural assistant speaking directly to the user."
+        ),
         memory_context,
         f"--# USER PERSONALITY TRAITS #--\n{personality_context}\n--# END OF PERSONALITY TRAITS #--",
         f"--# USER EMOTIONAL STATE #--\n{emotion_context}\n--# END OF EMOTIONAL STATE #--",
@@ -289,7 +321,8 @@ def get_llm_response(
 
 
 def save_conversation_data(speaker: str, predictions: List[float], user_uuid: str,
-                          user_text: str, response: str, db_session):
+                          user_text: str, response: str, db_session,
+                          speech_emotion: dict = None, text_emotion: dict = None):
     """Save conversation data to database.
 
     Args:
@@ -299,6 +332,8 @@ def save_conversation_data(speaker: str, predictions: List[float], user_uuid: st
         user_text: User input text
         response: Assistant response
         db_session: Database session
+        speech_emotion: Speech emotion probabilities
+        text_emotion: Text emotion probabilities
     """
     # Store personality traits
     store_personality_traits(speaker, predictions, db_session)
@@ -312,6 +347,8 @@ def save_conversation_data(speaker: str, predictions: List[float], user_uuid: st
             response,
             0.0,  # speech_duration - handled separately
             0.0,  # llm_duration - handled separately
+            speech_emotion=speech_emotion,
+            text_emotion=text_emotion,
         )
 
 
@@ -365,7 +402,7 @@ def process_audio(
                 transcribe_audio_file, audio_file, app_state.whisper_pipeline
             )
             speech_emotion_future = executor.submit(
-                analyze_speech_emotion, audio_file, return_logits=True
+                analyze_speech_emotion, audio_file, return_logits=False
             )
 
             # Wait for transcription to complete (needed for text-based analysis)
@@ -374,7 +411,7 @@ def process_audio(
 
             # Start text-based analysis while speech emotion may still be running
             text_emotion_future = executor.submit(
-                analyze_text_emotion, text, return_logits=True
+                analyze_text_emotion, text, return_logits=False
             )
             personality_future = executor.submit(analyze_personality, text)
 
@@ -387,19 +424,15 @@ def process_audio(
         _record_timing("[Parallel] Audio processing (Whisper + speech2emotion + text2emotion + personality)",
                       time.perf_counter() - parallel_audio_start)
 
-        # Step 3: Fuse emotions
-        emotion_dict = fuse_emotions(
-            speech_emotion,
-            text_emotion,
-            app_state.speech_emotion_weight,
-            app_state.text_emotion_weight,
-        )
+        # Step 3: Provide both emotion sources to the prompt (fusion disabled)
+        log_emotion_scores(speech_emotion, text_emotion)
 
         # Build context and get LLM response
         chat_messages = build_prompt_context(
             text,
             personality_df,
-            emotion_dict,
+            speech_emotion,
+            text_emotion,
             state.history,
             app_state.preferences,
             app_state.history_window_size,
@@ -419,7 +452,11 @@ def process_audio(
             text,
             response_content,
             db_session,
+            speech_emotion=speech_emotion,
+            text_emotion=text_emotion,
         )
+        # Persist updated memory cache immediately so the dashboard backend sees new data
+        flush_cache_to_disk()
 
         # Update conversation history
         state.history.append({"role": "user", "content": text})
@@ -620,6 +657,7 @@ def main():
     # Print startup timings
     print_startup_timings(init_timings)
 
+    # Main interactive loop
     print("Type 'r' to record, 'q' to quit.")
 
     try:

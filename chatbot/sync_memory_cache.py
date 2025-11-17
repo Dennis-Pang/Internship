@@ -4,7 +4,7 @@ import json
 import logging
 from typing import Any, Dict, List
 
-from modules.config import MEMORY_CACHE_FILE, MEMORY_CACHE_BATCH_SIZE
+from modules.config import MEMORY_CACHE_FILE, MEMORY_CACHE_BATCH_SIZE, MEMOBASE_SYNC_TIMEOUT
 from modules.memory import ensure_memobase_user, memobase_request
 
 
@@ -44,7 +44,12 @@ def flush_memobase_user(user_uuid: str, sync: bool = True) -> None:
         sync: Whether to wait for processing to complete.
     """
     params = {"wait_process": "true" if sync else "false"}
-    memobase_request("POST", f"/users/buffer/{user_uuid}/chat", params=params)
+    memobase_request(
+        "POST",
+        f"/users/buffer/{user_uuid}/chat",
+        params=params,
+        timeout=MEMOBASE_SYNC_TIMEOUT if sync else None,
+    )
 
 
 def load_cache_entries(cache_file: str) -> List[Dict[str, Any]]:
