@@ -1,0 +1,26 @@
+# Core dependencies for Multi-Agent Medical Report Generation System
+
+# OpenAI-compatible API client for DeepSeek
+openai>=1.0.0
+
+# Async support
+asyncio
+
+# Observability (optional)
+langfuse>=2.0.0
+
+# Logging
+loguru>=0.7.0
+
+# Environment variables
+python-dotenv>=1.0.0
+
+# JSON handling (built-in, but listed for clarity)
+# json (built-in)
+
+# PDF processing dependencies (from pdf_to_markdown.py)
+# These should already be installed if pdf_to_markdown.py works
+# Uncomment if needed:
+# mineru
+# torch
+# onnxruntime

@@ -33,3 +33,22 @@ tail -f /tmp/frontend.log
 
 # Memobase 日志
 docker logs -f memobase-server-api
+
+🔧 后续操作建议
+
+  继续在私人仓库开发：
+  # 设置私人仓库为默认push地址（可选）
+  git push --set-upstream private work-in-progress
+
+  # 或者每次指定推送到私人仓库
+  git push private work-in-progress:main
+
+  同时维护两个仓库：
+  # 推送到公开仓库（SCAI-Lab）
+  git push origin main
+
+  # 推送到私人仓库
+  git push private work-in-progress:main
+
+  查看远程仓库：
+  git remote -v

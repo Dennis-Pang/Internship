@@ -1,0 +1,32 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Environment
+.env
+venv/
+env/
+
+# Output and logs
+output/
+logs/
+*.log
+
+# Data (keep structure, ignore content)
+data/pdf/*
+!data/pdf/.gitkeep
+data/markdown/*
+!data/markdown/.gitkeep
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# System
+.DS_Store
+Thumbs.db
