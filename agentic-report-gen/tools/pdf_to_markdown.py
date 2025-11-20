@@ -4,9 +4,26 @@ PDF to Markdown Parser using MinerU
 Optimized for ARM64 (Nvidia Jetson Orin) with CUDA support
 
 Usage:
-    python pdf_to_markdown.py <pdf_path>
-    python pdf_to_markdown.py <pdf_path> --output /custom/path
-    python pdf_to_markdown.py <pdf_path> --lang ch --device cuda
+    # Basic usage
+    python pdf_to_markdown.py document.pdf
+
+    # With custom output directory
+    python pdf_to_markdown.py document.pdf --output /custom/path
+
+    # Chinese PDF with CPU mode
+    python pdf_to_markdown.py document.pdf --lang ch --device cpu
+
+    # For filenames with spaces, use quotes or backslash continuation:
+    python pdf_to_markdown.py "path/to/file with spaces.pdf"
+
+    # Or use backslash for multi-line (续行):
+    python pdf_to_markdown.py \
+        "path/to/file with spaces.pdf"
+
+Note:
+    - Default device: cuda (GPU accelerated, 10-15x faster than CPU)
+    - ONNX Runtime threading warnings on ARM64 can be safely ignored
+    - Formula/table parsing disabled by default for stability
 """
 import os
 import sys
@@ -20,6 +37,10 @@ from loguru import logger
 os.environ.setdefault('OMP_NUM_THREADS', '1')
 os.environ.setdefault('MINERU_INTRA_OP_NUM_THREADS', '1')
 os.environ.setdefault('MINERU_INTER_OP_NUM_THREADS', '1')
+
+# Additional ONNX Runtime fixes for ARM64 (Jetson)
+os.environ.setdefault('ORT_DISABLE_CPUINFO', '1')
+os.environ.setdefault('ONNXRUNTIME_LOG_LEVEL', '3')  # Error only
 
 # Import MinerU components
 from mineru.cli.common import do_parse, read_fn

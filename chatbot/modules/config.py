@@ -13,7 +13,7 @@ AUDIO_FILE = "temp_audio.wav"
 RECORD_DURATION = 5  # Seconds
 
 # User configuration
-DEFAULT_SPEAKER = "test1"
+DEFAULT_SPEAKER = "presentation"
 
 # Whisper model configuration
 WHISPER_MODEL_PATH = (

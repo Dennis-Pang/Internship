@@ -4,8 +4,10 @@ transformers>=4.30.0
 
 # Audio processing
 sounddevice>=0.4.6
+soundfile>=0.12.1
+librosa>=0.10.0
 scipy>=1.10.0
-numpy>=1.24.0
+numpy==1.26.4  # Fixed version for compatibility with torch/scipy
 
 # Text-to-Speech
 pyttsx3>=2.90
@@ -18,8 +20,14 @@ pandas>=2.0.0
 
 # LLM and API clients
 openai>=1.0.0
+ollama>=0.6.0
 requests>=2.31.0
 httpx>=0.24.0
 
-# Additional utilities
+# Web framework (for backend_api.py)
+flask>=2.0.0
+flask-cors>=4.0.0
+
+# CLI and utilities
+rich>=13.0.0
 sentencepiece>=0.1.99  # For some tokenizers
