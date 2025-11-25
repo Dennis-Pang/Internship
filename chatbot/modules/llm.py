@@ -1,7 +1,7 @@
 """LLM chat integration with Ollama."""
 import copy
 import time
-from typing import Dict, List, Optional, Tuple
+from typing import Callable, Dict, List, Optional, Tuple
 
 from openai import OpenAI
 
@@ -35,6 +35,8 @@ def chat(
     stream: bool = OLLAMA_STREAM,
     model: str = OLLAMA_MODEL,
     debug: bool = False,
+    memobase_context: Optional[str] = None,
+    on_chunk: Optional[Callable[[str, bool], None]] = None,
 ) -> Tuple[str, Optional[str]]:
     """Chat with LLM using MemoBase long-term memory enhancement.
 
@@ -45,6 +47,10 @@ def chat(
         use_users: Whether to use MemoBase user context.
         stream: Whether to stream the response.
         model: Model name to use.
+        debug: Enable verbose prompt logging.
+        memobase_context: Pre-fetched MemoBase context (if None, will fetch internally).
+        on_chunk: Optional callback invoked on each streamed text delta. Called with
+            (text_delta, is_final).
 
     Returns:
         Tuple of (assistant_reply, user_uuid).
@@ -66,31 +72,44 @@ def chat(
     # Inject MemoBase context if using user memory
     if use_users and current_speaker:
         user_uuid = string_to_uuid(current_speaker)
-        try:
-            ensure_memobase_user(user_uuid)
-        except Exception as exc:
-            logger.error(f"Failed to ensure MemoBase user {current_speaker}: {exc}")
-            user_uuid = None
 
-        if user_uuid:
+        # If context not pre-fetched, fetch it now
+        if memobase_context is None:
             try:
-                chats_for_context = prepare_recent_chats(messages)
-                context_text = fetch_memobase_context(
-                    user_uuid,
-                    DEFAULT_MAX_CONTEXT_SIZE,
-                    chats=chats_for_context,
-                )
-                if debug and context_text:
-                    print("\n[DEBUG] MemoBase context retrieved:")
-                    print(context_text)
-                    print("-" * 60)
+                ensure_memobase_user(user_uuid)
             except Exception as exc:
-                logger.error(f"Failed to fetch MemoBase context for {current_speaker}: {exc}")
-                context_text = ""
+                logger.error(f"Failed to ensure MemoBase user {current_speaker}: {exc}")
+                user_uuid = None
 
+            if user_uuid:
+                try:
+                    chats_for_context = prepare_recent_chats(messages)
+                    context_text = fetch_memobase_context(
+                        user_uuid,
+                        DEFAULT_MAX_CONTEXT_SIZE,
+                        chats=chats_for_context,
+                    )
+                    if debug and context_text:
+                        print("\n[DEBUG] MemoBase context retrieved:")
+                        print(context_text)
+                        print("-" * 60)
+                except Exception as exc:
+                    logger.error(f"Failed to fetch MemoBase context for {current_speaker}: {exc}")
+                    context_text = ""
+        else:
+            # Use pre-fetched context
+            context_text = memobase_context
+            if debug and context_text:
+                print("\n[DEBUG] MemoBase context (pre-fetched):")
+                print(context_text)
+                print("-" * 60)
+
+        if user_uuid and context_text:
             messages_for_llm = inject_memobase_context(messages_for_llm, context_text)
 
-    _record_timing("llm_memory_fetch", time.perf_counter() - prep_start)
+    # Only record timing if we fetched internally (not pre-fetched)
+    if memobase_context is None:
+        _record_timing("llm_memory_fetch", time.perf_counter() - prep_start)
 
     if debug:
         print("\n[DEBUG] Final prompt sent to LLM (after memory injection):")
@@ -138,10 +157,14 @@ def chat(
                 first_token_received = True
 
             collected_chunks.append(delta_text)
+            if on_chunk:
+                on_chunk(delta_text, False)
             print(delta_text, end="", flush=True)
 
         print()
         assistant_reply = "".join(collected_chunks).strip()
+        if on_chunk:
+            on_chunk("", True)
 
         # Record total inference time
         total_inference_time = time.perf_counter() - inference_start
@@ -151,6 +174,7 @@ def chat(
             assistant_reply = (response.choices[0].message.content or "").strip()
             if assistant_reply:
                 print(assistant_reply)
+                if on_chunk:
+                    on_chunk(assistant_reply, True)
 
     return assistant_reply, user_uuid
-

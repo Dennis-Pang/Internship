@@ -48,7 +48,7 @@ const RadarChart: React.FC<RadarChartProps> = ({ title, data, color = '#14b8a6' 
     if (active && payload && payload.length) {
       const data = payload[0];
       return (
-        <div className="bg-white rounded-xl p-3 shadow-2xl border" style={{ borderColor: 'rgba(139, 126, 200, 0.2)' }}>
+        <div className="bg-white rounded-xl p-3 shadow-2xl border" style={{ borderColor: 'rgba(30, 136, 229, 0.2)' }}>
           <p className="font-semibold text-sm mb-1" style={{ color: 'var(--color-text-primary)' }}>
             {data.payload.subject}
           </p>
@@ -84,7 +84,7 @@ const RadarChart: React.FC<RadarChartProps> = ({ title, data, color = '#14b8a6' 
               </filter>
             </defs>
             <PolarGrid
-              stroke="rgba(139, 126, 200, 0.15)"
+              stroke="rgba(30, 136, 229, 0.15)"
               strokeWidth={1}
             />
             <PolarAngleAxis

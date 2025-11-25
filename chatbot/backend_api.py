@@ -5,8 +5,10 @@ import sqlite3
 import time
 from datetime import datetime
 from typing import Dict, List, Optional, Any
-from flask import Flask, jsonify, Response
+from flask import Flask, jsonify, Response, request
 from flask_cors import CORS
+from queue import Queue
+from threading import Lock
 
 from modules.config import (
     DB_PATH,
@@ -20,6 +22,10 @@ from modules.memory import string_to_uuid, memobase_request, MemoBaseAPIError
 
 app = Flask(__name__)
 CORS(app)  # Enable CORS for frontend access
+
+# Global update notification system
+_update_queues: Dict[str, List[Queue]] = {}
+_queues_lock = Lock()
 
 
 def get_big5_personality(user_name: str) -> Optional[Dict[str, float]]:
@@ -306,48 +312,70 @@ def stream_updates(user_id: str):
     Returns:
         SSE stream
     """
+    def fetch_and_send_data():
+        """Fetch current data and format for SSE."""
+        user_uuid = string_to_uuid(user_id)
+        big5 = get_big5_personality(user_id)
+        speech_emotion, text_emotion = get_latest_emotions(user_uuid)
+        profiles = get_memobase_profiles(user_uuid)
+        events = get_memobase_events(user_uuid)
+        transcription = get_latest_transcription(user_uuid)
+
+        if transcription and big5:
+            transcription["big5"] = big5
+
+        data = {
+            "userId": user_id,
+            "userName": user_id,
+            "currentTranscription": transcription,
+            "speechEmotion": speech_emotion,
+            "textEmotion": text_emotion,
+            "big5": big5,
+            "profiles": profiles,
+            "events": events,
+        }
+        return f"event: full_update\ndata: {json.dumps(data)}\n\n"
+
     def generate():
         """Generate SSE events."""
-        last_update_time = 0
+        # Create a queue for this connection
+        q = Queue(maxsize=100)  # Increased for streaming chunks
 
-        while True:
-            # Check if cache file has been updated
-            try:
-                if os.path.exists(MEMORY_CACHE_FILE):
-                    current_mtime = os.path.getmtime(MEMORY_CACHE_FILE)
+        with _queues_lock:
+            if user_id not in _update_queues:
+                _update_queues[user_id] = []
+            _update_queues[user_id].append(q)
 
-                    if current_mtime > last_update_time:
-                        last_update_time = current_mtime
+        try:
+            # Send initial data immediately
+            logger.info(f"SSE: New connection from user {user_id}")
+            yield fetch_and_send_data()
 
-                        # Fetch updated data
-                        user_uuid = string_to_uuid(user_id)
-                        big5 = get_big5_personality(user_id)
-                        speech_emotion, text_emotion = get_latest_emotions(user_uuid)
-                        profiles = get_memobase_profiles(user_uuid)
-                        events = get_memobase_events(user_uuid)
-                        transcription = get_latest_transcription(user_uuid)
+            # Wait for push notifications
+            while True:
+                try:
+                    # Block until notification received (with 30s timeout for keepalive)
+                    msg = q.get(timeout=30)
+                    if msg == "UPDATE":
+                        logger.info(f"SSE: Sending push update to {user_id}")
+                        yield fetch_and_send_data()
+                    elif isinstance(msg, dict):
+                        # Streaming chunk or other event
+                        event_type = msg.get("event", "message")
+                        event_data = msg.get("data", {})
+                        yield f"event: {event_type}\ndata: {json.dumps(event_data)}\n\n"
+                except:
+                    # Timeout - send keepalive comment
+                    yield ": keepalive\n\n"
 
-                        if transcription and big5:
-                            transcription["big5"] = big5
-
-                        data = {
-                            "userId": user_id,
-                            "userName": user_id,
-                            "currentTranscription": transcription,
-                            "speechEmotion": speech_emotion,
-                            "textEmotion": text_emotion,
-                            "big5": big5,
-                            "profiles": profiles,
-                            "events": events,
-                        }
-
-                        yield f"data: {json.dumps(data)}\n\n"
-
-            except Exception as e:
-                logger.error(f"SSE stream error: {e}")
-
-            # Poll every 2 seconds
-            time.sleep(2)
+        finally:
+            # Remove queue when connection closes
+            with _queues_lock:
+                if user_id in _update_queues:
+                    _update_queues[user_id].remove(q)
+                    if not _update_queues[user_id]:
+                        del _update_queues[user_id]
+            logger.info(f"SSE: Connection closed for user {user_id}")
 
     return Response(generate(), mimetype='text/event-stream')
 
@@ -408,6 +436,134 @@ def delete_event(event_id: str):
     except Exception as e:
         logger.error(f"Delete event API error: {e}")
         return jsonify({"error": str(e)}), 500
+
+
+@app.route('/api/notify/<user_id>', methods=['POST'])
+def notify_update(user_id: str):
+    """Webhook endpoint for chatbot to trigger real-time updates.
+
+    Args:
+        user_id: User identifier
+
+    Returns:
+        JSON response with notification status
+    """
+    try:
+        with _queues_lock:
+            if user_id in _update_queues:
+                # Send notification to all connected clients for this user
+                for q in _update_queues[user_id]:
+                    try:
+                        q.put_nowait("UPDATE")
+                    except:
+                        pass  # Queue full, skip this client
+                logger.info(f"Notified {len(_update_queues[user_id])} SSE client(s) for user {user_id}")
+                return jsonify({"status": "notified", "clients": len(_update_queues[user_id])}), 200
+            else:
+                logger.info(f"No SSE clients connected for user {user_id}")
+                return jsonify({"status": "no_clients"}), 200
+
+    except Exception as e:
+        logger.error(f"Notify endpoint error: {e}")
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route('/api/user-input/<user_id>', methods=['POST'])
+def push_user_input(user_id: str):
+    """Webhook endpoint for chatbot to push user input text immediately after transcription.
+
+    Args:
+        user_id: User identifier
+
+    Returns:
+        JSON response with status
+    """
+    try:
+        data = request.json
+        if not data:
+            return jsonify({"error": "No data provided"}), 400
+
+        user_text = data.get("text", "")
+        timestamp = data.get("timestamp", "")
+
+        with _queues_lock:
+            if user_id in _update_queues:
+                event_data = {
+                    "event": "user_input",
+                    "data": {
+                        "text": user_text,
+                        "timestamp": timestamp,
+                    }
+                }
+
+                # Push to all connected clients
+                for q in _update_queues[user_id]:
+                    try:
+                        q.put_nowait(event_data)
+                    except:
+                        pass  # Queue full, skip this client
+
+                logger.info(f"User input pushed to {len(_update_queues[user_id])} client(s)")
+                return jsonify({"status": "pushed", "clients": len(_update_queues[user_id])}), 200
+            else:
+                return jsonify({"status": "no_clients"}), 200
+
+    except Exception as e:
+        logger.error(f"User input push error: {e}")
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route('/api/stream-chunk/<user_id>', methods=['POST'])
+def stream_chunk(user_id: str):
+    """Webhook endpoint for chatbot to push streaming text chunks.
+
+    Args:
+        user_id: User identifier
+
+    Returns:
+        JSON response with status
+    """
+    try:
+        data = request.json
+        if not data:
+            return jsonify({"error": "No data provided"}), 400
+
+        chunk_text = data.get("chunk", "")
+        is_final = data.get("is_final", False)
+
+        with _queues_lock:
+            if user_id in _update_queues:
+                event_data = {
+                    "event": "streaming_complete" if is_final else "streaming_chunk",
+                    "data": {
+                        "chunk": chunk_text,
+                        "is_final": is_final,
+                    }
+                }
+
+                # Push to all connected clients
+                for q in _update_queues[user_id]:
+                    try:
+                        q.put_nowait(event_data)
+                    except:
+                        pass  # Queue full, skip this client
+
+                return jsonify({"status": "pushed", "clients": len(_update_queues[user_id])}), 200
+            else:
+                return jsonify({"status": "no_clients"}), 200
+
+    except Exception as e:
+        logger.error(f"Stream chunk endpoint error: {e}")
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route('/api/config', methods=['GET'])
+def get_config():
+    """Get current configuration including default user."""
+    return jsonify({
+        "defaultUser": DEFAULT_SPEAKER,
+        "memobaseUrl": MEMOBASE_BASE_URL,
+    }), 200
 
 
 @app.route('/health', methods=['GET'])

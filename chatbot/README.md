@@ -16,101 +16,121 @@ An intelligent voice-powered chatbot that combines speech recognition, personali
 
 ## Architecture
 
+### High-Level Processing Flow
+
 ```
-┌─────────────────┐
-│  Audio Input    │
-│  (Microphone)   │
-└────────┬────────┘
-         │ Speech Audio
-         │
-         ├──────────────────────────┐
-         │                          │
-         ▼                          ▼
-┌─────────────────┐      ┌──────────────────┐
-│ Speech Emotion  │      │  Whisper Model   │
-│ (Transf + CNN)  │      │  (Large-v3-Turbo)│
-└────────┬────────┘      └────────┬─────────┘
-         │                        │ Transcribed Text
-         │                        │
-         │                        ├─────────────────────┐
-         │                        │                     │
-         │                        ▼                     ▼
-         │               ┌──────────────────┐  ┌─────────────────┐
-         │               │  Text Emotion    │  │  Personality    │
-         │               │  (DeBERTa-v3)    │  │  Analysis       │
-         │               └────────┬─────────┘  │  (BERT Big5)    │
-         │                        │            └────────┬────────┘
-         └────────┬───────────────┘                     │
-                  ▼                                     │
-         ┌──────────────────┐                           │
-         │ Emotion Fusion   │                           │
-         │ (Prob Averaging) │                           │
-         └────────┬─────────┘                           │
-                  │                                     │
-                  │                                     │
-                  │                                     │
-  ┌───────────────┴──────────┬──────────────────────────┴──────────────┐
-  │                          │                                         │
-  │ Fused Emotion            │ Big5                                    │
-  │                          │                                         │
-  │                  ┌───────┴────────┐        ┌─────────────────────┐ │
-  │                  │  MemoBase API  │        │  Short-term Memory  │ │
-  │                  │  (Long-term)   │        │  (Conv History)     │ │
-  │                  └───────┬────────┘        └──────────┬──────────┘ │
-  │                          │                            │            │
-  └──────────────────────────┴────────────────────────────┴────────────┘
-                             │
-                             ▼
-                    ┌──────────────────────────┐
-                    │  Prompt Injection        │
-                    │  (4 parallel contexts)   │
-                    │  - Fused Emotion         │
-                    │  - Big5 Personality      │
-                    │  - MemoBase Memory       │
-                    │  - Short-term History    │
-                    └────────┬─────────────────┘
-                             │
-                             ▼
-                    ┌──────────────────┐
-                    │  LLM Chat        │
-                    │  (Ollama Gemma)  │
-                    └────────┬─────────┘
-                             │
-                             ▼
-                    ┌──────────────────┐
-                    │  Text-to-Speech  │
-                    │  (pyttsx3)       │
-                    └──────────────────┘
+User Voice Input
+    ↓
+┌─────────────────────────────────────────────────────────┐
+│                  CHATBOT PIPELINE                        │
+│                                                          │
+│  [1] Whisper STT ──┐                                    │
+│       (Parallel)   │                                    │
+│  [2] Speech Emotion┘→ [Wait for text] →┐               │
+│                                          │              │
+│  [3] Text Emotion  ──┐                  │              │
+│  [4] Personality   ──┼→ (Parallel)      │              │
+│  [5] MemoBase Fetch──┘                  │              │
+│                                          │              │
+│  [6] Build Context ←────────────────────┘              │
+│  [7] LLM Generation (Ollama)                           │
+│  [8] TTS Output (pyttsx3)                              │
+│                                                          │
+└─────────────────────────────────────────────────────────┘
+    ↓
+SQLite (personality) + memory_cache.json (conversations)
+    ↓
+MemoBase (via sync_memory_cache.py)
+    ↓
+Backend API → Frontend Dashboard
 ```
 
-## Parallel Timeline
+### Detailed Component Flow with Timing
 
-The diagram below mirrors the execution order inside [`chatbot/main.py`](main.py), highlighting how startup model loading and per-request inference overlap. Emotion models load in parallel right after the Big5 model, and the milestone shows that Whisper waits for both to finish. During inference, Whisper transcription and speech-emotion logits start together, while text-emotion and personality tasks only begin after transcription completes. Durations use relative units purely for visualization.
+```
+Audio Input (5s recording)
+    │
+    ├──────────────────────────── PARALLEL ─────────────────────────────┐
+    │                                                                    │
+    ▼ [1a] Whisper Transcription (~1.7s, CUDA)                          │
+    │                                                                    │
+    └──→ "Q: [transcribed text]"                                        │
+         │                                                               │
+         ├─────────── PARALLEL ───────────┐                             │
+         │                                │                             │
+         ▼ [2a] Text Emotion (~1.4s)     │                             │
+         ▼ [2b] Personality (~0.2s)      │                             │
+         ▼ [2c] MemoBase Fetch (~0.15s)  │                             │
+         │                                │                             │
+    ┌────┴────────────────────────────────┘                             │
+    │                                                                    │
+    │                                                  ▼ [1b] Speech Emotion (~2.2s)
+    │                                                  │
+    └──────────────────────────── WAIT ───────────────┘
+                                   │
+                                   ▼ All tasks complete
+
+[3] Build Prompt Context (~0.002s)
+    - Combine: Speech emotion + Text emotion + Personality + Memory + History
+    ↓
+[4] LLM Generation (~3.5s)
+    - Ollama Gemma3:1b
+    - Streaming response
+    ↓
+[5] Save to Database (~0.01s)
+    - SQLite: Personality traits
+    - JSON: Conversations + emotions
+    ↓
+[6] Notify Dashboard Backend (~0.05s)
+    - POST /api/notify/{userId}
+    ↓
+[7] TTS Output (~1.2s)
+    - pyttsx3 voice synthesis
+    ↓
+"A: [assistant response]"
+
+Total: ~6.8 seconds (wall clock time)
+```
+
+### Parallelization Strategy
+
+**Startup (Conservative):**
+```
+Sequential:  DB → TTS → Big5 Personality → [Parallel: Speech+Text Emotion] → Whisper → Ollama
+Total: ~5.0s (vs ~10s if all sequential, but unstable if all parallel)
+```
+
+**Runtime (Aggressive):**
+```
+Phase 1: Whisper + Speech Emotion (parallel)          → ~2.2s (vs ~3.9s sequential)
+Phase 2: Text Emotion + Personality + Memory (parallel) → ~1.4s (vs ~1.75s sequential)
+Phase 3: LLM + TTS (sequential)                       → ~4.7s
+
+Total: ~6.8s per conversation (saves ~4s vs all sequential)
+```
+
+**Key Insight:** Runtime heavily parallelizes analysis tasks, while startup uses selective parallelization to avoid GPU OOM and PyTorch 2.7 meta tensor issues.
+
+### Mermaid Timeline (Simplified)
 
 ```mermaid
 gantt
-  title Startup + Inference Parallelism
+  title Startup + Runtime Parallelism
   dateFormat  X
   axisFormat  %L
 
   section Startup (Model Loading)
-    DB init (SQLAlchemy)           :db,            0, 1
-    TTS engine init                :tts,           after db, 1
-    Big5 personality model         :big5,          after tts, 3
-    Speech2Emotion model           :s2e,           after big5, 4
-    Text2Emotion model             :t2e,           after big5, 3
-    Emotion models ready           :milestone,     after s2e, 0
-    Whisper speech-to-text pipeline:whisper,       after s2e, 4
-    Ollama connectivity check      :ollama,        after whisper, 1
+    DB + TTS init                  :init,          0, 1
+    Big5 personality model         :big5,          after init, 3
+    Speech2Emotion + Text2Emotion  :emotions,      after big5, 4
+    Whisper STT pipeline           :whisper,       after emotions, 4
+    Ollama check                   :ollama,        after whisper, 1
 
-  section Runtime Inference (per audio clip)
-    Whisper transcription          :inf_trans,     0, 4
-    Speech emotion logits          :inf_speech,    0, 6
-    Text emotion logits            :inf_text,      after inf_trans, 3
-    Big5 personality analysis      :inf_persona,   after inf_trans, 3
-    Emotion fusion                 :inf_fusion,    after inf_speech, 1
-    Prompt build + LLM response    :inf_llm,       after inf_fusion, 4
-    TTS playback                   :inf_tts,       after inf_llm, 2
+  section Runtime (per conversation)
+    Whisper + Speech Emotion       :audio,         0, 6
+    Text Emotion + Personality     :analysis,      after audio, 3
+    LLM generation                 :llm,           after analysis, 4
+    TTS output                     :tts,           after llm, 2
 ```
 
 ## Project Structure

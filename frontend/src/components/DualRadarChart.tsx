@@ -17,8 +17,8 @@ const DualRadarChart: React.FC<DualRadarChartProps> = ({
   data2,
   label1,
   label2,
-  color1 = '#667EEA', // Purple-blue for speech
-  color2 = '#4ECDC4', // Mint green for text
+  color1 = '#1E88E5', // Medical blue for speech
+  color2 = '#00ACC1', // Cyan blue for text
 }) => {
   // Default emotion values
   const getDefaultEmotion = () => {
@@ -50,7 +50,7 @@ const DualRadarChart: React.FC<DualRadarChartProps> = ({
   const CustomTooltip = ({ active, payload }: any) => {
     if (active && payload && payload.length) {
       return (
-        <div className="bg-white rounded-xl p-3 shadow-2xl border" style={{ borderColor: 'rgba(139, 126, 200, 0.2)' }}>
+        <div className="bg-white rounded-xl p-3 shadow-2xl border" style={{ borderColor: 'rgba(30, 136, 229, 0.2)' }}>
           <p className="font-semibold text-sm mb-2" style={{ color: 'var(--color-text-primary)' }}>
             {payload[0].payload.subject}
           </p>
@@ -92,7 +92,7 @@ const DualRadarChart: React.FC<DualRadarChartProps> = ({
               </linearGradient>
             </defs>
             <PolarGrid
-              stroke="rgba(139, 126, 200, 0.15)"
+              stroke="rgba(30, 136, 229, 0.15)"
               strokeWidth={1}
             />
             <PolarAngleAxis

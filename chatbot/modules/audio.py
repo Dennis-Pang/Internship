@@ -1,6 +1,7 @@
 """Audio recording and text-to-speech module."""
 import logging
 import os
+import queue
 import threading
 from typing import Optional
 
@@ -28,6 +29,10 @@ class TTSEngine:
     def __init__(self):
         """Initialize TTS engine."""
         self.engine: Optional[pyttsx3.Engine] = None
+        self._engine_lock = threading.Lock()
+        self._stream_queue: queue.Queue = queue.Queue()
+        self._stream_thread: Optional[threading.Thread] = None
+        self._streaming_active = False
         self._init_engine()
 
     def _init_engine(self):
@@ -57,15 +62,64 @@ class TTSEngine:
             return False
 
         try:
-            self.engine.say(text)
-            self.engine.runAndWait()
+            with self._engine_lock:
+                self.engine.say(text)
+                self.engine.runAndWait()
             return True
         except Exception as e:
             logger.error(f"Failed to speak text: {e}")
             return False
 
+    def _stream_worker(self):
+        """Background worker to consume queued text and speak it sequentially."""
+        while True:
+            text = self._stream_queue.get()
+            if text is None:
+                self._stream_queue.task_done()
+                break
+            try:
+                with self._engine_lock:
+                    self.engine.say(text)
+                    self.engine.runAndWait()
+            except Exception as e:
+                logger.error(f"Failed to stream TTS chunk: {e}")
+            finally:
+                self._stream_queue.task_done()
+
+    def start_streaming(self):
+        """Start background streaming playback if not already running."""
+        if not self.engine:
+            logger.error("TTS engine not initialized.")
+            return
+
+        if self._streaming_active and self._stream_thread and self._stream_thread.is_alive():
+            return
+
+        self._streaming_active = True
+        self._stream_thread = threading.Thread(target=self._stream_worker, daemon=True)
+        self._stream_thread.start()
+
+    def stream_text(self, text: str):
+        """Queue text for streaming playback (non-blocking)."""
+        if not text or not self.engine:
+            return
+        if not self._streaming_active:
+            self.start_streaming()
+        self._stream_queue.put(text)
+
+    def finish_streaming(self, wait: bool = True):
+        """Signal the streaming worker to finish and optionally wait."""
+        if not self._streaming_active:
+            return
+        self._stream_queue.put(None)
+        if wait and self._stream_thread:
+            self._stream_thread.join()
+        self._streaming_active = False
+
     def cleanup(self):
         """Clean up TTS engine resources."""
+        # Ensure streaming thread is stopped before tearing down engine
+        self.finish_streaming(wait=True)
         if self.engine:
             try:
                 self.engine.stop()

@@ -42,6 +42,15 @@ os.environ.setdefault('MINERU_INTER_OP_NUM_THREADS', '1')
 os.environ.setdefault('ORT_DISABLE_CPUINFO', '1')
 os.environ.setdefault('ONNXRUNTIME_LOG_LEVEL', '3')  # Error only
 
+# Critical fix for pthread_setaffinity_np errors on ARM64
+# These disable thread affinity which causes crashes with onnxruntime-gpu on Jetson
+os.environ.setdefault('ORT_DISABLE_THREAD_SPINNING', '1')
+os.environ.setdefault('OMP_WAIT_POLICY', 'PASSIVE')
+os.environ.setdefault('KMP_AFFINITY', 'disabled')
+os.environ.setdefault('GOMP_CPU_AFFINITY', '')
+# Force ONNX Runtime to not set thread affinity
+os.environ.setdefault('ORT_DISABLE_AFFINITY', '1')
+
 # Import MinerU components
 from mineru.cli.common import do_parse, read_fn
 from mineru.utils.config_reader import get_device

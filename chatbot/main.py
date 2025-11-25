@@ -5,11 +5,12 @@ import random
 import time as time_module
 from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass, field
-from typing import Any, Dict, List, Optional
+from typing import Any, Callable, Dict, List, Optional
 import time
 import numpy as np
 import pandas as pd
 import torch
+import requests
 
 from modules.config import (
     DEFAULT_SPEAKER,
@@ -18,12 +19,21 @@ from modules.config import (
     GREETING_MESSAGES,
     SPEECH_EMOTION_WEIGHT,
     TEXT_EMOTION_WEIGHT,
+    DEFAULT_MAX_CONTEXT_SIZE,
     logger,
 )
 from modules.audio import TTSEngine, cleanup_audio_file, select_input_device, record_audio
 from modules.database import init_db, store_personality_traits
 from modules.llm import chat
-from modules.memory import append_chat_to_cache, format_short_term_memory, flush_cache_to_disk
+from modules.memory import (
+    append_chat_to_cache,
+    format_short_term_memory,
+    flush_cache_to_disk,
+    ensure_memobase_user,
+    fetch_memobase_context,
+    prepare_recent_chats,
+    string_to_uuid,
+)
 from modules.personality import predict_personality, load_personality_model
 from modules.speech2text import load_whisper_pipeline, transcribe_whisper
 from modules.speech2emotion import load_emotion_model, predict_emotion
@@ -50,6 +60,7 @@ class ApplicationState:
     conversation_states: Dict[str, ConversationState] = field(default_factory=dict)
     speech_emotion_weight: float = SPEECH_EMOTION_WEIGHT
     text_emotion_weight: float = TEXT_EMOTION_WEIGHT
+    streaming_tts: bool = False
 
     def get_conversation_state(self, speaker_key: str) -> ConversationState:
         """Get or create conversation state for a speaker.
@@ -223,6 +234,47 @@ def log_emotion_scores(speech_emotion: Dict[str, float], text_emotion: Dict[str,
         logger.info("  %-14s speech=%s | text=%s", f"{label}:", fmt(speech_val), fmt(text_val))
 
 
+def fetch_memory_context_wrapper(
+    current_speaker: str,
+    history: List[Dict[str, str]],
+) -> str:
+    """Fetch MemoBase context for parallel execution.
+
+    Args:
+        current_speaker: Current speaker name
+        history: Conversation history
+
+    Returns:
+        MemoBase context string (empty string if error)
+    """
+    from modules.timing import _record_timing
+    import time
+
+    fetch_start = time.perf_counter()
+
+    try:
+        user_uuid = string_to_uuid(current_speaker)
+        ensure_memobase_user(user_uuid)
+
+        # Build messages for context retrieval
+        messages = history.copy()
+        chats_for_context = prepare_recent_chats(messages)
+
+        context_text = fetch_memobase_context(
+            user_uuid,
+            DEFAULT_MAX_CONTEXT_SIZE,
+            chats=chats_for_context,
+        )
+
+        _record_timing("llm_memory_fetch", time.perf_counter() - fetch_start)
+        return context_text or ""
+
+    except Exception as exc:
+        logger.error(f"Failed to fetch MemoBase context for {current_speaker}: {exc}")
+        _record_timing("llm_memory_fetch", time.perf_counter() - fetch_start)
+        return ""
+
+
 def build_prompt_context(
     text: str,
     personality_df: pd.DataFrame,
@@ -291,6 +343,8 @@ def get_llm_response(
     chat_messages: List[Dict[str, str]],
     speaker: str,
     debug_mode: bool = False,
+    memobase_context: Optional[str] = None,
+    on_chunk: Optional[Callable[[str, bool], None]] = None,
 ) -> tuple:
     """Get LLM response.
 
@@ -300,6 +354,8 @@ def get_llm_response(
         chat_messages: Chat messages
         speaker: Current speaker
         debug_mode: Enable verbose prompt logging
+        memobase_context: Pre-fetched MemoBase context (optional)
+        on_chunk: Optional callback fired for every streamed token with (text_delta, is_final)
 
     Returns:
         Tuple of (response_content, user_uuid)
@@ -311,6 +367,8 @@ def get_llm_response(
         close_session=False,
         use_users=bool(speaker),
         debug=debug_mode,
+        memobase_context=memobase_context,
+        on_chunk=on_chunk,
     )
     _record_timing('llm_total', time.perf_counter() - start)
 
@@ -363,6 +421,131 @@ def say_response(tts_engine: TTSEngine, response: str):
     tts_engine.say(response)
 
 
+def build_streaming_tts_callback(
+    tts_engine: TTSEngine,
+    min_sentence_chars: int = 40,
+    max_buffer_chars: int = 200,
+) -> Callable[[str, bool], None]:
+    """Chunk streamed LLM deltas into TTS-friendly sentences.
+
+    Keeps a rolling buffer so we only enqueue whole-ish sentences or sizable
+    chunks, then flushes any remainder when the stream ends.
+    """
+    buffer = ""
+
+    def flush_buffer(force: bool = False):
+        """Flush buffered text into the TTS queue."""
+        nonlocal buffer
+
+        # Prefer sentence-level flushes once we have enough characters
+        while True:
+            split_idx = -1
+            for idx, ch in enumerate(buffer):
+                if ch in (".", "!", "?", "\n") and idx + 1 >= min_sentence_chars:
+                    split_idx = idx + 1
+                    break
+
+            if split_idx == -1:
+                break
+
+            chunk = buffer[:split_idx].strip()
+            if chunk:
+                tts_engine.stream_text(chunk)
+            buffer = buffer[split_idx:].lstrip()
+
+        # Fallback: avoid holding very long buffers
+        if force or len(buffer) >= max_buffer_chars:
+            remaining = buffer.strip()
+            if remaining:
+                tts_engine.stream_text(remaining)
+            buffer = ""
+
+    def on_chunk(text_delta: str, is_final: bool):
+        nonlocal buffer
+        if text_delta:
+            buffer += text_delta
+        flush_buffer(force=False)
+        if is_final:
+            flush_buffer(force=True)
+
+    return on_chunk
+
+
+def notify_dashboard_update(user_id: str, backend_url: str = "http://localhost:5000"):
+    """Notify backend API that dashboard data should be updated.
+
+    Args:
+        user_id: User identifier
+        backend_url: Backend API base URL
+    """
+    try:
+        response = requests.post(
+            f"{backend_url}/api/notify/{user_id}",
+            timeout=1.0  # Quick timeout, don't block chatbot
+        )
+        if response.status_code == 200:
+            result = response.json()
+            logger.info(f"Dashboard notified: {result.get('status')} ({result.get('clients', 0)} clients)")
+        else:
+            logger.warning(f"Dashboard notification failed: {response.status_code}")
+    except requests.exceptions.Timeout:
+        logger.debug("Dashboard notification timeout (backend may not be running)")
+    except requests.exceptions.ConnectionError:
+        logger.debug("Dashboard notification failed (backend not reachable)")
+    except Exception as e:
+        logger.debug(f"Dashboard notification error: {e}")
+
+
+def push_user_input(user_id: str, text: str, backend_url: str = "http://localhost:5000"):
+    """Push user input text to backend API immediately after transcription.
+
+    Args:
+        user_id: User identifier
+        text: User input text
+        backend_url: Backend API base URL
+    """
+    try:
+        from datetime import datetime
+        response = requests.post(
+            f"{backend_url}/api/user-input/{user_id}",
+            json={"text": text, "timestamp": datetime.now().isoformat()},
+            timeout=0.5
+        )
+        if response.status_code != 200:
+            logger.debug(f"User input push failed: {response.status_code}")
+    except requests.exceptions.Timeout:
+        logger.debug("User input push timeout (backend may be slow)")
+    except requests.exceptions.ConnectionError:
+        logger.debug("User input push failed (backend not reachable)")
+    except Exception as e:
+        logger.debug(f"User input push error: {e}")
+
+
+def push_streaming_chunk(user_id: str, chunk: str, is_final: bool, backend_url: str = "http://localhost:5000"):
+    """Push streaming text chunk to backend API for real-time frontend updates.
+
+    Args:
+        user_id: User identifier
+        chunk: Text chunk to push
+        is_final: Whether this is the final chunk
+        backend_url: Backend API base URL
+    """
+    try:
+        response = requests.post(
+            f"{backend_url}/api/stream-chunk/{user_id}",
+            json={"chunk": chunk, "is_final": is_final},
+            timeout=0.5  # Very quick timeout to avoid blocking LLM generation
+        )
+        if response.status_code != 200:
+            logger.debug(f"Stream chunk push failed: {response.status_code}")
+    except requests.exceptions.Timeout:
+        logger.debug("Stream chunk push timeout (backend may be slow)")
+    except requests.exceptions.ConnectionError:
+        logger.debug("Stream chunk push failed (backend not reachable)")
+    except Exception as e:
+        logger.debug(f"Stream chunk push error: {e}")
+
+
 def process_audio(
     audio_file: str,
     tts_engine: TTSEngine,
@@ -396,7 +579,7 @@ def process_audio(
         # Step 1: Start Whisper transcription AND speech emotion analysis in parallel
         # This overlaps the two most time-consuming tasks
         parallel_audio_start = time.perf_counter()
-        with ThreadPoolExecutor(max_workers=2) as executor:
+        with ThreadPoolExecutor(max_workers=4) as executor:
             # Both work on the same audio file simultaneously
             transcription_future = executor.submit(
                 transcribe_audio_file, audio_file, app_state.whisper_pipeline
@@ -409,19 +592,30 @@ def process_audio(
             text = transcription_future.result()
             print("Q:", text)
 
-            # Start text-based analysis while speech emotion may still be running
+            # Push user input to frontend immediately after transcription
+            push_user_input(app_state.current_speaker or DEFAULT_SPEAKER, text)
+
+            # Build messages for memory retrieval (needs current text)
+            temp_messages = state.history.copy()
+            temp_messages.append({"role": "user", "content": text})
+
+            # Start text-based analysis, personality, AND memory retrieval in parallel
             text_emotion_future = executor.submit(
                 analyze_text_emotion, text, return_logits=False
             )
             personality_future = executor.submit(analyze_personality, text)
+            memory_future = executor.submit(
+                fetch_memory_context_wrapper, app_state.current_speaker, temp_messages
+            )
 
             # Wait for all results
             speech_emotion = speech_emotion_future.result()
             text_emotion = text_emotion_future.result()
             personality_df = personality_future.result()
+            memobase_context = memory_future.result()
 
         # Record parallel block wall clock time
-        _record_timing("[Parallel] Audio processing (Whisper + speech2emotion + text2emotion + personality)",
+        _record_timing("[Parallel] Audio processing (Whisper + speech2emotion + text2emotion + personality + memory)",
                       time.perf_counter() - parallel_audio_start)
 
         # Step 3: Provide both emotion sources to the prompt (fusion disabled)
@@ -437,10 +631,22 @@ def process_audio(
             app_state.preferences,
             app_state.history_window_size,
         )
+
+        # Create streaming callback to push chunks to frontend
+        def on_chunk_callback(chunk: str, is_final: bool):
+            """Callback fired for each streaming chunk from LLM."""
+            push_streaming_chunk(
+                app_state.current_speaker or DEFAULT_SPEAKER,
+                chunk,
+                is_final
+            )
+
         response_content, user_uuid = get_llm_response(
             chat_messages,
             app_state.current_speaker,
             app_state.debug_mode,
+            memobase_context=memobase_context,
+            on_chunk=on_chunk_callback,
         )
 
         # Save to database
@@ -457,6 +663,9 @@ def process_audio(
         )
         # Persist updated memory cache immediately so the dashboard backend sees new data
         flush_cache_to_disk()
+
+        # Notify dashboard backend to push updates to frontend (push-based, no polling)
+        notify_dashboard_update(app_state.current_speaker or DEFAULT_SPEAKER)
 
         # Update conversation history
         state.history.append({"role": "user", "content": text})

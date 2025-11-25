@@ -31,79 +31,177 @@ pip install numpy<2.0 --force-reinstall  # ❌ Don't do this without asking!
 
 ## Repository Structure
 
-This repository contains 5 main components:
+This repository contains 6 main components:
 
-### 1. chatbot
-- **Custom-developed chatbot implementation**
-- Voice-powered AI with personality analysis and emotion detection
-- Integrates with MemoBase for long-term memory
-- See `chatbot/CLAUDE.md` for detailed documentation
+### 1. chatbot/
+**Core AI chatbot with voice interaction and memory**
+- Voice input/output using Whisper STT and pyttsx3 TTS
+- Dual-source emotion analysis (speech + text) with configurable fusion
+- Big Five personality trait detection (BERT-based)
+- Long-term memory via MemoBase integration
+- SQLite for personality storage, JSON cache for conversations
+- **Port:** Runs in terminal (interactive)
+- **Entry point:** `chatbot/main.py`
+- **Details:** See `chatbot/CLAUDE.md` for internal workflow
 
-### 2. frontend
-- **React-based dashboard for real-time visualization**
-- Displays emotion, personality, profiles, and events
-- Memory management: Delete profiles and events with confirmation dialogs
-- Hover-to-reveal delete buttons with smooth transitions
-- Uses Server-Sent Events (SSE) for live updates
-- Port: 3000
-
-### 3. backend_api.py (in chatbot/)
-- **Flask REST API server**
-- Provides data to frontend dashboard
-- Aggregates data from MemoBase, SQLite, and memory cache
-- Port: 5000
+### 2. backend_api.py (in chatbot/)
+**Flask REST API server - Data aggregation layer**
+- Aggregates data from 3 sources: SQLite (personality), memory_cache.json (emotions/conversations), MemoBase API (profiles/events)
+- Provides unified data to frontend via REST endpoints
+- Server-Sent Events (SSE) for real-time push updates
+- Memory management: Delete profiles/events from MemoBase
+- **Port:** 5000
+- **Entry point:** `chatbot/backend_api.py`
 - **API Endpoints:**
-  - `GET /api/dashboard/{userId}` - Full dashboard data
-  - `GET /api/memories/{userId}` - Profiles and events
-  - `GET /api/stream/{userId}` - SSE real-time stream
-  - `DELETE /api/profile/{profileId}?user_id={userId}` - Delete profile
-  - `DELETE /api/event/{eventId}?user_id={userId}` - Delete event
+  - `GET /api/dashboard/{userId}` - Full dashboard data (emotion, personality, profiles, events, transcription)
+  - `GET /api/memories/{userId}` - Profiles and events only
+  - `GET /api/stream/{userId}` - SSE stream for real-time updates
+  - `POST /api/notify/{userId}` - Trigger push update to connected clients (called by chatbot)
+  - `DELETE /api/profile/{profileId}?user_id={userId}` - Delete profile from MemoBase
+  - `DELETE /api/event/{eventId}?user_id={userId}` - Delete event from MemoBase
   - `GET /health` - Health check
-- **Important:** Events API uses `topk=1000` to fetch up to 1000 events instead of default 10
+- **Note:** Events API uses `topk=1000` to fetch up to 1000 events (default was 10)
 
-### 4. memobase
-- Cloned and modified from open-source repository
-- Used for long-term memory/data storage functionality
-- Port: 8019
+### 3. frontend/
+**React-based real-time visualization dashboard**
+- Displays emotion radar charts (speech vs text), Big5 personality, user profiles, events, and conversation transcription
+- Memory management UI: Hover-to-delete buttons with confirmation dialogs
+- Real-time updates via SSE (Server-Sent Events) - no polling needed
+- Responsive layout with expandable/collapsible sections
+- **Port:** 3000
+- **Entry point:** `npm run dev` in frontend/
+- **Default user:** `test1` (hardcoded in Dashboard.tsx)
 
-### 5. memobase-inspector
+### 4. agentic-report-gen/
+**High-performance PDF to Markdown converter**
+- GPU-accelerated using MinerU (PyTorch 2.7.0 + CUDA 12.6)
+- Optimized for ARM64 (Nvidia Jetson Orin)
+- Multi-language OCR support (English, Chinese, Korean, Japanese, etc.)
+- **Performance:** GPU ~1.3s/page vs CPU ~19s/page (10-15x faster)
+- **Entry point:** `agentic-report-gen/tools/pdf_to_markdown.py`
+- **Output:** Markdown files in `data/markdown/` with extracted images
+- **Details:** See `agentic-report-gen/README.md`
+
+### 5. memobase/
+**Long-term memory storage system (Docker service)**
+- Vector database for semantic search and memory retrieval
+- Stores user profiles and events with timestamps
 - Cloned and modified from open-source repository
-- Used for inspecting and debugging memory data
+- **Port:** 8019
+- **API Base URL:** `http://localhost:8019/api/v1`
+- **Documentation:** https://github.com/memodb-io/memobase
+
+### 6. memobase-inspector/
+**Web-based memory database inspection tool**
+- Frontend for visualizing and managing MemoBase data
+- Query, filter, and explore stored memories
+- Cloned and modified from open-source repository
+- **Documentation:** https://github.com/memodb-io/memobase-inspector
 
 ## System Architecture
 
+### Component Interaction Flow
 ```
-User speaks → Chatbot (voice processing)
-              ↓
-        [Emotion + Personality Analysis]
-              ↓
-        SQLite + memory_cache.json
-              ↓
-        MemoBase (sync via sync_memory_cache.py)
-              ↓
-        Backend API (Flask) ← Frontend Dashboard
-              ↓
-        Real-time display (SSE)
+┌─────────────────────────────────────────────────────────────────┐
+│                         USER INTERACTION                        │
+│                     (Voice Input/Output)                        │
+└────────────────────────────┬────────────────────────────────────┘
+                             │
+                             ▼
+┌─────────────────────────────────────────────────────────────────┐
+│                      CHATBOT (main.py)                          │
+│  ┌──────────────────────────────────────────────────────────┐   │
+│  │ 1. Whisper STT (transcription)                           │   │
+│  │ 2. Parallel: Speech emotion + Text emotion + Personality │   │
+│  │ 3. MemoBase context fetch (long-term memory)             │   │
+│  │ 4. LLM response generation (Ollama)                      │   │
+│  │ 5. TTS output (pyttsx3)                                  │   │
+│  └──────────────────────────────────────────────────────────┘   │
+└───────┬─────────────────────────────────┬───────────────────────┘
+        │                                 │
+        │ Writes personality              │ Writes emotions/conversations
+        ▼                                 ▼
+ ┌─────────────┐                   ┌─────────────────┐
+ │   SQLite    │                   │ memory_cache.json│
+ │ memories.db │                   │  (JSON file)     │
+ └─────────────┘                   └─────────────────┘
+        │                                 │
+        │                                 │ sync_memory_cache.py (manual)
+        │                                 ▼
+        │                          ┌─────────────────┐
+        │                          │    MemoBase     │
+        │                          │  (Port 8019)    │
+        │                          │ Vector Database │
+        │                          └─────────────────┘
+        │                                 │
+        ├─────────────────────────────────┤
+        │                                 │
+        │         READ                    │ READ
+        ▼                                 ▼
+┌────────────────────────────────────────────────────────────────┐
+│              BACKEND API (backend_api.py:5000)                 │
+│  Aggregates: SQLite + memory_cache.json + MemoBase API        │
+│  Provides: REST endpoints + SSE real-time stream              │
+└────────────────────────────┬───────────────────────────────────┘
+                             │
+                             │ HTTP + SSE
+                             ▼
+┌─────────────────────────────────────────────────────────────────┐
+│              FRONTEND (React Dashboard:3000)                    │
+│  Real-time display: Emotions, Personality, Profiles, Events    │
+└─────────────────────────────────────────────────────────────────┘
 ```
+
+### Data Flow Summary
+1. **User speaks** → Chatbot processes (Whisper + Emotion + Personality analysis)
+2. **Data saved** → SQLite (personality) + memory_cache.json (emotions/conversations)
+3. **Data synced** → MemoBase (profiles/events) - manual sync or periodic batch
+4. **Backend API** → Aggregates data from all 3 sources
+5. **Frontend** → Displays via SSE real-time updates (push-based, not polling)
 
 ## Running the System
 
-### Start All Services
+### Prerequisites
+- Python 3.10+
+- Node.js 18+ and npm
+- Ollama running locally (port 11434) with `gemma3:1b` model
+- MemoBase running (Docker, port 8019)
+- Microphone for audio input (chatbot)
+- CUDA-capable GPU (optional, for faster inference)
+
+### Start All Services (Recommended)
 ```bash
 ./start_all.sh
 ```
-This starts backend API (5000), frontend (3000), and chatbot.
+This script automatically:
+1. Checks dependencies (Python, Node.js, npm)
+2. Installs missing packages if needed
+3. Starts Backend API (port 5000) in background
+4. Starts Frontend (port 3000) in background
+5. Starts Chatbot (interactive mode) in foreground
+
+**Logs:**
+- Backend: `tail -f /tmp/backend_api.log`
+- Frontend: `tail -f /tmp/frontend.log`
+
+**To stop:** Press `Ctrl+C` (will stop all services)
 
 ### Start Individual Components
 ```bash
 # Backend API only
 cd chatbot && ./start_backend.sh
+# OR manually: python backend_api.py
 
 # Frontend only
 cd frontend && npm run dev
 
 # Chatbot only
 cd chatbot && python main.py
+
+# PDF to Markdown tool
+cd agentic-report-gen
+python tools/pdf_to_markdown.py document.pdf  # GPU mode (default)
+python tools/pdf_to_markdown.py document.pdf --device cpu  # CPU mode
 ```
 
 ## Data Storage Locations

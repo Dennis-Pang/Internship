@@ -320,9 +320,12 @@ def flush_cache_to_disk() -> None:
     """
     global _memory_cache, _cache_dirty
 
-    if _cache_dirty and _memory_cache is not None:
-        _save_cache_data(_memory_cache, force_write=True)
-        logger.info("Cache flushed to disk")
+    if _memory_cache is not None:
+        if _cache_dirty:
+            _save_cache_data(_memory_cache, force_write=True)
+            logger.info("Cache flushed to disk (dirty flag was set)")
+        else:
+            logger.debug("Cache flush skipped (no changes)")
 
 
 def get_recent_history(user_uuid: str, max_messages: int = 10) -> List[Dict[str, str]]:

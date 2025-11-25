@@ -3,21 +3,24 @@ import RadarChart from './RadarChart';
 import DualRadarChart from './DualRadarChart';
 import TranscriptionDisplay from './TranscriptionDisplay';
 import MemoryViewer from './MemoryViewer';
-import { fetchDashboardData, subscribeToUpdates } from '../api/client';
+import { fetchDashboardData, subscribeToUpdates, fetchDefaultUser } from '../api/client';
 import type { DashboardData } from '../types';
-
-const DEFAULT_USER_ID = 'test1';
 
 const Dashboard: React.FC = () => {
   const [data, setData] = useState<DashboardData | null>(null);
+  const [userId, setUserId] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [activeChart, setActiveChart] = useState<'emotion' | 'personality'>('emotion');
+  const [streamingResponse, setStreamingResponse] = useState<string>('');
+  const [isStreaming, setIsStreaming] = useState<boolean>(false);
+  const [currentUserInput, setCurrentUserInput] = useState<string>('');
+  const [currentTimestamp, setCurrentTimestamp] = useState<string>('');
 
-  const loadDashboardData = async () => {
+  const loadDashboardData = async (currentUserId: string) => {
     try {
       setIsLoading(true);
-      const dashboardData = await fetchDashboardData(DEFAULT_USER_ID);
+      const dashboardData = await fetchDashboardData(currentUserId);
       setData(dashboardData);
       setError(null);
     } catch (err) {
@@ -29,14 +32,56 @@ const Dashboard: React.FC = () => {
   };
 
   useEffect(() => {
-    loadDashboardData();
+    // Fetch default user from backend config first
+    const initDashboard = async () => {
+      const defaultUser = await fetchDefaultUser();
+      console.log('[Dashboard] Using user:', defaultUser);
+      setUserId(defaultUser);
 
-    const unsubscribe = subscribeToUpdates(DEFAULT_USER_ID, (updatedData) => {
-      setData(updatedData);
+      await loadDashboardData(defaultUser);
+
+      const unsubscribe = subscribeToUpdates(
+        defaultUser,
+        (updatedData) => {
+          setData(updatedData);
+        },
+        {
+          onUserInput: (text, timestamp) => {
+            // User input received - update immediately and clear streaming state
+            setCurrentUserInput(text);
+            setCurrentTimestamp(timestamp);
+            setStreamingResponse('');
+            setIsStreaming(false);
+          },
+          onFullUpdate: (updatedData) => {
+            setData(updatedData);
+            setIsStreaming(false);
+            setStreamingResponse('');
+            setCurrentUserInput('');
+            setCurrentTimestamp('');
+          },
+          onStreamingChunk: (chunk, isFinal) => {
+            if (isFinal) {
+              // Streaming complete - keep accumulated text until full update arrives
+              setIsStreaming(false);
+            } else {
+              setIsStreaming(true);
+              setStreamingResponse(prev => prev + chunk);
+            }
+          }
+        }
+      );
+
+      return unsubscribe;
+    };
+
+    let cleanup: (() => void) | undefined;
+    initDashboard().then(unsubscribe => {
+      cleanup = unsubscribe;
     });
 
     return () => {
-      unsubscribe();
+      if (cleanup) cleanup();
     };
   }, []);
 
@@ -44,7 +89,7 @@ const Dashboard: React.FC = () => {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-purple-500 mx-auto mb-4" style={{ borderTopColor: '#8B7EC8' }}></div>
+          <div className="animate-spin rounded-full h-16 w-16 border-b-4 mx-auto mb-4" style={{ borderBottomColor: '#1E88E5', borderTopColor: '#00BCD4' }}></div>
           <p className="text-lg font-medium" style={{ color: 'var(--color-text-primary)' }}>Loading MemoBot Dashboard...</p>
         </div>
       </div>
@@ -102,20 +147,22 @@ const Dashboard: React.FC = () => {
             {/* Left: Memory Viewer (narrower) */}
             <div className="lg:col-span-3 glassmorphism rounded-xl p-6 overflow-hidden flex flex-col">
               <MemoryViewer
-                userId={DEFAULT_USER_ID}
+                userId={userId || 'unknown'}
                 profiles={data?.profiles || []}
                 events={data?.events || []}
                 isLoading={false}
-                onRefresh={loadDashboardData}
+                onRefresh={() => userId && loadDashboardData(userId)}
               />
             </div>
 
             {/* Middle: Conversation */}
             <div className="lg:col-span-4 flex flex-col h-full overflow-hidden">
               <TranscriptionDisplay
-                text={data?.currentTranscription?.text || ''}
+                text={currentUserInput || data?.currentTranscription?.text || ''}
                 response={data?.currentTranscription?.response || ''}
-                timestamp={data?.currentTranscription?.timestamp || ''}
+                timestamp={currentTimestamp || data?.currentTranscription?.timestamp || ''}
+                streamingResponse={streamingResponse}
+                isStreaming={isStreaming}
               />
             </div>
 
@@ -128,7 +175,7 @@ const Dashboard: React.FC = () => {
                   className={`flex-1 px-4 py-3 rounded-xl font-medium transition-all ${activeChart === 'emotion' ? 'text-white shadow-md' : 'hover:shadow-sm'}`}
                   style={activeChart === 'emotion'
                     ? { background: 'var(--gradient-primary)' }
-                    : { background: 'rgba(139, 126, 200, 0.1)', color: 'var(--color-text-secondary)' }
+                    : { background: 'rgba(30, 136, 229, 0.1)', color: 'var(--color-text-secondary)' }
                   }
                 >
                   <div className="flex items-center justify-center gap-2">
@@ -143,7 +190,7 @@ const Dashboard: React.FC = () => {
                   className={`flex-1 px-4 py-3 rounded-xl font-medium transition-all ${activeChart === 'personality' ? 'text-white shadow-md' : 'hover:shadow-sm'}`}
                   style={activeChart === 'personality'
                     ? { background: 'var(--gradient-accent)' }
-                    : { background: 'rgba(240, 147, 251, 0.1)', color: 'var(--color-text-secondary)' }
+                    : { background: 'rgba(0, 188, 212, 0.1)', color: 'var(--color-text-secondary)' }
                   }
                 >
                   <div className="flex items-center justify-center gap-2">
@@ -164,14 +211,14 @@ const Dashboard: React.FC = () => {
                     data2={(data?.textEmotion || {}) as Record<string, number>}
                     label1="Speech"
                     label2="Text"
-                    color1="#667EEA"
-                    color2="#4ECDC4"
+                    color1="#1E88E5"
+                    color2="#00ACC1"
                   />
                 ) : (
                   <RadarChart
                     title="Big5 Personality"
                     data={(data?.big5 || {}) as Record<string, number>}
-                    color="#F093FB"
+                    color="#0288D1"
                   />
                 )}
               </div>

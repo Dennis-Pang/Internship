@@ -71,7 +71,7 @@ const MemoryViewer: React.FC<MemoryViewerProps> = ({ userId, profiles, events, i
   if (isLoading) {
     return (
       <div className="h-full flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2" style={{ borderTopColor: '#8B7EC8' }}></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2" style={{ borderBottomColor: '#1E88E5', borderTopColor: '#00BCD4' }}></div>
       </div>
     );
   }
@@ -88,7 +88,7 @@ const MemoryViewer: React.FC<MemoryViewerProps> = ({ userId, profiles, events, i
           className={`px-4 py-2 rounded-xl font-medium transition-all ${activeTab === 'profiles' ? 'text-white shadow-md' : 'hover:shadow-sm'}`}
           style={activeTab === 'profiles'
             ? { background: 'var(--gradient-primary)' }
-            : { background: 'rgba(139, 126, 200, 0.1)', color: 'var(--color-text-secondary)' }
+            : { background: 'rgba(30, 136, 229, 0.1)', color: 'var(--color-text-secondary)' }
           }
         >
           Profiles ({profiles.length})
@@ -98,7 +98,7 @@ const MemoryViewer: React.FC<MemoryViewerProps> = ({ userId, profiles, events, i
           className={`px-4 py-2 rounded-xl font-medium transition-all ${activeTab === 'events' ? 'text-white shadow-md' : 'hover:shadow-sm'}`}
           style={activeTab === 'events'
             ? { background: 'var(--gradient-secondary)' }
-            : { background: 'rgba(78, 205, 196, 0.1)', color: 'var(--color-text-secondary)' }
+            : { background: 'rgba(0, 172, 193, 0.1)', color: 'var(--color-text-secondary)' }
           }
         >
           Events ({events.length})
@@ -114,13 +114,13 @@ const MemoryViewer: React.FC<MemoryViewerProps> = ({ userId, profiles, events, i
               </div>
             ) : (
               Object.entries(groupedProfiles).map(([topic, topicProfiles]) => (
-                <div key={topic} className="bg-white rounded-2xl overflow-hidden border shadow-sm" style={{ borderColor: 'rgba(139, 126, 200, 0.15)' }}>
+                <div key={topic} className="bg-white rounded-2xl overflow-hidden border shadow-sm" style={{ borderColor: 'rgba(30, 136, 229, 0.15)' }}>
                   <button
                     onClick={() => toggleTopic(topic)}
                     className="w-full px-4 py-3 flex items-center justify-between font-semibold transition-all hover:bg-opacity-50"
                     style={{
                       color: 'var(--color-text-primary)',
-                      background: expandedTopics.has(topic) ? 'rgba(139, 126, 200, 0.05)' : 'transparent'
+                      background: expandedTopics.has(topic) ? 'rgba(30, 136, 229, 0.05)' : 'transparent'
                     }}
                   >
                     <span>{topic}</span>
@@ -130,7 +130,7 @@ const MemoryViewer: React.FC<MemoryViewerProps> = ({ userId, profiles, events, i
                   </button>
 
                   {expandedTopics.has(topic) && (
-                    <div className="px-4 pb-3 space-y-2" style={{ background: 'rgba(139, 126, 200, 0.02)' }}>
+                    <div className="px-4 pb-3 space-y-2" style={{ background: 'rgba(30, 136, 229, 0.02)' }}>
                       {topicProfiles.map((profile) => (
                         <div
                           key={profile.id}
@@ -176,7 +176,7 @@ const MemoryViewer: React.FC<MemoryViewerProps> = ({ userId, profiles, events, i
               </div>
             ) : (
               events.map((event) => (
-                <div key={event.id} className="bg-white rounded-2xl p-4 group relative border shadow-sm hover:shadow-md transition-all accent-border-secondary" style={{ borderColor: 'rgba(139, 126, 200, 0.15)' }}>
+                <div key={event.id} className="bg-white rounded-2xl p-4 group relative border shadow-sm hover:shadow-md transition-all accent-border-secondary" style={{ borderColor: 'rgba(30, 136, 229, 0.15)' }}>
                   <button
                     onClick={(e) => {
                       e.stopPropagation();
@@ -221,7 +221,7 @@ const MemoryViewer: React.FC<MemoryViewerProps> = ({ userId, profiles, events, i
       {/* Confirmation Dialog */}
       {confirmDeleteId && (
         <div className="fixed inset-0 flex items-center justify-center z-50 backdrop-blur-sm" style={{ background: 'rgba(26, 54, 93, 0.4)' }} onClick={() => setConfirmDeleteId(null)}>
-          <div className="bg-white rounded-3xl p-6 max-w-md mx-4 shadow-2xl border" style={{ borderColor: 'rgba(139, 126, 200, 0.2)' }} onClick={(e) => e.stopPropagation()}>
+          <div className="bg-white rounded-3xl p-6 max-w-md mx-4 shadow-2xl border" style={{ borderColor: 'rgba(30, 136, 229, 0.2)' }} onClick={(e) => e.stopPropagation()}>
             <h3 className="text-xl font-bold mb-3" style={{ color: 'var(--color-text-primary)' }}>
               Confirm Delete
             </h3>
@@ -233,7 +233,7 @@ const MemoryViewer: React.FC<MemoryViewerProps> = ({ userId, profiles, events, i
                 onClick={() => setConfirmDeleteId(null)}
                 className="px-4 py-2 rounded-xl transition-all"
                 style={{
-                  background: 'rgba(139, 126, 200, 0.1)',
+                  background: 'rgba(30, 136, 229, 0.1)',
                   color: 'var(--color-text-secondary)'
                 }}
               >

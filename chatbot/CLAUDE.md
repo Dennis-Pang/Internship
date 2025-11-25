@@ -79,47 +79,188 @@ ollama pull gemma3:1b
 
 ## Architecture Overview
 
-### Modular Pipeline Design
-The application follows a sequential processing pipeline in `main.py`:
+### Processing Pipeline
+The chatbot follows a carefully optimized pipeline that balances **serial and parallel execution** for optimal performance.
+
+#### Key Design Principles:
+- **Startup:** Conservative sequential + selective parallel loading (stability over speed)
+- **Runtime:** Aggressive parallelization where safe (speed over simplicity)
+- **GPU Safety:** Avoid concurrent large model loading (prevents CUDA OOM)
+
+### Detailed Workflow: Startup vs Runtime
+
+---
+
+#### 🚀 **STARTUP SEQUENCE** (main.py lines 699-803)
+
+The initialization sequence is carefully orchestrated to balance speed and stability:
+
+**Phase 1: Sequential Fast Operations**
+```
+[1] Database init (SQLAlchemy)           ~0.02s
+    ↓
+[2] TTS engine init                      ~0.03s
+    ↓
+[3] Big5 Personality model load          ~2.5s
+    (MUST be sequential - PyTorch 2.7 meta tensor issues with parallel loading)
+```
+
+**Phase 2: Parallel Emotion Models** ⚡
+```
+    ├─ [4a] Speech2Emotion model         ~3.3s ┐
+    │                                          ├─→ Wall clock: ~3.3s (max, not sum)
+    └─ [4b] Text2Emotion model           ~3.0s ┘
+
+    ✓ Safe to parallelize: Both are small models (~500MB each)
+    ✓ No GPU conflicts during concurrent loading
+```
+
+**Phase 3: Sequential Large Model**
+```
+[5] Whisper STT model                    ~1.6s
+    (MUST be sequential - Large 3GB+ model, avoid GPU memory conflicts)
+    ↓
+[6] Ollama connection check              ~0.05s
+```
+
+**Total Startup Time: ~5.0 seconds**
+
+**Why Not All Parallel?**
+- **PyTorch 2.7 Issue:** Concurrent GPU model init causes "Cannot copy out of meta tensor" errors
+- **GPU Memory:** Whisper (3GB+) + others would cause OOM
+- **Trade-off:** Could be ~3-4s if all parallel, but unstable
+
+---
+
+#### ⚡ **RUNTIME PROCESSING** (process_audio function, lines 499-631)
+
+Per-conversation processing is heavily parallelized for speed:
+
+**Phase 1: Parallel Audio Analysis** (lines 532-542)
+```
+Audio File (WAV)
+    ├─ [1a] Whisper transcription        ~1.7s  ← Critical path
+    │       (CUDA accelerated)
+    │
+    └─ [1b] Speech emotion analysis      ~2.2s
+            (Transformer+CNN, runs in parallel)
+
+⚠️ Transcription MUST complete before Phase 2 (text needed)
+```
+
+**Phase 2: Wait for Text, Then Parallel Multi-Task** (lines 549-562)
+```
+Transcription Complete → "Q: [user text]"
+    │
+    ├─ [2a] Text emotion analysis        ~1.4s
+    │       (DeBERTa-v3-Large)
+    │
+    ├─ [2b] Big5 personality analysis    ~0.2s
+    │       (BERT)
+    │
+    └─ [2c] MemoBase context fetch       ~0.15s
+            (Semantic search via API)
+
+✓ All three run concurrently (ThreadPoolExecutor)
+✓ Wall clock time = max(1.4s, 0.2s, 0.15s) = ~1.4s (not 1.75s sum)
+```
+
+**Phase 3: Sequential Final Steps**
+```
+[3] Log emotion scores                   ~0.001s
+    ↓
+[4] Build prompt context                 ~0.002s
+    (Combine: emotions + personality + memory + history)
+    ↓
+[5] LLM generation (Ollama)              ~3.5s
+    - Memory injection: ~0.15s (already done in parallel)
+    - First token: ~2.8s
+    - Full response: ~3.5s
+    ↓
+[6] Save to database & cache             ~0.01s
+    - SQLite: Personality traits
+    - JSON: Conversations + emotions
+    ↓
+[7] Notify dashboard backend             ~0.05s
+    (POST to backend_api.py)
+    ↓
+[8] TTS voice output                     ~1.2s
+    (pyttsx3 speech synthesis)
+```
+
+**Total Processing Time: ~6.8 seconds**
+- Audio analysis (parallel): ~2.2s (not 3.9s)
+- Text-based tasks (parallel): ~1.4s (not 1.75s)
+- LLM + TTS (sequential): ~4.7s
+
+---
+
+#### 📊 **Parallelization Summary**
+
+| Stage | Parallel Tasks | Wall Clock | Serial Would Be |
+|-------|---------------|------------|-----------------|
+| Startup: Emotion models | 2 models | ~3.3s | ~6.3s |
+| Runtime: Audio analysis | Whisper + Speech emotion | ~2.2s | ~3.9s |
+| Runtime: Text analysis | Text emotion + Personality + Memory | ~1.4s | ~1.75s |
+
+**Total Time Saved: ~4.05 seconds per conversation** ⚡
+
+---
+
+### Module Responsibilities
+
+Below are the individual modules and their roles:
 
 1. **Audio Input** → `modules/audio.py`
    - Records 5-second audio clips via sounddevice
    - Supports multiple input devices with timeout protection
    - Saves to temporary WAV file
 
-2. **Speech-to-Text** → `modules/speech.py`
+2. **Speech-to-Text** → `modules/speech2text.py`
    - Uses Whisper Large-v3-Turbo via transformers pipeline
    - GPU-accelerated (CUDA) if available
    - Batch size: 48
 
-3. **Personality Analysis** → `modules/personality.py`
+3. **Speech Emotion** → `modules/speech2emotion.py`
+   - Transformer+CNN model for acoustic emotion analysis
+   - 7 classes: anger, disgust, fear, happy, neutral, sad, surprise
+   - Returns logits (for fusion) or probabilities
+
+4. **Text Emotion** → `modules/text2emotion.py`
+   - DeBERTa-v3-Large model for semantic emotion analysis
+   - Same 7 emotion classes (aligned with speech emotion)
+   - Returns logits (for fusion) or probabilities
+
+5. **Personality Analysis** → `modules/personality.py`
    - BERT-based Big Five trait detection (`Minej/bert-base-personality`)
    - Returns: Extraversion, Neuroticism, Agreeableness, Conscientiousness, Openness
    - Cached globally, loaded once at startup
 
-4. **Context Building** → `build_prompt_context()` in main app
+6. **Context Building** → `build_prompt_context()` in main.py
    - Combines: short-term history (sliding window), personality traits, user preferences
    - Formats into system prompt with delimited sections
+   - Injects both speech and text emotion data
 
-5. **LLM Chat** → `modules/llm.py`
+7. **LLM Chat** → `modules/llm.py`
    - Uses Ollama via OpenAI client interface
-   - Fetches long-term memory from MemoBase API
+   - Fetches long-term memory from MemoBase API (parallel with other tasks)
    - Injects MemoBase context into system prompt
    - Streams response with TTFT (time-to-first-token) tracking
 
-6. **Database Storage** → `modules/database.py`
+8. **Database Storage** → `modules/database.py`
    - SQLAlchemy models for users and personality traits
    - Raw SQL for memories table (legacy compatibility)
    - Stores personality updates per conversation
 
-7. **Memory Caching** → `modules/memory.py`
+9. **Memory Caching** → `modules/memory.py`
    - Appends conversations to JSON cache (`memory_cache.json`)
    - Session-based structure: `{user_uuid: {sessions: {date: {conversations: []}}}}`
    - Tracks timings: speech_to_text, llm_generation, total
+   - Provides MemoBase API wrappers
 
-8. **Text-to-Speech** → `modules/audio.py`
-   - pyttsx3 engine for voice responses
-   - Rate: 200, Volume: 0.8
+10. **Text-to-Speech** → `modules/audio.py`
+    - pyttsx3 engine for voice responses
+    - Rate: 200, Volume: 0.8
 
 ### Key Architectural Patterns
 

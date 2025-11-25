@@ -6,60 +6,134 @@ An intelligent chatbot system with long-term memory capabilities, featuring voic
 
 This repository houses a complete AI chatbot solution with advanced memory management, designed to deliver personalized conversational experiences through context retention and learning from past interactions.
 
+**Key Features:**
+- Voice-powered AI with dual-source emotion analysis (speech + text)
+- Big Five personality trait detection
+- Long-term memory via MemoBase vector database
+- Real-time visualization dashboard with SSE updates
+- GPU-accelerated PDF to Markdown conversion
+- Optimized for Nvidia Jetson Orin (ARM64 + CUDA)
+
+## System Architecture Overview
+
+```
+User Voice Input → Chatbot (Whisper + Emotion + Personality)
+                      ↓
+              SQLite + memory_cache.json
+                      ↓
+                  MemoBase API
+                      ↓
+              Backend API (Flask)
+                      ↓
+              Frontend Dashboard (React)
+```
+
 ## Project Components
 
-### [agentic-report-gen/](agentic-report-gen/)
-High-performance PDF to Markdown conversion tool using MinerU, optimized for **Nvidia Jetson Orin** (ARM64 + CUDA).
+### 1. [chatbot/](chatbot/) - Core AI Voice Chatbot
+**Voice-powered AI with personality analysis and long-term memory**
+
+**Core Capabilities:**
+- **Voice I/O:** Whisper Large-v3-Turbo (STT) + pyttsx3 (TTS)
+- **Dual-Source Emotion:** Speech-based (Transformer+CNN) + Text-based (DeBERTa-v3-Large) with configurable fusion (default: 60% speech + 40% text)
+- **Personality Analysis:** Big Five traits using BERT-based model (Extraversion, Neuroticism, Agreeableness, Conscientiousness, Openness)
+- **Long-term Memory:** MemoBase integration for semantic search and context retrieval
+- **Data Storage:** SQLite (personality), JSON cache (conversations/emotions)
+- **LLM:** Ollama local inference (default: gemma3:1b)
+
+**Entry Point:** `chatbot/main.py`
+
+**Quick Start:**
+```bash
+cd chatbot
+python main.py  # Default: 60% speech + 40% text emotion
+python main.py --speech-emotion-weight 1.0 --text-emotion-weight 0.0  # Speech-only (faster)
+python main.py --history-window 10  # Custom conversation window
+```
+
+**See [chatbot/README.md](chatbot/README.md) for detailed documentation**
+
+### 2. [chatbot/backend_api.py](chatbot/backend_api.py) - Backend API Server
+**Flask REST API for dashboard data aggregation**
+
+**Responsibilities:**
+- Aggregates data from 3 sources: SQLite (personality), memory_cache.json (emotions/conversations), MemoBase API (profiles/events)
+- Provides REST endpoints for frontend
+- Server-Sent Events (SSE) for real-time push updates
+- Memory management: Delete profiles/events from MemoBase
+
+**Port:** 5000
+
+**Key Endpoints:**
+- `GET /api/dashboard/{userId}` - Full dashboard data
+- `GET /api/stream/{userId}` - SSE real-time stream
+- `DELETE /api/profile/{profileId}` - Delete profile
+- `DELETE /api/event/{eventId}` - Delete event
+
+### 3. [frontend/](frontend/) - Real-time Visualization Dashboard
+**React-based dashboard for chatbot data visualization**
+
+**Features:**
+- **Real-time Updates:** SSE (Server-Sent Events) - push-based, no polling
+- **Emotion Visualization:** Dual radar charts (speech vs text emotions)
+- **Personality Display:** Big Five traits radar chart
+- **Memory Management:** View and delete user profiles/events with confirmation dialogs
+- **Conversation Transcription:** Live display of user/assistant dialogue
+- **Responsive UI:** Expandable/collapsible sections with hover-to-delete buttons
+
+**Port:** 3000
+**Default User:** `test1` (configurable in Dashboard.tsx)
+
+**Quick Start:**
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+### 4. [agentic-report-gen/](agentic-report-gen/) - PDF to Markdown Converter
+**High-performance PDF conversion using MinerU, optimized for Nvidia Jetson Orin**
 
 **Key Features:**
-- GPU acceleration (10-15x faster than CPU)
-- Multi-language OCR support (English, Chinese, Korean, Japanese, etc.)
-- ARM64 optimized (PyTorch 2.7.0 + CUDA 12.6)
-- Default GPU mode for best performance
+- **GPU Acceleration:** PyTorch 2.7.0 + CUDA 12.6 (10-15x faster than CPU)
+- **ARM64 Optimized:** Fixes ONNX Runtime threading issues
+- **Multi-language OCR:** English, Chinese, Korean, Japanese, etc.
+- **Performance:** GPU ~1.3s/page vs CPU ~19s/page
+
+**Entry Point:** `agentic-report-gen/tools/pdf_to_markdown.py`
 
 **Quick Start:**
 ```bash
 cd agentic-report-gen
-python pdf_to_markdown.py document.pdf  # GPU accelerated
-python pdf_to_markdown.py document.pdf --lang ch  # Chinese PDF
+python tools/pdf_to_markdown.py document.pdf  # GPU accelerated (default)
+python tools/pdf_to_markdown.py document.pdf --device cpu  # Force CPU mode
+python tools/pdf_to_markdown.py document.pdf --lang ch  # Chinese PDF
 ```
 
-**Performance:**
-- GPU mode: ~1.3 seconds/page (30-40 seconds for 8-page PDF)
-- CPU mode: ~19 seconds/page (5-7 minutes for 8-page PDF)
+**Output:** `data/markdown/document_name/auto/document_name.md`
 
 **See [agentic-report-gen/README.md](agentic-report-gen/README.md) for detailed documentation**
 
-### [chatbot/](chatbot/)
-A custom AI chatbot optimized for **Nvidia Orin 64GB** platform, featuring sophisticated memory integration and natural conversation capabilities.
+### 5. [memobase/](memobase/) - Long-term Memory System
+**Vector database for semantic memory storage and retrieval**
 
-**Core Capabilities:**
-- Persistent long-term memory for personalized interactions
-- Dual-source emotion analysis (speech + text)
-- Big Five personality trait detection
-- Real-time voice interaction support
-- Flask REST API for dashboard integration
-- Hardware-optimized performance for Nvidia Orin
+**Responsibilities:**
+- Stores user profiles and events with timestamps
+- Semantic search for relevant past conversations
+- User-specific memory isolation
 
-**See [chatbot/README.md](chatbot/README.md) for detailed documentation**
-
-### [frontend/](frontend/)
-React-based dashboard for real-time visualization of chatbot data.
-
-**Features:**
-- Real-time emotion and personality visualization
-- User profile and event memory display with management capabilities
-- Delete profiles and events with confirmation dialogs
-- Live conversation transcription
-- Server-Sent Events (SSE) for automatic updates
-
-### [memobase/](memobase/)
-Backend memory management system providing robust infrastructure for conversational data storage, retrieval, and organization.
+**Port:** 8019
+**API Base URL:** `http://localhost:8019/api/v1`
 
 **Documentation:** https://github.com/memodb-io/memobase
 
-### [memobase-inspector/](memobase-inspector/)
-Web-based frontend for visualizing and managing the memory database, offering intuitive tools for inspection and interaction.
+### 6. [memobase-inspector/](memobase-inspector/) - Memory Database Inspector
+**Web-based tool for visualizing and managing MemoBase data**
+
+**Features:**
+- Query and filter stored memories
+- Explore user profiles and events
+- Debug and inspect memory data
 
 **Documentation:** https://github.com/memodb-io/memobase-inspector
 
