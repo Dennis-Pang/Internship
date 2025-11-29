@@ -35,23 +35,24 @@ This repository contains 6 main components:
 
 ### 1. chatbot/
 **Core AI chatbot with voice interaction and memory**
-- Voice input/output using Whisper STT and pyttsx3 TTS
+- Voice input/output using Whisper STT and **GPU-accelerated Piper TTS** (pyttsx3 as fallback)
+- **Streaming TTS:** Real-time synthesis with 0.5x RTF (synthesis 2x faster than playback)
 - Dual-source emotion analysis (speech + text) with configurable fusion
 - Big Five personality trait detection (BERT-based)
 - Long-term memory via MemoBase integration
-- SQLite for personality storage, JSON cache for conversations
+- SQLite for personality storage (`data/memories.sqlite`), JSON cache for conversations (`data/memory_cache.json`)
 - **Port:** Runs in terminal (interactive)
-- **Entry point:** `chatbot/main.py`
+- **Entry point:** `chatbot/chatbot_cli.py`
 - **Details:** See `chatbot/CLAUDE.md` for internal workflow
 
-### 2. backend_api.py (in chatbot/)
+### 2. api_server.py (in chatbot/)
 **Flask REST API server - Data aggregation layer**
-- Aggregates data from 3 sources: SQLite (personality), memory_cache.json (emotions/conversations), MemoBase API (profiles/events)
+- Aggregates data from 3 sources: SQLite (personality), `data/memory_cache.json` (emotions/conversations), MemoBase API (profiles/events)
 - Provides unified data to frontend via REST endpoints
 - Server-Sent Events (SSE) for real-time push updates
 - Memory management: Delete profiles/events from MemoBase
 - **Port:** 5000
-- **Entry point:** `chatbot/backend_api.py`
+- **Entry point:** `chatbot/api_server.py`
 - **API Endpoints:**
   - `GET /api/dashboard/{userId}` - Full dashboard data (emotion, personality, profiles, events, transcription)
   - `GET /api/memories/{userId}` - Profiles and events only
@@ -109,24 +110,24 @@ This repository contains 6 main components:
                              │
                              ▼
 ┌─────────────────────────────────────────────────────────────────┐
-│                      CHATBOT (main.py)                          │
+│                   CHATBOT (chatbot_cli.py)                      │
 │  ┌──────────────────────────────────────────────────────────┐   │
 │  │ 1. Whisper STT (transcription)                           │   │
 │  │ 2. Parallel: Speech emotion + Text emotion + Personality │   │
 │  │ 3. MemoBase context fetch (long-term memory)             │   │
-│  │ 4. LLM response generation (Ollama)                      │   │
-│  │ 5. TTS output (pyttsx3)                                  │   │
+│  │ 4. LLM streaming response generation (Ollama)            │   │
+│  │ 5. Streaming GPU TTS (Piper) or fallback (pyttsx3)      │   │
 │  └──────────────────────────────────────────────────────────┘   │
 └───────┬─────────────────────────────────┬───────────────────────┘
         │                                 │
         │ Writes personality              │ Writes emotions/conversations
         ▼                                 ▼
- ┌─────────────┐                   ┌─────────────────┐
- │   SQLite    │                   │ memory_cache.json│
- │ memories.db │                   │  (JSON file)     │
- └─────────────┘                   └─────────────────┘
+ ┌───────────────────┐           ┌──────────────────────────┐
+ │      SQLite       │           │ data/memory_cache.json   │
+ │data/memories.db   │           │      (JSON file)         │
+ └───────────────────┘           └──────────────────────────┘
         │                                 │
-        │                                 │ sync_memory_cache.py (manual)
+        │                                 │ sync_memory.py (manual)
         │                                 ▼
         │                          ┌─────────────────┐
         │                          │    MemoBase     │
@@ -139,8 +140,8 @@ This repository contains 6 main components:
         │         READ                    │ READ
         ▼                                 ▼
 ┌────────────────────────────────────────────────────────────────┐
-│              BACKEND API (backend_api.py:5000)                 │
-│  Aggregates: SQLite + memory_cache.json + MemoBase API        │
+│              BACKEND API (api_server.py:5000)                  │
+│  Aggregates: SQLite + data/memory_cache.json + MemoBase API   │
 │  Provides: REST endpoints + SSE real-time stream              │
 └────────────────────────────┬───────────────────────────────────┘
                              │
@@ -154,10 +155,11 @@ This repository contains 6 main components:
 
 ### Data Flow Summary
 1. **User speaks** → Chatbot processes (Whisper + Emotion + Personality analysis)
-2. **Data saved** → SQLite (personality) + memory_cache.json (emotions/conversations)
-3. **Data synced** → MemoBase (profiles/events) - manual sync or periodic batch
-4. **Backend API** → Aggregates data from all 3 sources
-5. **Frontend** → Displays via SSE real-time updates (push-based, not polling)
+2. **LLM generates** → Streaming response with real-time GPU TTS synthesis (Piper)
+3. **Data saved** → SQLite (personality in `data/memories.sqlite`) + `data/memory_cache.json` (emotions/conversations)
+4. **Data synced** → MemoBase (profiles/events) - manual sync via `sync_memory.py`
+5. **Backend API** → Aggregates data from all 3 sources, pushes via SSE
+6. **Frontend** → Displays via SSE real-time updates (push-based, not polling)
 
 ## Running the System
 
@@ -181,7 +183,7 @@ This script automatically:
 5. Starts Chatbot (interactive mode) in foreground
 
 **Logs:**
-- Backend: `tail -f /tmp/backend_api.log`
+- Backend: `tail -f /tmp/api_server.log`
 - Frontend: `tail -f /tmp/frontend.log`
 
 **To stop:** Press `Ctrl+C` (will stop all services)
@@ -190,13 +192,15 @@ This script automatically:
 ```bash
 # Backend API only
 cd chatbot && ./start_backend.sh
-# OR manually: python backend_api.py
+# OR manually: python api_server.py
 
 # Frontend only
 cd frontend && npm run dev
 
 # Chatbot only
-cd chatbot && python main.py
+cd chatbot && python chatbot_cli.py
+# With custom emotion weights: python chatbot_cli.py --speech-emotion-weight 0.6 --text-emotion-weight 0.4
+# Disable GPU TTS (use pyttsx3): USE_PIPER_TTS=false python chatbot_cli.py
 
 # PDF to Markdown tool
 cd agentic-report-gen
@@ -206,9 +210,9 @@ python tools/pdf_to_markdown.py document.pdf --device cpu  # CPU mode
 
 ## Data Storage Locations
 
-- **Big5 Personality**: `chatbot/memories.sqlite` (persistent, cumulative averaging)
-- **Emotions + Conversations**: `chatbot/memory_cache.json` (session cache)
-- **Profiles + Events**: MemoBase (long-term, after sync)
+- **Big5 Personality**: `chatbot/data/memories.sqlite` (persistent, cumulative averaging)
+- **Emotions + Conversations**: `chatbot/data/memory_cache.json` (session cache)
+- **Profiles + Events**: MemoBase (long-term, after sync via `sync_memory.py`)
 
 ## Git Workflow Instructions
 
@@ -236,7 +240,7 @@ When performing git operations (add, commit, push), follow these important guide
 - **MemoBase API Paths**:
   - Profiles: `/users/profile/{uuid}` (NOT `/users/{uuid}/profiles`)
   - Events: `/users/event/{uuid}` (NOT `/users/{uuid}/events`)
-- **SSE Update Interval**: Backend polls memory_cache.json every 2 seconds
+- **SSE Update Interval**: Backend polls `data/memory_cache.json` every 2 seconds
 - **Emotion Default Values**: Uniform distribution (1/7 ≈ 0.143 for each emotion)
 - **Big5 Default Values**: Neutral values at 0.5 for each trait
 
@@ -246,14 +250,14 @@ When performing git operations (add, commit, push), follow these important guide
 High-performance PDF to Markdown conversion tool using MinerU, optimized for ARM64 (Nvidia Jetson Orin).
 
 ### Location
-`/home/user/ai_agent/ai_agent_project/agentic-report-gen/pdf_to_markdown.py`
+`/home/user/ai_agent/ai_agent_project/agentic-report-gen/tools/pdf_to_markdown.py`
 
 ### Quick Start
 ```bash
 cd agentic-report-gen
-python pdf_to_markdown.py document.pdf  # Default: GPU accelerated
-python pdf_to_markdown.py document.pdf --device cpu  # Force CPU mode
-python pdf_to_markdown.py document.pdf --lang ch  # Chinese PDF
+python tools/pdf_to_markdown.py document.pdf  # Default: GPU accelerated
+python tools/pdf_to_markdown.py document.pdf --device cpu  # Force CPU mode
+python tools/pdf_to_markdown.py document.pdf --lang ch  # Chinese PDF
 ```
 
 ### Key Features

@@ -4,7 +4,8 @@ import logging
 
 # Base paths
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-DB_PATH = os.path.join(BASE_DIR, "memories.sqlite")
+DATA_DIR = os.path.join(BASE_DIR, "data")
+DB_PATH = os.path.join(DATA_DIR, "memories.sqlite")
 DATABASE_URL = f"sqlite:///{DB_PATH}"
 
 # Audio configuration
@@ -39,12 +40,12 @@ DEFAULT_MEMORY_PROMPT = "Only refer to the memory if it's relevant to user's inp
 DEFAULT_MAX_CONTEXT_SIZE = 1000
 
 # Memory cache configuration
-MEMORY_CACHE_FILE = os.getenv("MEMORY_CACHE_FILE", os.path.join(BASE_DIR, "memory_cache.json"))
-MEMORY_CACHE_BATCH_SIZE = int(os.getenv("MEMORY_CACHE_BATCH_SIZE", "10"))
+MEMORY_CACHE_FILE = os.getenv("MEMORY_CACHE_FILE", os.path.join(DATA_DIR, "memory_cache.json"))
+MEMORY_CACHE_BATCH_SIZE = int(os.getenv("MEMORY_CACHE_BATCH_SIZE", "2")) # each round
 
 # Ollama configuration
 OLLAMA_BASE_URL = "http://localhost:11434/v1"
-OLLAMA_MODEL = "gemma3:1b"
+OLLAMA_MODEL = "gemma3:4b"
 OLLAMA_STREAM = True
 OLLAMA_TEMPERATURE = 0.7
 OLLAMA_MAX_TOKENS = 256
@@ -55,6 +56,17 @@ PERSONALITY_MODELS_DIR = os.path.join(BASE_DIR, "data", "models")
 # TTS (Text-to-Speech) configuration
 TTS_RATE = 200  # Speech rate (words per minute)
 TTS_VOLUME = 0.8  # Volume level (0.0 to 1.0)
+
+# Piper TTS (GPU-accelerated) configuration
+USE_PIPER_TTS = os.getenv("USE_PIPER_TTS", "true").lower() == "true"  # Use GPU TTS if available
+PIPER_MODEL_PATH = os.path.expanduser(
+    os.getenv("PIPER_MODEL_PATH", "~/tts_models/en_US-amy-medium.onnx")
+)
+PIPER_CONFIG_PATH = os.path.expanduser(
+    os.getenv("PIPER_CONFIG_PATH", "~/tts_models/en_US-amy-medium.onnx.json")
+)
+PIPER_USE_GPU = os.getenv("PIPER_USE_GPU", "true").lower() == "true"
+PIPER_SENTENCE_MIN_WORDS = int(os.getenv("PIPER_SENTENCE_MIN_WORDS", "5"))
 
 # Audio recording configuration
 AUDIO_TIMEOUT_MARGIN = 2.0  # Extra seconds to wait beyond duration before timeout

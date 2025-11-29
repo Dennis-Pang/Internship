@@ -16,6 +16,7 @@ const Dashboard: React.FC = () => {
   const [isStreaming, setIsStreaming] = useState<boolean>(false);
   const [currentUserInput, setCurrentUserInput] = useState<string>('');
   const [currentTimestamp, setCurrentTimestamp] = useState<string>('');
+  const [currentStatus, setCurrentStatus] = useState<string>('idle');
 
   const loadDashboardData = async (currentUserId: string) => {
     try {
@@ -67,7 +68,13 @@ const Dashboard: React.FC = () => {
             } else {
               setIsStreaming(true);
               setStreamingResponse(prev => prev + chunk);
+              // Change status to streaming when first chunk arrives
+              setCurrentStatus('streaming');
             }
+          },
+          onStatusUpdate: (status) => {
+            // Update processing status
+            setCurrentStatus(status);
           }
         }
       );
@@ -163,6 +170,7 @@ const Dashboard: React.FC = () => {
                 timestamp={currentTimestamp || data?.currentTranscription?.timestamp || ''}
                 streamingResponse={streamingResponse}
                 isStreaming={isStreaming}
+                status={currentStatus}
               />
             </div>
 

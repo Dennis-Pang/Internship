@@ -3,14 +3,14 @@ import logging
 import os
 import queue
 import threading
-from typing import Optional
+from typing import Optional, Iterator
 
 import numpy as np
 import pyttsx3
 import sounddevice as sd
 import scipy.io.wavfile as wavfile
 
-from .config import (
+from modules.config import (
     SAMPLE_RATE,
     RECORD_DURATION,
     AUDIO_FILE,
@@ -18,6 +18,11 @@ from .config import (
     TTS_VOLUME,
     AUDIO_TIMEOUT_MARGIN,
     AUDIO_MAX_RETRIES,
+    USE_PIPER_TTS,
+    PIPER_MODEL_PATH,
+    PIPER_CONFIG_PATH,
+    PIPER_USE_GPU,
+    PIPER_SENTENCE_MIN_WORDS,
 )
 
 logger = logging.getLogger(__name__)
@@ -33,6 +38,7 @@ class TTSEngine:
         self._stream_queue: queue.Queue = queue.Queue()
         self._stream_thread: Optional[threading.Thread] = None
         self._streaming_active = False
+        self._first_playback_time: Optional[float] = None  # Track first audio playback
         self._init_engine()
 
     def _init_engine(self):
@@ -62,6 +68,11 @@ class TTSEngine:
             return False
 
         try:
+            import time
+            # Record first playback time if not streaming
+            if not self._streaming_active and self._first_playback_time is None:
+                self._first_playback_time = time.perf_counter()
+
             with self._engine_lock:
                 self.engine.say(text)
                 self.engine.runAndWait()
@@ -72,12 +83,17 @@ class TTSEngine:
 
     def _stream_worker(self):
         """Background worker to consume queued text and speak it sequentially."""
+        import time
         while True:
             text = self._stream_queue.get()
             if text is None:
                 self._stream_queue.task_done()
                 break
             try:
+                # Record time of first playback (user-perceived latency)
+                if self._first_playback_time is None:
+                    self._first_playback_time = time.perf_counter()
+
                 with self._engine_lock:
                     self.engine.say(text)
                     self.engine.runAndWait()
@@ -95,6 +111,8 @@ class TTSEngine:
         if self._streaming_active and self._stream_thread and self._stream_thread.is_alive():
             return
 
+        # Reset first playback time for new streaming session
+        self._first_playback_time = None
         self._streaming_active = True
         self._stream_thread = threading.Thread(target=self._stream_worker, daemon=True)
         self._stream_thread.start()
@@ -107,14 +125,24 @@ class TTSEngine:
             self.start_streaming()
         self._stream_queue.put(text)
 
-    def finish_streaming(self, wait: bool = True):
-        """Signal the streaming worker to finish and optionally wait."""
+    def finish_streaming(self, wait: bool = True) -> Optional[float]:
+        """Signal the streaming worker to finish and optionally wait.
+
+        Args:
+            wait: Whether to wait for playback to complete
+
+        Returns:
+            Time of first playback (perf_counter timestamp), or None if no audio played
+        """
         if not self._streaming_active:
-            return
+            return self._first_playback_time
+
         self._stream_queue.put(None)
         if wait and self._stream_thread:
             self._stream_thread.join()
         self._streaming_active = False
+
+        return self._first_playback_time
 
     def cleanup(self):
         """Clean up TTS engine resources."""
@@ -127,6 +155,195 @@ class TTSEngine:
                     self.engine.endLoop()
             except Exception as e:
                 logger.error(f"Failed to clean up TTS engine: {e}")
+            self.engine = None
+
+
+class PiperTTSEngine:
+    """GPU-accelerated TTS engine using PiperTTS.
+
+    Drop-in replacement for TTSEngine with identical interface.
+    Uses GPU-accelerated PiperTTS via ONNX Runtime for faster synthesis.
+    Supports true streaming: tokens → sentence splitting → GPU synthesis → playback
+    """
+
+    def __init__(self):
+        """Initialize Piper TTS engine."""
+        self.engine: Optional['StreamingPiperTTS'] = None
+        self._engine_lock = threading.Lock()
+        self._token_queue: queue.Queue = queue.Queue()  # Queue for LLM tokens
+        self._stream_thread: Optional[threading.Thread] = None
+        self._streaming_active = False
+        self._first_playback_time: Optional[float] = None  # Track first audio playback
+        self._init_engine()
+
+    def _init_engine(self):
+        """Initialize PiperTTS engine with configuration."""
+        try:
+            # Import here to avoid dependency if not using Piper TTS
+            from modules.audio.piper_tts import StreamingPiperTTS
+
+            # Check if model files exist
+            if not os.path.exists(PIPER_MODEL_PATH):
+                logger.error(f"Piper model not found: {PIPER_MODEL_PATH}")
+                logger.info("Falling back to pyttsx3")
+                return
+
+            if not os.path.exists(PIPER_CONFIG_PATH):
+                logger.error(f"Piper config not found: {PIPER_CONFIG_PATH}")
+                logger.info("Falling back to pyttsx3")
+                return
+
+            self.engine = StreamingPiperTTS(
+                model_path=PIPER_MODEL_PATH,
+                config_path=PIPER_CONFIG_PATH,
+                use_gpu=PIPER_USE_GPU,
+                sentence_min_words=PIPER_SENTENCE_MIN_WORDS
+            )
+            logger.info("✅ Piper TTS engine initialized successfully")
+        except Exception as e:
+            logger.error(f"Failed to initialize Piper TTS engine: {e}")
+            logger.info("Falling back to pyttsx3")
+            self.engine = None
+
+    def say(self, text: str) -> bool:
+        """Speak text using TTS (blocking).
+
+        Args:
+            text: Text to speak.
+
+        Returns:
+            True if successful, False otherwise.
+        """
+        if not self.engine:
+            logger.error("Piper TTS engine not initialized.")
+            return False
+
+        try:
+            import time
+            # Record first playback time if not streaming
+            if not self._streaming_active and self._first_playback_time is None:
+                self._first_playback_time = time.perf_counter()
+
+            with self._engine_lock:
+                return self.engine.say(text)
+        except Exception as e:
+            logger.error(f"Failed to speak text: {e}")
+            return False
+
+    def _token_generator(self):
+        """Generator that yields tokens from the queue."""
+        while True:
+            token = self._token_queue.get()
+            if token is None:  # End of stream signal
+                self._token_queue.task_done()
+                break
+            try:
+                yield token
+            finally:
+                self._token_queue.task_done()
+
+    def _stream_worker(self):
+        """Background worker that runs PiperTTS streaming synthesis."""
+        try:
+            # Run true streaming TTS: tokens → sentence split → GPU synthesis → playback
+            first_playback_time = self.engine.process_streaming_text(self._token_generator())
+            self._first_playback_time = first_playback_time
+            logger.debug(f"Streaming TTS completed, first playback at {first_playback_time}")
+        except Exception as e:
+            logger.error(f"Streaming TTS worker error: {e}", exc_info=True)
+
+    def start_streaming(self):
+        """Start background streaming playback thread."""
+        if not self.engine:
+            logger.error("Piper TTS engine not initialized.")
+            return
+
+        if self._streaming_active and self._stream_thread and self._stream_thread.is_alive():
+            return
+
+        # Reset first playback time for new streaming session
+        self._first_playback_time = None
+        self._streaming_active = True
+        self._stream_thread = threading.Thread(target=self._stream_worker, daemon=True)
+        self._stream_thread.start()
+        logger.debug("Streaming TTS worker started")
+
+    def stream_text(self, text: str):
+        """Queue text token for streaming playback (non-blocking).
+
+        Args:
+            text: Text token/chunk from LLM to queue for streaming TTS
+        """
+        if not text or not self.engine:
+            return
+        if not self._streaming_active:
+            self.start_streaming()
+        self._token_queue.put(text)
+
+    def finish_streaming(self, wait: bool = True) -> Optional[float]:
+        """Signal streaming to finish and optionally wait for completion.
+
+        Args:
+            wait: Whether to wait for playback to complete
+
+        Returns:
+            Time of first playback (perf_counter timestamp), or None if no audio played
+        """
+        if not self._streaming_active:
+            return self._first_playback_time
+
+        # Signal end of stream
+        self._token_queue.put(None)
+
+        if wait and self._stream_thread:
+            self._stream_thread.join()
+
+        self._streaming_active = False
+        logger.debug("Streaming TTS worker stopped")
+
+        return self._first_playback_time
+
+    def process_streaming_text(self, text_generator: Iterator[str]) -> Optional[float]:
+        """Process streaming text from generator (e.g., LLM) - alternative interface.
+
+        Args:
+            text_generator: Iterator/generator yielding text chunks (tokens)
+
+        Returns:
+            Time of first playback (perf_counter timestamp), or None if no audio played
+
+        Note:
+            This is a direct pass-through to PiperTTS streaming.
+            For the queue-based interface, use start_streaming() + stream_text() + finish_streaming().
+        """
+        if not self.engine:
+            logger.error("Piper TTS engine not initialized.")
+            return None
+
+        try:
+            with self._engine_lock:
+                return self.engine.process_streaming_text(text_generator)
+        except Exception as e:
+            logger.error(f"Failed to process streaming text: {e}")
+            return None
+
+    def cleanup(self):
+        """Clean up TTS engine resources."""
+        # Stop streaming thread if active
+        self.finish_streaming(wait=True)
+
+        # Note: Skip explicit PiperTTS cleanup to avoid ONNX Runtime double-free errors
+        # The streaming thread cleanup above is sufficient
+        # Let Python garbage collector handle ONNX session cleanup naturally
+        if self.engine:
+            # Just stop threads and clear queues, don't call engine.cleanup()
+            try:
+                self.engine.stop_flag = True
+                if hasattr(self.engine, '_player_thread') and self.engine._player_thread:
+                    if self.engine._player_thread.is_alive():
+                        self.engine._player_thread.join(timeout=1)
+            except Exception as e:
+                logger.debug(f"Error stopping Piper threads: {e}")
             self.engine = None
 
 

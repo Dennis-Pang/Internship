@@ -30,8 +30,8 @@ cleanup() {
     # Kill any remaining child processes
     pkill -P $$ 2>/dev/null
 
-    # Also clean up any backend_api.py processes
-    pkill -f "backend_api.py" 2>/dev/null
+    # Also clean up any api_server.py processes
+    pkill -f "api_server.py" 2>/dev/null
 
     # Clean up any processes on port 5000
     BACKEND_PORT=$(lsof -ti:5000 2>/dev/null)
@@ -117,14 +117,14 @@ if [ ! -z "$EXISTING_BACKEND" ]; then
     sleep 1
 fi
 
-# Also check for any backend_api.py processes
-pkill -f "backend_api.py" 2>/dev/null
+# Also check for any api_server.py processes
+pkill -f "api_server.py" 2>/dev/null
 sleep 1
 
 # Start Backend API
 echo -e "${BLUE}[1/2] Starting Backend API...${NC}"
 cd "$CHATBOT_DIR"
-python3 backend_api.py > /tmp/backend_api.log 2>&1 &
+python3 api_server.py > /tmp/backend_api.log 2>&1 &
 BACKEND_PID=$!
 sleep 3
 
@@ -182,7 +182,16 @@ echo ""
 
 # Start Chatbot in foreground (interactive mode)
 cd "$CHATBOT_DIR"
-python3 main.py
+
+# Set environment variables for ONNX Runtime (required for Piper TTS on ARM64)
+export OMP_NUM_THREADS=1
+export ONNXRUNTIME_INTRA_OP_NUM_THREADS=1
+export ONNXRUNTIME_INTER_OP_NUM_THREADS=1
+
+# Enable GPU-accelerated Piper TTS (ONNX Runtime 1.23.0 + CUDA)
+export USE_PIPER_TTS=true
+
+python3 chatbot_cli.py
 
 # When chatbot exits or Ctrl+C is pressed, cleanup
 cleanup

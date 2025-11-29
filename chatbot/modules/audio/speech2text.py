@@ -7,7 +7,7 @@ from typing import Any, Dict
 import torch
 from transformers import pipeline
 
-from .config import WHISPER_MODEL_PATH
+from modules.config import WHISPER_MODEL_PATH
 
 logger = logging.getLogger(__name__)
 
@@ -69,7 +69,7 @@ def load_whisper_pipeline(use_gpu: bool = None) -> Any:
         pipeline_kwargs: Dict[str, Any] = {
             "task": "automatic-speech-recognition",
             "model": WHISPER_MODEL_PATH,
-            "torch_dtype": torch_dtype,
+            "dtype": torch_dtype,
             "device": pipeline_device,
             "model_kwargs": {
                 "attn_implementation": "sdpa",

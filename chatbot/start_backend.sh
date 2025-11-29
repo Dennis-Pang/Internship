@@ -43,4 +43,4 @@ echo ""
 
 # Start the backend API
 cd "$SCRIPT_DIR"
-python backend_api.py
+python api_server.py

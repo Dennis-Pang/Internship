@@ -1,6 +1,7 @@
 """Speech emotion recognition powered by the parallel CNN + Transformer model from
 https://github.com/Data-Science-kosta/Speech-Emotion-Classification-with-PyTorch."""
 import logging
+import os
 from pathlib import Path
 from typing import Dict, Optional
 
@@ -12,9 +13,8 @@ from torch import nn
 logger = logging.getLogger(__name__)
 
 # Model artefact packaged with the project (highest-accuracy model per README)
-MODEL_PATH = (
-    Path(__file__).resolve().parent.parent / "models" / "cnn_transf_parallel_model.pt"
-)
+ENV_MODEL_PATH = os.getenv("SPEECH_EMO_MODEL_PATH")  # optional override
+MODEL_PATH_DEFAULT = Path(__file__).resolve().parents[2] / "models" / "cnn_transf_parallel_model.pt"
 
 # Audio & feature extraction hyper-parameters matching the original training setup
 TARGET_SAMPLE_RATE = 48_000
@@ -97,6 +97,7 @@ class ParallelModel(nn.Module):
             dim_feedforward=512,
             dropout=0.4,
             activation="relu",
+            batch_first=True,
         )
         self.transf_encoder = nn.TransformerEncoder(encoder_layer, num_layers=4)
         self.out_linear = nn.Linear(320, num_emotions)
@@ -109,9 +110,9 @@ class ParallelModel(nn.Module):
 
         x_reduced = self.transf_maxpool(x)
         x_reduced = torch.squeeze(x_reduced, 1)
-        x_reduced = x_reduced.permute(2, 0, 1)
+        x_reduced = x_reduced.permute(0, 2, 1)  # batch_first=True expects (batch, seq, dim)
         transf_out = self.transf_encoder(x_reduced)
-        transf_embedding = torch.mean(transf_out, dim=0)
+        transf_embedding = torch.mean(transf_out, dim=1)
 
         complete_embedding = torch.cat([conv_embedding, transf_embedding], dim=1)
         output_logits = self.out_linear(complete_embedding)
@@ -190,14 +191,17 @@ def load_emotion_model() -> None:
     if _model is not None:
         return
 
-    if not MODEL_PATH.exists():
-        raise FileNotFoundError(f"Emotion model weights not found at {MODEL_PATH}")
+    # Resolve model path: env override else repo-level chatbot/models
+    resolved_path = Path(ENV_MODEL_PATH).expanduser() if ENV_MODEL_PATH else MODEL_PATH_DEFAULT
+    resolved_path = resolved_path.resolve()
+    if not resolved_path.exists():
+        raise FileNotFoundError(f"Emotion model weights not found at {resolved_path}")
 
     logger.info("Loading CNN+Transformer emotion recognition model...")
 
     _device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     _model = ParallelModel(num_emotions=len(MODEL_EMOTIONS))
-    state_dict = torch.load(MODEL_PATH, map_location=_device)
+    state_dict = torch.load(resolved_path, map_location=_device)
     _model.load_state_dict(state_dict)
     _model = _model.to(_device)
     _model.eval()

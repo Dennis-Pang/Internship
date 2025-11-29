@@ -44,6 +44,7 @@ export interface StreamingCallbacks {
   onFullUpdate?: (data: DashboardData) => void;
   onStreamingChunk?: (chunk: string, isFinal: boolean) => void;
   onUserInput?: (text: string, timestamp: string) => void;
+  onStatusUpdate?: (status: string) => void;
 }
 
 export const subscribeToUpdates = (
@@ -93,6 +94,15 @@ export const subscribeToUpdates = (
     console.log('[SSE] Streaming complete');
     if (callbacks?.onStreamingChunk) {
       callbacks.onStreamingChunk(data.chunk, true);
+    }
+  });
+
+  // Handle status updates
+  eventSource.addEventListener('status_update', (event) => {
+    const data = JSON.parse(event.data);
+    console.log('[SSE] Received status update:', data.status);
+    if (callbacks?.onStatusUpdate) {
+      callbacks.onStatusUpdate(data.status);
     }
   });
 

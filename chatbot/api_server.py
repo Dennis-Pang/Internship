@@ -557,6 +557,49 @@ def stream_chunk(user_id: str):
         return jsonify({"error": str(e)}), 500
 
 
+@app.route('/api/status/<user_id>', methods=['POST'])
+def push_status(user_id: str):
+    """Webhook endpoint for chatbot to push processing status updates.
+
+    Args:
+        user_id: User identifier
+
+    Returns:
+        JSON response with status
+    """
+    try:
+        data = request.json
+        if not data:
+            return jsonify({"error": "No data provided"}), 400
+
+        status = data.get("status", "")
+
+        with _queues_lock:
+            if user_id in _update_queues:
+                event_data = {
+                    "event": "status_update",
+                    "data": {
+                        "status": status,
+                    }
+                }
+
+                # Push to all connected clients
+                for q in _update_queues[user_id]:
+                    try:
+                        q.put_nowait(event_data)
+                    except:
+                        pass  # Queue full, skip this client
+
+                logger.debug(f"Status '{status}' pushed to {len(_update_queues[user_id])} client(s)")
+                return jsonify({"status": "pushed", "clients": len(_update_queues[user_id])}), 200
+            else:
+                return jsonify({"status": "no_clients"}), 200
+
+    except Exception as e:
+        logger.error(f"Status push endpoint error: {e}")
+        return jsonify({"error": str(e)}), 500
+
+
 @app.route('/api/config', methods=['GET'])
 def get_config():
     """Get current configuration including default user."""

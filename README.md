@@ -8,6 +8,7 @@ This repository houses a complete AI chatbot solution with advanced memory manag
 
 **Key Features:**
 - Voice-powered AI with dual-source emotion analysis (speech + text)
+- **GPU-accelerated streaming TTS** (Piper + ONNX Runtime, Real-time Factor 0.5x)
 - Big Five personality trait detection
 - Long-term memory via MemoBase vector database
 - Real-time visualization dashboard with SSE updates
@@ -34,30 +35,34 @@ User Voice Input → Chatbot (Whisper + Emotion + Personality)
 **Voice-powered AI with personality analysis and long-term memory**
 
 **Core Capabilities:**
-- **Voice I/O:** Whisper Large-v3-Turbo (STT) + pyttsx3 (TTS)
+- **Voice I/O:** Whisper Large-v3-Turbo (STT) + **Piper TTS (GPU-accelerated, default)** or pyttsx3 (fallback)
+- **Streaming TTS:** Real-time synthesis with 0.5x RTF (synthesis 2x faster than playback)
 - **Dual-Source Emotion:** Speech-based (Transformer+CNN) + Text-based (DeBERTa-v3-Large) with configurable fusion (default: 60% speech + 40% text)
 - **Personality Analysis:** Big Five traits using BERT-based model (Extraversion, Neuroticism, Agreeableness, Conscientiousness, Openness)
 - **Long-term Memory:** MemoBase integration for semantic search and context retrieval
-- **Data Storage:** SQLite (personality), JSON cache (conversations/emotions)
-- **LLM:** Ollama local inference (default: gemma3:1b)
+- **Data Storage:** SQLite (personality in `data/memories.sqlite`), JSON cache (conversations/emotions in `data/memory_cache.json`)
+- **LLM:** Ollama local inference (default: gemma3:4b)
 
-**Entry Point:** `chatbot/main.py`
+**Entry Point:** `chatbot/chatbot_cli.py`
 
 **Quick Start:**
 ```bash
 cd chatbot
-python main.py  # Default: 60% speech + 40% text emotion
-python main.py --speech-emotion-weight 1.0 --text-emotion-weight 0.0  # Speech-only (faster)
-python main.py --history-window 10  # Custom conversation window
+python chatbot_cli.py  # Default: 60% speech + 40% text emotion, GPU TTS
+python chatbot_cli.py --speech-emotion-weight 1.0 --text-emotion-weight 0.0  # Speech-only (faster)
+python chatbot_cli.py --history-window 10  # Custom conversation window
+
+# Disable GPU TTS (use pyttsx3)
+USE_PIPER_TTS=false python chatbot_cli.py
 ```
 
 **See [chatbot/README.md](chatbot/README.md) for detailed documentation**
 
-### 2. [chatbot/backend_api.py](chatbot/backend_api.py) - Backend API Server
+### 2. [chatbot/api_server.py](chatbot/api_server.py) - Backend API Server
 **Flask REST API for dashboard data aggregation**
 
 **Responsibilities:**
-- Aggregates data from 3 sources: SQLite (personality), memory_cache.json (emotions/conversations), MemoBase API (profiles/events)
+- Aggregates data from 3 sources: SQLite (personality), `data/memory_cache.json` (emotions/conversations), MemoBase API (profiles/events)
 - Provides REST endpoints for frontend
 - Server-Sent Events (SSE) for real-time push updates
 - Memory management: Delete profiles/events from MemoBase
@@ -67,6 +72,7 @@ python main.py --history-window 10  # Custom conversation window
 **Key Endpoints:**
 - `GET /api/dashboard/{userId}` - Full dashboard data
 - `GET /api/stream/{userId}` - SSE real-time stream
+- `POST /api/notify/{userId}` - Trigger push update
 - `DELETE /api/profile/{profileId}` - Delete profile
 - `DELETE /api/event/{eventId}` - Delete event
 
@@ -169,7 +175,7 @@ npm run dev
 **Chatbot only:**
 ```bash
 cd chatbot
-python main.py
+python chatbot_cli.py
 ```
 
 ## Architecture
@@ -197,10 +203,11 @@ python main.py
 ## Data Flow
 
 1. **User speaks** → Chatbot processes (Whisper + Emotion + Personality)
-2. **Data saved** → SQLite (Big5) + memory_cache.json (emotions + conversations)
-3. **Data synced** → MemoBase (profiles + events)
-4. **Backend API** → Fetches data from all sources
-5. **Frontend** → Displays via SSE real-time updates
+2. **LLM generates** → Streaming response with real-time TTS synthesis (GPU-accelerated)
+3. **Data saved** → SQLite (Big5 in `data/memories.sqlite`) + `data/memory_cache.json` (emotions + conversations)
+4. **Data synced** → MemoBase (profiles + events) via `sync_memory.py`
+5. **Backend API** → Fetches data from all sources, pushes via SSE
+6. **Frontend** → Displays via SSE real-time updates (push-based, no polling)
 
 ## Prerequisites
 
@@ -308,7 +315,7 @@ The frontend dashboard includes memory management capabilities:
 3. Frontend will update via SSE within 2 seconds
 
 **Profiles/Events empty:**
-1. Sync cache to MemoBase: `python sync_memory_cache.py`
+1. Sync cache to MemoBase: `python sync_memory.py`
 2. Check MemoBase API: `curl http://localhost:8019/api/v1/users/profile/{uuid}`
 
 **Only 10 events showing (before fix):**
