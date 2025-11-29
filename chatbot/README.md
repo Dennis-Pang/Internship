@@ -8,7 +8,9 @@ An intelligent voice-powered chatbot that combines speech recognition, personali
 - **Dual-Source Emotion Analysis**: Combines speech-based (Transformer+CNN) and text-based (DeBERTa) emotion detection with configurable fusion
 - **Personality Analysis**: Big Five personality trait detection using BERT-based models
 - **Long-term Memory**: MemoBase integration for persistent conversation context
-- **Text-to-Speech**: Natural voice responses using pyttsx3
+- **GPU-Accelerated TTS**:
+  - **PiperTTS** (default): GPU-accelerated streaming TTS with ONNX Runtime (0.5x RTF, 2x faster than real-time)
+  - **pyttsx3** (fallback): CPU-based TTS if GPU not available
 - **Intelligent Context**: Short-term and long-term memory management with simplified prompt injection
 - **Performance Monitoring**: Accurate wall-clock timing for user-perceived latency
 - **Robust Audio**: Timeout protection and automatic retry mechanisms
@@ -34,13 +36,13 @@ User Voice Input
 │                                          │              │
 │  [6] Build Context ←────────────────────┘              │
 │  [7] LLM Generation (Ollama)                           │
-│  [8] TTS Output (pyttsx3)                              │
+│  [8] TTS Output (PiperTTS/pyttsx3)                     │
 │                                                          │
 └─────────────────────────────────────────────────────────┘
     ↓
-SQLite (personality) + memory_cache.json (conversations)
+data/memories.sqlite (personality) + data/memory_cache.json (conversations)
     ↓
-MemoBase (via sync_memory_cache.py)
+MemoBase (via sync_memory.py)
     ↓
 Backend API → Frontend Dashboard
 ```
@@ -85,11 +87,12 @@ Audio Input (5s recording)
     - POST /api/notify/{userId}
     ↓
 [7] TTS Output (~1.2s)
-    - pyttsx3 voice synthesis
+    - PiperTTS GPU streaming (default, 0.5x RTF)
+    - pyttsx3 fallback (~3s if GPU unavailable)
     ↓
 "A: [assistant response]"
 
-Total: ~6.8 seconds (wall clock time)
+Total: ~6.8 seconds (wall clock time with PiperTTS)
 ```
 
 ### Parallelization Strategy
@@ -111,54 +114,42 @@ Total: ~6.8s per conversation (saves ~4s vs all sequential)
 
 **Key Insight:** Runtime heavily parallelizes analysis tasks, while startup uses selective parallelization to avoid GPU OOM and PyTorch 2.7 meta tensor issues.
 
-### Mermaid Timeline (Simplified)
-
-```mermaid
-gantt
-  title Startup + Runtime Parallelism
-  dateFormat  X
-  axisFormat  %L
-
-  section Startup (Model Loading)
-    DB + TTS init                  :init,          0, 1
-    Big5 personality model         :big5,          after init, 3
-    Speech2Emotion + Text2Emotion  :emotions,      after big5, 4
-    Whisper STT pipeline           :whisper,       after emotions, 4
-    Ollama check                   :ollama,        after whisper, 1
-
-  section Runtime (per conversation)
-    Whisper + Speech Emotion       :audio,         0, 6
-    Text Emotion + Personality     :analysis,      after audio, 3
-    LLM generation                 :llm,           after analysis, 4
-    TTS output                     :tts,           after llm, 2
-```
-
 ## Project Structure
 
 ```
 chatbot/
-├── main.py                   # Main application entry point
-├── backend_api.py            # Flask REST API for frontend dashboard
-├── sync_memory_cache.py      # Utility to sync cache to MemoBase
+├── chatbot_cli.py            # Main application entry point (interactive CLI)
+├── api_server.py             # Flask REST API for frontend dashboard
+├── sync_memory.py            # Utility to sync cache to MemoBase
 ├── start_backend.sh          # Script to start backend API
 ├── requirements.txt          # Python dependencies
-├── memories.sqlite           # SQLite database for user data
-├── memory_cache.json         # Conversation cache
+├── DEBUG.md                  # PiperTTS CUDA context fix documentation
+├── CLAUDE.md                 # Claude Code project instructions
+├── README.md                 # This file
+├── data/
+│   ├── memories.sqlite       # SQLite database (personality traits)
+│   └── memory_cache.json     # Conversation cache (emotions, transcripts)
 ├── modules/
-│   ├── audio.py             # Audio recording and TTS
-│   ├── config.py            # Configuration constants
-│   ├── database.py          # SQLAlchemy models and DB ops
-│   ├── llm.py               # Ollama LLM integration
-│   ├── memory.py            # MemoBase memory management
-│   ├── personality.py       # Big Five personality analysis (BERT)
-│   ├── speech2text.py       # Whisper speech-to-text
-│   ├── speech2emotion.py    # Speech-based emotion (Transformer+CNN)
-│   ├── text2emotion.py      # Text-based emotion (DeBERTa-v3-Large)
-│   └── timing.py            # Performance monitoring
+│   ├── config.py             # Configuration constants
+│   ├── database.py           # SQLAlchemy models and DB ops
+│   ├── llm.py                # Ollama LLM integration
+│   ├── memory.py             # MemoBase memory management
+│   ├── personality.py        # Big Five personality analysis (BERT)
+│   ├── timing.py             # Performance monitoring
+│   ├── audio/                # Audio processing package
+│   │   ├── __init__.py       # TTSEngine, PiperTTSEngine exports
+│   │   ├── recorder.py       # Audio recording and TTS engines
+│   │   ├── piper_tts.py      # GPU-accelerated PiperTTS (ONNX Runtime)
+│   │   └── speech2text.py    # Whisper speech-to-text
+│   └── emotion/              # Emotion analysis package
+│       ├── __init__.py       # Emotion model exports
+│       ├── speech_analyzer.py  # Speech emotion (Transformer+CNN)
+│       └── text_analyzer.py    # Text emotion (DeBERTa-v3-Large)
 ├── models/                   # Downloaded model cache
+├── tests/                    # Test scripts
 └── legacy/                   # Legacy/backup files
 ```
-## Backend API (backend_api.py)
+## Backend API (api_server.py)
 
 A Flask REST API server that provides dashboard data to the frontend application.
 
@@ -180,11 +171,11 @@ A Flask REST API server that provides dashboard data to the frontend application
 | GET | `/health` | Health check endpoint |
 
 **Data Sources:**
-- **Big5 Personality**: `memories.sqlite` database
-- **Emotions**: `memory_cache.json` (latest conversation)
+- **Big5 Personality**: `data/memories.sqlite` database
+- **Emotions**: `data/memory_cache.json` (latest conversation)
 - **Profiles**: MemoBase API `/users/profile/{uuid}`
 - **Events**: MemoBase API `/users/event/{uuid}?topk=1000` (retrieves up to 1000 events)
-- **Transcriptions**: `memory_cache.json` (latest conversation)
+- **Transcriptions**: `data/memory_cache.json` (latest conversation)
 
 **Starting the Backend:**
 ```bash
@@ -192,7 +183,7 @@ A Flask REST API server that provides dashboard data to the frontend application
 ./start_backend.sh
 
 # Or manually
-python backend_api.py
+python api_server.py
 ```
 
 The API will be available at `http://localhost:5000`.
@@ -228,6 +219,18 @@ pip install pyttsx3 sqlalchemy pandas
 pip install openai requests httpx
 pip install sentencepiece  # For some tokenizers
 ```
+
+**For Jetson AGX Orin (GPU-accelerated PiperTTS):**
+```bash
+# Install ONNX Runtime 1.23.0 (supports cuDNN 9.3)
+pip install onnxruntime-gpu==1.23.0 --index-url https://pypi.ngc.nvidia.com
+
+# Verify installation
+python -c "import onnxruntime as ort; print('Version:', ort.__version__); print('Providers:', ort.get_available_providers())"
+# Expected: Version: 1.23.0, Providers: ['CUDAExecutionProvider', 'CPUExecutionProvider']
+```
+
+**See `DEBUG.md` for detailed ONNX Runtime troubleshooting on Jetson.**
 
 ### Model Setup
 
@@ -286,8 +289,9 @@ OLLAMA_MAX_TOKENS = 256
 ### Basic Usage
 
 ```bash
-# Default: 60% speech emotion + 40% text emotion
-python main.py
+# Default: 60% speech emotion + 40% text emotion, GPU-accelerated PiperTTS
+export USE_PIPER_TTS=true
+python chatbot_cli.py
 ```
 
 After initialization, start interacting:
@@ -295,36 +299,48 @@ After initialization, start interacting:
 - First time: select your microphone device
 - Type `q` to quit
 
+### TTS Configuration
+
+```bash
+# Use GPU-accelerated PiperTTS (default on Jetson)
+export USE_PIPER_TTS=true
+python chatbot_cli.py
+
+# Use pyttsx3 fallback (CPU-based)
+export USE_PIPER_TTS=false
+python chatbot_cli.py
+```
+
 ### Emotion Analysis Configuration
 
 ```bash
 # Custom emotion weights (e.g., 70% speech + 30% text)
-python main.py --speech-emotion-weight 0.7 --text-emotion-weight 0.3
+python chatbot_cli.py --speech-emotion-weight 0.7 --text-emotion-weight 0.3
 
 # Speech-only emotion analysis (faster)
-python main.py --speech-emotion-weight 1.0 --text-emotion-weight 0.0
+python chatbot_cli.py --speech-emotion-weight 1.0 --text-emotion-weight 0.0
 
 # Text-only emotion analysis
-python main.py --speech-emotion-weight 0.0 --text-emotion-weight 1.0
+python chatbot_cli.py --speech-emotion-weight 0.0 --text-emotion-weight 1.0
 ```
 
 ### With Custom History Window
 
 ```bash
-python main.py --history-window 10
+python chatbot_cli.py --history-window 10
 ```
 
 ### Debug Mode
 
 ```bash
 # Prints full prompts sent to LLM
-python main.py --debug
+python chatbot_cli.py --debug
 ```
 
 ### Sync Memory Cache to MemoBase
 
 ```bash
-python sync_memory_cache.py --batch-size 10
+python sync_memory.py --batch-size 10
 ```
 
 ### Interactive Commands
@@ -364,17 +380,17 @@ A: I'm doing great! How can I help you?
 
 The system analyzes emotions from two independent sources and fuses them:
 
-**Speech-based Emotion** (`modules/speech2emotion.py`):
+**Speech-based Emotion** (`modules/emotion/speech_analyzer.py`):
 - Model: Transformer + CNN
 - Analyzes acoustic features (prosody, tone, pitch)
 - 7 emotion classes: anger, disgust, fear, happy, neutral, sad, surprise
 
-**Text-based Emotion** (`modules/text2emotion.py`):
+**Text-based Emotion** (`modules/emotion/text_analyzer.py`):
 - Model: DeBERTa-v3-Large fine-tuned on emotion classification
 - Analyzes semantic content and language patterns
 - Same 7 emotion classes for alignment
 
-**Emotion Fusion** (`modules/main.py:fuse_emotions()`):
+**Emotion Fusion** (`chatbot_cli.py:fuse_emotions()`):
 - Simple probability averaging: `p = λ * p_speech + (1-λ) * p_text`
 - Configurable weights via command-line arguments
 - Default: 60% speech + 40% text
@@ -401,7 +417,37 @@ Traits are stored per user and used to personalize responses.
 user's personality: Extraversion: 0.70, Neuroticism: 0.50, Agreeableness: 0.60, Conscientiousness: 0.80, Openness: 0.40
 ```
 
-### 4. Optimized Model Loading Strategy
+### 4. Text-to-Speech (TTS)
+
+The chatbot supports two TTS engines with automatic fallback:
+
+**PiperTTS (GPU-accelerated, default)** (`modules/audio/piper_tts.py`):
+- GPU-accelerated neural TTS using ONNX Runtime 1.23.0
+- Real-time streaming synthesis (0.5x RTF - synthesizes 2x faster than playback)
+- Parallel synthesis and playback pipeline
+- **Platform**: Optimized for Jetson AGX Orin (CUDA 12.6, cuDNN 9.3)
+- **Performance**: ~1.2s for typical response (vs ~3s for pyttsx3)
+- **Model**: Piper en_US-amy-medium (22050Hz)
+- **Critical Fix**: PyTorch CUDA pre-initialization to avoid malloc() conflicts (see `DEBUG.md`)
+
+**pyttsx3 (CPU fallback)** (`modules/audio/recorder.py:TTSEngine`):
+- CPU-based offline TTS
+- No GPU required
+- Automatic fallback if PiperTTS initialization fails
+- Rate: 200 WPM, Volume: 0.8
+
+**Configuration**:
+```bash
+# Enable PiperTTS (default on Jetson)
+export USE_PIPER_TTS=true
+
+# Disable for CPU-only systems
+export USE_PIPER_TTS=false
+```
+
+**See Also**: `DEBUG.md` for detailed troubleshooting of PiperTTS CUDA context conflicts.
+
+### 5. Optimized Model Loading Strategy
 
 The system uses a strategic combination of sequential and parallel loading to balance speed and stability:
 
@@ -425,7 +471,7 @@ The system uses a strategic combination of sequential and parallel loading to ba
 - Current strategy: ~5 seconds (stable and reliable)
 - The conservative approach ensures consistent startup across different systems
 
-### 5. Memory Management
+### 6. Memory Management
 
 **Short-term Memory**:
 - Configurable conversation window (default: 5 rounds)
@@ -438,7 +484,7 @@ The system uses a strategic combination of sequential and parallel loading to ba
 - User-specific memory isolation
 - Automatic cache management
 
-### 6. Performance Monitoring
+### 7. Performance Monitoring
 
 **Accurate Wall-Clock Timing**:
 - Measures actual user-perceived latency (audio input → TTS start)
@@ -474,7 +520,7 @@ TOTAL (wall clock time)                   6.8545s
 - Sub-tasks indented with `├─` for clarity
 - Total excludes TTS output (not part of processing latency)
 
-### 7. Audio Robustness
+### 8. Audio Robustness
 
 Enhanced audio handling with:
 - **Timeout protection**: 7-second max wait (5s recording + 2s margin)
