@@ -24,6 +24,11 @@ from modules.config import (
     USE_PIPER_TTS,
     logger,
     OLLAMA_MODEL,
+    MAX_PARALLEL_WORKERS,
+    STATUS_IDLE,
+    STATUS_RECORDING,
+    STATUS_TRANSCRIBING,
+    STATUS_GENERATING,
 )
 from modules.audio import record_audio, select_input_device, cleanup_audio_file, TTSEngine, PiperTTSEngine
 from modules.database import init_db, store_personality_traits
@@ -41,9 +46,14 @@ from modules.personality import predict_personality, load_personality_model
 from modules.audio import load_whisper_pipeline, transcribe_audio
 from modules.emotion import (
     load_speech_emotion_model, predict_speech_emotion,
-    load_text_emotion_model, predict_text_emotion
+    load_text_emotion_model, predict_text_emotion,
+    TEXT_EMOTION_LABELS
 )
 from modules.timing import timing, timing_context, clear_timings, print_timings, _record_timing
+
+
+# Thread pool for background HTTP notifications (avoid creating threads repeatedly)
+_http_notification_pool = ThreadPoolExecutor(max_workers=2, thread_name_prefix="http-notifier")
 
 
 @dataclass
@@ -81,7 +91,7 @@ class ApplicationState:
         return self.conversation_states[speaker_key]
 
 
-def say_greeting(tts_engine: TTSEngine, speaker: str):
+def say_greeting(tts_engine: TTSEngine, speaker: str) -> None:
     """Say greeting message.
 
     Args:
@@ -96,16 +106,16 @@ def say_greeting(tts_engine: TTSEngine, speaker: str):
     tts_engine.say(greeting)
 
 
-def warm_up_tts(tts_engine: TTSEngine):
-    """Warm up TTS to避免首轮冷启动影响延迟。"""
+def warm_up_tts(tts_engine: TTSEngine) -> None:
+    """Warm up TTS to avoid first-round cold start latency."""
     try:
-        # Piper: 直接做一次合成但不播放（synthesize_chunk 返回音频数组）
+        # Piper: Skip warm-up in some environments due to ONNX Runtime teardown issues
         if isinstance(tts_engine, PiperTTSEngine):
-            # 某些环境下 ONNX Runtime 热身会触发底层 free() 错误，暂时跳过以保证稳定
+            # In some environments ONNX Runtime warm-up triggers malloc errors, skip for stability
             logger.info("Skipping Piper TTS warm-up to avoid potential ONNX/CUDA teardown issues")
             return
 
-        # pyttsx3: 降音量后做一次极短流式播放，确保驱动/线程已初始化
+        # pyttsx3: Reduce volume and do a short streaming playback to initialize driver/threads
         engine = getattr(tts_engine, "engine", None)
         if engine is None:
             return
@@ -128,8 +138,8 @@ def warm_up_tts(tts_engine: TTSEngine):
         logger.debug(f"TTS warm-up skipped: {exc}")
 
 
-def warm_up_whisper(pipe: Any):
-    """跑一次超短静音推理，烧掉首次加载/图编译开销。"""
+def warm_up_whisper(pipe: Any) -> None:
+    """Run a short silent inference to eliminate first-load and graph compilation overhead."""
     try:
         silent = np.zeros(1600, dtype=np.float32)  # 0.1s @16k
         pipe({"array": silent, "sampling_rate": 16000})
@@ -137,8 +147,8 @@ def warm_up_whisper(pipe: Any):
         logger.debug(f"Whisper warm-up skipped: {exc}")
 
 
-def warm_up_llm():
-    """对 Ollama 做一次最小调用，避免首轮 TTFT 冷启动。"""
+def warm_up_llm() -> None:
+    """Make a minimal call to Ollama to avoid first-round TTFT cold start."""
     try:
         from modules.llm import client
 
@@ -278,7 +288,7 @@ def fuse_emotions(
     return {TEXT_EMOTION_LABELS[i]: float(fused_probs[i]) for i in range(len(TEXT_EMOTION_LABELS))}
 
 
-def log_emotion_scores(speech_emotion: Dict[str, float], text_emotion: Dict[str, float]):
+def log_emotion_scores(speech_emotion: Dict[str, float], text_emotion: Dict[str, float]) -> None:
     """Log speech/text emotion scores using the standard logger format."""
     if not speech_emotion and not text_emotion:
         return
@@ -441,7 +451,7 @@ def get_llm_response(
 
 def save_conversation_data(speaker: str, predictions: List[float], user_uuid: str,
                           user_text: str, response: str, db_session,
-                          speech_emotion: dict = None, text_emotion: dict = None):
+                          speech_emotion: Optional[dict] = None, text_emotion: Optional[dict] = None) -> None:
     """Save conversation data to database.
 
     Args:
@@ -499,7 +509,7 @@ def build_streaming_tts_callback(
     return on_chunk
 
 
-def notify_dashboard_update(user_id: str, backend_url: str = "http://localhost:5000"):
+def notify_dashboard_update(user_id: str, backend_url: str = "http://localhost:5000") -> None:
     """Notify backend API that dashboard data should be updated.
 
     Args:
@@ -524,8 +534,8 @@ def notify_dashboard_update(user_id: str, backend_url: str = "http://localhost:5
         logger.debug(f"Dashboard notification error: {e}")
 
 
-def _fire_and_forget_post(url: str, payload: dict, timeout: float, fail_log: str):
-    """Send POST in后台线程，避免阻塞热路径。"""
+def _fire_and_forget_post(url: str, payload: dict, timeout: float, fail_log: str) -> None:
+    """Send POST request in background thread to avoid blocking the hot path."""
     def _send():
         try:
             response = requests.post(url, json=payload, timeout=timeout)
@@ -538,10 +548,11 @@ def _fire_and_forget_post(url: str, payload: dict, timeout: float, fail_log: str
         except Exception as exc:
             logger.debug(f"{fail_log}: {exc}")
 
-    threading.Thread(target=_send, daemon=True).start()
+    # Use thread pool instead of creating new threads
+    _http_notification_pool.submit(_send)
 
 
-def push_user_input(user_id: str, text: str, backend_url: str = "http://localhost:5000"):
+def push_user_input(user_id: str, text: str, backend_url: str = "http://localhost:5000") -> None:
     """Push user input text to backend API immediately after transcription.
 
     Args:
@@ -559,7 +570,7 @@ def push_user_input(user_id: str, text: str, backend_url: str = "http://localhos
     )
 
 
-def push_streaming_chunk(user_id: str, chunk: str, is_final: bool, backend_url: str = "http://localhost:5000"):
+def push_streaming_chunk(user_id: str, chunk: str, is_final: bool, backend_url: str = "http://localhost:5000") -> None:
     """Push streaming text chunk to backend API for real-time frontend updates.
 
     Args:
@@ -576,7 +587,7 @@ def push_streaming_chunk(user_id: str, chunk: str, is_final: bool, backend_url: 
     )
 
 
-def push_status(user_id: str, status: str, backend_url: str = "http://localhost:5000"):
+def push_status(user_id: str, status: str, backend_url: str = "http://localhost:5000") -> None:
     """Push processing status to backend API for real-time frontend updates.
 
     Args:
@@ -597,7 +608,7 @@ def process_audio(
     tts_engine: TTSEngine,
     db_session,
     app_state: ApplicationState,
-):
+) -> None:
     """Process audio file through the full pipeline.
 
     Args:
@@ -623,12 +634,12 @@ def process_audio(
         total_processing_start = time.perf_counter()
 
         # Push "transcribing" status before starting transcription
-        push_status(app_state.current_speaker or DEFAULT_SPEAKER, "transcribing")
+        push_status(app_state.current_speaker or DEFAULT_SPEAKER, STATUS_TRANSCRIBING)
 
         # Step 1: Start Whisper transcription AND speech emotion analysis in parallel
         # This overlaps the two most time-consuming tasks
         parallel_audio_start = time.perf_counter()
-        with ThreadPoolExecutor(max_workers=4) as executor:
+        with ThreadPoolExecutor(max_workers=MAX_PARALLEL_WORKERS) as executor:
             # Both work on the same audio file simultaneously
             transcription_future = executor.submit(
                 transcribe_audio_file, audio_file, app_state.whisper_pipeline
@@ -682,7 +693,7 @@ def process_audio(
         )
 
         # Push "generating" status before starting LLM generation
-        push_status(app_state.current_speaker or DEFAULT_SPEAKER, "generating")
+        push_status(app_state.current_speaker or DEFAULT_SPEAKER, STATUS_GENERATING)
 
         # Start streaming TTS (GPU-accelerated background synthesis)
         tts_engine.start_streaming()
@@ -754,19 +765,19 @@ def process_audio(
         print_timings("Audio Processing Performance")
 
         # Push "idle" status after processing is complete
-        push_status(app_state.current_speaker or DEFAULT_SPEAKER, "idle")
+        push_status(app_state.current_speaker or DEFAULT_SPEAKER, STATUS_IDLE)
 
     except Exception as e:
         logger.error(f"Audio processing failed: {e}")
         # Push "idle" status on error
-        push_status(app_state.current_speaker or DEFAULT_SPEAKER, "idle")
+        push_status(app_state.current_speaker or DEFAULT_SPEAKER, STATUS_IDLE)
 
     finally:
         # Cleanup
         cleanup_audio_file(audio_file)
 
 
-def print_startup_timings(timings: Dict[str, float]):
+def print_startup_timings(timings: Dict[str, float]) -> None:
     """Print initialization timing summary at startup.
 
     Args:
@@ -858,7 +869,7 @@ def main():
         tts_engine = TTSEngine()
     init_timings["TTS engine initialization"] = time_module.perf_counter() - start
 
-    # Warm up TTS to remove首轮播报冷启动
+    # Warm up TTS to remove first-round TTS cold start
     start = time_module.perf_counter()
     warm_up_tts(tts_engine)
     init_timings["TTS warm-up"] = time_module.perf_counter() - start
@@ -945,7 +956,7 @@ def main():
         logger.error(f"Failed to load Whisper pipeline: {e}")
         return
 
-    # Warm up Whisper to消除首轮推理开销
+    # Warm up Whisper to eliminate first-round inference overhead
     start = time_module.perf_counter()
     warm_up_whisper(app_state.whisper_pipeline)
     init_timings["Whisper warm-up"] = time_module.perf_counter() - start
@@ -961,7 +972,7 @@ def main():
         init_timings["Ollama LLM connection check (FAILED)"] = time_module.perf_counter() - start
         logger.warning(f"Ollama connection test failed: {e}")
 
-    # Warm up LLM to降低首token延迟
+    # Warm up LLM to reduce first-token latency
     start = time_module.perf_counter()
     warm_up_llm()
     init_timings["Ollama LLM warm-up"] = time_module.perf_counter() - start
@@ -987,7 +998,7 @@ def main():
                     print(f"Device selected. This will be used for all recordings in this session.\n")
 
                 # Push "recording" status before recording starts
-                push_status(DEFAULT_SPEAKER, "recording")
+                push_status(DEFAULT_SPEAKER, STATUS_RECORDING)
 
                 # Use the remembered device for recording
                 success = record_audio(device_index=app_state.selected_device_index)
@@ -997,7 +1008,7 @@ def main():
                     process_audio(AUDIO_FILE, tts_engine, db_session, app_state)
                 else:
                     # Recording failed, reset to idle
-                    push_status(DEFAULT_SPEAKER, "idle")
+                    push_status(DEFAULT_SPEAKER, STATUS_IDLE)
 
     except KeyboardInterrupt:
         pass

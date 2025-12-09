@@ -17,7 +17,9 @@ RECORD_DURATION = 5  # Seconds
 DEFAULT_SPEAKER = "presentation"
 
 # Whisper model configuration
-WHISPER_MODEL_PATH = (
+# Default to local path if available, otherwise use HuggingFace model ID
+WHISPER_MODEL_PATH = os.getenv(
+    "WHISPER_MODEL_PATH",
     "/mnt/ssd/huggingface/hub/"
     "models--openai--whisper-large-v3-turbo/"
     "snapshots/41f01f3fe87f28c78e2fbf8b568835947dd65ed9"
@@ -75,6 +77,15 @@ AUDIO_MAX_RETRIES = 2  # Maximum number of retry attempts on recording failure
 # Emotion fusion configuration
 SPEECH_EMOTION_WEIGHT = float(os.getenv("SPEECH_EMOTION_WEIGHT", "0.6"))  # Weight for speech-based emotion (0.0-1.0, 0=disabled)
 TEXT_EMOTION_WEIGHT = float(os.getenv("TEXT_EMOTION_WEIGHT", "0.4"))  # Weight for text-based emotion (0.0-1.0, 0=disabled)
+
+# Parallel processing configuration
+MAX_PARALLEL_WORKERS = int(os.getenv("MAX_PARALLEL_WORKERS", "4"))  # Maximum parallel workers for audio processing
+
+# Processing status constants
+STATUS_IDLE = "idle"
+STATUS_RECORDING = "recording"
+STATUS_TRANSCRIBING = "transcribing"
+STATUS_GENERATING = "generating"
 
 # Greeting messages
 GREETING_MESSAGES = [

@@ -2,34 +2,34 @@
 Streaming GPU-accelerated TTS using PiperTTS + ONNX Runtime
 
 ═══════════════════════════════════════════════════════════════════
-功能：GPU加速的流式文本转语音（PiperTTS + CUDA）
-硬件：NVIDIA Jetson Orin 64GB (CUDA 12.6, ARM64)
-性能：Real-time Factor 0.5x (合成速度是实时的2倍)
+Features: GPU-accelerated streaming text-to-speech (PiperTTS + CUDA)
+Hardware: NVIDIA Jetson Orin 64GB (CUDA 12.6, ARM64)
+Performance: Real-time Factor 0.5x (synthesis is 2x faster than playback)
 ═══════════════════════════════════════════════════════════════════
 
-【核心特性】
-✓ GPU加速推理 (onnxruntime-gpu + CUDA)
-✓ 流式文本处理 (逐token接收)
-✓ 实时句子切分
-✓ 边合成边播放 (并行pipeline)
-✓ 完全本地化 (无云端API)
+KEY FEATURES:
+✓ GPU-accelerated inference (onnxruntime-gpu + CUDA)
+✓ Streaming text processing (token-by-token input)
+✓ Real-time sentence splitting
+✓ Synthesis and playback in parallel pipeline
+✓ Fully local (no cloud API)
 
-【数据流向】
-文本输入
-  → 文本缓冲Buffer
-  → 句子切分
-  → Phoneme编码
-  → GPU推理(PiperTTS)
-  → 音频队列
-  → 扬声器播放
+DATA FLOW:
+Text input
+  → Text buffer
+  → Sentence splitting
+  → Phoneme encoding
+  → GPU inference (PiperTTS)
+  → Audio queue
+  → Speaker playback
 
-【性能指标】
-- 推理延迟: ~900ms (生成0.45秒音频)
+PERFORMANCE METRICS:
+- Inference latency: ~900ms (generates 0.45s audio)
 - Real-time Factor: 0.5x
-- 句子检测: <5ms
-- 总延迟: <1秒 (从文本到首次播放)
+- Sentence detection: <5ms
+- Total latency: <1s (from text to first playback)
 
-【使用方法】
+USAGE:
 from modules.audio.piper_tts import StreamingPiperTTS
 
 tts = StreamingPiperTTS(
@@ -39,19 +39,19 @@ tts = StreamingPiperTTS(
     sentence_min_words=5
 )
 
-# 简单播放
+# Simple playback
 tts.say("Hello, this is a test.")
 
-# 流式播放
+# Streaming playback
 def text_generator():
     for token in llm_stream:
         yield token
 tts.process_streaming_text(text_generator())
 
-【已知限制】
-1. Phoneme编码：使用简化字符映射，建议后续集成espeak-ng
-2. 内存警告：退出时有free()警告，不影响功能
-3. 多线程：必须设置OMP_NUM_THREADS=1避免线程亲和性错误
+KNOWN LIMITATIONS:
+1. Phoneme encoding: Uses simplified character mapping, consider integrating espeak-ng
+2. Memory warnings: Exit shows free() warnings, doesn't affect functionality
+3. Multi-threading: Must set OMP_NUM_THREADS=1 to avoid thread affinity errors
 
 ═══════════════════════════════════════════════════════════════════
 """
@@ -113,6 +113,9 @@ class StreamingPiperTTS:
         # Limit ORT threads to avoid affinity/allocator issues on this platform
         sess_options.intra_op_num_threads = 1
         sess_options.inter_op_num_threads = 1
+        # Suppress verbose warnings about Memcpy nodes (cosmetic, doesn't affect performance)
+        # Set to ERROR level (3) to only show critical errors
+        sess_options.log_severity_level = 3
         # Disable memory pattern for Jetson compatibility (if supported)
         try:
             sess_options.enable_mem_pattern = False
