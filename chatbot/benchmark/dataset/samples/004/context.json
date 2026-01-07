@@ -1,0 +1,6 @@
+{
+  "USER_PERSONALITY": "Extraversion: 0.42\nNeuroticism: 0.52\nAgreeableness: 0.50\nConscientiousness: 0.41\nOpenness: 0.45",
+  "EMOTION_LOGITS": "anger: 0.00\ndisgust: 0.00\nfear: 0.00\nhappy: 0.33\nneutral: 0.66\nsad: 0.00\nsurprise: 0.00",
+  "KNOWN_PREFERENCES": "health_goal: hydration\nforgetting_pattern: work hours due to hyper-focus\ntech_comfort: prefers analog/low-tech solutions\nwork_environment: sedentary office job\ndaily_intake_target: 2 liters",
+  "USER_MESSAGE": "A timed bottle at my desk will help me stay hydrated while working."
+}

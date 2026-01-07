@@ -1,0 +1,57 @@
+{
+  "id": "007",
+  "dialogue": [
+    {
+      "role": "user",
+      "content": "I get anxious in the evenings and can't unwind."
+    },
+    {
+      "role": "assistant",
+      "content": "Is it more racing thoughts, physical tension, or a general sense of worry?"
+    },
+    {
+      "role": "user",
+      "content": "Racing thoughts after work. I replay everything."
+    },
+    {
+      "role": "assistant",
+      "content": "Got it. What helps even a little when it starts?"
+    },
+    {
+      "role": "user",
+      "content": "Short breathing helps sometimes. Long stuff makes me impatient."
+    },
+    {
+      "role": "assistant",
+      "content": "Okay-short and repeatable. Anything that tends to make evenings worse?"
+    },
+    {
+      "role": "user",
+      "content": "Coffee probably makes it worse, but I still drink it most days."
+    },
+    {
+      "role": "assistant",
+      "content": "Thanks-that's useful context. We can start with quick, in-the-moment tools."
+    },
+    {
+      "role": "user",
+      "content": "When it hits after work, I just want something fast that actually cuts through the spiral."
+    }
+  ],
+  "memory": {
+    "anxiety_pattern": "evenings after work",
+    "caffeine_sensitivity": "feels jittery after coffee",
+    "preferred_coping_style": "short exercises",
+    "sleep_goal": "asleep by midnight",
+    "current_strategy": "doomscrolling",
+    "stress_trigger": "end-of-day rumination"
+  },
+  "must_use_keys": [
+    "anxiety_pattern",
+    "caffeine_sensitivity",
+    "preferred_coping_style"
+  ],
+  "must_not_use_keys": [
+    "sleep_goal"
+  ]
+}

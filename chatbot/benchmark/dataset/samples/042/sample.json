@@ -1,0 +1,43 @@
+{
+  "id": "042",
+  "dialogue": [
+    {
+      "role": "user",
+      "content": "I can't hear the doorbell when I'm in the back garden in my wheelchair."
+    },
+    {
+      "role": "assistant",
+      "content": "That must be annoying, especially if you're expecting a delivery."
+    },
+    {
+      "role": "user",
+      "content": "It is. I missed my package yesterday because I was watering the plants."
+    },
+    {
+      "role": "assistant",
+      "content": "Would you like a doorbell that sends a vibration alert to your phone?"
+    },
+    {
+      "role": "user",
+      "content": "I always have my phone in my lap, so a vibration alert would be perfect."
+    },
+    {
+      "role": "assistant",
+      "content": "Great, a smart doorbell with mobile notifications is the way to go."
+    },
+    {
+      "role": "user",
+      "content": "I'm sold-that vibration feature is exactly what I need to stay in the loop."
+    }
+  ],
+  "memory": {
+    "sensory_issue": "unable to hear doorbell from distance",
+    "mobility_status": "wheelchair user",
+    "tech_comfort": "high (frequent smartphone user)"
+  },
+  "must_use_keys": [
+    "sensory_issue",
+    "mobility_status",
+    "tech_comfort"
+  ]
+}

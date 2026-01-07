@@ -1,0 +1,45 @@
+{
+  "id": "026",
+  "dialogue": [
+    {
+      "role": "user",
+      "content": "I'm having a hard time tracking my blood sugar since my vision started getting blurry."
+    },
+    {
+      "role": "assistant",
+      "content": "That makes testing much more difficult. Have you looked into 'talking' glucometers?"
+    },
+    {
+      "role": "user",
+      "content": "I've heard of them, but I wasn't sure if they were hard to set up."
+    },
+    {
+      "role": "assistant",
+      "content": "They are quite simple. I can find one that requires no coding or complex setup."
+    },
+    {
+      "role": "user",
+      "content": "I'm okay with a little tech if it means I don't have to squint at the tiny screen."
+    },
+    {
+      "role": "assistant",
+      "content": "I'll recommend the Prodigy Voice monitor; it's designed specifically for this."
+    },
+    {
+      "role": "user",
+      "content": "A talking glucometer will help me manage my diabetes even with my blurry vision."
+    }
+  ],
+  "memory": {
+    "health_condition": "diabetes",
+    "physical_impairment": "blurry vision",
+    "tech_comfort": "moderate (prefers voice-guided tech)",
+    "current_barrier": "squinting at small device screens",
+    "recommended_device": "Prodigy Voice glucometer"
+  },
+  "must_use_keys": [
+    "health_condition",
+    "physical_impairment",
+    "tech_comfort"
+  ]
+}

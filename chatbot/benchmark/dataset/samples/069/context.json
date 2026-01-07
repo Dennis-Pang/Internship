@@ -1,0 +1,6 @@
+{
+  "USER_PERSONALITY": "Extraversion: 0.43\nNeuroticism: 0.52\nAgreeableness: 0.51\nConscientiousness: 0.36\nOpenness: 0.45",
+  "EMOTION_LOGITS": "anger: 0.00\ndisgust: 0.00\nfear: 0.00\nhappy: 0.50\nneutral: 0.48\nsad: 0.02\nsurprise: 0.00",
+  "KNOWN_PREFERENCES": "health_condition: hypertension\nsymptom: pounding headache\ntech_comfort: high",
+  "USER_MESSAGE": "Understood. I'll make sure to keep the phone and cuff right by my bed."
+}

@@ -1,0 +1,53 @@
+{
+  "id": "003",
+  "dialogue": [
+    {
+      "role": "user",
+      "content": "My knee still hurts even after two weeks of physical therapy."
+    },
+    {
+      "role": "assistant",
+      "content": "I'm sorry to hear that. Have you been doing the stretching exercises at home?"
+    },
+    {
+      "role": "user",
+      "content": "I try, but I get bored doing them alone in the living room."
+    },
+    {
+      "role": "assistant",
+      "content": "Boredom is a real motivation killer. Do you usually have music or TV on?"
+    },
+    {
+      "role": "user",
+      "content": "No, I just stare at the wall. It feels like a chore."
+    },
+    {
+      "role": "assistant",
+      "content": "What if we gamify it or use a guided video app?"
+    },
+    {
+      "role": "user",
+      "content": "I like the video idea. I'm pretty tech-savvy with my tablet."
+    },
+    {
+      "role": "assistant",
+      "content": "Great, I'll find some interactive routines for your ACL recovery."
+    },
+    {
+      "role": "user",
+      "content": "Using the tablet for my ACL rehab might actually make me do it."
+    }
+  ],
+  "memory": {
+    "injury_type": "ACL recovery",
+    "compliance_issue": "boredom during home exercises",
+    "tech_comfort": "comfortable with tablets",
+    "exercise_environment": "prefers guided video content",
+    "recovery_duration": "2 weeks post-start"
+  },
+  "must_use_keys": [
+    "injury_type",
+    "compliance_issue",
+    "tech_comfort"
+  ]
+}

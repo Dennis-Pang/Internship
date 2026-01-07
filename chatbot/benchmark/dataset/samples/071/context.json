@@ -1,0 +1,6 @@
+{
+  "USER_PERSONALITY": "Extraversion: 0.42\nNeuroticism: 0.51\nAgreeableness: 0.54\nConscientiousness: 0.45\nOpenness: 0.43",
+  "EMOTION_LOGITS": "anger: 0.00\ndisgust: 0.00\nfear: 0.00\nhappy: 0.04\nneutral: 0.92\nsad: 0.04\nsurprise: 0.00",
+  "KNOWN_PREFERENCES": "medication_type: topical foot cream\nhabit_barrier: forgetting after getting into bed\ntech_comfort: low (avoids digital alerts)\nnew_strategy: relocating medication to nightstand\npriority: circulation maintenance",
+  "USER_MESSAGE": "That makes sense; I'm moving the cream to my nightstand tonight so I can't miss it."
+}

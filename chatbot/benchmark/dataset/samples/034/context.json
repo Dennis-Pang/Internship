@@ -1,0 +1,6 @@
+{
+  "USER_PERSONALITY": "Extraversion: 0.46\nNeuroticism: 0.56\nAgreeableness: 0.46\nConscientiousness: 0.36\nOpenness: 0.47",
+  "EMOTION_LOGITS": "anger: 0.00\ndisgust: 0.00\nfear: 0.00\nhappy: 0.00\nneutral: 0.94\nsad: 0.06\nsurprise: 0.00",
+  "KNOWN_PREFERENCES": "condition: Cervical Arthritis / Neck pain\nmobility_aid: power wheelchair\ntech_comfort: high (tech-savvy / uses phone mounts)\naccessibility_barrier: poor visibility of fixed controller screen\nrequired_adjustment: eye-level display mirroring",
+  "USER_MESSAGE": "Mirroring the chair's display to my phone would finally save my neck from all that strain."
+}

@@ -1,0 +1,6 @@
+{
+  "USER_PERSONALITY": "Extraversion: 0.41\nNeuroticism: 0.54\nAgreeableness: 0.46\nConscientiousness: 0.33\nOpenness: 0.44",
+  "EMOTION_LOGITS": "anger: 0.00\ndisgust: 0.00\nfear: 0.00\nhappy: 0.30\nneutral: 0.68\nsad: 0.02\nsurprise: 0.00",
+  "KNOWN_PREFERENCES": "condition: Parkinson's Disease\nsymptom: vocal weakness / vocal fatigue\ntech_comfort: moderate (smartphone user / dislikes wearables)\ndaily_need: calling for the pet\nintervention: voice amplification app",
+  "USER_MESSAGE": "Using a megaphone app on my phone is much better than straining my voice!"
+}

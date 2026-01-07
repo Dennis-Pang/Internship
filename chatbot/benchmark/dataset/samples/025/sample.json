@@ -1,0 +1,45 @@
+{
+  "id": "025",
+  "dialogue": [
+    {
+      "role": "user",
+      "content": "My wheelchair tires keep losing pressure, and it's making it harder to push."
+    },
+    {
+      "role": "assistant",
+      "content": "Under-inflated tires can definitely increase friction. Do you check them weekly?"
+    },
+    {
+      "role": "user",
+      "content": "I try, but I can't see the gauge on the floor pump from my sitting position."
+    },
+    {
+      "role": "assistant",
+      "content": "There are digital tire gauges with backlit screens and voice output. Would that help?"
+    },
+    {
+      "role": "user",
+      "content": "Voice output would be great. I'm okay with digital tools if they talk to me."
+    },
+    {
+      "role": "assistant",
+      "content": "I'll find a model that announces the PSI clearly."
+    },
+    {
+      "role": "user",
+      "content": "A talking digital tire gauge would let me maintain my wheelchair pressure independently."
+    }
+  ],
+  "memory": {
+    "mobility_aid": "manual wheelchair",
+    "maintenance_issue": "tire pressure management",
+    "tech_comfort": "moderate (likes voice-output tools)",
+    "accessibility_barrier": "unable to read floor-level gauges",
+    "desired_feature": "backlit screen / voice PSI announcement"
+  },
+  "must_use_keys": [
+    "mobility_aid",
+    "maintenance_issue",
+    "tech_comfort"
+  ]
+}

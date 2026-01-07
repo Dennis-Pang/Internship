@@ -1,0 +1,45 @@
+{
+  "id": "085",
+  "dialogue": [
+    {
+      "role": "user",
+      "content": "My eyes are so dry I can barely see my knitting patterns."
+    },
+    {
+      "role": "assistant",
+      "content": "Dry eyes can really blur your vision. Are you using drops?"
+    },
+    {
+      "role": "user",
+      "content": "I am, but I keep forgetting them until the itching starts."
+    },
+    {
+      "role": "assistant",
+      "content": "How about a recurring reminder on your smartphone every 4 hours?"
+    },
+    {
+      "role": "user",
+      "content": "I'm comfortable with my phone, I use it to look up new patterns all the time."
+    },
+    {
+      "role": "assistant",
+      "content": "Setting those alerts will keep your eyes lubricated before the irritation kicks in."
+    },
+    {
+      "role": "user",
+      "content": "I'll set those 4-hour reminders on my phone so I can keep knitting!"
+    }
+  ],
+  "memory": {
+    "condition": "Chronic Dry Eye",
+    "hobby": "knitting",
+    "tech_comfort": "high (frequent smartphone user)",
+    "forgetting_pattern": "forgets eye drops until symptomatic",
+    "treatment_plan": "lubricating drops every 4 hours"
+  },
+  "must_use_keys": [
+    "condition",
+    "hobby",
+    "tech_comfort"
+  ]
+}

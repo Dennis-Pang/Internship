@@ -1,0 +1,45 @@
+{
+  "id": "033",
+  "dialogue": [
+    {
+      "role": "user",
+      "content": "My heart rate seems to spike whenever I try to push my wheelchair uphill."
+    },
+    {
+      "role": "assistant",
+      "content": "That's a sign your cardiovascular system is working hard. How high does it get?"
+    },
+    {
+      "role": "user",
+      "content": "It hits 130 bpm, and I start feeling a bit short of breath."
+    },
+    {
+      "role": "assistant",
+      "content": "We should keep a log of this for your cardiologist. Do you have a heart rate monitor?"
+    },
+    {
+      "role": "user",
+      "content": "My Fitbit tracks it, but I don't know how to export the data for the doctor."
+    },
+    {
+      "role": "assistant",
+      "content": "I can walk you through the steps to download the report from the Fitbit app."
+    },
+    {
+      "role": "user",
+      "content": "If I can export my Fitbit data, my cardiologist can see why my heart spikes on hills."
+    }
+  ],
+  "memory": {
+    "mobility_status": "wheelchair user",
+    "symptom": "tachycardia / shortness of breath on inclines",
+    "tech_comfort": "moderate (uses Fitbit but needs app help)",
+    "medical_need": "cardiology consultation",
+    "tracking_tool": "Fitbit"
+  },
+  "must_use_keys": [
+    "mobility_status",
+    "symptom",
+    "tech_comfort"
+  ]
+}

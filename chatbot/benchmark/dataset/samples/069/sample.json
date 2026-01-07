@@ -1,0 +1,43 @@
+{
+  "id": "069",
+  "dialogue": [
+    {
+      "role": "user",
+      "content": "I'm worried about my blood pressure spikes during my afternoon naps."
+    },
+    {
+      "role": "assistant",
+      "content": "Do you feel any symptoms like a headache or racing heart when you wake up?"
+    },
+    {
+      "role": "user",
+      "content": "Yes, I usually wake up with a pounding headache around 4 PM."
+    },
+    {
+      "role": "assistant",
+      "content": "We should track this. Do you have an automatic blood pressure cuff?"
+    },
+    {
+      "role": "user",
+      "content": "I have one that connects to my phone via Bluetooth, I'm quite good with it."
+    },
+    {
+      "role": "assistant",
+      "content": "Excellent. Make sure to take a reading immediately after you wake up and log the time."
+    },
+    {
+      "role": "user",
+      "content": "Understood. I'll make sure to keep the phone and cuff right by my bed."
+    }
+  ],
+  "memory": {
+    "health_condition": "hypertension",
+    "symptom": "pounding headache",
+    "tech_comfort": "high"
+  },
+  "must_use_keys": [
+    "health_condition",
+    "symptom",
+    "tech_comfort"
+  ]
+}

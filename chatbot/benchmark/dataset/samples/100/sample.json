@@ -1,0 +1,45 @@
+{
+  "id": "100",
+  "dialogue": [
+    {
+      "role": "user",
+      "content": "I'm having a lot of trouble reaching the dials on my stove from my wheelchair."
+    },
+    {
+      "role": "assistant",
+      "content": "Rear-mounted dials are a major burn risk when you have to reach over hot burners."
+    },
+    {
+      "role": "user",
+      "content": "That's exactly what I'm afraid of. I've nearly singed my sleeve twice."
+    },
+    {
+      "role": "assistant",
+      "content": "Front-control stoves are the gold standard for wheelchair accessibility."
+    },
+    {
+      "role": "user",
+      "content": "I'm tech-savvy enough to browse for ADA-compliant ranges on my laptop."
+    },
+    {
+      "role": "assistant",
+      "content": "Look for the 'ADA compliant' tag; it ensures the controls are within reach."
+    },
+    {
+      "role": "user",
+      "content": "I'm going to look for an ADA-compliant stove on my laptop today."
+    }
+  ],
+  "memory": {
+    "mobility_status": "wheelchair user",
+    "safety_risk": "burn risk from reaching over hot burners",
+    "tech_comfort": "high (comfortable with laptop research)",
+    "home_barrier": "rear-control stove dials",
+    "required_feature": "front-control / ADA compliant range"
+  },
+  "must_use_keys": [
+    "mobility_status",
+    "safety_risk",
+    "tech_comfort"
+  ]
+}

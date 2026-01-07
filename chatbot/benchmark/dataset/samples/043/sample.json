@@ -1,0 +1,43 @@
+{
+  "id": "043",
+  "dialogue": [
+    {
+      "role": "user",
+      "content": "My hands get so cold and stiff when I'm out in my manual chair."
+    },
+    {
+      "role": "assistant",
+      "content": "Winter air can be brutal on the joints. Do you wear gloves while pushing?"
+    },
+    {
+      "role": "user",
+      "content": "Standard gloves are too slippery; I can't get a good grip on the rims."
+    },
+    {
+      "role": "assistant",
+      "content": "You need specialized wheelchair gloves with rubber palms. Have you seen them?"
+    },
+    {
+      "role": "user",
+      "content": "I'm not great at finding niche stuff online. My son usually buys my gear."
+    },
+    {
+      "role": "assistant",
+      "content": "I'll find a link to some high-grip thermal gloves you can send to him."
+    },
+    {
+      "role": "user",
+      "content": "That would be a huge help; I'll tell my son to keep an eye out for your message."
+    }
+  ],
+  "memory": {
+    "symptom": "hand stiffness / cold sensitivity",
+    "mobility_aid": "manual wheelchair",
+    "tech_comfort": "low (relies on family for online purchases)"
+  },
+  "must_use_keys": [
+    "symptom",
+    "mobility_aid",
+    "tech_comfort"
+  ]
+}

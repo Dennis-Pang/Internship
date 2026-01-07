@@ -1,0 +1,6 @@
+{
+  "USER_PERSONALITY": "Extraversion: 0.42\nNeuroticism: 0.54\nAgreeableness: 0.50\nConscientiousness: 0.39\nOpenness: 0.44",
+  "EMOTION_LOGITS": "anger: 0.00\ndisgust: 0.00\nfear: 0.00\nhappy: 0.00\nneutral: 0.96\nsad: 0.04\nsurprise: 0.00",
+  "KNOWN_PREFERENCES": "health_goal: morning hydration\nforgetting_pattern: distracted by crossword puzzle\ntech_comfort: low (prefers analog timers over apps)\ncurrent_strategy: visual placement (failed)\nintervention: interval kitchen timer",
+  "USER_MESSAGE": "A kitchen timer for my water breaks is exactly what I need for my puzzle time."
+}

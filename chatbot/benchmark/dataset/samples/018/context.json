@@ -1,0 +1,6 @@
+{
+  "USER_PERSONALITY": "Extraversion: 0.34\nNeuroticism: 0.53\nAgreeableness: 0.54\nConscientiousness: 0.46\nOpenness: 0.41",
+  "EMOTION_LOGITS": "anger: 0.00\ndisgust: 0.00\nfear: 0.00\nhappy: 0.00\nneutral: 0.98\nsad: 0.01\nsurprise: 0.00",
+  "KNOWN_PREFERENCES": "mobility_status: wheelchair user\nhome_barrier: high-mounted thermostat\ntech_comfort: moderate (comfortable with iPad)\nprimary_need: environmental control / independence\nsupport_system: son (currently assists)",
+  "USER_MESSAGE": "Controlling the heat from my iPad would mean I don't have to wait for my son."
+}

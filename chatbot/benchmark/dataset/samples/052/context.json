@@ -1,0 +1,6 @@
+{
+  "USER_PERSONALITY": "Extraversion: 0.50\nNeuroticism: 0.55\nAgreeableness: 0.45\nConscientiousness: 0.35\nOpenness: 0.50",
+  "EMOTION_LOGITS": "anger: 0.00\ndisgust: 0.00\nfear: 0.00\nhappy: 0.48\nneutral: 0.45\nsad: 0.08\nsurprise: 0.00",
+  "KNOWN_PREFERENCES": "symptom: ankle stiffness / poor circulation\nmobility_status: wheelchair user\ntech_comfort: low",
+  "USER_MESSAGE": "If it's just a simple foot switch, then I'm willing to give it a try."
+}

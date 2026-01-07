@@ -1,0 +1,45 @@
+{
+  "id": "095",
+  "dialogue": [
+    {
+      "role": "user",
+      "content": "I'm worried about my heart rate when I'm doing my garden work."
+    },
+    {
+      "role": "assistant",
+      "content": "Gardening can be surprisingly strenuous. Do you feel lightheaded?"
+    },
+    {
+      "role": "user",
+      "content": "Sometimes, and I have to sit down in the dirt to recover."
+    },
+    {
+      "role": "assistant",
+      "content": "A smart watch with a heart rate alert would tell you when to take a break."
+    },
+    {
+      "role": "user",
+      "content": "I'm very comfortable with tech, I've been thinking about getting an Apple Watch anyway."
+    },
+    {
+      "role": "assistant",
+      "content": "The fall detection feature would also be great for when you're outside alone."
+    },
+    {
+      "role": "user",
+      "content": "I'm getting an Apple Watch to keep an eye on my heart while I garden."
+    }
+  ],
+  "memory": {
+    "symptom": "lightheadedness during physical activity",
+    "hobby": "gardening",
+    "tech_comfort": "high (interested in Apple Watch features)",
+    "safety_risk": "potential falls while alone outdoors",
+    "desired_feature": "heart rate alerts / fall detection"
+  },
+  "must_use_keys": [
+    "symptom",
+    "hobby",
+    "tech_comfort"
+  ]
+}

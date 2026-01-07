@@ -1,0 +1,6 @@
+{
+  "USER_PERSONALITY": "Extraversion: 0.37\nNeuroticism: 0.53\nAgreeableness: 0.50\nConscientiousness: 0.40\nOpenness: 0.41",
+  "EMOTION_LOGITS": "anger: 0.00\ndisgust: 0.00\nfear: 0.00\nhappy: 0.47\nneutral: 0.44\nsad: 0.09\nsurprise: 0.00",
+  "KNOWN_PREFERENCES": "concern: acne flare-ups\nroutine_preference: minimal (2 steps)\nforgetting_pattern: night when tired\nskin_type: oily-combination\nirritant_history: benzoyl peroxide causes dryness\ncurrent_strategy: none",
+  "USER_MESSAGE": "If I could keep it to two steps and actually do it daily, that would be perfect."
+}

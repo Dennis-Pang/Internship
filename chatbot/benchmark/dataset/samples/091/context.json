@@ -1,0 +1,6 @@
+{
+  "USER_PERSONALITY": "Extraversion: 0.41\nNeuroticism: 0.55\nAgreeableness: 0.47\nConscientiousness: 0.36\nOpenness: 0.44",
+  "EMOTION_LOGITS": "anger: 0.00\ndisgust: 0.00\nfear: 0.00\nhappy: 0.03\nneutral: 0.77\nsad: 0.20\nsurprise: 0.00",
+  "KNOWN_PREFERENCES": "condition: COPD\nhealth_goal: consistent pursed-lip breathing\ntech_comfort: low (prefers single-button devices)\nforgetting_pattern: during daily housework\nintervention: vibrating reminder watch",
+  "USER_MESSAGE": "A simple vibrating watch would be a great way to remind me to breathe!"
+}

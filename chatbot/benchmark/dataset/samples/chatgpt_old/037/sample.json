@@ -1,0 +1,57 @@
+{
+  "id": "037",
+  "dialogue": [
+    {
+      "role": "user",
+      "content": "My allergies have been bothering me again."
+    },
+    {
+      "role": "assistant",
+      "content": "Is it mostly sneezing, itchy eyes, congestion, or all of the above?"
+    },
+    {
+      "role": "user",
+      "content": "Mostly congestion and itchy eyes."
+    },
+    {
+      "role": "assistant",
+      "content": "Got it. Are you using any meds for it right now?"
+    },
+    {
+      "role": "user",
+      "content": "I have a nasal spray but I forget to use it consistently."
+    },
+    {
+      "role": "assistant",
+      "content": "Okay. Do symptoms feel worse at specific times of day?"
+    },
+    {
+      "role": "user",
+      "content": "Mornings are the worst, then it eases up."
+    },
+    {
+      "role": "assistant",
+      "content": "Understood. We can make a simple routine that fits your mornings."
+    },
+    {
+      "role": "user",
+      "content": "If I could stop forgetting the spray in the morning, I think I'd feel way better."
+    }
+  ],
+  "memory": {
+    "condition": "seasonal allergic rhinitis",
+    "medication_type": "daily nasal steroid spray",
+    "forgetting_pattern": "mornings",
+    "symptom_peak": "mornings",
+    "tech_comfort": "low",
+    "current_strategy": "none"
+  },
+  "must_use_keys": [
+    "medication_type",
+    "forgetting_pattern",
+    "symptom_peak"
+  ],
+  "must_not_use_keys": [
+    "tech_comfort"
+  ]
+}

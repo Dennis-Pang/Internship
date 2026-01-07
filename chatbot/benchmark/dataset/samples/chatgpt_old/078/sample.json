@@ -1,0 +1,57 @@
+{
+  "id": "078",
+  "dialogue": [
+    {
+      "role": "user",
+      "content": "I want to manage my blood sugar better but I keep slipping."
+    },
+    {
+      "role": "assistant",
+      "content": "What's the hardest part-meals, snacks, activity, or consistency?"
+    },
+    {
+      "role": "user",
+      "content": "Meals. Dinner ends up late, and I wake up feeling off."
+    },
+    {
+      "role": "assistant",
+      "content": "Got it. Are you aiming for something strict, or realistic and repeatable?"
+    },
+    {
+      "role": "user",
+      "content": "Realistic. I don't want a lecture."
+    },
+    {
+      "role": "assistant",
+      "content": "Understood. Are you okay with light tracking, or do you prefer not to track?"
+    },
+    {
+      "role": "user",
+      "content": "Light tracking is fine, just not every bite."
+    },
+    {
+      "role": "assistant",
+      "content": "Okay-then we'll focus on a couple high-impact habits around dinner."
+    },
+    {
+      "role": "user",
+      "content": "If late dinners stopped causing big spikes afterward, I'd feel like I'm finally making progress."
+    }
+  ],
+  "memory": {
+    "condition": "type 2 diabetes",
+    "meal_pattern": "late dinner around 21:00",
+    "goal": "reduce large spikes after dinner",
+    "tracking_tolerance": "light tracking only",
+    "current_strategy": "inconsistent carb counting",
+    "tech_comfort": "high"
+  },
+  "must_use_keys": [
+    "condition",
+    "meal_pattern",
+    "goal"
+  ],
+  "must_not_use_keys": [
+    "current_strategy"
+  ]
+}

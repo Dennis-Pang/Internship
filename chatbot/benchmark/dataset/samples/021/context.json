@@ -1,0 +1,6 @@
+{
+  "USER_PERSONALITY": "Extraversion: 0.47\nNeuroticism: 0.54\nAgreeableness: 0.47\nConscientiousness: 0.36\nOpenness: 0.48",
+  "EMOTION_LOGITS": "anger: 0.00\ndisgust: 0.00\nfear: 0.00\nhappy: 0.00\nneutral: 0.96\nsad: 0.04\nsurprise: 0.00",
+  "KNOWN_PREFERENCES": "condition: COPD / Oxygen dependency\nactivity: evening walks\ntech_comfort: moderate (uses smartphone)\nequipment_issue: concentrator weight causing overexertion\naccessibility_need: large-text display for vitals",
+  "USER_MESSAGE": "A Bluetooth oximeter with large text on my phone would help me monitor my oxygen while walking."
+}

@@ -1,0 +1,6 @@
+{
+  "USER_PERSONALITY": "Extraversion: 0.48\nNeuroticism: 0.56\nAgreeableness: 0.48\nConscientiousness: 0.35\nOpenness: 0.52",
+  "EMOTION_LOGITS": "anger: 0.00\ndisgust: 0.00\nfear: 0.00\nhappy: 0.00\nneutral: 0.97\nsad: 0.03\nsurprise: 0.00",
+  "KNOWN_PREFERENCES": "caregiving_target: elderly mother\nhealth_goal: afternoon physical therapy stretches\ntech_comfort: low (remote control only)\ndistraction_source: television shows\nreminder_method: analog kitchen timer",
+  "USER_MESSAGE": "A simple kitchen timer near her remote would remind her to stretch during commercials."
+}

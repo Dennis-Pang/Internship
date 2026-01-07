@@ -1,0 +1,6 @@
+{
+  "USER_PERSONALITY": "Extraversion: 0.42\nNeuroticism: 0.52\nAgreeableness: 0.50\nConscientiousness: 0.40\nOpenness: 0.48",
+  "EMOTION_LOGITS": "anger: 0.00\ndisgust: 0.00\nfear: 0.00\nhappy: 0.00\nneutral: 0.83\nsad: 0.17\nsurprise: 0.00",
+  "KNOWN_PREFERENCES": "recovery_status: post-knee surgery\nmobility_challenge: stair navigation\ntech_comfort: low (prefers simple visual cues)\nmnemonic_used: Up with the good, down with the bad\nintervention: tactile/visual stickers on stairs",
+  "USER_MESSAGE": "A simple arrow sticker at the stairs will keep me from mixing up my legs."
+}

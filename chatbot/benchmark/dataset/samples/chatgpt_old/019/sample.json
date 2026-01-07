@@ -1,0 +1,57 @@
+{
+  "id": "019",
+  "dialogue": [
+    {
+      "role": "user",
+      "content": "I keep getting bloated after meals and it's frustrating."
+    },
+    {
+      "role": "assistant",
+      "content": "Is it tied to certain foods, or more random?"
+    },
+    {
+      "role": "user",
+      "content": "It's worse when I eat bread or pasta."
+    },
+    {
+      "role": "assistant",
+      "content": "Got it. Do you want to avoid those entirely or just reduce them?"
+    },
+    {
+      "role": "user",
+      "content": "Reduce first. I don't want to be extreme."
+    },
+    {
+      "role": "assistant",
+      "content": "Okay. Do you cook most meals or eat out often?"
+    },
+    {
+      "role": "user",
+      "content": "Mostly cook at home."
+    },
+    {
+      "role": "assistant",
+      "content": "Great-then we can adjust meals without making it complicated."
+    },
+    {
+      "role": "user",
+      "content": "If reducing gluten-heavy meals calmed the bloating, that would already be a win."
+    }
+  ],
+  "memory": {
+    "symptom": "post-meal bloating",
+    "suspected_trigger": "bread/pasta (gluten-heavy)",
+    "goal": "reduce bloating",
+    "cooking_habit": "mostly cooks at home",
+    "diet_preference": "not extreme restrictions",
+    "current_strategy": "none"
+  },
+  "must_use_keys": [
+    "suspected_trigger",
+    "goal",
+    "cooking_habit"
+  ],
+  "must_not_use_keys": [
+    "diet_preference"
+  ]
+}

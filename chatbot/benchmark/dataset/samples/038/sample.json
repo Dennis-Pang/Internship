@@ -1,0 +1,45 @@
+{
+  "id": "038",
+  "dialogue": [
+    {
+      "role": "user",
+      "content": "I can't seem to get my compression socks on by myself anymore; my hands are too weak."
+    },
+    {
+      "role": "assistant",
+      "content": "Compression socks are notoriously difficult. Have you tried a 'sock donner'?"
+    },
+    {
+      "role": "user",
+      "content": "I have a plastic one, but it still requires too much pulling force."
+    },
+    {
+      "role": "assistant",
+      "content": "There are electric or high-leverage metal ones. Would you be open to a more 'mechanical' solution?"
+    },
+    {
+      "role": "user",
+      "content": "As long as it doesn't have a million parts to put together, I'm fine with it."
+    },
+    {
+      "role": "assistant",
+      "content": "I'll find a heavy-duty metal donner that uses leverage to make it much easier."
+    },
+    {
+      "role": "user",
+      "content": "A high-leverage metal donner would help me put on compression socks despite my weak hands."
+    }
+  ],
+  "memory": {
+    "physical_limitation": "weak hand grip / reduced strength",
+    "daily_struggle": "applying compression stockings",
+    "tech_comfort": "moderate (prefers simple mechanical tools)",
+    "previous_tool": "plastic sock donner (failed)",
+    "required_aid": "high-leverage dressing assist"
+  },
+  "must_use_keys": [
+    "physical_limitation",
+    "daily_struggle",
+    "tech_comfort"
+  ]
+}

@@ -1,0 +1,6 @@
+{
+  "USER_PERSONALITY": "Extraversion: 0.47\nNeuroticism: 0.57\nAgreeableness: 0.45\nConscientiousness: 0.33\nOpenness: 0.49",
+  "EMOTION_LOGITS": "anger: 0.00\ndisgust: 0.00\nfear: 0.00\nhappy: 0.23\nneutral: 0.72\nsad: 0.05\nsurprise: 0.00",
+  "KNOWN_PREFERENCES": "mobility_status: wheelchair user\nsymptom: cold / numb feet (poor circulation)\ntech_comfort: low (dislikes IoT/internet-connected devices)\ncurrent_habit: sedentary with a blanket\nintervention: heated foot warmer with wired remote",
+  "USER_MESSAGE": "A simple heated foot warmer with a remote will help my circulation this winter."
+}

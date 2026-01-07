@@ -1,0 +1,6 @@
+{
+  "USER_PERSONALITY": "Extraversion: 0.47\nNeuroticism: 0.54\nAgreeableness: 0.49\nConscientiousness: 0.40\nOpenness: 0.47",
+  "EMOTION_LOGITS": "anger: 0.00\ndisgust: 0.00\nfear: 0.00\nhappy: 0.16\nneutral: 0.83\nsad: 0.01\nsurprise: 0.00",
+  "KNOWN_PREFERENCES": "mobility_status: wheelchair user\nsafety_risk: burn risk from reaching over hot burners\ntech_comfort: high (comfortable with laptop research)\nhome_barrier: rear-control stove dials\nrequired_feature: front-control / ADA compliant range",
+  "USER_MESSAGE": "I'm going to look for an ADA-compliant stove on my laptop today."
+}

@@ -1,0 +1,45 @@
+{
+  "id": "094",
+  "dialogue": [
+    {
+      "role": "user",
+      "content": "I'm finding it hard to stay upright in my chair during my dialysis sessions."
+    },
+    {
+      "role": "assistant",
+      "content": "Dialysis is exhausting. Do you find yourself sliding forward?"
+    },
+    {
+      "role": "user",
+      "content": "Yes, I end up in a slouch and it makes my back hurt."
+    },
+    {
+      "role": "assistant",
+      "content": "A non-slip 'dycem' mat on the seat or a simple lumbar pillow could help."
+    },
+    {
+      "role": "user",
+      "content": "I'm not great with tech, but I can ask the nurses if they have a spare pillow."
+    },
+    {
+      "role": "assistant",
+      "content": "They might even have a specialized wedge for you."
+    },
+    {
+      "role": "user",
+      "content": "I'll ask the dialysis nurse for a lumbar pillow to help me stop slouching."
+    }
+  ],
+  "memory": {
+    "health_treatment": "dialysis",
+    "symptom": "slouching / back pain during treatment",
+    "tech_comfort": "low (relies on medical staff for solutions)",
+    "physical_need": "postural support",
+    "proposed_aid": "lumbar pillow or non-slip mat"
+  },
+  "must_use_keys": [
+    "health_treatment",
+    "symptom",
+    "tech_comfort"
+  ]
+}

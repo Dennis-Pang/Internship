@@ -1,0 +1,6 @@
+{
+  "USER_PERSONALITY": "Extraversion: 0.43\nNeuroticism: 0.55\nAgreeableness: 0.45\nConscientiousness: 0.31\nOpenness: 0.46",
+  "EMOTION_LOGITS": "anger: 0.00\ndisgust: 0.00\nfear: 0.00\nhappy: 0.01\nneutral: 0.94\nsad: 0.05\nsurprise: 0.00",
+  "KNOWN_PREFERENCES": "mobility_aid: wheelchair (foam cushion)\ndiscomfort: overheating / sweating\ntech_comfort: low (relies on professional consultation)\nhealth_risk: skin breakdown due to moisture\nproposed_aid: honeycomb or gel-top cushion",
+  "USER_MESSAGE": "I'll make sure to ask my PT about a honeycomb cushion to stay cool."
+}

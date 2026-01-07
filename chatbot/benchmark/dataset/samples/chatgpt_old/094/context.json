@@ -1,0 +1,6 @@
+{
+  "USER_PERSONALITY": "Extraversion: 0.45\nNeuroticism: 0.55\nAgreeableness: 0.47\nConscientiousness: 0.34\nOpenness: 0.46",
+  "EMOTION_LOGITS": "anger: 0.00\ndisgust: 0.00\nfear: 0.00\nhappy: 0.04\nneutral: 0.82\nsad: 0.13\nsurprise: 0.00",
+  "KNOWN_PREFERENCES": "bedtime_target: 23:00\nscreen_time_habit: uses phone in bed\ncaffeine_intake: coffee around 3\u20134pm\nsleep_onset_issue: takes ~50 minutes to fall asleep\nmorning_wake_time: 07:30\ncurrent_strategy: melatonin occasionally",
+  "USER_MESSAGE": "If I could be asleep by around 11:30 without fighting it, that would be huge."
+}

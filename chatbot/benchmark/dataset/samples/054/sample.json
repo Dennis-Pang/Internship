@@ -1,0 +1,43 @@
+{
+  "id": "054",
+  "dialogue": [
+    {
+      "role": "user",
+      "content": "My hands shake too much to use a normal spoon without spilling my soup."
+    },
+    {
+      "role": "assistant",
+      "content": "That can be very frustrating during meals. Is it worse when you're tired?"
+    },
+    {
+      "role": "user",
+      "content": "Yes, much worse in the evening. I end up just eating bread."
+    },
+    {
+      "role": "assistant",
+      "content": "Have you tried a weighted spoon or a 'steady' spoon that stays level?"
+    },
+    {
+      "role": "user",
+      "content": "I've heard of them, but I don't know where to buy one without getting scammed."
+    },
+    {
+      "role": "assistant",
+      "content": "I can direct you to a reputable medical supply site that's safe to use."
+    },
+    {
+      "role": "user",
+      "content": "Please do; I'd love to be able to enjoy a bowl of soup without the mess."
+    }
+  ],
+  "memory": {
+    "symptom": "hand tremors",
+    "daily_struggle": "spilling food / eating soup",
+    "tech_comfort": "moderate (wary of online security)"
+  },
+  "must_use_keys": [
+    "symptom",
+    "daily_struggle",
+    "tech_comfort"
+  ]
+}

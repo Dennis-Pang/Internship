@@ -1,0 +1,6 @@
+{
+  "USER_PERSONALITY": "Extraversion: 0.43\nNeuroticism: 0.55\nAgreeableness: 0.46\nConscientiousness: 0.36\nOpenness: 0.45",
+  "EMOTION_LOGITS": "anger: 0.00\ndisgust: 0.00\nfear: 0.00\nhappy: 0.41\nneutral: 0.39\nsad: 0.20\nsurprise: 0.00",
+  "KNOWN_PREFERENCES": "condition: seasonal allergic rhinitis\nmedication_type: daily nasal steroid spray\nforgetting_pattern: mornings\nsymptom_peak: mornings\ntech_comfort: low\ncurrent_strategy: none",
+  "USER_MESSAGE": "If I could stop forgetting the spray in the morning, I think I'd feel way better."
+}

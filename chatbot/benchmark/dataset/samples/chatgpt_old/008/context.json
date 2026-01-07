@@ -1,0 +1,6 @@
+{
+  "USER_PERSONALITY": "Extraversion: 0.45\nNeuroticism: 0.55\nAgreeableness: 0.49\nConscientiousness: 0.40\nOpenness: 0.46",
+  "EMOTION_LOGITS": "anger: 0.46\ndisgust: 0.00\nfear: 0.00\nhappy: 0.00\nneutral: 0.16\nsad: 0.37\nsurprise: 0.00",
+  "KNOWN_PREFERENCES": "meal_timing: dinner around 21:30 on most weekdays\nbedtime: 23:30\ngoal: reduce nighttime reflux\nsymptom_pattern: burning reflux when lying down\ntrigger_food: spicy foods worsen symptoms\ncurrent_strategy: none",
+  "USER_MESSAGE": "If I could stop the night burning without changing everything I eat, that would be ideal."
+}

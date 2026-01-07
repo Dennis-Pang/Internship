@@ -1,0 +1,6 @@
+{
+  "USER_PERSONALITY": "Extraversion: 0.43\nNeuroticism: 0.54\nAgreeableness: 0.49\nConscientiousness: 0.39\nOpenness: 0.46",
+  "EMOTION_LOGITS": "anger: 0.00\ndisgust: 0.00\nfear: 0.00\nhappy: 0.49\nneutral: 0.33\nsad: 0.18\nsurprise: 0.00",
+  "KNOWN_PREFERENCES": "condition: eczema\naffected_area: hands and forearms\nforgetting_pattern: after a few days of consistency\nroutine_preference: single-product routine\ngoal: reduce dryness and flare frequency\ncurrent_strategy: none",
+  "USER_MESSAGE": "If I could stop forgetting the moisturizer and keep the dryness down, I'd be relieved."
+}

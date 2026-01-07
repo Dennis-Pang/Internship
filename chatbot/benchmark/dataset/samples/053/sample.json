@@ -1,0 +1,43 @@
+{
+  "id": "053",
+  "dialogue": [
+    {
+      "role": "user",
+      "content": "I'm having a hard time remembering to take my afternoon walk."
+    },
+    {
+      "role": "assistant",
+      "content": "The afternoon slump is real. Do you have a set time you usually go?"
+    },
+    {
+      "role": "user",
+      "content": "I aim for 3 PM, but I usually end up napping instead."
+    },
+    {
+      "role": "assistant",
+      "content": "How about setting a recurring alarm on your smart speaker?"
+    },
+    {
+      "role": "user",
+      "content": "I'm fine with using Alexa, I use it to listen to the radio all the time."
+    },
+    {
+      "role": "assistant",
+      "content": "Perfect. We can set a daily reminder: 'Time for your 15-minute stroll!'"
+    },
+    {
+      "role": "user",
+      "content": "Great idea-Alexa's voice is much harder to ignore than my own conscience!"
+    }
+  ],
+  "memory": {
+    "health_goal": "daily afternoon walk",
+    "forgetting_pattern": "afternoon (due to napping)",
+    "tech_comfort": "moderate (comfortable with Alexa)"
+  },
+  "must_use_keys": [
+    "health_goal",
+    "forgetting_pattern",
+    "tech_comfort"
+  ]
+}

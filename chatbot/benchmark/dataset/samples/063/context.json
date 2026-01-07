@@ -1,0 +1,6 @@
+{
+  "USER_PERSONALITY": "Extraversion: 0.44\nNeuroticism: 0.51\nAgreeableness: 0.50\nConscientiousness: 0.42\nOpenness: 0.43",
+  "EMOTION_LOGITS": "anger: 0.00\ndisgust: 0.00\nfear: 0.00\nhappy: 0.47\nneutral: 0.52\nsad: 0.02\nsurprise: 0.00",
+  "KNOWN_PREFERENCES": "mobility_aid: manual wheelchair\nhome_barrier: thick carpet\ntech_comfort: high",
+  "USER_MESSAGE": "I'll order one now; my arms will definitely thank me during movie night."
+}

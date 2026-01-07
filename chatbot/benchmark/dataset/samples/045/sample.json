@@ -1,0 +1,43 @@
+{
+  "id": "045",
+  "dialogue": [
+    {
+      "role": "user",
+      "content": "My hearing aid keeps whistling whenever I hug my grandkids."
+    },
+    {
+      "role": "assistant",
+      "content": "That whistling is usually feedback. Does it feel loose in your ear?"
+    },
+    {
+      "role": "user",
+      "content": "Maybe a little. It's an older model I've had for years."
+    },
+    {
+      "role": "assistant",
+      "content": "It might just need a new dome or a professional cleaning. Can you check the manual?"
+    },
+    {
+      "role": "user",
+      "content": "I lost the manual, but I can probably find a PDF version on the computer."
+    },
+    {
+      "role": "assistant",
+      "content": "Good idea. Look for the 'troubleshooting' section regarding feedback."
+    },
+    {
+      "role": "user",
+      "content": "I'll get on the computer now; hopefully that PDF has the fix for this noise!"
+    }
+  ],
+  "memory": {
+    "device_issue": "hearing aid feedback / whistling",
+    "tech_comfort": "moderate",
+    "social_impact": "interference during family interactions"
+  },
+  "must_use_keys": [
+    "device_issue",
+    "tech_comfort",
+    "social_impact"
+  ]
+}

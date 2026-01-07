@@ -1,0 +1,6 @@
+{
+  "USER_PERSONALITY": "Extraversion: 0.45\nNeuroticism: 0.57\nAgreeableness: 0.48\nConscientiousness: 0.37\nOpenness: 0.50",
+  "EMOTION_LOGITS": "anger: 0.00\ndisgust: 0.10\nfear: 0.00\nhappy: 0.00\nneutral: 0.89\nsad: 0.01\nsurprise: 0.00",
+  "KNOWN_PREFERENCES": "physical_limitation: weak hand grip / reduced strength\ndaily_struggle: applying compression stockings\ntech_comfort: moderate (prefers simple mechanical tools)\nprevious_tool: plastic sock donner (failed)\nrequired_aid: high-leverage dressing assist",
+  "USER_MESSAGE": "A high-leverage metal donner would help me put on compression socks despite my weak hands."
+}

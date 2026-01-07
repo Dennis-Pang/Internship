@@ -1,0 +1,6 @@
+{
+  "USER_PERSONALITY": "Extraversion: 0.41\nNeuroticism: 0.55\nAgreeableness: 0.49\nConscientiousness: 0.35\nOpenness: 0.46",
+  "EMOTION_LOGITS": "anger: 0.00\ndisgust: 0.00\nfear: 0.00\nhappy: 0.02\nneutral: 0.93\nsad: 0.06\nsurprise: 0.00",
+  "KNOWN_PREFERENCES": "symptom: post-meal bloating\nsuspected_trigger: bread/pasta (gluten-heavy)\ngoal: reduce bloating\ncooking_habit: mostly cooks at home\ndiet_preference: not extreme restrictions\ncurrent_strategy: none",
+  "USER_MESSAGE": "If reducing gluten-heavy meals calmed the bloating, that would already be a win."
+}

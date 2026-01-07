@@ -1,0 +1,6 @@
+{
+  "USER_PERSONALITY": "Extraversion: 0.43\nNeuroticism: 0.51\nAgreeableness: 0.50\nConscientiousness: 0.43\nOpenness: 0.48",
+  "EMOTION_LOGITS": "anger: 0.00\ndisgust: 0.00\nfear: 0.00\nhappy: 0.00\nneutral: 0.81\nsad: 0.19\nsurprise: 0.00",
+  "KNOWN_PREFERENCES": "symptom: leg fatigue / unable to stand for hygiene tasks\nsafety_concern: slipping while sitting on un-secured chairs\ntech_comfort: low (prefers hiring help for physical tasks)\nproposed_aid: wall-mounted folding bathroom seat\naction_item: contact handyman",
+  "USER_MESSAGE": "I'll call my handyman to put a folding seat in the bathroom this week."
+}

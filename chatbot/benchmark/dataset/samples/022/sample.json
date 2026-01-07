@@ -1,0 +1,45 @@
+{
+  "id": "022",
+  "dialogue": [
+    {
+      "role": "user",
+      "content": "My ankles are swelling significantly by the time I finish my volunteer shift."
+    },
+    {
+      "role": "assistant",
+      "content": "Are you sitting or standing mostly during your volunteer work?"
+    },
+    {
+      "role": "user",
+      "content": "Mostly sitting at the greeting desk, but my legs just hang there."
+    },
+    {
+      "role": "assistant",
+      "content": "Elevation is key. Have you tried compression stockings yet?"
+    },
+    {
+      "role": "user",
+      "content": "I haven't. My doctor mentioned them, but I don't know where to get the right size."
+    },
+    {
+      "role": "assistant",
+      "content": "I can help you find a sizing chart online. You'll just need a tape measure."
+    },
+    {
+      "role": "user",
+      "content": "If you help me find the right compression stocking size online, I'll start wearing them to my shift."
+    }
+  ],
+  "memory": {
+    "symptom": "edema / ankle swelling",
+    "lifestyle_factor": "sedentary volunteer work",
+    "tech_comfort": "moderate (can navigate provided links)",
+    "prescribed_treatment": "compression stockings",
+    "barrier_to_care": "uncertainty about sizing"
+  },
+  "must_use_keys": [
+    "symptom",
+    "lifestyle_factor",
+    "tech_comfort"
+  ]
+}

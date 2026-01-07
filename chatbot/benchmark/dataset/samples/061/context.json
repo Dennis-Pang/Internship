@@ -1,0 +1,6 @@
+{
+  "USER_PERSONALITY": "Extraversion: 0.47\nNeuroticism: 0.55\nAgreeableness: 0.46\nConscientiousness: 0.34\nOpenness: 0.46",
+  "EMOTION_LOGITS": "anger: 0.00\ndisgust: 0.00\nfear: 0.00\nhappy: 0.50\nneutral: 0.48\nsad: 0.02\nsurprise: 0.00",
+  "KNOWN_PREFERENCES": "symptom: dry / itchy skin\nphysical_limitation: unable to reach back\ntech_comfort: low",
+  "USER_MESSAGE": "Thank goodness! My back has been driving me crazy all week."
+}

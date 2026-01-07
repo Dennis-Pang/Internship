@@ -1,0 +1,6 @@
+{
+  "USER_PERSONALITY": "Extraversion: 0.37\nNeuroticism: 0.54\nAgreeableness: 0.50\nConscientiousness: 0.41\nOpenness: 0.44",
+  "EMOTION_LOGITS": "anger: 0.00\ndisgust: 0.00\nfear: 0.00\nhappy: 0.03\nneutral: 0.82\nsad: 0.16\nsurprise: 0.00",
+  "KNOWN_PREFERENCES": "health_risk: dehydration / headache trigger\ncaregiving_source: daughter\ntech_comfort: moderate (accepts gadgets but hates frequent charging)\nsymptom: evening headaches\nintervention: glowing reminder water bottle",
+  "USER_MESSAGE": "A smart water bottle with a long battery life would remind me to stay hydrated."
+}

@@ -1,0 +1,57 @@
+{
+  "id": "056",
+  "dialogue": [
+    {
+      "role": "user",
+      "content": "I keep getting neck and shoulder tightness after work."
+    },
+    {
+      "role": "assistant",
+      "content": "Does it build gradually through the day, or hit suddenly?"
+    },
+    {
+      "role": "user",
+      "content": "Gradually. By late afternoon it feels stiff and uncomfortable."
+    },
+    {
+      "role": "assistant",
+      "content": "Got it. What does your work setup look like-mostly laptop, desktop, or mixed?"
+    },
+    {
+      "role": "user",
+      "content": "Mostly laptop, and I barely move when I'm focused."
+    },
+    {
+      "role": "assistant",
+      "content": "That pattern can definitely do it. Would reminders help, or a fixed mini-routine?"
+    },
+    {
+      "role": "user",
+      "content": "Reminders might help, as long as they're not constant."
+    },
+    {
+      "role": "assistant",
+      "content": "Okay-small, spaced reminders paired with a quick reset routine."
+    },
+    {
+      "role": "user",
+      "content": "If I could break up those long stretches without disrupting work, I think the tightness would improve a lot."
+    }
+  ],
+  "memory": {
+    "work_setup": "laptop-only, screen slightly below eye level",
+    "break_pattern": "often goes 2–3 hours without moving",
+    "time_budget": "5 minutes per break",
+    "preference": "short interventions only",
+    "tech_comfort": "high",
+    "pain_trigger": "long static posture"
+  },
+  "must_use_keys": [
+    "work_setup",
+    "break_pattern",
+    "time_budget"
+  ],
+  "must_not_use_keys": [
+    "pain_trigger"
+  ]
+}

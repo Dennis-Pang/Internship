@@ -1,0 +1,43 @@
+{
+  "id": "057",
+  "dialogue": [
+    {
+      "role": "user",
+      "content": "My eyes get so tired when I'm reading my morning newspaper."
+    },
+    {
+      "role": "assistant",
+      "content": "Is it the print size, or do you find the paper too heavy to hold up?"
+    },
+    {
+      "role": "user",
+      "content": "The print is tiny, and my arms get tired after ten minutes."
+    },
+    {
+      "role": "assistant",
+      "content": "Switching to a tablet where you can enlarge the font and use a stand might help."
+    },
+    {
+      "role": "user",
+      "content": "I have an iPad, but I only use it for games. I'll try the news app."
+    },
+    {
+      "role": "assistant",
+      "content": "I can show you how to adjust the text size so it's much easier on your eyes."
+    },
+    {
+      "role": "user",
+      "content": "If I can make the text huge, I might actually finish the whole paper for once!"
+    }
+  ],
+  "memory": {
+    "sensory_issue": "eye strain / small print",
+    "physical_limitation": "arm fatigue",
+    "tech_comfort": "moderate (uses iPad for games)"
+  },
+  "must_use_keys": [
+    "sensory_issue",
+    "physical_limitation",
+    "tech_comfort"
+  ]
+}

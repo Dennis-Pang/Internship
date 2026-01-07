@@ -1,0 +1,45 @@
+{
+  "id": "092",
+  "dialogue": [
+    {
+      "role": "user",
+      "content": "My wheelchair backrest is too low and my shoulders are starting to ache."
+    },
+    {
+      "role": "assistant",
+      "content": "It sounds like you aren't getting enough postural support. Is it an adjustable chair?"
+    },
+    {
+      "role": "user",
+      "content": "I don't think so, it's just a standard hospital-style chair."
+    },
+    {
+      "role": "assistant",
+      "content": "A backrest extender or a new ergonomic back shell might be necessary."
+    },
+    {
+      "role": "user",
+      "content": "I'm tech-savvy, I'll search for 'wheelchair backrest extensions' on my laptop."
+    },
+    {
+      "role": "assistant",
+      "content": "Make sure to measure the width between the push handles first."
+    },
+    {
+      "role": "user",
+      "content": "I'm going to measure my chair and look for those extensions on my laptop."
+    }
+  ],
+  "memory": {
+    "mobility_aid": "standard hospital-style wheelchair",
+    "symptom": "shoulder ache / poor postural support",
+    "tech_comfort": "high (comfortable with online research)",
+    "equipment_need": "backrest extension or ergonomic shell",
+    "action_item": "measure chair width"
+  },
+  "must_use_keys": [
+    "mobility_aid",
+    "symptom",
+    "tech_comfort"
+  ]
+}

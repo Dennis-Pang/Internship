@@ -1,0 +1,6 @@
+{
+  "USER_PERSONALITY": "Extraversion: 0.46\nNeuroticism: 0.55\nAgreeableness: 0.44\nConscientiousness: 0.34\nOpenness: 0.47",
+  "EMOTION_LOGITS": "anger: 0.00\ndisgust: 0.00\nfear: 0.00\nhappy: 0.47\nneutral: 0.52\nsad: 0.01\nsurprise: 0.00",
+  "KNOWN_PREFERENCES": "health_goal: PT compliance\nforgetting_pattern: exercise form\ntech_comfort: high (comfortable with tablet)",
+  "USER_MESSAGE": "Videos will be so much better-I've been guessing at those diagrams for days!"
+}

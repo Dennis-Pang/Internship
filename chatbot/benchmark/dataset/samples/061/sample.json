@@ -1,0 +1,43 @@
+{
+  "id": "061",
+  "dialogue": [
+    {
+      "role": "user",
+      "content": "My skin feels so dry and itchy after my showers lately."
+    },
+    {
+      "role": "assistant",
+      "content": "The hot water might be stripping your skin's natural oils. Do you use a moisturizer?"
+    },
+    {
+      "role": "user",
+      "content": "I try, but it's hard to reach my back to put the lotion on."
+    },
+    {
+      "role": "assistant",
+      "content": "There are lotion applicators with long handles. Would that help you?"
+    },
+    {
+      "role": "user",
+      "content": "I'm not very tech-oriented, so a simple long-handled brush thing is perfect."
+    },
+    {
+      "role": "assistant",
+      "content": "I'll find one with a replaceable sponge head for you."
+    },
+    {
+      "role": "user",
+      "content": "Thank goodness! My back has been driving me crazy all week."
+    }
+  ],
+  "memory": {
+    "symptom": "dry / itchy skin",
+    "physical_limitation": "unable to reach back",
+    "tech_comfort": "low"
+  },
+  "must_use_keys": [
+    "symptom",
+    "physical_limitation",
+    "tech_comfort"
+  ]
+}

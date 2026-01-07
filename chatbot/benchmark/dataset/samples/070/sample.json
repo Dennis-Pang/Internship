@@ -1,0 +1,43 @@
+{
+  "id": "070",
+  "dialogue": [
+    {
+      "role": "user",
+      "content": "I'm having a hard time reaching the door handle to close my front door from my wheelchair."
+    },
+    {
+      "role": "assistant",
+      "content": "That's a common reach range issue. Do you have to lean out quite far?"
+    },
+    {
+      "role": "user",
+      "content": "Yes, and I'm afraid I'm going to tip the chair one of these days."
+    },
+    {
+      "role": "assistant",
+      "content": "A simple 'door pull' strap attached to the middle of the door would let you pull it shut easily."
+    },
+    {
+      "role": "user",
+      "content": "I'm not great with tech, so a simple strap is much better than an automatic opener."
+    },
+    {
+      "role": "assistant",
+      "content": "It's very cost-effective too. I'll help you find a sturdy nylon one."
+    },
+    {
+      "role": "user",
+      "content": "Fantastic, a simple strap is all I need to feel safe closing the door."
+    }
+  ],
+  "memory": {
+    "mobility_status": "wheelchair user",
+    "safety_risk": "tipping risk",
+    "tech_comfort": "low"
+  },
+  "must_use_keys": [
+    "mobility_status",
+    "safety_risk",
+    "tech_comfort"
+  ]
+}

@@ -1,0 +1,6 @@
+{
+  "USER_PERSONALITY": "Extraversion: 0.48\nNeuroticism: 0.53\nAgreeableness: 0.46\nConscientiousness: 0.34\nOpenness: 0.50",
+  "EMOTION_LOGITS": "anger: 0.00\ndisgust: 0.00\nfear: 0.00\nhappy: 0.30\nneutral: 0.62\nsad: 0.08\nsurprise: 0.00",
+  "KNOWN_PREFERENCES": "caregiving_target: grandfather\nnutritional_issue: protein deficiency / tea-and-toast diet\ntech_comfort: moderate (can manage subscription services)\nphysical_barrier: jaw fatigue / chewing difficulty\ndietary_preference: chocolate flavor",
+  "USER_MESSAGE": "Let's set up a chocolate protein shake subscription to fix his diet gaps."
+}

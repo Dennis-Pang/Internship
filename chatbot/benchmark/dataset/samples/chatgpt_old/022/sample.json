@@ -1,0 +1,57 @@
+{
+  "id": "022",
+  "dialogue": [
+    {
+      "role": "user",
+      "content": "I've been constipated on and off and it's annoying."
+    },
+    {
+      "role": "assistant",
+      "content": "Has anything changed recently-diet, stress, activity, or travel?"
+    },
+    {
+      "role": "user",
+      "content": "Diet and stress, probably. I've been eating more takeout."
+    },
+    {
+      "role": "assistant",
+      "content": "Got it. Do you want gentle changes or a strict plan?"
+    },
+    {
+      "role": "user",
+      "content": "Gentle. I won't stick to strict."
+    },
+    {
+      "role": "assistant",
+      "content": "Okay. How's your water intake lately?"
+    },
+    {
+      "role": "user",
+      "content": "Not great. I forget until I'm really thirsty."
+    },
+    {
+      "role": "assistant",
+      "content": "Understood. We can start with small, consistent habits."
+    },
+    {
+      "role": "user",
+      "content": "If I could get regular again without doing something extreme, that would be great."
+    }
+  ],
+  "memory": {
+    "issue": "constipation",
+    "diet_pattern": "more takeout recently",
+    "hydration_habit": "often forgets water",
+    "goal": "regular bowel movements",
+    "preference": "gentle changes",
+    "current_strategy": "none"
+  },
+  "must_use_keys": [
+    "diet_pattern",
+    "hydration_habit",
+    "goal"
+  ],
+  "must_not_use_keys": [
+    "preference"
+  ]
+}

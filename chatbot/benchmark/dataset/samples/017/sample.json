@@ -1,0 +1,45 @@
+{
+  "id": "017",
+  "dialogue": [
+    {
+      "role": "user",
+      "content": "I'm worried about my husband falling when he gets up at night."
+    },
+    {
+      "role": "assistant",
+      "content": "Nighttime falls are a serious concern. Does he have a clear path to the bathroom?"
+    },
+    {
+      "role": "user",
+      "content": "He does, but it's very dark and he fumbles for the light switch."
+    },
+    {
+      "role": "assistant",
+      "content": "Motion-activated floor lighting could light the way automatically."
+    },
+    {
+      "role": "user",
+      "content": "He's fine with smart home stuff; he actually likes his motion-sensing porch light."
+    },
+    {
+      "role": "assistant",
+      "content": "Great, we can install similar LED strips under the bed frame and along the baseboards."
+    },
+    {
+      "role": "user",
+      "content": "Installing motion-activated LED strips would keep him safe during his night trips."
+    }
+  ],
+  "memory": {
+    "patient": "husband with nocturnal mobility needs",
+    "safety_risk": "nighttime falls / fumbling in dark",
+    "tech_comfort": "high (enjoys smart home tech)",
+    "home_modification": "motion-activated lighting",
+    "current_barrier": "hard-to-reach light switches"
+  },
+  "must_use_keys": [
+    "patient",
+    "safety_risk",
+    "tech_comfort"
+  ]
+}

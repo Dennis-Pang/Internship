@@ -1,0 +1,6 @@
+{
+  "USER_PERSONALITY": "Extraversion: 0.43\nNeuroticism: 0.54\nAgreeableness: 0.49\nConscientiousness: 0.41\nOpenness: 0.46",
+  "EMOTION_LOGITS": "anger: 0.00\ndisgust: 0.00\nfear: 0.00\nhappy: 0.26\nneutral: 0.68\nsad: 0.05\nsurprise: 0.00",
+  "KNOWN_PREFERENCES": "recovery_status: post-stroke (one-sided weakness)\nprimary_challenge: dressing / fastening buttons\ntech_comfort: moderate (comfortable with YouTube)\nadaptive_solution: magnetic closure clothing\ngoal: independent dressing",
+  "USER_MESSAGE": "Watching a video on magnetic buttons might solve my struggle with dressing myself."
+}

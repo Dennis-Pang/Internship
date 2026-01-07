@@ -1,0 +1,6 @@
+{
+  "USER_PERSONALITY": "Extraversion: 0.43\nNeuroticism: 0.53\nAgreeableness: 0.46\nConscientiousness: 0.35\nOpenness: 0.48",
+  "EMOTION_LOGITS": "anger: 0.00\ndisgust: 0.00\nfear: 0.00\nhappy: 0.50\nneutral: 0.50\nsad: 0.00\nsurprise: 0.00",
+  "KNOWN_PREFERENCES": "medical_device: CPAP for sleep apnea\ndiscomfort_area: bridge of the nose\ntech_comfort: comfortable with web-based guides\nusage_pattern: removes device unconsciously during sleep\nmask_type: full-face (current)",
+  "USER_MESSAGE": "If a nasal pillow stops the nose bridge pain, I'll use the CPAP every night."
+}

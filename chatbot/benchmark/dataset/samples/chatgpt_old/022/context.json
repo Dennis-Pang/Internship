@@ -1,0 +1,6 @@
+{
+  "USER_PERSONALITY": "Extraversion: 0.44\nNeuroticism: 0.54\nAgreeableness: 0.50\nConscientiousness: 0.42\nOpenness: 0.44",
+  "EMOTION_LOGITS": "anger: 0.00\ndisgust: 0.00\nfear: 0.00\nhappy: 0.49\nneutral: 0.19\nsad: 0.31\nsurprise: 0.00",
+  "KNOWN_PREFERENCES": "issue: constipation\ndiet_pattern: more takeout recently\nhydration_habit: often forgets water\ngoal: regular bowel movements\npreference: gentle changes\ncurrent_strategy: none",
+  "USER_MESSAGE": "If I could get regular again without doing something extreme, that would be great."
+}

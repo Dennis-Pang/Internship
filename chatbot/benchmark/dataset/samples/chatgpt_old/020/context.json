@@ -1,0 +1,6 @@
+{
+  "USER_PERSONALITY": "Extraversion: 0.47\nNeuroticism: 0.54\nAgreeableness: 0.48\nConscientiousness: 0.40\nOpenness: 0.45",
+  "EMOTION_LOGITS": "anger: 0.00\ndisgust: 0.00\nfear: 0.00\nhappy: 0.41\nneutral: 0.15\nsad: 0.44\nsurprise: 0.00",
+  "KNOWN_PREFERENCES": "injury: shin splints-like pain\nload_change: increased from 0 to 4 runs/week\ngoal: continue running safely\nsurface: mostly pavement\ntime_budget: 20\u201330 minutes/run\ncurrent_strategy: none",
+  "USER_MESSAGE": "If I could keep training without the shin pain getting worse, that's all I want."
+}

@@ -1,0 +1,6 @@
+{
+  "USER_PERSONALITY": "Extraversion: 0.45\nNeuroticism: 0.56\nAgreeableness: 0.48\nConscientiousness: 0.37\nOpenness: 0.48",
+  "EMOTION_LOGITS": "anger: 0.00\ndisgust: 0.00\nfear: 0.01\nhappy: 0.00\nneutral: 0.96\nsad: 0.03\nsurprise: 0.00",
+  "KNOWN_PREFERENCES": "symptom: orthostatic hypotension / dizziness\nmedication_trigger: post-morning dose of heart meds\ntech_comfort: low (prefers paper tracking)\ndietary_habit: takes medication with coffee only\ntracking_method: physical notepad",
+  "USER_MESSAGE": "I'll start writing down my breakfast and dizzy spells on a notepad."
+}

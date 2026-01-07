@@ -1,0 +1,43 @@
+{
+  "id": "067",
+  "dialogue": [
+    {
+      "role": "user",
+      "content": "I'm having a hard time seeing the numbers on my microwave when I'm heating up my lunch."
+    },
+    {
+      "role": "assistant",
+      "content": "Those flat touchpads can be really hard to navigate. Do you use the same settings often?"
+    },
+    {
+      "role": "user",
+      "content": "Mostly just the 1-minute and 30-second buttons."
+    },
+    {
+      "role": "assistant",
+      "content": "We could put raised 'bump dots' on those specific buttons so you can feel them."
+    },
+    {
+      "role": "user",
+      "content": "I'm not great with tech, so a simple tactile dot is a wonderful idea."
+    },
+    {
+      "role": "assistant",
+      "content": "It's a very popular hack for people with low vision. I'll get you a pack."
+    },
+    {
+      "role": "user",
+      "content": "I can't wait to try those-it'll be so much easier than squinting at the panel!"
+    }
+  ],
+  "memory": {
+    "sensory_issue": "low vision",
+    "daily_task": "heating food",
+    "tech_comfort": "low"
+  },
+  "must_use_keys": [
+    "sensory_issue",
+    "daily_task",
+    "tech_comfort"
+  ]
+}

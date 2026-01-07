@@ -1,0 +1,6 @@
+{
+  "USER_PERSONALITY": "Extraversion: 0.51\nNeuroticism: 0.55\nAgreeableness: 0.44\nConscientiousness: 0.32\nOpenness: 0.49",
+  "EMOTION_LOGITS": "anger: 0.00\ndisgust: 0.00\nfear: 0.00\nhappy: 0.49\nneutral: 0.31\nsad: 0.19\nsurprise: 0.00",
+  "KNOWN_PREFERENCES": "condition: Chronic Dry Eye\nhobby: knitting\ntech_comfort: high (frequent smartphone user)\nforgetting_pattern: forgets eye drops until symptomatic\ntreatment_plan: lubricating drops every 4 hours",
+  "USER_MESSAGE": "I'll set those 4-hour reminders on my phone so I can keep knitting!"
+}

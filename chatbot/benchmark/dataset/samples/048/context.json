@@ -1,0 +1,6 @@
+{
+  "USER_PERSONALITY": "Extraversion: 0.39\nNeuroticism: 0.53\nAgreeableness: 0.49\nConscientiousness: 0.41\nOpenness: 0.45",
+  "EMOTION_LOGITS": "anger: 0.00\ndisgust: 0.00\nfear: 0.00\nhappy: 0.27\nneutral: 0.72\nsad: 0.01\nsurprise: 0.00",
+  "KNOWN_PREFERENCES": "safety_risk: potential fall from ladder\nhome_maintenance_need: kitchen lightbulb replacement\ntech_comfort: low",
+  "USER_MESSAGE": "That pole sounds like a lifesaver-I'd much rather stay firmly on the ground."
+}

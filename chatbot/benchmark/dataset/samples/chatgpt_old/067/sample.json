@@ -1,0 +1,57 @@
+{
+  "id": "067",
+  "dialogue": [
+    {
+      "role": "user",
+      "content": "My wrist feels sore after working on my laptop all day."
+    },
+    {
+      "role": "assistant",
+      "content": "Is it the mouse hand, keyboard hand, or both?"
+    },
+    {
+      "role": "user",
+      "content": "Mostly the mouse hand."
+    },
+    {
+      "role": "assistant",
+      "content": "Got it. Does it improve on weekends or days off?"
+    },
+    {
+      "role": "user",
+      "content": "Yes, it's much better when I'm not working."
+    },
+    {
+      "role": "assistant",
+      "content": "Okay. Are you willing to change your setup, or do you want small habits first?"
+    },
+    {
+      "role": "user",
+      "content": "Small habits first. I don't want to buy new gear right now."
+    },
+    {
+      "role": "assistant",
+      "content": "Understood. Micro-changes during the day can help."
+    },
+    {
+      "role": "user",
+      "content": "If I could reduce the soreness without buying anything, that would be perfect."
+    }
+  ],
+  "memory": {
+    "pain_location": "wrist (mouse hand)",
+    "trigger": "long laptop/mouse use",
+    "constraint": "no new equipment purchases",
+    "break_pattern": "rarely takes hand breaks",
+    "goal": "reduce soreness during workdays",
+    "current_strategy": "none"
+  },
+  "must_use_keys": [
+    "trigger",
+    "constraint",
+    "break_pattern"
+  ],
+  "must_not_use_keys": [
+    "pain_location"
+  ]
+}

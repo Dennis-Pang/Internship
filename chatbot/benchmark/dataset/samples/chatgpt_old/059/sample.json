@@ -1,0 +1,57 @@
+{
+  "id": "059",
+  "dialogue": [
+    {
+      "role": "user",
+      "content": "Bright light gives me headaches sometimes."
+    },
+    {
+      "role": "assistant",
+      "content": "Is it more a mild headache or a migraine-type episode?"
+    },
+    {
+      "role": "user",
+      "content": "More like migraines. I get nauseous if it gets bad."
+    },
+    {
+      "role": "assistant",
+      "content": "Got it. Do you notice common triggers besides light?"
+    },
+    {
+      "role": "user",
+      "content": "Lack of sleep and long screen time can do it too."
+    },
+    {
+      "role": "assistant",
+      "content": "Okay. Do you want prevention strategies or what to do in the moment?"
+    },
+    {
+      "role": "user",
+      "content": "Prevention, mostly. I want fewer episodes."
+    },
+    {
+      "role": "assistant",
+      "content": "Understood. We'll focus on the biggest triggers you can control."
+    },
+    {
+      "role": "user",
+      "content": "If I could reduce those light-triggered migraines, it would help a lot."
+    }
+  ],
+  "memory": {
+    "condition": "migraine",
+    "trigger_light": "bright light",
+    "trigger_sleep": "sleep deprivation",
+    "trigger_screen": "prolonged screen time",
+    "med_preference": "avoid frequent painkillers",
+    "current_strategy": "none"
+  },
+  "must_use_keys": [
+    "condition",
+    "trigger_light",
+    "trigger_sleep"
+  ],
+  "must_not_use_keys": [
+    "trigger_screen"
+  ]
+}

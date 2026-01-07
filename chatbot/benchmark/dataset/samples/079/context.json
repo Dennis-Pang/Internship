@@ -1,0 +1,6 @@
+{
+  "USER_PERSONALITY": "Extraversion: 0.43\nNeuroticism: 0.54\nAgreeableness: 0.46\nConscientiousness: 0.35\nOpenness: 0.44",
+  "EMOTION_LOGITS": "anger: 0.00\ndisgust: 0.00\nfear: 0.00\nhappy: 0.00\nneutral: 0.97\nsad: 0.03\nsurprise: 0.00",
+  "KNOWN_PREFERENCES": "physical_limitation: weak grip / difficulty cutting food\ntech_comfort: high (comfortable with mobile shopping)\ngoal: mealtime independence\ndesired_aid: rocker knife / adaptive cutlery\nsupport_system: son (currently assists)",
+  "USER_MESSAGE": "Shopping for a rocker knife on my phone will finally get me off my son's help."
+}

@@ -1,0 +1,6 @@
+{
+  "USER_PERSONALITY": "Extraversion: 0.48\nNeuroticism: 0.55\nAgreeableness: 0.49\nConscientiousness: 0.34\nOpenness: 0.52",
+  "EMOTION_LOGITS": "anger: 0.00\ndisgust: 0.00\nfear: 0.00\nhappy: 0.41\nneutral: 0.38\nsad: 0.21\nsurprise: 0.00",
+  "KNOWN_PREFERENCES": "patient: husband with nocturnal mobility needs\nsafety_risk: nighttime falls / fumbling in dark\ntech_comfort: high (enjoys smart home tech)\nhome_modification: motion-activated lighting\ncurrent_barrier: hard-to-reach light switches",
+  "USER_MESSAGE": "Installing motion-activated LED strips would keep him safe during his night trips."
+}

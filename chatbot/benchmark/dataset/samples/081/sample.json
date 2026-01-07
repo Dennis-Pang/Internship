@@ -1,0 +1,45 @@
+{
+  "id": "081",
+  "dialogue": [
+    {
+      "role": "user",
+      "content": "My wheelchair seat is starting to feel very hot and sweaty after an hour."
+    },
+    {
+      "role": "assistant",
+      "content": "Poor ventilation can cause skin breakdown. What kind of cushion is it?"
+    },
+    {
+      "role": "user",
+      "content": "It's a solid foam one, it doesn't breathe at all."
+    },
+    {
+      "role": "assistant",
+      "content": "A gel-top or a honeycomb-style cushion would allow for much better airflow."
+    },
+    {
+      "role": "user",
+      "content": "I'm not techy, but I can ask my physical therapist about them at our next visit."
+    },
+    {
+      "role": "assistant",
+      "content": "Good idea. Ask specifically about 'breathable' materials."
+    },
+    {
+      "role": "user",
+      "content": "I'll make sure to ask my PT about a honeycomb cushion to stay cool."
+    }
+  ],
+  "memory": {
+    "mobility_aid": "wheelchair (foam cushion)",
+    "discomfort": "overheating / sweating",
+    "tech_comfort": "low (relies on professional consultation)",
+    "health_risk": "skin breakdown due to moisture",
+    "proposed_aid": "honeycomb or gel-top cushion"
+  },
+  "must_use_keys": [
+    "mobility_aid",
+    "discomfort",
+    "tech_comfort"
+  ]
+}

@@ -1,0 +1,6 @@
+{
+  "USER_PERSONALITY": "Extraversion: 0.49\nNeuroticism: 0.55\nAgreeableness: 0.48\nConscientiousness: 0.37\nOpenness: 0.51",
+  "EMOTION_LOGITS": "anger: 0.00\ndisgust: 0.00\nfear: 0.00\nhappy: 0.01\nneutral: 0.90\nsad: 0.09\nsurprise: 0.00",
+  "KNOWN_PREFERENCES": "condition: Asthma\ntrigger_environment: damp basement / laundry room\ntech_comfort: high (enjoys data-tracking apps)\nsuspected_trigger: mold / high humidity\nprevention_strategy: air quality monitoring",
+  "USER_MESSAGE": "A smart air quality monitor will tell me if the basement is safe for my asthma."
+}

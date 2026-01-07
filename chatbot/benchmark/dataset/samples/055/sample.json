@@ -1,0 +1,43 @@
+{
+  "id": "055",
+  "dialogue": [
+    {
+      "role": "user",
+      "content": "I keep forgetting to lock my wheelchair brakes before I try to stand up."
+    },
+    {
+      "role": "assistant",
+      "content": "That's a very dangerous slip risk. Does it happen mostly at home or out?"
+    },
+    {
+      "role": "user",
+      "content": "Mostly at home when I'm in a hurry to answer the phone."
+    },
+    {
+      "role": "assistant",
+      "content": "What if we put a bright red sticker on the brake levers as a visual reminder?"
+    },
+    {
+      "role": "user",
+      "content": "Simple enough! I don't need any high-tech sensors for that."
+    },
+    {
+      "role": "assistant",
+      "content": "Sometimes the simplest solutions are the most effective."
+    },
+    {
+      "role": "user",
+      "content": "I'll go get some red tape now-anything to stop this chair from sliding away!"
+    }
+  ],
+  "memory": {
+    "safety_risk": "forgetting to lock wheelchair brakes",
+    "mobility_status": "wheelchair user",
+    "tech_comfort": "low"
+  },
+  "must_use_keys": [
+    "safety_risk",
+    "mobility_status",
+    "tech_comfort"
+  ]
+}

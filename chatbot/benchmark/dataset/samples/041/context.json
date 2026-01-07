@@ -1,0 +1,6 @@
+{
+  "USER_PERSONALITY": "Extraversion: 0.53\nNeuroticism: 0.55\nAgreeableness: 0.43\nConscientiousness: 0.34\nOpenness: 0.53",
+  "EMOTION_LOGITS": "anger: 0.00\ndisgust: 0.00\nfear: 0.00\nhappy: 0.50\nneutral: 0.27\nsad: 0.23\nsurprise: 0.00",
+  "KNOWN_PREFERENCES": "safety_hazard: curled rug corners in bedroom\nfall_history: recent near-miss trip\ntech_comfort: moderate\nhome_setup: hardwood flooring",
+  "USER_MESSAGE": "Perfect, let's get some of that tape before I actually end up on the floor!"
+}

@@ -1,0 +1,6 @@
+{
+  "USER_PERSONALITY": "Extraversion: 0.54\nNeuroticism: 0.57\nAgreeableness: 0.43\nConscientiousness: 0.30\nOpenness: 0.54",
+  "EMOTION_LOGITS": "anger: 0.00\ndisgust: 0.00\nfear: 0.00\nhappy: 0.47\nneutral: 0.48\nsad: 0.05\nsurprise: 0.00",
+  "KNOWN_PREFERENCES": "mobility_aid: wheelchair (black tires)\nhome_issue: scuff marks on tile floors\ntech_comfort: moderate (basic web navigation)\nproposed_fix: non-marking grey tires\nmaintenance_barrier: cleaning difficulty",
+  "USER_MESSAGE": "Those grey non-marking tires sound like a lifesaver for my floors!"
+}

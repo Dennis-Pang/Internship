@@ -1,0 +1,6 @@
+{
+  "USER_PERSONALITY": "Extraversion: 0.32\nNeuroticism: 0.52\nAgreeableness: 0.50\nConscientiousness: 0.44\nOpenness: 0.45",
+  "EMOTION_LOGITS": "anger: 0.00\ndisgust: 0.00\nfear: 0.00\nhappy: 0.33\nneutral: 0.60\nsad: 0.07\nsurprise: 0.00",
+  "KNOWN_PREFERENCES": "mobility_status: wheelchair user\ndaily_challenge: car transfers\ntech_comfort: low (prefers simple mechanical tools)\nsafety_risk: pulling on door handles (unstable)\nproposed_aid: HandyBar / portable vehicle support handle",
+  "USER_MESSAGE": "That HandyBar tool sounds like just the thing I need for my car transfers."
+}

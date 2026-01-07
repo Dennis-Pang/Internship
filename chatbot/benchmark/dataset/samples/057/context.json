@@ -1,0 +1,6 @@
+{
+  "USER_PERSONALITY": "Extraversion: 0.51\nNeuroticism: 0.54\nAgreeableness: 0.46\nConscientiousness: 0.36\nOpenness: 0.48",
+  "EMOTION_LOGITS": "anger: 0.00\ndisgust: 0.00\nfear: 0.00\nhappy: 0.18\nneutral: 0.78\nsad: 0.04\nsurprise: 0.00",
+  "KNOWN_PREFERENCES": "sensory_issue: eye strain / small print\nphysical_limitation: arm fatigue\ntech_comfort: moderate (uses iPad for games)",
+  "USER_MESSAGE": "If I can make the text huge, I might actually finish the whole paper for once!"
+}

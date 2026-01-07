@@ -1,0 +1,6 @@
+{
+  "USER_PERSONALITY": "Extraversion: 0.50\nNeuroticism: 0.55\nAgreeableness: 0.45\nConscientiousness: 0.35\nOpenness: 0.49",
+  "EMOTION_LOGITS": "anger: 0.00\ndisgust: 0.00\nfear: 0.00\nhappy: 0.49\nneutral: 0.41\nsad: 0.10\nsurprise: 0.00",
+  "KNOWN_PREFERENCES": "physical_struggle: difficulty standing from seated position\nhome_barrier: low/soft armchair\ntech_comfort: moderate",
+  "USER_MESSAGE": "If those risers can save my knees, I'm definitely willing to give them a shot."
+}

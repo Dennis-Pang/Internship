@@ -1,0 +1,45 @@
+{
+  "id": "016",
+  "dialogue": [
+    {
+      "role": "user",
+      "content": "My mother is forgetting her afternoon physical therapy stretches."
+    },
+    {
+      "role": "assistant",
+      "content": "Does she find the exercises too difficult, or just the timing?"
+    },
+    {
+      "role": "user",
+      "content": "She just gets distracted by her afternoon soap operas."
+    },
+    {
+      "role": "assistant",
+      "content": "Could we set a reminder that pops up on her TV or a smart display?"
+    },
+    {
+      "role": "user",
+      "content": "She doesn't know how to use the smart TV features, she only uses the remote."
+    },
+    {
+      "role": "assistant",
+      "content": "What if we use a simple kitchen timer placed right next to her remote?"
+    },
+    {
+      "role": "user",
+      "content": "A simple kitchen timer near her remote would remind her to stretch during commercials."
+    }
+  ],
+  "memory": {
+    "caregiving_target": "elderly mother",
+    "health_goal": "afternoon physical therapy stretches",
+    "tech_comfort": "low (remote control only)",
+    "distraction_source": "television shows",
+    "reminder_method": "analog kitchen timer"
+  },
+  "must_use_keys": [
+    "caregiving_target",
+    "health_goal",
+    "tech_comfort"
+  ]
+}

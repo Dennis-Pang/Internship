@@ -1,0 +1,6 @@
+{
+  "USER_PERSONALITY": "Extraversion: 0.40\nNeuroticism: 0.54\nAgreeableness: 0.47\nConscientiousness: 0.38\nOpenness: 0.44",
+  "EMOTION_LOGITS": "anger: 0.00\ndisgust: 0.00\nfear: 0.00\nhappy: 0.01\nneutral: 0.97\nsad: 0.02\nsurprise: 0.00",
+  "KNOWN_PREFERENCES": "mobility_status: Amputee (wheelchair user)\ndaily_task: collecting mail\ntech_comfort: moderate (uses smartphone apps)\nenvironmental_barrier: curb height / mailbox accessibility\nintervention: smart mailbox sensor",
+  "USER_MESSAGE": "A mailbox sensor on my phone would definitely save me from rolling out for nothing."
+}

@@ -1,0 +1,6 @@
+{
+  "USER_PERSONALITY": "Extraversion: 0.51\nNeuroticism: 0.53\nAgreeableness: 0.45\nConscientiousness: 0.35\nOpenness: 0.52",
+  "EMOTION_LOGITS": "anger: 0.00\ndisgust: 0.00\nfear: 0.00\nhappy: 0.50\nneutral: 0.15\nsad: 0.35\nsurprise: 0.00",
+  "KNOWN_PREFERENCES": "symptom: lower back pain\nactivity: morning puzzles / crosswords\ntech_comfort: high",
+  "USER_MESSAGE": "Found one with great reviews! I'll order this lumbar roll and see if my back improves."
+}

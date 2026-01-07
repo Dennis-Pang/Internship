@@ -1,0 +1,45 @@
+{
+  "id": "011",
+  "dialogue": [
+    {
+      "role": "user",
+      "content": "I've been getting some skin irritation on my lower back lately."
+    },
+    {
+      "role": "assistant",
+      "content": "That's concerning. How many hours a day are you spending in your wheelchair?"
+    },
+    {
+      "role": "user",
+      "content": "Since I started my new desk job, probably about 8 hours straight."
+    },
+    {
+      "role": "assistant",
+      "content": "You might need a pressure-relieving cushion. Do you use any monitoring apps for weight shifting?"
+    },
+    {
+      "role": "user",
+      "content": "I didn't know those existed. I'm usually pretty good with my iPhone."
+    },
+    {
+      "role": "assistant",
+      "content": "There are sensors that link to your phone to remind you to shift. It prevents pressure sores."
+    },
+    {
+      "role": "user",
+      "content": "An iPhone app to remind me to shift weight in my wheelchair would save my skin."
+    }
+  ],
+  "memory": {
+    "mobility_status": "full-time wheelchair user",
+    "symptom": "early-stage pressure sore irritation",
+    "tech_comfort": "high (iPhone user)",
+    "occupational_impact": "sedentary desk job",
+    "prevention_need": "regular weight-shift reminders"
+  },
+  "must_use_keys": [
+    "mobility_status",
+    "symptom",
+    "tech_comfort"
+  ]
+}

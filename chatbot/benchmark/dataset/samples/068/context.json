@@ -1,0 +1,6 @@
+{
+  "USER_PERSONALITY": "Extraversion: 0.42\nNeuroticism: 0.52\nAgreeableness: 0.48\nConscientiousness: 0.37\nOpenness: 0.43",
+  "EMOTION_LOGITS": "anger: 0.00\ndisgust: 0.00\nfear: 0.00\nhappy: 0.50\nneutral: 0.45\nsad: 0.05\nsurprise: 0.00",
+  "KNOWN_PREFERENCES": "health_goal: daily stretches\nprimary_challenge: lack of motivation\ntech_comfort: high",
+  "USER_MESSAGE": "That's a great bribe! I'll save my favorite mystery series for tomorrow's session."
+}

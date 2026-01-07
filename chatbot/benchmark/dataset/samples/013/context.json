@@ -1,0 +1,6 @@
+{
+  "USER_PERSONALITY": "Extraversion: 0.43\nNeuroticism: 0.54\nAgreeableness: 0.47\nConscientiousness: 0.36\nOpenness: 0.47",
+  "EMOTION_LOGITS": "anger: 0.00\ndisgust: 0.00\nfear: 0.02\nhappy: 0.00\nneutral: 0.94\nsad: 0.03\nsurprise: 0.00",
+  "KNOWN_PREFERENCES": "physical_limitation: hip pain / limited range of motion\nhome_barrier: high-sided bathtub\ntech_comfort: moderate (can use laptop but gets overwhelmed)\nprescribed_aid: shower transfer bench\nsafety_preference: non-slip features",
+  "USER_MESSAGE": "If you could pick a non-slip transfer bench from my laptop search, it would help my hip."
+}

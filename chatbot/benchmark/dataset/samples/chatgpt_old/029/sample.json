@@ -1,0 +1,57 @@
+{
+  "id": "029",
+  "dialogue": [
+    {
+      "role": "user",
+      "content": "My breathing feels tight when I exercise sometimes."
+    },
+    {
+      "role": "assistant",
+      "content": "Does it happen right away or after a few minutes? Anything that makes it worse?"
+    },
+    {
+      "role": "user",
+      "content": "After a few minutes, and cold air makes it noticeably worse."
+    },
+    {
+      "role": "assistant",
+      "content": "What kind of exercise is it-walking, running, cycling?"
+    },
+    {
+      "role": "user",
+      "content": "Mostly brisk walking. I don't want to stop moving."
+    },
+    {
+      "role": "assistant",
+      "content": "That's a good goal. Do you usually carry anything with you on walks?"
+    },
+    {
+      "role": "user",
+      "content": "Not usually. I just head out."
+    },
+    {
+      "role": "assistant",
+      "content": "Okay-let's make it practical and easy to remember for cold days."
+    },
+    {
+      "role": "user",
+      "content": "I'd feel a lot safer if cold-weather walks didn't turn into a breathing issue."
+    }
+  ],
+  "memory": {
+    "condition": "asthma",
+    "cold_air_trigger": "cold air worsens symptoms",
+    "reliever_inhaler_use": "has a reliever inhaler but often forgets to bring it",
+    "exercise_type": "brisk walking",
+    "warmup_habit": "usually skips warm-up",
+    "symptom_timing": "starts after a few minutes"
+  },
+  "must_use_keys": [
+    "condition",
+    "cold_air_trigger",
+    "reliever_inhaler_use"
+  ],
+  "must_not_use_keys": [
+    "warmup_habit"
+  ]
+}

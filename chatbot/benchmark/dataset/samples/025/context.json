@@ -1,0 +1,6 @@
+{
+  "USER_PERSONALITY": "Extraversion: 0.47\nNeuroticism: 0.56\nAgreeableness: 0.48\nConscientiousness: 0.36\nOpenness: 0.49",
+  "EMOTION_LOGITS": "anger: 0.00\ndisgust: 0.00\nfear: 0.00\nhappy: 0.00\nneutral: 0.69\nsad: 0.31\nsurprise: 0.00",
+  "KNOWN_PREFERENCES": "mobility_aid: manual wheelchair\nmaintenance_issue: tire pressure management\ntech_comfort: moderate (likes voice-output tools)\naccessibility_barrier: unable to read floor-level gauges\ndesired_feature: backlit screen / voice PSI announcement",
+  "USER_MESSAGE": "A talking digital tire gauge would let me maintain my wheelchair pressure independently."
+}

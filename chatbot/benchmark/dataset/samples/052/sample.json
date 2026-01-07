@@ -1,0 +1,43 @@
+{
+  "id": "052",
+  "dialogue": [
+    {
+      "role": "user",
+      "content": "My ankles get so stiff when I'm sitting in my wheelchair for too long."
+    },
+    {
+      "role": "assistant",
+      "content": "Keeping the blood flowing is important. Can you wiggle your toes at all?"
+    },
+    {
+      "role": "user",
+      "content": "A little bit, but I forget to do it while I'm watching TV."
+    },
+    {
+      "role": "assistant",
+      "content": "Would you like a small vibrating foot plate to help with circulation?"
+    },
+    {
+      "role": "user",
+      "content": "I'm not great with electronics, I'm worried it will be too complicated to turn on."
+    },
+    {
+      "role": "assistant",
+      "content": "We can find one with a simple 'On/Off' foot switch so you don't even have to bend over."
+    },
+    {
+      "role": "user",
+      "content": "If it's just a simple foot switch, then I'm willing to give it a try."
+    }
+  ],
+  "memory": {
+    "symptom": "ankle stiffness / poor circulation",
+    "mobility_status": "wheelchair user",
+    "tech_comfort": "low"
+  },
+  "must_use_keys": [
+    "symptom",
+    "mobility_status",
+    "tech_comfort"
+  ]
+}

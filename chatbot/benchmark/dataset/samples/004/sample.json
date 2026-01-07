@@ -1,0 +1,53 @@
+{
+  "id": "004",
+  "dialogue": [
+    {
+      "role": "user",
+      "content": "I'm always so dehydrated by the time I get home from the office."
+    },
+    {
+      "role": "assistant",
+      "content": "Do you have a water bottle at your desk during the day?"
+    },
+    {
+      "role": "user",
+      "content": "Yes, but I get so focused on emails that I forget to drink."
+    },
+    {
+      "role": "assistant",
+      "content": "A common 'flow state' problem. Does your office have a water cooler nearby?"
+    },
+    {
+      "role": "user",
+      "content": "It's way down the hall. I hate getting up and breaking my focus."
+    },
+    {
+      "role": "assistant",
+      "content": "Maybe an app that pings your desktop would work?"
+    },
+    {
+      "role": "user",
+      "content": "I'd prefer something low-tech, like a bottle with time markings."
+    },
+    {
+      "role": "assistant",
+      "content": "Simple is often better. Let's get you a 2-liter timed bottle."
+    },
+    {
+      "role": "user",
+      "content": "A timed bottle at my desk will help me stay hydrated while working."
+    }
+  ],
+  "memory": {
+    "health_goal": "hydration",
+    "forgetting_pattern": "work hours due to hyper-focus",
+    "tech_comfort": "prefers analog/low-tech solutions",
+    "work_environment": "sedentary office job",
+    "daily_intake_target": "2 liters"
+  },
+  "must_use_keys": [
+    "health_goal",
+    "forgetting_pattern",
+    "tech_comfort"
+  ]
+}

@@ -449,6 +449,7 @@ def append_chat_to_cache(
     session_id: str = None,
     speech_emotion: dict = None,
     text_emotion: dict = None,
+    fused_emotion: dict = None,
 ) -> None:
     """Append a conversation round to the local cache file (session-based).
 
@@ -460,8 +461,9 @@ def append_chat_to_cache(
         speech_duration: Time taken for speech processing.
         llm_duration: Time taken for LLM generation.
         session_id: Session ID (defaults to current date).
-        speech_emotion: Speech emotion probabilities (dict).
-        text_emotion: Text emotion probabilities (dict).
+        speech_emotion: Speech emotion probabilities (dict, original).
+        text_emotion: Text emotion probabilities (dict, original).
+        fused_emotion: Fused emotion probabilities (dict, used by LLM).
     """
     if not user_uuid or (not user_text and not assistant_text):
         return
@@ -491,6 +493,8 @@ def append_chat_to_cache(
         entry["speech_emotion"] = json.dumps(speech_emotion)
     if text_emotion:
         entry["text_emotion"] = json.dumps(text_emotion)
+    if fused_emotion:
+        entry["fused_emotion"] = json.dumps(fused_emotion)
 
     # Load existing cache
     cache_data = _load_cache_data()

@@ -1,0 +1,43 @@
+{
+  "id": "056",
+  "dialogue": [
+    {
+      "role": "user",
+      "content": "I'm struggling to open my prescription bottles because of my arthritis."
+    },
+    {
+      "role": "assistant",
+      "content": "Those safety caps can be really tough on sore joints. Have you asked for 'easy-open' lids?"
+    },
+    {
+      "role": "user",
+      "content": "I didn't know the pharmacy would do that for me."
+    },
+    {
+      "role": "assistant",
+      "content": "They certainly can. Or we can get you a multi-purpose bottle opener tool."
+    },
+    {
+      "role": "user",
+      "content": "I'm quite tech-savvy, so I'll just email my pharmacist about the lids now."
+    },
+    {
+      "role": "assistant",
+      "content": "That's a great proactive step to take."
+    },
+    {
+      "role": "user",
+      "content": "Sent! Hopefully, my next refill won't be such a battle for my poor hands."
+    }
+  ],
+  "memory": {
+    "physical_limitation": "arthritis in hands",
+    "daily_struggle": "opening prescription caps",
+    "tech_comfort": "high (comfortable with email)"
+  },
+  "must_use_keys": [
+    "physical_limitation",
+    "daily_struggle",
+    "tech_comfort"
+  ]
+}

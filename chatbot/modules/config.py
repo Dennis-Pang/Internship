@@ -1,6 +1,7 @@
 """Configuration constants and environment variables."""
 import os
 import logging
+import warnings
 
 # Base paths
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -75,8 +76,8 @@ AUDIO_TIMEOUT_MARGIN = 2.0  # Extra seconds to wait beyond duration before timeo
 AUDIO_MAX_RETRIES = 2  # Maximum number of retry attempts on recording failure
 
 # Emotion fusion configuration
-SPEECH_EMOTION_WEIGHT = float(os.getenv("SPEECH_EMOTION_WEIGHT", "0.6"))  # Weight for speech-based emotion (0.0-1.0, 0=disabled)
-TEXT_EMOTION_WEIGHT = float(os.getenv("TEXT_EMOTION_WEIGHT", "0.4"))  # Weight for text-based emotion (0.0-1.0, 0=disabled)
+SPEECH_EMOTION_WEIGHT = float(os.getenv("SPEECH_EMOTION_WEIGHT", "0.5"))  # Weight for speech-based emotion (0.0-1.0, 0=disabled)
+TEXT_EMOTION_WEIGHT = float(os.getenv("TEXT_EMOTION_WEIGHT", "0.5"))  # Weight for text-based emotion (0.0-1.0, 0=disabled)
 
 # Parallel processing configuration
 MAX_PARALLEL_WORKERS = int(os.getenv("MAX_PARALLEL_WORKERS", "4"))  # Maximum parallel workers for audio processing
@@ -105,3 +106,15 @@ logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
 )
 logger = logging.getLogger(__name__)
+
+# Suppress noisy third-party future warnings (Python version + deprecated google.generativeai)
+warnings.filterwarnings(
+    "ignore",
+    message=".*google.api_core.*Python version.*",
+    category=FutureWarning,
+)
+warnings.filterwarnings(
+    "ignore",
+    message=".*google\\.generativeai.*has ended.*",
+    category=FutureWarning,
+)

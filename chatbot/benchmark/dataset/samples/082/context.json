@@ -1,0 +1,6 @@
+{
+  "USER_PERSONALITY": "Extraversion: 0.56\nNeuroticism: 0.55\nAgreeableness: 0.42\nConscientiousness: 0.30\nOpenness: 0.53",
+  "EMOTION_LOGITS": "anger: 0.00\ndisgust: 0.00\nfear: 0.00\nhappy: 0.30\nneutral: 0.48\nsad: 0.21\nsurprise: 0.00",
+  "KNOWN_PREFERENCES": "sensory_issue: hearing difficulty / dialogue clarity on TV\ntech_comfort: high (comfortable with Bluetooth setup)\nhome_issue: disturbing neighbors with high volume\ndesired_tool: voice-boosting Bluetooth headphones\ncurrent_barrier: background music drowning out speech",
+  "USER_MESSAGE": "I'm ordering some voice-boosting Bluetooth headphones today!"
+}

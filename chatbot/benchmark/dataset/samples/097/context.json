@@ -1,0 +1,6 @@
+{
+  "USER_PERSONALITY": "Extraversion: 0.50\nNeuroticism: 0.56\nAgreeableness: 0.48\nConscientiousness: 0.37\nOpenness: 0.51",
+  "EMOTION_LOGITS": "anger: 0.00\ndisgust: 0.00\nfear: 0.00\nhappy: 0.17\nneutral: 0.79\nsad: 0.04\nsurprise: 0.00",
+  "KNOWN_PREFERENCES": "recovery_status: post-hand surgery\nsymptom: hand cramping / weak grip\ntech_comfort: high (comfortable with tablet research)\ndaily_task: brushing teeth\nproposed_aid: electric toothbrush or foam grip",
+  "USER_MESSAGE": "I'll look for an electric toothbrush on my tablet to help with my hand cramps."
+}

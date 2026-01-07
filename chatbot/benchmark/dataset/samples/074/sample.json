@@ -1,0 +1,45 @@
+{
+  "id": "074",
+  "dialogue": [
+    {
+      "role": "user",
+      "content": "I'm worried my grandfather isn't eating enough protein; he just has tea and toast."
+    },
+    {
+      "role": "assistant",
+      "content": "Common for seniors. Does he find meat hard to chew, or is it the cooking?"
+    },
+    {
+      "role": "user",
+      "content": "It's both. He hates the cleanup and his jaw gets tired."
+    },
+    {
+      "role": "assistant",
+      "content": "Maybe we could introduce high-protein shakes that taste like chocolate milk?"
+    },
+    {
+      "role": "user",
+      "content": "He's fine with tech, so maybe a subscription service could deliver them?"
+    },
+    {
+      "role": "assistant",
+      "content": "That would save him the shopping trip too."
+    },
+    {
+      "role": "user",
+      "content": "Let's set up a chocolate protein shake subscription to fix his diet gaps."
+    }
+  ],
+  "memory": {
+    "caregiving_target": "grandfather",
+    "nutritional_issue": "protein deficiency / tea-and-toast diet",
+    "tech_comfort": "moderate (can manage subscription services)",
+    "physical_barrier": "jaw fatigue / chewing difficulty",
+    "dietary_preference": "chocolate flavor"
+  },
+  "must_use_keys": [
+    "caregiving_target",
+    "nutritional_issue",
+    "tech_comfort"
+  ]
+}

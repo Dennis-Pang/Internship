@@ -1,0 +1,43 @@
+{
+  "id": "048",
+  "dialogue": [
+    {
+      "role": "user",
+      "content": "My kitchen light is burnt out, and I'm scared to use a ladder in my condition."
+    },
+    {
+      "role": "assistant",
+      "content": "You definitely shouldn't be climbing ladders right now with your balance issues."
+    },
+    {
+      "role": "user",
+      "content": "But I can't see to cook my dinner! It's so dark in there."
+    },
+    {
+      "role": "assistant",
+      "content": "We could get you a long-reach lightbulb changer so you can stay on the floor."
+    },
+    {
+      "role": "user",
+      "content": "I'm fine with simple tools like that, I don't need anything fancy or digital."
+    },
+    {
+      "role": "assistant",
+      "content": "I'll find a manual suction-cup pole that makes it safe and easy."
+    },
+    {
+      "role": "user",
+      "content": "That pole sounds like a lifesaver-I'd much rather stay firmly on the ground."
+    }
+  ],
+  "memory": {
+    "safety_risk": "potential fall from ladder",
+    "home_maintenance_need": "kitchen lightbulb replacement",
+    "tech_comfort": "low"
+  },
+  "must_use_keys": [
+    "safety_risk",
+    "home_maintenance_need",
+    "tech_comfort"
+  ]
+}

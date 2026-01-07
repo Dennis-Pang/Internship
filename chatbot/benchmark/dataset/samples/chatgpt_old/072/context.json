@@ -1,0 +1,6 @@
+{
+  "USER_PERSONALITY": "Extraversion: 0.47\nNeuroticism: 0.55\nAgreeableness: 0.45\nConscientiousness: 0.35\nOpenness: 0.48",
+  "EMOTION_LOGITS": "anger: 0.00\ndisgust: 0.00\nfear: 0.00\nhappy: 0.04\nneutral: 0.95\nsad: 0.01\nsurprise: 0.00",
+  "KNOWN_PREFERENCES": "trigger: prolonged screen time\nhydration_habit: often forgets to drink water\nmed_preference: avoid frequent painkiller use\nheadache_timing: usually afternoon\nbreak_habit: rarely takes scheduled breaks\ncaffeine_intake: coffee around 3\u20134pm",
+  "USER_MESSAGE": "On heavy screen days, I just want a simple autopilot habit so it doesn't spiral."
+}

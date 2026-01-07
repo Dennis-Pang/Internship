@@ -1,0 +1,57 @@
+{
+  "id": "064",
+  "dialogue": [
+    {
+      "role": "user",
+      "content": "I'm supposed to monitor my blood pressure at home, but I'm inconsistent."
+    },
+    {
+      "role": "assistant",
+      "content": "What gets in the way-forgetting, time, or the process itself?"
+    },
+    {
+      "role": "user",
+      "content": "Forgetting, mostly. I remember for a week and then stop."
+    },
+    {
+      "role": "assistant",
+      "content": "Got it. Do you want a very simple routine or something more detailed?"
+    },
+    {
+      "role": "user",
+      "content": "Simple. I just want it to happen without thinking."
+    },
+    {
+      "role": "assistant",
+      "content": "Understood. When would it fit best-morning, evening, or both?"
+    },
+    {
+      "role": "user",
+      "content": "Evenings. Mornings are rushed."
+    },
+    {
+      "role": "assistant",
+      "content": "Okay. We'll anchor it to your evening routine."
+    },
+    {
+      "role": "user",
+      "content": "If I could measure consistently in the evening for a month, I'd feel much more in control."
+    }
+  ],
+  "memory": {
+    "monitoring_task": "home blood pressure measurement",
+    "forgetting_pattern": "drops off after 1 week",
+    "time_window": "evenings",
+    "tech_comfort": "high",
+    "goal": "measure 5 days/week",
+    "device_type": "arm cuff monitor"
+  },
+  "must_use_keys": [
+    "monitoring_task",
+    "time_window",
+    "goal"
+  ],
+  "must_not_use_keys": [
+    "device_type"
+  ]
+}

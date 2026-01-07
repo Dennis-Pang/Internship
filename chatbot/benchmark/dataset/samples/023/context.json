@@ -1,0 +1,6 @@
+{
+  "USER_PERSONALITY": "Extraversion: 0.52\nNeuroticism: 0.55\nAgreeableness: 0.45\nConscientiousness: 0.33\nOpenness: 0.51",
+  "EMOTION_LOGITS": "anger: 0.00\ndisgust: 0.00\nfear: 0.00\nhappy: 0.07\nneutral: 0.89\nsad: 0.04\nsurprise: 0.00",
+  "KNOWN_PREFERENCES": "recovery_phase: post-stroke rehabilitation\nexercise_type: arm lifts\ntech_comfort: high (retired engineer)\ncurrent_habit: exercising without visual feedback\ngoal: proper form for neuro-recovery",
+  "USER_MESSAGE": "Using a motion-tracking app on my tablet will ensure my post-stroke arm lifts are effective."
+}

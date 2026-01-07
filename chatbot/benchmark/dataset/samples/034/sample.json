@@ -1,0 +1,45 @@
+{
+  "id": "034",
+  "dialogue": [
+    {
+      "role": "user",
+      "content": "The arthritis in my neck makes it hard to see the screen on my wheelchair controller."
+    },
+    {
+      "role": "assistant",
+      "content": "That's a tough angle to maintain. Can we adjust the mount for the controller?"
+    },
+    {
+      "role": "user",
+      "content": "It's fixed in place, and I can't tilt it up high enough to see it without pain."
+    },
+    {
+      "role": "assistant",
+      "content": "Would a Bluetooth-connected screen on your smartphone, mounted at eye level, help?"
+    },
+    {
+      "role": "user",
+      "content": "I'm very tech-savvy, I've already got a phone mount on the other armrest."
+    },
+    {
+      "role": "assistant",
+      "content": "Perfect. We can mirror the chair's diagnostics to your phone so you can stay upright."
+    },
+    {
+      "role": "user",
+      "content": "Mirroring the chair's display to my phone would finally save my neck from all that strain."
+    }
+  ],
+  "memory": {
+    "condition": "Cervical Arthritis / Neck pain",
+    "mobility_aid": "power wheelchair",
+    "tech_comfort": "high (tech-savvy / uses phone mounts)",
+    "accessibility_barrier": "poor visibility of fixed controller screen",
+    "required_adjustment": "eye-level display mirroring"
+  },
+  "must_use_keys": [
+    "condition",
+    "mobility_aid",
+    "tech_comfort"
+  ]
+}

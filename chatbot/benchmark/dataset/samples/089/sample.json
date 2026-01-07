@@ -1,0 +1,45 @@
+{
+  "id": "089",
+  "dialogue": [
+    {
+      "role": "user",
+      "content": "I'm struggling to keep my balance while putting on my pants in the morning."
+    },
+    {
+      "role": "assistant",
+      "content": "That's a common fall risk. Do you sit on the edge of the bed?"
+    },
+    {
+      "role": "user",
+      "content": "I do, but the bed is too soft and I feel like I'm going to slide off."
+    },
+    {
+      "role": "assistant",
+      "content": "A sturdy chair with arms might be a safer spot for dressing."
+    },
+    {
+      "role": "user",
+      "content": "I'm not into tech, but I can move my old wooden armchair into the bedroom."
+    },
+    {
+      "role": "assistant",
+      "content": "That's a great idea; the armrests will give you something to push off from."
+    },
+    {
+      "role": "user",
+      "content": "I'll move that wooden chair today so I have a safe place to get dressed."
+    }
+  ],
+  "memory": {
+    "safety_risk": "losing balance while dressing",
+    "home_setup": "soft mattress (unstable for sitting)",
+    "tech_comfort": "low (prefers rearranging furniture over gadgets)",
+    "habit": "dressing on the edge of the bed",
+    "proposed_fix": "using a sturdy armchair with armrests"
+  },
+  "must_use_keys": [
+    "safety_risk",
+    "home_setup",
+    "tech_comfort"
+  ]
+}

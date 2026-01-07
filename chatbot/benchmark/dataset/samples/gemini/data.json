@@ -1,0 +1,1960 @@
+[
+  {
+    "id": "001",
+    "dialogue": [
+      { "role": "user", "content": "I keep missing my medication sometimes." },
+      { "role": "assistant", "content": "That's common. Do you notice it more on weekdays or weekends?" },
+      { "role": "user", "content": "Mostly weekends. My mornings look different and I forget." },
+      { "role": "assistant", "content": "Got it. What usually happens right before you realize you missed it?" },
+      { "role": "user", "content": "I wake up later, start doing things, and it just slips my mind." },
+      { "role": "assistant", "content": "Makes sense. Do you want something very simple, or are you okay using your phone?" },
+      { "role": "user", "content": "Simple, but phone reminders are fine." },
+      { "role": "assistant", "content": "Okay-simple and repeatable. We'll fit it to your weekend rhythm." },
+      { "role": "user", "content": "If it worked for weekend mornings, I'd finally be consistent." }
+    ],
+    "memory": {
+      "medication_type": "daily blood pressure pill",
+      "forgetting_pattern": "mornings on weekends",
+      "tech_comfort": "high",
+      "wake_time_shift": "wakes ~2 hours later on weekends",
+      "current_strategy": "none",
+      "reminder_devices": "smartphone available"
+    },
+    "must_use_keys": ["medication_type", "forgetting_pattern", "tech_comfort"]
+  },
+  {
+    "id": "002",
+    "dialogue": [
+      { "role": "user", "content": "My blood sugar readings are all over the place lately." },
+      { "role": "assistant", "content": "That sounds frustrating. Are you tracking what you eat before those spikes?" },
+      { "role": "user", "content": "Not really, I just check the levels when I feel tired." },
+      { "role": "assistant", "content": "We should find a better routine. Do you carry your glucose monitor everywhere?" },
+      { "role": "user", "content": "I leave it at home because it's bulky. I only use it in the evening." },
+      { "role": "assistant", "content": "I see. Would a smaller, portable device or a digital log help?" },
+      { "role": "user", "content": "A digital log on my watch would be perfect actually." },
+      { "role": "assistant", "content": "Let's set that up then. Consistency is key for diabetes management." },
+      { "role": "user", "content": "I'll start logging every meal on my smartwatch from now on." }
+    ],
+    "memory": {
+      "health_condition": "Type 2 Diabetes",
+      "monitoring_habit": "evening only",
+      "tech_comfort": "prefers smartwatch apps",
+      "equipment_barrier": "current monitor is too bulky for travel",
+      "symptom_trigger": "fatigue"
+    },
+    "must_use_keys": ["health_condition", "monitoring_habit", "tech_comfort"]
+  },
+  {
+    "id": "003",
+    "dialogue": [
+      { "role": "user", "content": "My knee still hurts even after two weeks of physical therapy." },
+      { "role": "assistant", "content": "I'm sorry to hear that. Have you been doing the stretching exercises at home?" },
+      { "role": "user", "content": "I try, but I get bored doing them alone in the living room." },
+      { "role": "assistant", "content": "Boredom is a real motivation killer. Do you usually have music or TV on?" },
+      { "role": "user", "content": "No, I just stare at the wall. It feels like a chore." },
+      { "role": "assistant", "content": "What if we gamify it or use a guided video app?" },
+      { "role": "user", "content": "I like the video idea. I'm pretty tech-savvy with my tablet." },
+      { "role": "assistant", "content": "Great, I'll find some interactive routines for your ACL recovery." },
+      { "role": "user", "content": "Using the tablet for my ACL rehab might actually make me do it." }
+    ],
+    "memory": {
+      "injury_type": "ACL recovery",
+      "compliance_issue": "boredom during home exercises",
+      "tech_comfort": "comfortable with tablets",
+      "exercise_environment": "prefers guided video content",
+      "recovery_duration": "2 weeks post-start"
+    },
+    "must_use_keys": ["injury_type", "compliance_issue", "tech_comfort"]
+  },
+  {
+    "id": "004",
+    "dialogue": [
+      { "role": "user", "content": "I'm always so dehydrated by the time I get home from the office." },
+      { "role": "assistant", "content": "Do you have a water bottle at your desk during the day?" },
+      { "role": "user", "content": "Yes, but I get so focused on emails that I forget to drink." },
+      { "role": "assistant", "content": "A common 'flow state' problem. Does your office have a water cooler nearby?" },
+      { "role": "user", "content": "It's way down the hall. I hate getting up and breaking my focus." },
+      { "role": "assistant", "content": "Maybe an app that pings your desktop would work?" },
+      { "role": "user", "content": "I'd prefer something low-tech, like a bottle with time markings." },
+      { "role": "assistant", "content": "Simple is often better. Let's get you a 2-liter timed bottle." },
+      { "role": "user", "content": "A timed bottle at my desk will help me stay hydrated while working." }
+    ],
+    "memory": {
+      "health_goal": "hydration",
+      "forgetting_pattern": "work hours due to hyper-focus",
+      "tech_comfort": "prefers analog/low-tech solutions",
+      "work_environment": "sedentary office job",
+      "daily_intake_target": "2 liters"
+    },
+    "must_use_keys": ["health_goal", "forgetting_pattern", "tech_comfort"]
+  },
+  {
+    "id": "005",
+    "dialogue": [
+      { "role": "user", "content": "My CPAP machine is so uncomfortable, I keep taking it off in my sleep." },
+      { "role": "assistant", "content": "That's a struggle many new users face. Where exactly does it feel tight?" },
+      { "role": "user", "content": "It presses hard on the bridge of my nose and leaves red marks." },
+      { "role": "assistant", "content": "It might be the mask size. Are you okay checking an online fitting guide?" },
+      { "role": "user", "content": "I can do that, I'm fine with using the manufacturer's website." },
+      { "role": "assistant", "content": "Excellent. We might need to switch you to a nasal pillow instead." },
+      { "role": "user", "content": "If a nasal pillow stops the nose bridge pain, I'll use the CPAP every night." }
+    ],
+    "memory": {
+      "medical_device": "CPAP for sleep apnea",
+      "discomfort_area": "bridge of the nose",
+      "tech_comfort": "comfortable with web-based guides",
+      "usage_pattern": "removes device unconsciously during sleep",
+      "mask_type": "full-face (current)"
+    },
+    "must_use_keys": ["medical_device", "discomfort_area", "tech_comfort"]
+  },
+  {
+    "id": "006",
+    "dialogue": [
+      { "role": "user", "content": "I've been feeling very lightheaded when I stand up quickly." },
+      { "role": "assistant", "content": "That sounds like it could be related to your new heart medication." },
+      { "role": "user", "content": "Maybe. It usually happens right after my morning dose." },
+      { "role": "assistant", "content": "Do you take it with food or on an empty stomach?" },
+      { "role": "user", "content": "Empty stomach, usually with just a sip of coffee." },
+      { "role": "assistant", "content": "That might be the issue. Are you okay using a meal-tracking app for a week?" },
+      { "role": "user", "content": "I'm not great with apps, I'd rather just write it on a notepad." },
+      { "role": "assistant", "content": "Noted. Paper and pen works just as well for tracking." },
+      { "role": "user", "content": "I'll start writing down my breakfast and dizzy spells on a notepad." }
+    ],
+    "memory": {
+      "symptom": "orthostatic hypotension / dizziness",
+      "medication_trigger": "post-morning dose of heart meds",
+      "tech_comfort": "low (prefers paper tracking)",
+      "dietary_habit": "takes medication with coffee only",
+      "tracking_method": "physical notepad"
+    },
+    "must_use_keys": ["symptom", "medication_trigger", "tech_comfort"]
+  },
+  {
+    "id": "007",
+    "dialogue": [
+      { "role": "user", "content": "I'm struggling to keep track of my inhaler usage during allergy season." },
+      { "role": "assistant", "content": "It's a busy time for your lungs. How many times a day are you reaching for it?" },
+      { "role": "user", "content": "At least four or five times when I'm gardening outside." },
+      { "role": "assistant", "content": "Gardening is a huge trigger. Do you have a smart inhaler sensor?" },
+      { "role": "user", "content": "I don't even know what that is. I just use the standard plastic one." },
+      { "role": "assistant", "content": "It's a clip-on that syncs with your phone. Would you be open to trying that?" },
+      { "role": "user", "content": "Sure, I love gadgets if they actually help me breathe better." },
+      { "role": "assistant", "content": "They provide great data for your doctor. Let's look into the Propeller sensor." },
+      { "role": "user", "content": "Adding a smart sensor to my inhaler would really help me track these allergy triggers." }
+    ],
+    "memory": {
+      "medication_type": "rescue inhaler",
+      "trigger_activity": "gardening / allergy season",
+      "tech_comfort": "high (enjoys gadgets)",
+      "usage_frequency": "4-5 times daily during peaks",
+      "device_type": "standard MDI"
+    },
+    "must_use_keys": ["medication_type", "trigger_activity", "tech_comfort"]
+  },
+  {
+    "id": "008",
+    "dialogue": [
+      { "role": "user", "content": "The doctor said I need to lower my sodium, but food tastes so bland now." },
+      { "role": "assistant", "content": "It's a big adjustment. Have you tried using herb blends instead of salt?" },
+      { "role": "user", "content": "A little, but I don't really know which spices go with what." },
+      { "role": "assistant", "content": "I can send you some digital recipe cards. Do you use Pinterest or Instagram?" },
+      { "role": "user", "content": "I use Pinterest all the time for home decor, so that works!" },
+      { "role": "assistant", "content": "Perfect, I'll share a board with low-sodium, high-flavor meals." },
+      { "role": "user", "content": "Finding low-sodium recipes on Pinterest will make this diet much easier." }
+    ],
+    "memory": {
+      "dietary_restriction": "low sodium",
+      "primary_challenge": "flavor perception / blandness",
+      "tech_comfort": "active Pinterest user",
+      "cooking_skill": "intermediate",
+      "goal": "hypertension management"
+    },
+    "must_use_keys": ["dietary_restriction", "primary_challenge", "tech_comfort"]
+  },
+  {
+    "id": "009",
+    "dialogue": [
+      { "role": "user", "content": "My eyes are constantly burning and dry after work." },
+      { "role": "assistant", "content": "That sounds like digital eye strain. How many hours are you staring at screens?" },
+      { "role": "user", "content": "At least 10 hours a day for my coding job." },
+      { "role": "assistant", "content": "That's a lot. Do you use the 20-20-20 rule during your shifts?" },
+      { "role": "user", "content": "I try, but I get into the 'zone' and forget to blink, let alone look away." },
+      { "role": "assistant", "content": "Would you use a desktop software that dims your screen every 20 minutes?" },
+      { "role": "user", "content": "Yeah, I'm a developer, so I'm very comfortable with background scripts." },
+      { "role": "assistant", "content": "I'll recommend a script that forces a micro-break for your eyes." },
+      { "role": "user", "content": "A background script for eye breaks is exactly what I need for my coding sessions." }
+    ],
+    "memory": {
+      "condition": "digital eye strain / dry eyes",
+      "occupation": "software developer",
+      "tech_comfort": "expert (comfortable with scripts)",
+      "screen_time": "10+ hours daily",
+      "lifestyle_habit": "forgets to blink while working"
+    },
+    "must_use_keys": ["condition", "occupation", "tech_comfort"]
+  },
+  {
+    "id": "010",
+    "dialogue": [
+      { "role": "user", "content": "I'm worried about my mother's vitamin intake; she keeps forgetting her pills." },
+      { "role": "assistant", "content": "It's tough caregiving from a distance. Does she have a pill organizer?" },
+      { "role": "user", "content": "She has one, but she forgets which day it is and takes the wrong slot." },
+      { "role": "assistant", "content": "Would she be open to an automated pill dispenser that glows and beeps?" },
+      { "role": "user", "content": "She's very old-fashioned. Anything with too many buttons will scare her." },
+      { "role": "assistant", "content": "Understood. How about a simple voice-activated reminder via a smart speaker?" },
+      { "role": "user", "content": "She likes talking to her Alexa, so that might actually work." },
+      { "role": "assistant", "content": "Let's set up a recurring voice alert for her morning vitamins." },
+      { "role": "user", "content": "Using Alexa for vitamin reminders won't overwhelm her like a complex machine would." }
+    ],
+    "memory": {
+      "caregiving_role": "daughter managing mother's health",
+      "health_need": "daily vitamin consistency",
+      "tech_comfort": "low (prefers voice interfaces/Alexa)",
+      "cognitive_barrier": "confusion regarding days of the week",
+      "current_tool": "manual pill organizer (failing)"
+    },
+    "must_use_keys": ["caregiving_role", "health_need", "tech_comfort"]
+  },
+  {
+    "id": "011",
+    "dialogue": [
+      { "role": "user", "content": "I've been getting some skin irritation on my lower back lately." },
+      { "role": "assistant", "content": "That's concerning. How many hours a day are you spending in your wheelchair?" },
+      { "role": "user", "content": "Since I started my new desk job, probably about 8 hours straight." },
+      { "role": "assistant", "content": "You might need a pressure-relieving cushion. Do you use any monitoring apps for weight shifting?" },
+      { "role": "user", "content": "I didn't know those existed. I'm usually pretty good with my iPhone." },
+      { "role": "assistant", "content": "There are sensors that link to your phone to remind you to shift. It prevents pressure sores." },
+      { "role": "user", "content": "An iPhone app to remind me to shift weight in my wheelchair would save my skin." }
+    ],
+    "memory": {
+      "mobility_status": "full-time wheelchair user",
+      "symptom": "early-stage pressure sore irritation",
+      "tech_comfort": "high (iPhone user)",
+      "occupational_impact": "sedentary desk job",
+      "prevention_need": "regular weight-shift reminders"
+    },
+    "must_use_keys": ["mobility_status", "symptom", "tech_comfort"]
+  },
+  {
+    "id": "012",
+    "dialogue": [
+      { "role": "user", "content": "My grandmother keeps leaving her walker in the hallway and then falling." },
+      { "role": "assistant", "content": "That's a major fall risk. Why does she leave it behind?" },
+      { "role": "user", "content": "She says it's too heavy to push onto the thick carpet in the bedroom." },
+      { "role": "assistant", "content": "We might need to look at a lightweight rollator with larger wheels. Is she open to new gear?" },
+      { "role": "user", "content": "She's very stubborn about 'fancy' gadgets, she likes simple things." },
+      { "role": "assistant", "content": "Understood. A simple, large-wheeled manual walker might be the best compromise." },
+      { "role": "user", "content": "A simple walker with bigger wheels might stop her from leaving it in the hall." }
+    ],
+    "memory": {
+      "caregiving_target": "stubborn grandmother",
+      "safety_issue": "fall risk / abandoning walker",
+      "tech_comfort": "very low (prefers simple mechanical tools)",
+      "environmental_barrier": "thick carpeting",
+      "equipment_requirement": "lightweight with large wheels"
+    },
+    "must_use_keys": ["caregiving_target", "safety_issue", "tech_comfort"]
+  },
+  {
+    "id": "013",
+    "dialogue": [
+      { "role": "user", "content": "Getting into the shower has become a nightmare with my hip pain." },
+      { "role": "assistant", "content": "I'm sorry to hear that. Do you have a walk-in shower or a tub?" },
+      { "role": "user", "content": "It's a high tub. Lifting my leg over the edge is where the pain spikes." },
+      { "role": "assistant", "content": "A transfer bench could help you slide in while seated. Have you looked at any online?" },
+      { "role": "user", "content": "I tried searching on my laptop, but there are too many options and it's confusing." },
+      { "role": "assistant", "content": "I can filter the best-rated ones for you. We need something with a non-slip grip." },
+      { "role": "user", "content": "If you could pick a non-slip transfer bench from my laptop search, it would help my hip." }
+    ],
+    "memory": {
+      "physical_limitation": "hip pain / limited range of motion",
+      "home_barrier": "high-sided bathtub",
+      "tech_comfort": "moderate (can use laptop but gets overwhelmed)",
+      "prescribed_aid": "shower transfer bench",
+      "safety_preference": "non-slip features"
+    },
+    "must_use_keys": ["physical_limitation", "home_barrier", "tech_comfort"]
+  },
+  {
+    "id": "014",
+    "dialogue": [
+      { "role": "user", "content": "My father's arthritis is making it impossible for him to check his own blood pressure." },
+      { "role": "assistant", "content": "Is it the Velcro cuff that's the problem?" },
+      { "role": "user", "content": "Exactly. He can't grip the strap to pull it tight enough." },
+      { "role": "assistant", "content": "There are 'one-touch' automatic cuffs designed for people with limited dexterity." },
+      { "role": "user", "content": "He's okay with technology as long as it's just one big button." },
+      { "role": "assistant", "content": "Perfect. An automatic arm-type monitor with a pre-formed cuff would be ideal." },
+      { "role": "user", "content": "A one-button automatic cuff would let him manage his blood pressure independently again." }
+    ],
+    "memory": {
+      "caregiving_target": "father with arthritis",
+      "dexterity_issue": "unable to fasten Velcro straps",
+      "tech_comfort": "moderate (likes single-button interfaces)",
+      "medical_need": "blood pressure monitoring",
+      "required_feature": "pre-formed automatic cuff"
+    },
+    "must_use_keys": ["caregiving_target", "dexterity_issue", "tech_comfort"]
+  },
+  {
+    "id": "015",
+    "dialogue": [
+      { "role": "user", "content": "I'm finding it harder to navigate the ramps at the local library in my manual chair." },
+      { "role": "assistant", "content": "Are the ramps too steep, or are you feeling more fatigue in your arms?" },
+      { "role": "user", "content": "A bit of both. My shoulders are really starting to ache by the end of the day." },
+      { "role": "assistant", "content": "Have you considered a power-assist add-on? It clips onto your manual chair." },
+      { "role": "user", "content": "I've seen those! I'm pretty tech-savvy, I've even watched videos on how they sync." },
+      { "role": "assistant", "content": "They are great for preserving your joints while keeping the chair's footprint small." },
+      { "role": "user", "content": "Syncing a power-assist wheel to my chair would definitely save my shoulders." }
+    ],
+    "memory": {
+      "mobility_aid": "manual wheelchair",
+      "symptom": "shoulder fatigue / joint pain",
+      "tech_comfort": "high (watches tech tutorials)",
+      "environmental_challenge": "steep library ramps",
+      "potential_solution": "power-assist add-on"
+    },
+    "must_use_keys": ["mobility_aid", "symptom", "tech_comfort"]
+  },
+  {
+    "id": "016",
+    "dialogue": [
+      { "role": "user", "content": "My mother is forgetting her afternoon physical therapy stretches." },
+      { "role": "assistant", "content": "Does she find the exercises too difficult, or just the timing?" },
+      { "role": "user", "content": "She just gets distracted by her afternoon soap operas." },
+      { "role": "assistant", "content": "Could we set a reminder that pops up on her TV or a smart display?" },
+      { "role": "user", "content": "She doesn't know how to use the smart TV features, she only uses the remote." },
+      { "role": "assistant", "content": "What if we use a simple kitchen timer placed right next to her remote?" },
+      { "role": "user", "content": "A simple kitchen timer near her remote would remind her to stretch during commercials." }
+    ],
+    "memory": {
+      "caregiving_target": "elderly mother",
+      "health_goal": "afternoon physical therapy stretches",
+      "tech_comfort": "low (remote control only)",
+      "distraction_source": "television shows",
+      "reminder_method": "analog kitchen timer"
+    },
+    "must_use_keys": ["caregiving_target", "health_goal", "tech_comfort"]
+  },
+  {
+    "id": "017",
+    "dialogue": [
+      { "role": "user", "content": "I'm worried about my husband falling when he gets up at night." },
+      { "role": "assistant", "content": "Nighttime falls are a serious concern. Does he have a clear path to the bathroom?" },
+      { "role": "user", "content": "He does, but it's very dark and he fumbles for the light switch." },
+      { "role": "assistant", "content": "Motion-activated floor lighting could light the way automatically." },
+      { "role": "user", "content": "He's fine with smart home stuff; he actually likes his motion-sensing porch light." },
+      { "role": "assistant", "content": "Great, we can install similar LED strips under the bed frame and along the baseboards." },
+      { "role": "user", "content": "Installing motion-activated LED strips would keep him safe during his night trips." }
+    ],
+    "memory": {
+      "patient": "husband with nocturnal mobility needs",
+      "safety_risk": "nighttime falls / fumbling in dark",
+      "tech_comfort": "high (enjoys smart home tech)",
+      "home_modification": "motion-activated lighting",
+      "current_barrier": "hard-to-reach light switches"
+    },
+    "must_use_keys": ["patient", "safety_risk", "tech_comfort"]
+  },
+  {
+    "id": "018",
+    "dialogue": [
+      { "role": "user", "content": "Since I started using the wheelchair, I can't reach the thermostat anymore." },
+      { "role": "assistant", "content": "That must be frustrating during these cold winter months." },
+      { "role": "user", "content": "It is. I have to wait for my son to come over to change the heat." },
+      { "role": "assistant", "content": "A smart thermostat you can control from your phone would give you that independence back." },
+      { "role": "user", "content": "I'm not great with apps, but I can use my iPad for basic things." },
+      { "role": "assistant", "content": "We can set up a very simple interface on your iPad with just 'Warmer' and 'Cooler'." },
+      { "role": "user", "content": "Controlling the heat from my iPad would mean I don't have to wait for my son." }
+    ],
+    "memory": {
+      "mobility_status": "wheelchair user",
+      "home_barrier": "high-mounted thermostat",
+      "tech_comfort": "moderate (comfortable with iPad)",
+      "primary_need": "environmental control / independence",
+      "support_system": "son (currently assists)"
+    },
+    "must_use_keys": ["mobility_status", "home_barrier", "tech_comfort"]
+  },
+  {
+    "id": "019",
+    "dialogue": [
+      { "role": "user", "content": "My Parkinson's is making it really hard to use my computer mouse." },
+      { "role": "assistant", "content": "The tremors can make precise clicking very difficult. Have you tried a trackball?" },
+      { "role": "user", "content": "I tried one, but it was still too sensitive. I keep clicking the wrong things." },
+      { "role": "assistant", "content": "There is software that filters out tremor movements for the cursor." },
+      { "role": "user", "content": "I'm okay with installing software, I used to be an accountant." },
+      { "role": "assistant", "content": "That's perfect. SteadyMouse or similar programs can be a game-changer for you." },
+      { "role": "user", "content": "Using tremor-filtering software would let me use my computer without clicking the wrong icons." }
+    ],
+    "memory": {
+      "condition": "Parkinson's Disease",
+      "symptom": "hand tremors affecting fine motor skills",
+      "tech_comfort": "high (former accountant)",
+      "software_need": "cursor stabilization / tremor filtering",
+      "previous_attempt": "trackball mouse (unsuccessful)"
+    },
+    "must_use_keys": ["condition", "symptom", "tech_comfort"]
+  },
+  {
+    "id": "020",
+    "dialogue": [
+      { "role": "user", "content": "I'm having trouble remembering if I took my heart medication in the morning." },
+      { "role": "assistant", "content": "Memory slips happen to everyone. Do you use a pillbox currently?" },
+      { "role": "user", "content": "I do, but I sometimes forget to even look at the pillbox." },
+      { "role": "assistant", "content": "Would you like a pillbox that sends a notification to your daughter if it isn't opened?" },
+      { "role": "user", "content": "That sounds too complicated. Can I just have a simple alarm?" },
+      { "role": "assistant", "content": "Of course. A digital clock with a loud 'Medication Time' alarm might be simpler." },
+      { "role": "user", "content": "A simple alarm clock that says 'Medication' is better for me than a smart pillbox." }
+    ],
+    "memory": {
+      "health_condition": "heart disease",
+      "forgetting_pattern": "morning doses",
+      "tech_comfort": "low (prefers simple alarms)",
+      "current_strategy": "manual pillbox (ineffective)",
+      "support_system": "daughter (potential monitor)"
+    },
+    "must_use_keys": ["health_condition", "forgetting_pattern", "tech_comfort"]
+  },
+  {
+    "id": "021",
+    "dialogue": [
+      { "role": "user", "content": "My oxygen levels have been dipping slightly during my evening walks." },
+      { "role": "assistant", "content": "Are you carrying your portable concentrator with you on these walks?" },
+      { "role": "user", "content": "Yes, but it's heavy and I think I'm overexerting myself just carrying it." },
+      { "role": "assistant", "content": "We could look into a lightweight travel model or a pulse-dose setting. Do you track your O2?" },
+      { "role": "user", "content": "I use a pulse oximeter, but I find it hard to read the small screen while walking." },
+      { "role": "assistant", "content": "There are oximeters that sync via Bluetooth to your phone with large-text alerts." },
+      { "role": "user", "content": "A Bluetooth oximeter with large text on my phone would help me monitor my oxygen while walking." }
+    ],
+    "memory": {
+      "condition": "COPD / Oxygen dependency",
+      "activity": "evening walks",
+      "tech_comfort": "moderate (uses smartphone)",
+      "equipment_issue": "concentrator weight causing overexertion",
+      "accessibility_need": "large-text display for vitals"
+    },
+    "must_use_keys": ["condition", "activity", "tech_comfort"]
+  },
+  {
+    "id": "022",
+    "dialogue": [
+      { "role": "user", "content": "My ankles are swelling significantly by the time I finish my volunteer shift." },
+      { "role": "assistant", "content": "Are you sitting or standing mostly during your volunteer work?" },
+      { "role": "user", "content": "Mostly sitting at the greeting desk, but my legs just hang there." },
+      { "role": "assistant", "content": "Elevation is key. Have you tried compression stockings yet?" },
+      { "role": "user", "content": "I haven't. My doctor mentioned them, but I don't know where to get the right size." },
+      { "role": "assistant", "content": "I can help you find a sizing chart online. You'll just need a tape measure." },
+      { "role": "user", "content": "If you help me find the right compression stocking size online, I'll start wearing them to my shift." }
+    ],
+    "memory": {
+      "symptom": "edema / ankle swelling",
+      "lifestyle_factor": "sedentary volunteer work",
+      "tech_comfort": "moderate (can navigate provided links)",
+      "prescribed_treatment": "compression stockings",
+      "barrier_to_care": "uncertainty about sizing"
+    },
+    "must_use_keys": ["symptom", "lifestyle_factor", "tech_comfort"]
+  },
+  {
+    "id": "023",
+    "dialogue": [
+      { "role": "user", "content": "I'm worried about my post-stroke exercises; I'm not sure if I'm doing the arm lifts correctly." },
+      { "role": "assistant", "content": "Form is very important for neuro-recovery. Do you have a mirror in your workout area?" },
+      { "role": "user", "content": "No, I usually just do them in my recliner while watching the news." },
+      { "role": "assistant", "content": "What if we used a motion-tracking app on your tablet that 'watches' your form?" },
+      { "role": "user", "content": "I'm a retired engineer, so I'm very comfortable with motion-tracking tech." },
+      { "role": "assistant", "content": "That's great! An app like Kaia Health could give you real-time feedback." },
+      { "role": "user", "content": "Using a motion-tracking app on my tablet will ensure my post-stroke arm lifts are effective." }
+    ],
+    "memory": {
+      "recovery_phase": "post-stroke rehabilitation",
+      "exercise_type": "arm lifts",
+      "tech_comfort": "high (retired engineer)",
+      "current_habit": "exercising without visual feedback",
+      "goal": "proper form for neuro-recovery"
+    },
+    "must_use_keys": ["recovery_phase", "exercise_type", "tech_comfort"]
+  },
+  {
+    "id": "024",
+    "dialogue": [
+      { "role": "user", "content": "My dialysis schedule is so draining, I keep forgetting my renal diet rules." },
+      { "role": "assistant", "content": "It's a lot to manage. Which part of the diet is the hardest-potassium or phosphorus?" },
+      { "role": "user", "content": "Potassium. I love bananas and potatoes, and I forget they are off-limits." },
+      { "role": "assistant", "content": "Would a meal-scanning app that flags high-potassium foods help you?" },
+      { "role": "user", "content": "I'm not very good with apps. My phone is old and slow." },
+      { "role": "assistant", "content": "In that case, would a simple color-coded 'cheat sheet' on your fridge work better?" },
+      { "role": "user", "content": "A color-coded cheat sheet on the fridge is better for my renal diet than a slow phone app." }
+    ],
+    "memory": {
+      "health_treatment": "dialysis",
+      "dietary_restriction": "renal diet (low potassium)",
+      "tech_comfort": "low (old/slow device)",
+      "food_triggers": "bananas and potatoes",
+      "preferred_tool": "physical cheat sheet"
+    },
+    "must_use_keys": ["health_treatment", "dietary_restriction", "tech_comfort"]
+  },
+  {
+    "id": "025",
+    "dialogue": [
+      { "role": "user", "content": "My wheelchair tires keep losing pressure, and it's making it harder to push." },
+      { "role": "assistant", "content": "Under-inflated tires can definitely increase friction. Do you check them weekly?" },
+      { "role": "user", "content": "I try, but I can't see the gauge on the floor pump from my sitting position." },
+      { "role": "assistant", "content": "There are digital tire gauges with backlit screens and voice output. Would that help?" },
+      { "role": "user", "content": "Voice output would be great. I'm okay with digital tools if they talk to me." },
+      { "role": "assistant", "content": "I'll find a model that announces the PSI clearly." },
+      { "role": "user", "content": "A talking digital tire gauge would let me maintain my wheelchair pressure independently." }
+    ],
+    "memory": {
+      "mobility_aid": "manual wheelchair",
+      "maintenance_issue": "tire pressure management",
+      "tech_comfort": "moderate (likes voice-output tools)",
+      "accessibility_barrier": "unable to read floor-level gauges",
+      "desired_feature": "backlit screen / voice PSI announcement"
+    },
+    "must_use_keys": ["mobility_aid", "maintenance_issue", "tech_comfort"]
+  },
+  {
+    "id": "026",
+    "dialogue": [
+      { "role": "user", "content": "I'm having a hard time tracking my blood sugar since my vision started getting blurry." },
+      { "role": "assistant", "content": "That makes testing much more difficult. Have you looked into 'talking' glucometers?" },
+      { "role": "user", "content": "I've heard of them, but I wasn't sure if they were hard to set up." },
+      { "role": "assistant", "content": "They are quite simple. I can find one that requires no coding or complex setup." },
+      { "role": "user", "content": "I'm okay with a little tech if it means I don't have to squint at the tiny screen." },
+      { "role": "assistant", "content": "I'll recommend the Prodigy Voice monitor; it's designed specifically for this." },
+      { "role": "user", "content": "A talking glucometer will help me manage my diabetes even with my blurry vision." }
+    ],
+    "memory": {
+      "health_condition": "diabetes",
+      "physical_impairment": "blurry vision",
+      "tech_comfort": "moderate (prefers voice-guided tech)",
+      "current_barrier": "squinting at small device screens",
+      "recommended_device": "Prodigy Voice glucometer"
+    },
+    "must_use_keys": ["health_condition", "physical_impairment", "tech_comfort"]
+  },
+  {
+    "id": "027",
+    "dialogue": [
+      { "role": "user", "content": "My back is killing me when I try to transfer from the bed to my wheelchair." },
+      { "role": "assistant", "content": "Transfers are the most common source of strain. Are you using a slide board?" },
+      { "role": "user", "content": "I have one, but it feels slippery and I'm afraid of falling." },
+      { "role": "assistant", "content": "We might need to adjust your technique or add a high-friction mat. Are you okay watching a training video?" },
+      { "role": "user", "content": "I use YouTube all the time for DIY stuff, so a video is fine." },
+      { "role": "assistant", "content": "I'll send a video from a physical therapist specializing in safe chair transfers." },
+      { "role": "user", "content": "Watching a YouTube tutorial on safe wheelchair transfers should help my back pain." }
+    ],
+    "memory": {
+      "mobility_status": "wheelchair user",
+      "symptom": "back pain during transfers",
+      "tech_comfort": "high (frequent YouTube user)",
+      "equipment": "slide board (current safety concern)",
+      "learning_preference": "visual / video-based instruction"
+    },
+    "must_use_keys": ["mobility_status", "symptom", "tech_comfort"]
+  },
+  {
+    "id": "028",
+    "dialogue": [
+      { "role": "user", "content": "I'm feeling very isolated lately because it's so hard to get my wheelchair down the front steps." },
+      { "role": "assistant", "content": "Isolation can really impact your mental health. Do you have a ramp installed?" },
+      { "role": "user", "content": "No, we looked at permanent ones, but they are too expensive for my budget." },
+      { "role": "assistant", "content": "There are modular, portable ramps that are much more affordable. Want to check some prices?" },
+      { "role": "user", "content": "I can use my phone to check, but I'm worried about the assembly being too hard." },
+      { "role": "assistant", "content": "Many come pre-assembled or just unfold. I'll find the easiest ones for you." },
+      { "role": "user", "content": "Checking portable ramp prices on my phone might be my ticket out of the house." }
+    ],
+    "memory": {
+      "mobility_status": "wheelchair user",
+      "mental_health": "feeling isolated",
+      "tech_comfort": "moderate (uses smartphone for browsing)",
+      "home_barrier": "front steps / no ramp",
+      "financial_constraint": "cannot afford permanent ramp"
+    },
+    "must_use_keys": ["mobility_status", "mental_health", "tech_comfort"]
+  },
+  {
+    "id": "029",
+    "dialogue": [
+      { "role": "user", "content": "My feet are getting so cold and numb in the wheelchair during the winter." },
+      { "role": "assistant", "content": "Poor circulation is common. Are you able to do any ankle pumps while sitting?" },
+      { "role": "user", "content": "I forget to do them. I just sit there under a blanket all day." },
+      { "role": "assistant", "content": "What if we used a 'smart' heated foot warmer that you can control via a remote?" },
+      { "role": "user", "content": "I'm okay with a remote, but I don't want anything that connects to the internet." },
+      { "role": "assistant", "content": "Understood. A simple plug-in warmer with a wired remote is very safe and effective." },
+      { "role": "user", "content": "A simple heated foot warmer with a remote will help my circulation this winter." }
+    ],
+    "memory": {
+      "mobility_status": "wheelchair user",
+      "symptom": "cold / numb feet (poor circulation)",
+      "tech_comfort": "low (dislikes IoT/internet-connected devices)",
+      "current_habit": "sedentary with a blanket",
+      "intervention": "heated foot warmer with wired remote"
+    },
+    "must_use_keys": ["mobility_status", "symptom", "tech_comfort"]
+  },
+  {
+    "id": "030",
+    "dialogue": [
+      { "role": "user", "content": "My medication for my tremors is making me very drowsy in the afternoons." },
+      { "role": "assistant", "content": "Drowsiness is a common side effect. Are you taking it right before your nap?" },
+      { "role": "user", "content": "I don't usually nap, but I find myself nodding off while reading the news on my Kindle." },
+      { "role": "assistant", "content": "We might need to adjust the timing with your doctor. Do you track your sleep quality?" },
+      { "role": "user", "content": "I use my Apple Watch to track sleep, so I have all that data ready." },
+      { "role": "assistant", "content": "That data will be invaluable for your doctor to see if the meds are affecting your night sleep too." },
+      { "role": "user", "content": "I'll show my Apple Watch sleep data to the doctor to discuss this afternoon drowsiness." }
+    ],
+    "memory": {
+      "condition": "Essential Tremor",
+      "side_effect": "afternoon drowsiness",
+      "tech_comfort": "high (Apple Watch / Kindle user)",
+      "monitoring_habit": "sleep tracking via smartwatch",
+      "action_item": "discuss medication timing with doctor"
+    },
+    "must_use_keys": ["condition", "side_effect", "tech_comfort"]
+  },
+  {
+    "id": "031",
+    "dialogue": [
+      { "role": "user", "content": "I'm terrified of slipping in the kitchen since my balance has been off." },
+      { "role": "assistant", "content": "Kitchen floors can be treacherous. Do you wear non-slip shoes at home?" },
+      { "role": "user", "content": "No, I usually just wear my old slippers, but they are quite worn out." },
+      { "role": "assistant", "content": "We should get you some proper orthopedic house shoes. Can I show you some online?" },
+      { "role": "user", "content": "I'm not great at online shopping; I'm always worried about the wrong size." },
+      { "role": "assistant", "content": "I can find a site with an easy return policy and a printable size guide for you." },
+      { "role": "user", "content": "If you find a site with easy returns, I'll finally get some non-slip kitchen shoes." }
+    ],
+    "memory": {
+      "symptom": "poor balance / fall anxiety",
+      "home_environment": "slippery kitchen floors",
+      "tech_comfort": "low (wary of online shopping)",
+      "current_habit": "wearing worn-out slippers",
+      "safety_need": "orthopedic non-slip shoes"
+    },
+    "must_use_keys": ["symptom", "home_environment", "tech_comfort"]
+  },
+  {
+    "id": "032",
+    "dialogue": [
+      { "role": "user", "content": "Since my stroke, I can only use my left hand to get dressed, and buttons are impossible." },
+      { "role": "assistant", "content": "That's a very common challenge. Have you heard of adaptive clothing with magnetic closures?" },
+      { "role": "user", "content": "Magnetic buttons? I didn't know that was even a thing." },
+      { "role": "assistant", "content": "They look just like regular shirts but snap together easily. I can show you a video of how they work." },
+      { "role": "user", "content": "I'm comfortable with YouTube, so a video would be great to see if I can manage them." },
+      { "role": "assistant", "content": "I'll find a demonstration of the Tommy Hilfiger Adaptive line for you." },
+      { "role": "user", "content": "Watching a video on magnetic buttons might solve my struggle with dressing myself." }
+    ],
+    "memory": {
+      "recovery_status": "post-stroke (one-sided weakness)",
+      "primary_challenge": "dressing / fastening buttons",
+      "tech_comfort": "moderate (comfortable with YouTube)",
+      "adaptive_solution": "magnetic closure clothing",
+      "goal": "independent dressing"
+    },
+    "must_use_keys": ["recovery_status", "primary_challenge", "tech_comfort"]
+  },
+  {
+    "id": "033",
+    "dialogue": [
+      { "role": "user", "content": "My heart rate seems to spike whenever I try to push my wheelchair uphill." },
+      { "role": "assistant", "content": "That's a sign your cardiovascular system is working hard. How high does it get?" },
+      { "role": "user", "content": "It hits 130 bpm, and I start feeling a bit short of breath." },
+      { "role": "assistant", "content": "We should keep a log of this for your cardiologist. Do you have a heart rate monitor?" },
+      { "role": "user", "content": "My Fitbit tracks it, but I don't know how to export the data for the doctor." },
+      { "role": "assistant", "content": "I can walk you through the steps to download the report from the Fitbit app." },
+      { "role": "user", "content": "If I can export my Fitbit data, my cardiologist can see why my heart spikes on hills." }
+    ],
+    "memory": {
+      "mobility_status": "wheelchair user",
+      "symptom": "tachycardia / shortness of breath on inclines",
+      "tech_comfort": "moderate (uses Fitbit but needs app help)",
+      "medical_need": "cardiology consultation",
+      "tracking_tool": "Fitbit"
+    },
+    "must_use_keys": ["mobility_status", "symptom", "tech_comfort"]
+  },
+  {
+    "id": "034",
+    "dialogue": [
+      { "role": "user", "content": "The arthritis in my neck makes it hard to see the screen on my wheelchair controller." },
+      { "role": "assistant", "content": "That's a tough angle to maintain. Can we adjust the mount for the controller?" },
+      { "role": "user", "content": "It's fixed in place, and I can't tilt it up high enough to see it without pain." },
+      { "role": "assistant", "content": "Would a Bluetooth-connected screen on your smartphone, mounted at eye level, help?" },
+      { "role": "user", "content": "I'm very tech-savvy, I've already got a phone mount on the other armrest." },
+      { "role": "assistant", "content": "Perfect. We can mirror the chair's diagnostics to your phone so you can stay upright." },
+      { "role": "user", "content": "Mirroring the chair's display to my phone would finally save my neck from all that strain." }
+    ],
+    "memory": {
+      "condition": "Cervical Arthritis / Neck pain",
+      "mobility_aid": "power wheelchair",
+      "tech_comfort": "high (tech-savvy / uses phone mounts)",
+      "accessibility_barrier": "poor visibility of fixed controller screen",
+      "required_adjustment": "eye-level display mirroring"
+    },
+    "must_use_keys": ["condition", "mobility_aid", "tech_comfort"]
+  },
+  {
+    "id": "035",
+    "dialogue": [
+      { "role": "user", "content": "My father is getting confused about his evening insulin dose." },
+      { "role": "assistant", "content": "Confusion with insulin is dangerous. Is he taking too much or forgetting it entirely?" },
+      { "role": "user", "content": "Sometimes both. He can't remember if he already injected himself." },
+      { "role": "assistant", "content": "A smart insulin pen cap that records the time of the last dose would be perfect." },
+      { "role": "user", "content": "He's not good with smartphones, but he can read a digital display on a pen." },
+      { "role": "assistant", "content": "The Timesulin cap doesn't need an app; it just shows a timer right on the pen." },
+      { "role": "user", "content": "A timer cap on his insulin pen would help him know if he's already taken his dose." }
+    ],
+    "memory": {
+      "caregiving_target": "elderly father",
+      "health_condition": "diabetes (insulin dependent)",
+      "tech_comfort": "low (prefers on-device displays over apps)",
+      "safety_issue": "double-dosing or missing insulin",
+      "desired_tool": "smart pen cap with timer"
+    },
+    "must_use_keys": ["caregiving_target", "health_condition", "tech_comfort"]
+  },
+  {
+    "id": "036",
+    "dialogue": [
+      { "role": "user", "content": "I'm struggling to get my wheelchair through the bathroom door; it's just too narrow." },
+      { "role": "assistant", "content": "Bathroom accessibility is a major hurdle. Have you considered offset 'swing-clear' hinges?" },
+      { "role": "user", "content": "I've never heard of those. Do they require a lot of construction?" },
+      { "role": "assistant", "content": "No, they just replace your existing hinges and give you an extra 2 inches of space. I can find a video." },
+      { "role": "user", "content": "I'm okay with tech, so I'll check out the video on my tablet." },
+      { "role": "assistant", "content": "I'll send a link that shows how they are installed. It's a very cheap fix." },
+      { "role": "user", "content": "Checking a video for swing-clear hinges on my tablet might finally let me use the bathroom easily." }
+    ],
+    "memory": {
+      "mobility_status": "wheelchair user",
+      "home_barrier": "narrow bathroom doorway",
+      "tech_comfort": "moderate (comfortable with tablet/video)",
+      "home_modification": "swing-clear hinges",
+      "goal": "independent bathroom access"
+    },
+    "must_use_keys": ["mobility_status", "home_barrier", "tech_comfort"]
+  },
+  {
+    "id": "037",
+    "dialogue": [
+      { "role": "user", "content": "My asthma is acting up every time I go to the basement to do laundry." },
+      { "role": "assistant", "content": "Basements can be damp. Do you notice a musty smell down there?" },
+      { "role": "user", "content": "Yes, it's very damp. I think there might be mold growing near the washer." },
+      { "role": "assistant", "content": "That's a huge trigger. Would you use a smart air quality monitor to check the levels?" },
+      { "role": "user", "content": "I love seeing data on my phone, so a smart monitor sounds great." },
+      { "role": "assistant", "content": "I'll recommend one that alerts your phone when mold spores or humidity get too high." },
+      { "role": "user", "content": "A smart air quality monitor will tell me if the basement is safe for my asthma." }
+    ],
+    "memory": {
+      "condition": "Asthma",
+      "trigger_environment": "damp basement / laundry room",
+      "tech_comfort": "high (enjoys data-tracking apps)",
+      "suspected_trigger": "mold / high humidity",
+      "prevention_strategy": "air quality monitoring"
+    },
+    "must_use_keys": ["condition", "trigger_environment", "tech_comfort"]
+  },
+  {
+    "id": "038",
+    "dialogue": [
+      { "role": "user", "content": "I can't seem to get my compression socks on by myself anymore; my hands are too weak." },
+      { "role": "assistant", "content": "Compression socks are notoriously difficult. Have you tried a 'sock donner'?" },
+      { "role": "user", "content": "I have a plastic one, but it still requires too much pulling force." },
+      { "role": "assistant", "content": "There are electric or high-leverage metal ones. Would you be open to a more 'mechanical' solution?" },
+      { "role": "user", "content": "As long as it doesn't have a million parts to put together, I'm fine with it." },
+      { "role": "assistant", "content": "I'll find a heavy-duty metal donner that uses leverage to make it much easier." },
+      { "role": "user", "content": "A high-leverage metal donner would help me put on compression socks despite my weak hands." }
+    ],
+    "memory": {
+      "physical_limitation": "weak hand grip / reduced strength",
+      "daily_struggle": "applying compression stockings",
+      "tech_comfort": "moderate (prefers simple mechanical tools)",
+      "previous_tool": "plastic sock donner (failed)",
+      "required_aid": "high-leverage dressing assist"
+    },
+    "must_use_keys": ["physical_limitation", "daily_struggle", "tech_comfort"]
+  },
+  {
+    "id": "039",
+    "dialogue": [
+      { "role": "user", "content": "My daughter is worried I'm not drinking enough water throughout the day." },
+      { "role": "assistant", "content": "Dehydration can lead to confusion and UTIs in seniors. Do you feel thirsty often?" },
+      { "role": "user", "content": "Not really, I just forget to drink until I get a headache in the evening." },
+      { "role": "assistant", "content": "How about a smart water bottle that glows when it's time to take a sip?" },
+      { "role": "user", "content": "I'm okay with a glowing bottle, but I don't want to deal with charging it every day." },
+      { "role": "assistant", "content": "There are models with batteries that last months. I'll find one of those for you." },
+      { "role": "user", "content": "A smart water bottle with a long battery life would remind me to stay hydrated." }
+    ],
+    "memory": {
+      "health_risk": "dehydration / headache trigger",
+      "caregiving_source": "daughter",
+      "tech_comfort": "moderate (accepts gadgets but hates frequent charging)",
+      "symptom": "evening headaches",
+      "intervention": "glowing reminder water bottle"
+    },
+    "must_use_keys": ["health_risk", "caregiving_source", "tech_comfort"]
+  },
+  {
+    "id": "040",
+    "dialogue": [
+      { "role": "user", "content": "My prosthetic leg is chafing my skin where the socket meets my thigh." },
+      { "role": "assistant", "content": "Chafing can lead to sores. Is the socket feeling loose lately?" },
+      { "role": "user", "content": "A little. I've lost some weight, so it might be sliding around more." },
+      { "role": "assistant", "content": "You might need to add a prosthetic sock or get a socket adjustment. Are you okay using an app to log the sore spots?" },
+      { "role": "user", "content": "I'm quite tech-savvy, I already use a fitness tracker to count my steps." },
+      { "role": "assistant", "content": "That's perfect. Logging the skin irritation alongside your step count will help the prosthetist." },
+      { "role": "user", "content": "I'll start logging my skin chafing and my daily steps to show my prosthetist." }
+    ],
+    "memory": {
+      "condition": "Lower limb amputee",
+      "symptom": "skin chafing / socket friction",
+      "tech_comfort": "high (uses fitness trackers)",
+      "physical_change": "recent weight loss",
+      "action_item": "log irritation for prosthetic adjustment"
+    },
+    "must_use_keys": ["condition", "symptom", "tech_comfort"]
+  },{
+    "id": "041",
+    "dialogue": [
+      { "role": "user", "content": "I nearly tripped over my bedroom rug again this morning." },
+      { "role": "assistant", "content": "That's scary. Is it a loose rug, or does it have curled edges?" },
+      { "role": "user", "content": "The corners are curling up. I try to flatten them, but they just pop back." },
+      { "role": "assistant", "content": "We should fix that. Would you be open to using some double-sided rug tape?" },
+      { "role": "user", "content": "I'm fine with tape as long as it doesn't ruin the hardwood floors." },
+      { "role": "assistant", "content": "There are floor-safe options. I'll find a brand that's easy to peel off later." },
+      { "role": "user", "content": "Perfect, let's get some of that tape before I actually end up on the floor!" }
+    ],
+    "memory": {
+      "safety_hazard": "curled rug corners in bedroom",
+      "fall_history": "recent near-miss trip",
+      "tech_comfort": "moderate",
+      "home_setup": "hardwood flooring"
+    },
+    "must_use_keys": ["safety_hazard", "fall_history", "tech_comfort"]
+  },
+  {
+    "id": "042",
+    "dialogue": [
+      { "role": "user", "content": "I can't hear the doorbell when I'm in the back garden in my wheelchair." },
+      { "role": "assistant", "content": "That must be annoying, especially if you're expecting a delivery." },
+      { "role": "user", "content": "It is. I missed my package yesterday because I was watering the plants." },
+      { "role": "assistant", "content": "Would you like a doorbell that sends a vibration alert to your phone?" },
+      { "role": "user", "content": "I always have my phone in my lap, so a vibration alert would be perfect." },
+      { "role": "assistant", "content": "Great, a smart doorbell with mobile notifications is the way to go." },
+      { "role": "user", "content": "I'm sold-that vibration feature is exactly what I need to stay in the loop." }
+    ],
+    "memory": {
+      "sensory_issue": "unable to hear doorbell from distance",
+      "mobility_status": "wheelchair user",
+      "tech_comfort": "high (frequent smartphone user)"
+    },
+    "must_use_keys": ["sensory_issue", "mobility_status", "tech_comfort"]
+  },
+  {
+    "id": "043",
+    "dialogue": [
+      { "role": "user", "content": "My hands get so cold and stiff when I'm out in my manual chair." },
+      { "role": "assistant", "content": "Winter air can be brutal on the joints. Do you wear gloves while pushing?" },
+      { "role": "user", "content": "Standard gloves are too slippery; I can't get a good grip on the rims." },
+      { "role": "assistant", "content": "You need specialized wheelchair gloves with rubber palms. Have you seen them?" },
+      { "role": "user", "content": "I'm not great at finding niche stuff online. My son usually buys my gear." },
+      { "role": "assistant", "content": "I'll find a link to some high-grip thermal gloves you can send to him." },
+      { "role": "user", "content": "That would be a huge help; I'll tell my son to keep an eye out for your message." }
+    ],
+    "memory": {
+      "symptom": "hand stiffness / cold sensitivity",
+      "mobility_aid": "manual wheelchair",
+      "tech_comfort": "low (relies on family for online purchases)"
+    },
+    "must_use_keys": ["symptom", "mobility_aid", "tech_comfort"]
+  },
+  {
+    "id": "044",
+    "dialogue": [
+      { "role": "user", "content": "I'm having trouble getting up from my favorite armchair lately." },
+      { "role": "assistant", "content": "Is the chair too low, or are the cushions just too soft?" },
+      { "role": "user", "content": "It's a bit of both. I feel like I'm sinking and I can't get any leverage." },
+      { "role": "assistant", "content": "We could add some furniture risers to lift the whole chair by a few inches." },
+      { "role": "user", "content": "I'm okay with that as long as the chair stays stable." },
+      { "role": "assistant", "content": "They are designed to be very sturdy. I'll show you a few options on my tablet." },
+      { "role": "user", "content": "If those risers can save my knees, I'm definitely willing to give them a shot." }
+    ],
+    "memory": {
+      "physical_struggle": "difficulty standing from seated position",
+      "home_barrier": "low/soft armchair",
+      "tech_comfort": "moderate"
+    },
+    "must_use_keys": ["physical_struggle", "home_barrier", "tech_comfort"]
+  },
+  {
+    "id": "045",
+    "dialogue": [
+      { "role": "user", "content": "My hearing aid keeps whistling whenever I hug my grandkids." },
+      { "role": "assistant", "content": "That whistling is usually feedback. Does it feel loose in your ear?" },
+      { "role": "user", "content": "Maybe a little. It's an older model I've had for years." },
+      { "role": "assistant", "content": "It might just need a new dome or a professional cleaning. Can you check the manual?" },
+      { "role": "user", "content": "I lost the manual, but I can probably find a PDF version on the computer." },
+      { "role": "assistant", "content": "Good idea. Look for the 'troubleshooting' section regarding feedback." },
+      { "role": "user", "content": "I'll get on the computer now; hopefully that PDF has the fix for this noise!" }
+    ],
+    "memory": {
+      "device_issue": "hearing aid feedback / whistling",
+      "tech_comfort": "moderate",
+      "social_impact": "interference during family interactions"
+    },
+    "must_use_keys": ["device_issue", "tech_comfort", "social_impact"]
+  },
+  {
+    "id": "046",
+    "dialogue": [
+      { "role": "user", "content": "I've been feeling quite lonely since I stopped going to the senior center." },
+      { "role": "assistant", "content": "I'm sorry to hear that. Is it because the transport is too difficult now?" },
+      { "role": "user", "content": "Yes, the bus is too hard to manage with my walker on rainy days." },
+      { "role": "assistant", "content": "Would you be interested in joining a virtual coffee morning via Zoom?" },
+      { "role": "user", "content": "I'm not very confident with Zoom, I'm afraid I'll press the wrong button." },
+      { "role": "assistant", "content": "I can mail you a 'one-click' tablet that's set up just for video calls." },
+      { "role": "user", "content": "A 'one-click' tablet? That sounds like something even I can't mess up!" }
+    ],
+    "memory": {
+      "emotional_state": "loneliness / isolation",
+      "transport_barrier": "difficulty using the bus with a walker",
+      "tech_comfort": "low"
+    },
+    "must_use_keys": ["emotional_state", "transport_barrier", "tech_comfort"]
+  },
+  {
+    "id": "047",
+    "dialogue": [
+      { "role": "user", "content": "I'm finding it really hard to cut my toenails these days." },
+      { "role": "assistant", "content": "Bending over like that can be a real strain on your back and hips." },
+      { "role": "user", "content": "Exactly. I can't reach my feet comfortably anymore." },
+      { "role": "assistant", "content": "There are long-handled nail clippers designed specifically for this. Want to see one?" },
+      { "role": "user", "content": "I'm quite tech-savvy, I'll just look them up on Amazon right now." },
+      { "role": "assistant", "content": "Perfect. Look for the ones with the ergonomic grip and extended reach." },
+      { "role": "user", "content": "I see a few options here; these long-handled ones look much more manageable." }
+    ],
+    "memory": {
+      "physical_limitation": "difficulty bending over / reaching feet",
+      "daily_care_need": "toenail trimming",
+      "tech_comfort": "high"
+    },
+    "must_use_keys": ["physical_limitation", "daily_care_need", "tech_comfort"]
+  },
+  {
+    "id": "048",
+    "dialogue": [
+      { "role": "user", "content": "My kitchen light is burnt out, and I'm scared to use a ladder in my condition." },
+      { "role": "assistant", "content": "You definitely shouldn't be climbing ladders right now with your balance issues." },
+      { "role": "user", "content": "But I can't see to cook my dinner! It's so dark in there." },
+      { "role": "assistant", "content": "We could get you a long-reach lightbulb changer so you can stay on the floor." },
+      { "role": "user", "content": "I'm fine with simple tools like that, I don't need anything fancy or digital." },
+      { "role": "assistant", "content": "I'll find a manual suction-cup pole that makes it safe and easy." },
+      { "role": "user", "content": "That pole sounds like a lifesaver-I'd much rather stay firmly on the ground." }
+    ],
+    "memory": {
+      "safety_risk": "potential fall from ladder",
+      "home_maintenance_need": "kitchen lightbulb replacement",
+      "tech_comfort": "low"
+    },
+    "must_use_keys": ["safety_risk", "home_maintenance_need", "tech_comfort"]
+  },
+  {
+    "id": "049",
+    "dialogue": [
+      { "role": "user", "content": "I keep forgetting if I've fed the dog since my memory started getting fuzzy." },
+      { "role": "assistant", "content": "It's easy to lose track of routine chores. Does the dog let you know?" },
+      { "role": "user", "content": "He's a lab, he always acts like he's starving even if he just ate!" },
+      { "role": "assistant", "content": "How about a simple 'Did You Feed the Dog' slider board on the wall?" },
+      { "role": "user", "content": "I like that. I don't want to use an app for something so small." },
+      { "role": "assistant", "content": "Agreed. A physical slider board is a great visual cue for the whole house." },
+      { "role": "user", "content": "Exactly! I'll put a slider board right by his bowl so there's no more guessing." }
+    ],
+    "memory": {
+      "symptom": "mild memory fuzziness",
+      "daily_task": "pet care (feeding the dog)",
+      "tech_comfort": "low"
+    },
+    "must_use_keys": ["symptom", "daily_task", "tech_comfort"]
+  },
+  {
+    "id": "050",
+    "dialogue": [
+      { "role": "user", "content": "My back hurts after sitting at the dining table for my morning puzzles." },
+      { "role": "assistant", "content": "Dining chairs often lack proper lumbar support. How long are you sitting?" },
+      { "role": "user", "content": "Usually about an hour. I get so involved in the crossword." },
+      { "role": "assistant", "content": "A portable lumbar roll might make a big difference for your spine." },
+      { "role": "user", "content": "I'm okay with tech, so I'll check some reviews on my phone for the best one." },
+      { "role": "assistant", "content": "Look for one with an adjustable strap so it stays put on your chair." },
+      { "role": "user", "content": "Found one with great reviews! I'll order this lumbar roll and see if my back improves." }
+    ],
+    "memory": {
+      "symptom": "lower back pain",
+      "activity": "morning puzzles / crosswords",
+      "tech_comfort": "high"
+    },
+    "must_use_keys": ["symptom", "activity", "tech_comfort"]
+  },
+  {
+    "id": "051",
+    "dialogue": [
+      { "role": "user", "content": "I'm finding it hard to read the labels on my spice jars in the kitchen." },
+      { "role": "assistant", "content": "Small text can be a real pain. Have you tried using a magnifying glass?" },
+      { "role": "user", "content": "I have one, but I'm always misplacing it when I'm cooking." },
+      { "role": "assistant", "content": "What about using the 'Magnifier' app that's built into your iPhone?" },
+      { "role": "user", "content": "Oh, I'm very comfortable with my iPhone! I didn't know it could do that." },
+      { "role": "assistant", "content": "It's great; it even has a flashlight to help you see in the cupboards." },
+      { "role": "user", "content": "That is incredibly handy! I'm going to set up that Magnifier shortcut right now." }
+    ],
+    "memory": {
+      "sensory_issue": "difficulty reading labels",
+      "tech_comfort": "high (iPhone user)",
+      "current_barrier": "misplacing physical magnifying glass"
+    },
+    "must_use_keys": ["sensory_issue", "tech_comfort", "current_barrier"]
+  },
+  {
+    "id": "052",
+    "dialogue": [
+      { "role": "user", "content": "My ankles get so stiff when I'm sitting in my wheelchair for too long." },
+      { "role": "assistant", "content": "Keeping the blood flowing is important. Can you wiggle your toes at all?" },
+      { "role": "user", "content": "A little bit, but I forget to do it while I'm watching TV." },
+      { "role": "assistant", "content": "Would you like a small vibrating foot plate to help with circulation?" },
+      { "role": "user", "content": "I'm not great with electronics, I'm worried it will be too complicated to turn on." },
+      { "role": "assistant", "content": "We can find one with a simple 'On/Off' foot switch so you don't even have to bend over." },
+      { "role": "user", "content": "If it's just a simple foot switch, then I'm willing to give it a try." }
+    ],
+    "memory": {
+      "symptom": "ankle stiffness / poor circulation",
+      "mobility_status": "wheelchair user",
+      "tech_comfort": "low"
+    },
+    "must_use_keys": ["symptom", "mobility_status", "tech_comfort"]
+  },
+  {
+    "id": "053",
+    "dialogue": [
+      { "role": "user", "content": "I'm having a hard time remembering to take my afternoon walk." },
+      { "role": "assistant", "content": "The afternoon slump is real. Do you have a set time you usually go?" },
+      { "role": "user", "content": "I aim for 3 PM, but I usually end up napping instead." },
+      { "role": "assistant", "content": "How about setting a recurring alarm on your smart speaker?" },
+      { "role": "user", "content": "I'm fine with using Alexa, I use it to listen to the radio all the time." },
+      { "role": "assistant", "content": "Perfect. We can set a daily reminder: 'Time for your 15-minute stroll!'" },
+      { "role": "user", "content": "Great idea-Alexa's voice is much harder to ignore than my own conscience!" }
+    ],
+    "memory": {
+      "health_goal": "daily afternoon walk",
+      "forgetting_pattern": "afternoon (due to napping)",
+      "tech_comfort": "moderate (comfortable with Alexa)"
+    },
+    "must_use_keys": ["health_goal", "forgetting_pattern", "tech_comfort"]
+  },
+  {
+    "id": "054",
+    "dialogue": [
+      { "role": "user", "content": "My hands shake too much to use a normal spoon without spilling my soup." },
+      { "role": "assistant", "content": "That can be very frustrating during meals. Is it worse when you're tired?" },
+      { "role": "user", "content": "Yes, much worse in the evening. I end up just eating bread." },
+      { "role": "assistant", "content": "Have you tried a weighted spoon or a 'steady' spoon that stays level?" },
+      { "role": "user", "content": "I've heard of them, but I don't know where to buy one without getting scammed." },
+      { "role": "assistant", "content": "I can direct you to a reputable medical supply site that's safe to use." },
+      { "role": "user", "content": "Please do; I'd love to be able to enjoy a bowl of soup without the mess." }
+    ],
+    "memory": {
+      "symptom": "hand tremors",
+      "daily_struggle": "spilling food / eating soup",
+      "tech_comfort": "moderate (wary of online security)"
+    },
+    "must_use_keys": ["symptom", "daily_struggle", "tech_comfort"]
+  },
+  {
+    "id": "055",
+    "dialogue": [
+      { "role": "user", "content": "I keep forgetting to lock my wheelchair brakes before I try to stand up." },
+      { "role": "assistant", "content": "That's a very dangerous slip risk. Does it happen mostly at home or out?" },
+      { "role": "user", "content": "Mostly at home when I'm in a hurry to answer the phone." },
+      { "role": "assistant", "content": "What if we put a bright red sticker on the brake levers as a visual reminder?" },
+      { "role": "user", "content": "Simple enough! I don't need any high-tech sensors for that." },
+      { "role": "assistant", "content": "Sometimes the simplest solutions are the most effective." },
+      { "role": "user", "content": "I'll go get some red tape now-anything to stop this chair from sliding away!" }
+    ],
+    "memory": {
+      "safety_risk": "forgetting to lock wheelchair brakes",
+      "mobility_status": "wheelchair user",
+      "tech_comfort": "low"
+    },
+    "must_use_keys": ["safety_risk", "mobility_status", "tech_comfort"]
+  },
+  {
+    "id": "056",
+    "dialogue": [
+      { "role": "user", "content": "I'm struggling to open my prescription bottles because of my arthritis." },
+      { "role": "assistant", "content": "Those safety caps can be really tough on sore joints. Have you asked for 'easy-open' lids?" },
+      { "role": "user", "content": "I didn't know the pharmacy would do that for me." },
+      { "role": "assistant", "content": "They certainly can. Or we can get you a multi-purpose bottle opener tool." },
+      { "role": "user", "content": "I'm quite tech-savvy, so I'll just email my pharmacist about the lids now." },
+      { "role": "assistant", "content": "That's a great proactive step to take." },
+      { "role": "user", "content": "Sent! Hopefully, my next refill won't be such a battle for my poor hands." }
+    ],
+    "memory": {
+      "physical_limitation": "arthritis in hands",
+      "daily_struggle": "opening prescription caps",
+      "tech_comfort": "high (comfortable with email)"
+    },
+    "must_use_keys": ["physical_limitation", "daily_struggle", "tech_comfort"]
+  },
+  {
+    "id": "057",
+    "dialogue": [
+      { "role": "user", "content": "My eyes get so tired when I'm reading my morning newspaper." },
+      { "role": "assistant", "content": "Is it the print size, or do you find the paper too heavy to hold up?" },
+      { "role": "user", "content": "The print is tiny, and my arms get tired after ten minutes." },
+      { "role": "assistant", "content": "Switching to a tablet where you can enlarge the font and use a stand might help." },
+      { "role": "user", "content": "I have an iPad, but I only use it for games. I'll try the news app." },
+      { "role": "assistant", "content": "I can show you how to adjust the text size so it's much easier on your eyes." },
+      { "role": "user", "content": "If I can make the text huge, I might actually finish the whole paper for once!" }
+    ],
+    "memory": {
+      "sensory_issue": "eye strain / small print",
+      "physical_limitation": "arm fatigue",
+      "tech_comfort": "moderate (uses iPad for games)"
+    },
+    "must_use_keys": ["sensory_issue", "physical_limitation", "tech_comfort"]
+  },
+  {
+    "id": "058",
+    "dialogue": [
+      { "role": "user", "content": "I'm finding it hard to reach the soaps in the back of my bathroom cabinet from my wheelchair." },
+      { "role": "assistant", "content": "Deep cabinets are a nightmare for accessibility. Do you have any pull-out shelves?" },
+      { "role": "user", "content": "No, it's just a standard cupboard. I have to use a reaching stick." },
+      { "role": "assistant", "content": "A 'Lazy Susan' turntable would bring everything to the front with one spin." },
+      { "role": "user", "content": "I'm not great with tech, but I can definitely handle a spinning tray!" },
+      { "role": "assistant", "content": "It's a low-tech but highly effective way to reorganize your space." },
+      { "role": "user", "content": "That's a brilliant low-tech fix-I'll get one for the kitchen spices too!" }
+    ],
+    "memory": {
+      "mobility_status": "wheelchair user",
+      "home_barrier": "deep bathroom cabinets",
+      "tech_comfort": "low"
+    },
+    "must_use_keys": ["mobility_status", "home_barrier", "tech_comfort"]
+  },
+  {
+    "id": "059",
+    "dialogue": [
+      { "role": "user", "content": "My walker keeps snagging on the doorway transitions between rooms." },
+      { "role": "assistant", "content": "Those little bumps can be quite jarring. Are they high metal strips?" },
+      { "role": "user", "content": "Yes, they are about half an inch high and very annoying." },
+      { "role": "assistant", "content": "Small rubber threshold ramps would smooth those transitions right out." },
+      { "role": "user", "content": "I'm tech-savvy enough to order those online, I'll just need to measure the width." },
+      { "role": "assistant", "content": "Make sure to measure the height of the 'bump' too, so the ramp fits perfectly." },
+      { "role": "user", "content": "Got it; I'll grab the tape measure and find some ramps that fit." }
+    ],
+    "memory": {
+      "mobility_aid": "walker",
+      "home_barrier": "doorway transitions",
+      "tech_comfort": "high"
+    },
+    "must_use_keys": ["mobility_aid", "home_barrier", "tech_comfort"]
+  },
+  {
+    "id": "060",
+    "dialogue": [
+      { "role": "user", "content": "I'm worried about my husband getting lost when he goes for his short walks." },
+      { "role": "assistant", "content": "Is he becoming more disoriented lately?" },
+      { "role": "user", "content": "Just occasionally, especially if he takes a new turn in the neighborhood." },
+      { "role": "assistant", "content": "Would you like him to wear a GPS watch that lets you see his location on your phone?" },
+      { "role": "user", "content": "I'm fine with using a tracking app, as long as it's easy for me to read the map." },
+      { "role": "assistant", "content": "I'll help you set up a 'safe zone' alert so you'll know if he goes too far." },
+      { "role": "user", "content": "That would be such a relief; I'd finally stop pacing the floor whenever he's out." }
+    ],
+    "memory": {
+      "caregiving_target": "husband with disorientation",
+      "safety_concern": "getting lost",
+      "tech_comfort": "moderate"
+    },
+    "must_use_keys": ["caregiving_target", "safety_concern", "tech_comfort"]
+  },
+  {
+    "id": "061",
+    "dialogue": [
+      { "role": "user", "content": "My skin feels so dry and itchy after my showers lately." },
+      { "role": "assistant", "content": "The hot water might be stripping your skin's natural oils. Do you use a moisturizer?" },
+      { "role": "user", "content": "I try, but it's hard to reach my back to put the lotion on." },
+      { "role": "assistant", "content": "There are lotion applicators with long handles. Would that help you?" },
+      { "role": "user", "content": "I'm not very tech-oriented, so a simple long-handled brush thing is perfect." },
+      { "role": "assistant", "content": "I'll find one with a replaceable sponge head for you." },
+      { "role": "user", "content": "Thank goodness! My back has been driving me crazy all week." }
+    ],
+    "memory": {
+      "symptom": "dry / itchy skin",
+      "physical_limitation": "unable to reach back",
+      "tech_comfort": "low"
+    },
+    "must_use_keys": ["symptom", "physical_limitation", "tech_comfort"]
+  },
+  {
+    "id": "062",
+    "dialogue": [
+      { "role": "user", "content": "I keep forgetting which exercises I'm supposed to do for my physical therapy." },
+      { "role": "assistant", "content": "It's hard to remember a whole list. Do you have a printed handout?" },
+      { "role": "user", "content": "I do, but the diagrams are confusing and I can't tell what the move is." },
+      { "role": "assistant", "content": "Would you prefer to watch short video clips of the exercises on your tablet?" },
+      { "role": "user", "content": "I'm quite good with my tablet, so videos would be much clearer." },
+      { "role": "assistant", "content": "I'll find a YouTube playlist that matches your specific routine." },
+      { "role": "user", "content": "Videos will be so much better-I've been guessing at those diagrams for days!" }
+    ],
+    "memory": {
+      "health_goal": "PT compliance",
+      "forgetting_pattern": "exercise form",
+      "tech_comfort": "high (comfortable with tablet)"
+    },
+    "must_use_keys": ["health_goal", "forgetting_pattern", "tech_comfort"]
+  },
+  {
+    "id": "063",
+    "dialogue": [
+      { "role": "user", "content": "My wheelchair feels much heavier to push when I'm on the thick carpet in the den." },
+      { "role": "assistant", "content": "Thick pile carpet is like quicksand for manual chairs. Does it happen in every room?" },
+      { "role": "user", "content": "No, just the den where I watch my movies." },
+      { "role": "assistant", "content": "A clear plastic 'chair mat' like the ones for office desks would create a smooth surface." },
+      { "role": "user", "content": "I'm tech-savvy enough to find the right size on my laptop and order it." },
+      { "role": "assistant", "content": "Perfect. Just make sure it has the little 'teeth' on the bottom to grip the carpet." },
+      { "role": "user", "content": "I'll order one now; my arms will definitely thank me during movie night." }
+    ],
+    "memory": {
+      "mobility_aid": "manual wheelchair",
+      "home_barrier": "thick carpet",
+      "tech_comfort": "high"
+    },
+    "must_use_keys": ["mobility_aid", "home_barrier", "tech_comfort"]
+  },
+  {
+    "id": "064",
+    "dialogue": [
+      { "role": "user", "content": "I'm having a hard time hearing my daughter's voice over the phone lately." },
+      { "role": "assistant", "content": "Is it the volume, or does her voice sound muffled?" },
+      { "role": "user", "content": "A bit of both. I have to keep asking her to repeat herself." },
+      { "role": "assistant", "content": "Would you like to try a 'captioned telephone' that shows her words on a screen?" },
+      { "role": "user", "content": "I'm not great with new gadgets, is it hard to set up?" },
+      { "role": "assistant", "content": "Many services offer free professional installation for seniors. I can help you find a local one." },
+      { "role": "user", "content": "If someone else can set it up, I'd love to actually follow a conversation again." }
+    ],
+    "memory": {
+      "sensory_issue": "hearing loss on phone",
+      "social_impact": "difficulty with daughter",
+      "tech_comfort": "low"
+    },
+    "must_use_keys": ["sensory_issue", "social_impact", "tech_comfort"]
+  },
+  {
+    "id": "065",
+    "dialogue": [
+      { "role": "user", "content": "I'm worried about slipping in the shower, but I don't want a permanent grab bar." },
+      { "role": "assistant", "content": "Is it because you're renting, or you just don't like the look of them?" },
+      { "role": "user", "content": "I'm renting, so I can't drill into the tiles." },
+      { "role": "assistant", "content": "Suction-cup grab bars are a great temporary solution. Have you used them?" },
+      { "role": "user", "content": "I'm okay with tech, so I'll read the safety ratings on my phone before I buy one." },
+      { "role": "assistant", "content": "That's wise. Make sure the indicator light is green before you put your weight on it." },
+      { "role": "user", "content": "I'll check those ratings now-safety first, especially in the bathroom!" }
+    ],
+    "memory": {
+      "safety_risk": "shower fall anxiety",
+      "housing_status": "renter",
+      "tech_comfort": "high"
+    },
+    "must_use_keys": ["safety_risk", "housing_status", "tech_comfort"]
+  },
+  {
+    "id": "066",
+    "dialogue": [
+      { "role": "user", "content": "My feet are swelling a lot because I forget to put them up on the ottoman." },
+      { "role": "assistant", "content": "Elevation is so important for that. Do you forget because you're busy?" },
+      { "role": "user", "content": "I just get caught up reading my Kindle and forget the time." },
+      { "role": "assistant", "content": "What if we set a 'foot elevation' timer on your smartphone?" },
+      { "role": "user", "content": "I'm comfortable with my smartphone, I use it for my Kindle app anyway." },
+      { "role": "assistant", "content": "Great. We can set a reminder every 2 hours to put your feet up for 20 minutes." },
+      { "role": "user", "content": "Perfect, that'll remind me to take a break from my book and help my ankles." }
+    ],
+    "memory": {
+      "symptom": "leg swelling",
+      "forgetting_pattern": "fails to elevate legs",
+      "tech_comfort": "high"
+    },
+    "must_use_keys": ["symptom", "forgetting_pattern", "tech_comfort"]
+  },
+  {
+    "id": "067",
+    "dialogue": [
+      { "role": "user", "content": "I'm having a hard time seeing the numbers on my microwave when I'm heating up my lunch." },
+      { "role": "assistant", "content": "Those flat touchpads can be really hard to navigate. Do you use the same settings often?" },
+      { "role": "user", "content": "Mostly just the 1-minute and 30-second buttons." },
+      { "role": "assistant", "content": "We could put raised 'bump dots' on those specific buttons so you can feel them." },
+      { "role": "user", "content": "I'm not great with tech, so a simple tactile dot is a wonderful idea." },
+      { "role": "assistant", "content": "It's a very popular hack for people with low vision. I'll get you a pack." },
+      { "role": "user", "content": "I can't wait to try those-it'll be so much easier than squinting at the panel!" }
+    ],
+    "memory": {
+      "sensory_issue": "low vision",
+      "daily_task": "heating food",
+      "tech_comfort": "low"
+    },
+    "must_use_keys": ["sensory_issue", "daily_task", "tech_comfort"]
+  },
+  {
+    "id": "068",
+    "dialogue": [
+      { "role": "user", "content": "I'm finding it hard to stay motivated with my daily arm stretches." },
+      { "role": "assistant", "content": "Stretching can feel like a chore. Do you listen to any music or podcasts?" },
+      { "role": "user", "content": "I haven't tried that, but I do like listening to old radio plays." },
+      { "role": "assistant", "content": "What if you only allowed yourself to listen to those plays while you stretch?" },
+      { "role": "user", "content": "I'm tech-savvy enough to find those on my tablet, so that might actually work!" },
+      { "role": "assistant", "content": "It's called 'temptation bundling.' It makes the habit much more enjoyable." },
+      { "role": "user", "content": "That's a great bribe! I'll save my favorite mystery series for tomorrow's session." }
+    ],
+    "memory": {
+      "health_goal": "daily stretches",
+      "primary_challenge": "lack of motivation",
+      "tech_comfort": "high"
+    },
+    "must_use_keys": ["health_goal", "primary_challenge", "tech_comfort"]
+  },
+  {
+    "id": "069",
+    "dialogue": [
+      { "role": "user", "content": "I'm worried about my blood pressure spikes during my afternoon naps." },
+      { "role": "assistant", "content": "Do you feel any symptoms like a headache or racing heart when you wake up?" },
+      { "role": "user", "content": "Yes, I usually wake up with a pounding headache around 4 PM." },
+      { "role": "assistant", "content": "We should track this. Do you have an automatic blood pressure cuff?" },
+      { "role": "user", "content": "I have one that connects to my phone via Bluetooth, I'm quite good with it." },
+      { "role": "assistant", "content": "Excellent. Make sure to take a reading immediately after you wake up and log the time." },
+      { "role": "user", "content": "Understood. I'll make sure to keep the phone and cuff right by my bed." }
+    ],
+    "memory": {
+      "health_condition": "hypertension",
+      "symptom": "pounding headache",
+      "tech_comfort": "high"
+    },
+    "must_use_keys": ["health_condition", "symptom", "tech_comfort"]
+  },
+  {
+    "id": "070",
+    "dialogue": [
+      { "role": "user", "content": "I'm having a hard time reaching the door handle to close my front door from my wheelchair." },
+      { "role": "assistant", "content": "That's a common reach range issue. Do you have to lean out quite far?" },
+      { "role": "user", "content": "Yes, and I'm afraid I'm going to tip the chair one of these days." },
+      { "role": "assistant", "content": "A simple 'door pull' strap attached to the middle of the door would let you pull it shut easily." },
+      { "role": "user", "content": "I'm not great with tech, so a simple strap is much better than an automatic opener." },
+      { "role": "assistant", "content": "It's very cost-effective too. I'll help you find a sturdy nylon one." },
+      { "role": "user", "content": "Fantastic, a simple strap is all I need to feel safe closing the door." }
+    ],
+    "memory": {
+      "mobility_status": "wheelchair user",
+      "safety_risk": "tipping risk",
+      "tech_comfort": "low"
+    },
+    "must_use_keys": ["mobility_status", "safety_risk", "tech_comfort"]
+  },
+  {
+    "id": "071",
+    "dialogue": [
+      { "role": "user", "content": "I keep forgetting to apply my medicated cream to my feet before bed." },
+      { "role": "assistant", "content": "Foot care is so important for circulation. Where do you keep the tube?" },
+      { "role": "user", "content": "In the bathroom medicine cabinet, but I usually forget once I'm already tucked in." },
+      { "role": "assistant", "content": "What if you kept it right on your nightstand with a pack of wet wipes?" },
+      { "role": "user", "content": "I'm not techy, so I don't want phone alerts. Just having it there might work." },
+      { "role": "assistant", "content": "Exactly. A physical reminder is often the best visual cue." },
+      { "role": "user", "content": "That makes sense; I'm moving the cream to my nightstand tonight so I can't miss it." }
+    ],
+    "memory": {
+      "medication_type": "topical foot cream",
+      "habit_barrier": "forgetting after getting into bed",
+      "tech_comfort": "low (avoids digital alerts)",
+      "new_strategy": "relocating medication to nightstand",
+      "priority": "circulation maintenance"
+    },
+    "must_use_keys": ["medication_type", "habit_barrier", "tech_comfort"]
+  },
+  {
+    "id": "072",
+    "dialogue": [
+      { "role": "user", "content": "My hearing aids are great, but the batteries are so tiny and hard to change." },
+      { "role": "assistant", "content": "Those size 10 batteries are a real test of fine motor skills! Do you use a magnet tool?" },
+      { "role": "user", "content": "I've tried, but I still drop them on the carpet and lose them forever." },
+      { "role": "assistant", "content": "Would you consider switching to a rechargeable model next time?" },
+      { "role": "user", "content": "I'm very comfortable with tech, so a charging dock sounds way better than fumbling with tabs." },
+      { "role": "assistant", "content": "It simplifies things significantly. You just drop them in at night." },
+      { "role": "user", "content": "A rechargeable dock is definitely going on my wishlist for my next pair of aids." }
+    ],
+    "memory": {
+      "medical_device": "hearing aids (disposable battery type)",
+      "dexterity_issue": "fumbling with small batteries",
+      "tech_comfort": "high (prefers rechargeable/docking systems)",
+      "daily_annoyance": "dropping batteries on carpet",
+      "future_goal": "upgrade to rechargeable model"
+    },
+    "must_use_keys": ["medical_device", "dexterity_issue", "tech_comfort"]
+  },
+  {
+    "id": "073",
+    "dialogue": [
+      { "role": "user", "content": "Since I started using the walker, I can't carry my coffee from the kitchen to the porch." },
+      { "role": "assistant", "content": "That's a classic walker dilemma. Do you have a tray attachment?" },
+      { "role": "user", "content": "No, I usually just try to balance it, which is obviously a bad idea." },
+      { "role": "assistant", "content": "A clip-on cup holder or a tray would give you your hands back for the brakes." },
+      { "role": "user", "content": "I'm tech-savvy enough to find a 'no-spill' version on Amazon." },
+      { "role": "assistant", "content": "Look for the ones with a deep well for the mug." },
+      { "role": "user", "content": "Found one! This no-spill walker tray is exactly what I need for my morning coffee." }
+    ],
+    "memory": {
+      "mobility_aid": "walker",
+      "daily_challenge": "carrying liquids safely",
+      "tech_comfort": "high (comfortable with online shopping)",
+      "preferred_solution": "no-spill tray attachment",
+      "habit": "drinking coffee on the porch"
+    },
+    "must_use_keys": ["mobility_aid", "daily_challenge", "tech_comfort"]
+  },
+  {
+    "id": "074",
+    "dialogue": [
+      { "role": "user", "content": "I'm worried my grandfather isn't eating enough protein; he just has tea and toast." },
+      { "role": "assistant", "content": "Common for seniors. Does he find meat hard to chew, or is it the cooking?" },
+      { "role": "user", "content": "It's both. He hates the cleanup and his jaw gets tired." },
+      { "role": "assistant", "content": "Maybe we could introduce high-protein shakes that taste like chocolate milk?" },
+      { "role": "user", "content": "He's fine with tech, so maybe a subscription service could deliver them?" },
+      { "role": "assistant", "content": "That would save him the shopping trip too." },
+      { "role": "user", "content": "Let's set up a chocolate protein shake subscription to fix his diet gaps." }
+    ],
+    "memory": {
+      "caregiving_target": "grandfather",
+      "nutritional_issue": "protein deficiency / tea-and-toast diet",
+      "tech_comfort": "moderate (can manage subscription services)",
+      "physical_barrier": "jaw fatigue / chewing difficulty",
+      "dietary_preference": "chocolate flavor"
+    },
+    "must_use_keys": ["caregiving_target", "nutritional_issue", "tech_comfort"]
+  },
+  {
+    "id": "075",
+    "dialogue": [
+      { "role": "user", "content": "My wheelchair tires are leaving black scuff marks all over the hallway floor." },
+      { "role": "assistant", "content": "That's a pain to clean. Are they the standard black rubber tires?" },
+      { "role": "user", "content": "Yes, and the scuffs are so hard to get off the tiles." },
+      { "role": "assistant", "content": "You might want to switch to 'non-marking' grey tires or use wheelchair tire covers." },
+      { "role": "user", "content": "I'm not great with apps, but I can navigate a simple website to order parts." },
+      { "role": "assistant", "content": "I'll find a site that specializes in non-marking tires for your chair model." },
+      { "role": "user", "content": "Those grey non-marking tires sound like a lifesaver for my floors!" }
+    ],
+    "memory": {
+      "mobility_aid": "wheelchair (black tires)",
+      "home_issue": "scuff marks on tile floors",
+      "tech_comfort": "moderate (basic web navigation)",
+      "proposed_fix": "non-marking grey tires",
+      "maintenance_barrier": "cleaning difficulty"
+    },
+    "must_use_keys": ["mobility_aid", "home_issue", "tech_comfort"]
+  },
+  {
+    "id": "076",
+    "dialogue": [
+      { "role": "user", "content": "I can't tell the difference between my blue pills and my purple pills in the dim light." },
+      { "role": "assistant", "content": "That's a dangerous mix-up. Do you take them at the same time?" },
+      { "role": "user", "content": "No, one is for morning and one is for night, but the bottles look identical." },
+      { "role": "assistant", "content": "Have you considered high-contrast tactile labels or a smart pill dispenser?" },
+      { "role": "user", "content": "I'm okay with a smart dispenser if it lights up when I'm supposed to take one." },
+      { "role": "assistant", "content": "A 'Hero' or 'Pria' dispenser would do exactly that." },
+      { "role": "user", "content": "Can you show me how those light-up dispensers work? I need a clear signal." }
+    ],
+    "memory": {
+      "safety_risk": "medication confusion (blue vs purple pills)",
+      "sensory_issue": "poor color differentiation in low light",
+      "tech_comfort": "moderate (prefers visual/light-based alerts)",
+      "medication_schedule": "morning and evening doses",
+      "desired_tool": "smart pill dispenser with light alerts"
+    },
+    "must_use_keys": ["safety_risk", "sensory_issue", "tech_comfort"]
+  },
+  {
+    "id": "077",
+    "dialogue": [
+      { "role": "user", "content": "I'm feeling very stiff in the morning, but I'm scared to stretch alone." },
+      { "role": "assistant", "content": "It's natural to worry about a fall. Do you have a chair you can hold onto?" },
+      { "role": "user", "content": "I have my heavy kitchen chairs, but I never know if I'm pushing too hard." },
+      { "role": "assistant", "content": "What if you used a tablet-based class where the instructor focuses on senior safety?" },
+      { "role": "user", "content": "I'm an expert with my iPad, so finding a 'SilverSneakers' video would be easy." },
+      { "role": "assistant", "content": "Perfect. They have great 'seated-to-standing' routines." },
+      { "role": "user", "content": "I'm going to look for a SilverSneakers morning routine on my iPad right away." }
+    ],
+    "memory": {
+      "symptom": "morning stiffness",
+      "safety_concern": "fear of falling while stretching alone",
+      "tech_comfort": "high (iPad expert)",
+      "resource_preference": "SilverSneakers / senior-specific videos",
+      "equipment_available": "sturdy kitchen chairs"
+    },
+    "must_use_keys": ["symptom", "safety_concern", "tech_comfort"]
+  },
+  {
+    "id": "078",
+    "dialogue": [
+      { "role": "user", "content": "My voice gets so weak by the end of the day; I can't even call for my cat." },
+      { "role": "assistant", "content": "Is this a new symptom, or has it been gradual?" },
+      { "role": "user", "content": "It's been happening since my Parkinson's diagnosis. My throat just feels tired." },
+      { "role": "assistant", "content": "There are voice-amplification apps and small wearable mics. Would you try one?" },
+      { "role": "user", "content": "I'm not great with wearables, but I can use an app on my smartphone." },
+      { "role": "assistant", "content": "A simple 'Megaphone' app can turn your phone into a speaker." },
+      { "role": "user", "content": "Using a megaphone app on my phone is much better than straining my voice!" }
+    ],
+    "memory": {
+      "condition": "Parkinson's Disease",
+      "symptom": "vocal weakness / vocal fatigue",
+      "tech_comfort": "moderate (smartphone user / dislikes wearables)",
+      "daily_need": "calling for the pet",
+      "intervention": "voice amplification app"
+    },
+    "must_use_keys": ["condition", "symptom", "tech_comfort"]
+  },
+  {
+    "id": "079",
+    "dialogue": [
+      { "role": "user", "content": "I'm tired of having to wait for my son to help me cut my steak." },
+      { "role": "assistant", "content": "Independence at the dinner table is important. Is it a grip issue?" },
+      { "role": "user", "content": "Yes, I can't hold the knife steady and apply enough pressure." },
+      { "role": "assistant", "content": "An 'L-shaped' rocker knife allows you to cut with a simple rocking motion." },
+      { "role": "user", "content": "I'm tech-savvy enough to shop for adaptive cutlery on my phone." },
+      { "role": "assistant", "content": "They make some very sleek stainless steel ones now." },
+      { "role": "user", "content": "Shopping for a rocker knife on my phone will finally get me off my son's help." }
+    ],
+    "memory": {
+      "physical_limitation": "weak grip / difficulty cutting food",
+      "tech_comfort": "high (comfortable with mobile shopping)",
+      "goal": "mealtime independence",
+      "desired_aid": "rocker knife / adaptive cutlery",
+      "support_system": "son (currently assists)"
+    },
+    "must_use_keys": ["physical_limitation", "tech_comfort", "goal"]
+  },
+  {
+    "id": "080",
+    "dialogue": [
+      { "role": "user", "content": "I'm worried about my wife's blood sugar during her long afternoon naps." },
+      { "role": "assistant", "content": "Is she prone to hypoglycemia when she sleeps?" },
+      { "role": "user", "content": "Yes, and I'm afraid she won't wake up if it drops too low." },
+      { "role": "assistant", "content": "A Continuous Glucose Monitor (CGM) can send an alarm to your phone if she's low." },
+      { "role": "user", "content": "I'm very comfortable with apps; I already track her meals on my tablet." },
+      { "role": "assistant", "content": "That's perfect. You can both see the data in real-time." },
+      { "role": "user", "content": "The CGM alert on my tablet would give me such peace of mind while she's napping." }
+    ],
+    "memory": {
+      "caregiving_target": "wife",
+      "health_risk": "hypoglycemia during sleep",
+      "tech_comfort": "high (uses tablet for health tracking)",
+      "monitoring_habit": "tracking meals digitally",
+      "desired_tool": "CGM with remote alerts"
+    },
+    "must_use_keys": ["caregiving_target", "health_risk", "tech_comfort"]
+  },
+  {
+    "id": "081",
+    "dialogue": [
+      { "role": "user", "content": "My wheelchair seat is starting to feel very hot and sweaty after an hour." },
+      { "role": "assistant", "content": "Poor ventilation can cause skin breakdown. What kind of cushion is it?" },
+      { "role": "user", "content": "It's a solid foam one, it doesn't breathe at all." },
+      { "role": "assistant", "content": "A gel-top or a honeycomb-style cushion would allow for much better airflow." },
+      { "role": "user", "content": "I'm not techy, but I can ask my physical therapist about them at our next visit." },
+      { "role": "assistant", "content": "Good idea. Ask specifically about 'breathable' materials." },
+      { "role": "user", "content": "I'll make sure to ask my PT about a honeycomb cushion to stay cool." }
+    ],
+    "memory": {
+      "mobility_aid": "wheelchair (foam cushion)",
+      "discomfort": "overheating / sweating",
+      "tech_comfort": "low (relies on professional consultation)",
+      "health_risk": "skin breakdown due to moisture",
+      "proposed_aid": "honeycomb or gel-top cushion"
+    },
+    "must_use_keys": ["mobility_aid", "discomfort", "tech_comfort"]
+  },
+  {
+    "id": "082",
+    "dialogue": [
+      { "role": "user", "content": "I can't seem to get the TV volume right; it's either too quiet or it wakes the neighbors." },
+      { "role": "assistant", "content": "Do you find yourself struggling with dialogue specifically?" },
+      { "role": "user", "content": "Yes, the background music is always louder than the people talking." },
+      { "role": "assistant", "content": "Wireless TV headphones or a 'Zvox' soundbar can boost voices specifically." },
+      { "role": "user", "content": "I'm very tech-savvy, I've already got a Bluetooth setup on my TV." },
+      { "role": "assistant", "content": "In that case, specialized Bluetooth headphones for the hard of hearing would be perfect." },
+      { "role": "user", "content": "I'm ordering some voice-boosting Bluetooth headphones today!" }
+    ],
+    "memory": {
+      "sensory_issue": "hearing difficulty / dialogue clarity on TV",
+      "tech_comfort": "high (comfortable with Bluetooth setup)",
+      "home_issue": "disturbing neighbors with high volume",
+      "desired_tool": "voice-boosting Bluetooth headphones",
+      "current_barrier": "background music drowning out speech"
+    },
+    "must_use_keys": ["sensory_issue", "tech_comfort", "home_issue"]
+  },
+  {
+    "id": "083",
+    "dialogue": [
+      { "role": "user", "content": "Since I lost my leg, I can't figure out how to safely get my mail from the curb." },
+      { "role": "assistant", "content": "That's a tricky balance act. Are you using your crutches or your chair?" },
+      { "role": "user", "content": "I try to use the chair, but the curb is too high to reach the box." },
+      { "role": "assistant", "content": "Could you install a mailbox that's lower, or use a reaching tool?" },
+      { "role": "user", "content": "I'm okay with tech, so maybe I could just get a smart sensor that tells me when it's full?" },
+      { "role": "assistant", "content": "That would at least save you the unnecessary trips." },
+      { "role": "user", "content": "A mailbox sensor on my phone would definitely save me from rolling out for nothing." }
+    ],
+    "memory": {
+      "mobility_status": "Amputee (wheelchair user)",
+      "daily_task": "collecting mail",
+      "tech_comfort": "moderate (uses smartphone apps)",
+      "environmental_barrier": "curb height / mailbox accessibility",
+      "intervention": "smart mailbox sensor"
+    },
+    "must_use_keys": ["mobility_status", "daily_task", "tech_comfort"]
+  },
+  {
+    "id": "084",
+    "dialogue": [
+      { "role": "user", "content": "I'm having a hard time standing long enough to brush my teeth." },
+      { "role": "assistant", "content": "Leg fatigue is common with your condition. Do you have a stool in the bathroom?" },
+      { "role": "user", "content": "I don't. I'm afraid I'll slip if I try to sit on a regular chair in there." },
+      { "role": "assistant", "content": "A wall-mounted folding seat or a high-perch stool with non-slip feet would be safer." },
+      { "role": "user", "content": "I'm not great with tech, but I can ask my handyman to install a seat." },
+      { "role": "assistant", "content": "That's a very practical solution." },
+      { "role": "user", "content": "I'll call my handyman to put a folding seat in the bathroom this week." }
+    ],
+    "memory": {
+      "symptom": "leg fatigue / unable to stand for hygiene tasks",
+      "safety_concern": "slipping while sitting on un-secured chairs",
+      "tech_comfort": "low (prefers hiring help for physical tasks)",
+      "proposed_aid": "wall-mounted folding bathroom seat",
+      "action_item": "contact handyman"
+    },
+    "must_use_keys": ["symptom", "safety_concern", "tech_comfort"]
+  },
+  {
+    "id": "085",
+    "dialogue": [
+      { "role": "user", "content": "My eyes are so dry I can barely see my knitting patterns." },
+      { "role": "assistant", "content": "Dry eyes can really blur your vision. Are you using drops?" },
+      { "role": "user", "content": "I am, but I keep forgetting them until the itching starts." },
+      { "role": "assistant", "content": "How about a recurring reminder on your smartphone every 4 hours?" },
+      { "role": "user", "content": "I'm comfortable with my phone, I use it to look up new patterns all the time." },
+      { "role": "assistant", "content": "Setting those alerts will keep your eyes lubricated before the irritation kicks in." },
+      { "role": "user", "content": "I'll set those 4-hour reminders on my phone so I can keep knitting!" }
+    ],
+    "memory": {
+      "condition": "Chronic Dry Eye",
+      "hobby": "knitting",
+      "tech_comfort": "high (frequent smartphone user)",
+      "forgetting_pattern": "forgets eye drops until symptomatic",
+      "treatment_plan": "lubricating drops every 4 hours"
+    },
+    "must_use_keys": ["condition", "hobby", "tech_comfort"]
+  },
+  {
+    "id": "086",
+    "dialogue": [
+      { "role": "user", "content": "My husband's wheelchair is too wide for our bedroom door." },
+      { "role": "assistant", "content": "That's a major barrier. Is he bumping his knuckles on the frame?" },
+      { "role": "user", "content": "Yes, and it's tearing up the wood too. We can't afford a full remodel." },
+      { "role": "assistant", "content": "Swing-clear hinges can give you that extra two inches without widening the frame." },
+      { "role": "user", "content": "I'm tech-savvy enough to watch a DIY video and see if I can swap them myself." },
+      { "role": "assistant", "content": "They usually just use the same screw holes as your current hinges." },
+      { "role": "user", "content": "I'm going to watch a video on swing-clear hinges and try to fix this door!" }
+    ],
+    "memory": {
+      "caregiving_target": "husband (wheelchair user)",
+      "home_barrier": "narrow bedroom doorway",
+      "tech_comfort": "high (comfortable with DIY tutorials)",
+      "safety_issue": "hand/knuckle injuries during transit",
+      "proposed_fix": "swing-clear hinges"
+    },
+    "must_use_keys": ["caregiving_target", "home_barrier", "tech_comfort"]
+  },
+  {
+    "id": "087",
+    "dialogue": [
+      { "role": "user", "content": "I'm having a lot of trouble with the stairs since my knee surgery." },
+      { "role": "assistant", "content": "Stairs are often the biggest hurdle post-op. Are you using the 'good' leg first?" },
+      { "role": "user", "content": "I try to remember 'Up with the good, down with the bad,' but I get confused." },
+      { "role": "assistant", "content": "What if we put a little 'Up' arrow sticker at the bottom of the stairs?" },
+      { "role": "user", "content": "I'm not great with gadgets, so a simple sticker is a perfect reminder." },
+      { "role": "assistant", "content": "It's a great way to reinforce the habit without thinking." },
+      { "role": "user", "content": "A simple arrow sticker at the stairs will keep me from mixing up my legs." }
+    ],
+    "memory": {
+      "recovery_status": "post-knee surgery",
+      "mobility_challenge": "stair navigation",
+      "tech_comfort": "low (prefers simple visual cues)",
+      "mnemonic_used": "Up with the good, down with the bad",
+      "intervention": "tactile/visual stickers on stairs"
+    },
+    "must_use_keys": ["recovery_status", "mobility_challenge", "tech_comfort"]
+  },
+  {
+    "id": "088",
+    "dialogue": [
+      { "role": "user", "content": "I'm always cold in my wheelchair, even with the heat on." },
+      { "role": "assistant", "content": "Being stationary means your body doesn't generate as much heat. Is it your legs specifically?" },
+      { "role": "user", "content": "Yes, my lap and feet are like ice." },
+      { "role": "assistant", "content": "A specialized wheelchair cozy or a fleece-lined apron might be warmer than a standard blanket." },
+      { "role": "user", "content": "I'm tech-savvy, so I'll browse some adaptive clothing sites for a proper lap robe." },
+      { "role": "assistant", "content": "Look for one with a waterproof outer shell if you go outside." },
+      { "role": "user", "content": "I'm looking for a waterproof lap robe online right now to keep my legs warm." }
+    ],
+    "memory": {
+      "mobility_status": "wheelchair user",
+      "symptom": "feeling constantly cold in lower extremities",
+      "tech_comfort": "high (comfortable with online browsing)",
+      "desired_aid": "lap robe / wheelchair cozy",
+      "usage_context": "indoor and outdoor"
+    },
+    "must_use_keys": ["mobility_status", "symptom", "tech_comfort"]
+  },
+  {
+    "id": "089",
+    "dialogue": [
+      { "role": "user", "content": "I'm struggling to keep my balance while putting on my pants in the morning." },
+      { "role": "assistant", "content": "That's a common fall risk. Do you sit on the edge of the bed?" },
+      { "role": "user", "content": "I do, but the bed is too soft and I feel like I'm going to slide off." },
+      { "role": "assistant", "content": "A sturdy chair with arms might be a safer spot for dressing." },
+      { "role": "user", "content": "I'm not into tech, but I can move my old wooden armchair into the bedroom." },
+      { "role": "assistant", "content": "That's a great idea; the armrests will give you something to push off from." },
+      { "role": "user", "content": "I'll move that wooden chair today so I have a safe place to get dressed." }
+    ],
+    "memory": {
+      "safety_risk": "losing balance while dressing",
+      "home_setup": "soft mattress (unstable for sitting)",
+      "tech_comfort": "low (prefers rearranging furniture over gadgets)",
+      "habit": "dressing on the edge of the bed",
+      "proposed_fix": "using a sturdy armchair with armrests"
+    },
+    "must_use_keys": ["safety_risk", "home_setup", "tech_comfort"]
+  },
+  {
+    "id": "090",
+    "dialogue": [
+      { "role": "user", "content": "My father's dementia is making him paranoid about who is at the door." },
+      { "role": "assistant", "content": "That must be very stressful for both of you. Does he recognize your voice?" },
+      { "role": "user", "content": "Usually, but he panics before I can even get there to answer it." },
+      { "role": "assistant", "content": "A video doorbell that you can answer from your phone might help you calm him down." },
+      { "role": "user", "content": "I'm very comfortable with apps, so I can show him the screen before I open the door." },
+      { "role": "assistant", "content": "Seeing your face on the screen might help bridge that gap of trust." },
+      { "role": "user", "content": "Showing him the video doorbell screen on my phone should help lower his anxiety." }
+    ],
+    "memory": {
+      "caregiving_target": "father with dementia",
+      "symptom": "paranoia / anxiety regarding visitors",
+      "tech_comfort": "high (comfortable with smart home apps)",
+      "intervention": "video doorbell with mobile access",
+      "goal": "reduce panic and build trust"
+    },
+    "must_use_keys": ["caregiving_target", "symptom", "tech_comfort"]
+  },
+  {
+    "id": "091",
+    "dialogue": [
+      { "role": "user", "content": "I'm having a hard time remembering to do my breathing exercises for my COPD." },
+      { "role": "assistant", "content": "Pursed-lip breathing can really help your stamina. When do you usually forget?" },
+      { "role": "user", "content": "Just throughout the day when I'm busy with housework." },
+      { "role": "assistant", "content": "Would you use a vibrating watch that nudges you every hour to breathe?" },
+      { "role": "user", "content": "I'm not great with tech, but I can handle a watch if it only has one button." },
+      { "role": "assistant", "content": "A simple 'habit' watch is perfect for that. No complicated menus." },
+      { "role": "user", "content": "A simple vibrating watch would be a great way to remind me to breathe!" }
+    ],
+    "memory": {
+      "condition": "COPD",
+      "health_goal": "consistent pursed-lip breathing",
+      "tech_comfort": "low (prefers single-button devices)",
+      "forgetting_pattern": "during daily housework",
+      "intervention": "vibrating reminder watch"
+    },
+    "must_use_keys": ["condition", "health_goal", "tech_comfort"]
+  },
+  {
+    "id": "092",
+    "dialogue": [
+      { "role": "user", "content": "My wheelchair backrest is too low and my shoulders are starting to ache." },
+      { "role": "assistant", "content": "It sounds like you aren't getting enough postural support. Is it an adjustable chair?" },
+      { "role": "user", "content": "I don't think so, it's just a standard hospital-style chair." },
+      { "role": "assistant", "content": "A backrest extender or a new ergonomic back shell might be necessary." },
+      { "role": "user", "content": "I'm tech-savvy, I'll search for 'wheelchair backrest extensions' on my laptop." },
+      { "role": "assistant", "content": "Make sure to measure the width between the push handles first." },
+      { "role": "user", "content": "I'm going to measure my chair and look for those extensions on my laptop." }
+    ],
+    "memory": {
+      "mobility_aid": "standard hospital-style wheelchair",
+      "symptom": "shoulder ache / poor postural support",
+      "tech_comfort": "high (comfortable with online research)",
+      "equipment_need": "backrest extension or ergonomic shell",
+      "action_item": "measure chair width"
+    },
+    "must_use_keys": ["mobility_aid", "symptom", "tech_comfort"]
+  },
+  {
+    "id": "093",
+    "dialogue": [
+      { "role": "user", "content": "I keep dropping my glasses behind the bed and I can't reach down to get them." },
+      { "role": "assistant", "content": "That's a frustrating way to start the morning! Have you tried a glasses strap?" },
+      { "role": "user", "content": "I don't like how they look. I only wear them for reading in bed." },
+      { "role": "assistant", "content": "Maybe we could use a small stick-on 'caddy' on the side of your nightstand?" },
+      { "role": "user", "content": "I'm okay with tech, so I'll see if I can find a magnetic one on my phone." },
+      { "role": "assistant", "content": "A magnetic holder would keep them very secure." },
+      { "role": "user", "content": "A magnetic glasses caddy on my phone search looks like the perfect solution!" }
+    ],
+    "memory": {
+      "sensory_aid": "reading glasses",
+      "daily_struggle": "dropping glasses in unreachable spots",
+      "tech_comfort": "moderate (comfortable with mobile searching)",
+      "habit": "reading in bed",
+      "proposed_fix": "magnetic nightstand caddy"
+    },
+    "must_use_keys": ["sensory_aid", "daily_struggle", "tech_comfort"]
+  },
+  {
+    "id": "094",
+    "dialogue": [
+      { "role": "user", "content": "I'm finding it hard to stay upright in my chair during my dialysis sessions." },
+      { "role": "assistant", "content": "Dialysis is exhausting. Do you find yourself sliding forward?" },
+      { "role": "user", "content": "Yes, I end up in a slouch and it makes my back hurt." },
+      { "role": "assistant", "content": "A non-slip 'dycem' mat on the seat or a simple lumbar pillow could help." },
+      { "role": "user", "content": "I'm not great with tech, but I can ask the nurses if they have a spare pillow." },
+      { "role": "assistant", "content": "They might even have a specialized wedge for you." },
+      { "role": "user", "content": "I'll ask the dialysis nurse for a lumbar pillow to help me stop slouching." }
+    ],
+    "memory": {
+      "health_treatment": "dialysis",
+      "symptom": "slouching / back pain during treatment",
+      "tech_comfort": "low (relies on medical staff for solutions)",
+      "physical_need": "postural support",
+      "proposed_aid": "lumbar pillow or non-slip mat"
+    },
+    "must_use_keys": ["health_treatment", "symptom", "tech_comfort"]
+  },
+  {
+    "id": "095",
+    "dialogue": [
+      { "role": "user", "content": "I'm worried about my heart rate when I'm doing my garden work." },
+      { "role": "assistant", "content": "Gardening can be surprisingly strenuous. Do you feel lightheaded?" },
+      { "role": "user", "content": "Sometimes, and I have to sit down in the dirt to recover." },
+      { "role": "assistant", "content": "A smart watch with a heart rate alert would tell you when to take a break." },
+      { "role": "user", "content": "I'm very comfortable with tech, I've been thinking about getting an Apple Watch anyway." },
+      { "role": "assistant", "content": "The fall detection feature would also be great for when you're outside alone." },
+      { "role": "user", "content": "I'm getting an Apple Watch to keep an eye on my heart while I garden." }
+    ],
+    "memory": {
+      "symptom": "lightheadedness during physical activity",
+      "hobby": "gardening",
+      "tech_comfort": "high (interested in Apple Watch features)",
+      "safety_risk": "potential falls while alone outdoors",
+      "desired_feature": "heart rate alerts / fall detection"
+    },
+    "must_use_keys": ["symptom", "hobby", "tech_comfort"]
+  },
+  {
+    "id": "096",
+    "dialogue": [
+      { "role": "user", "content": "I keep forgetting to drink my morning water because I'm focused on the crossword." },
+      { "role": "assistant", "content": "The crossword puzzle is a great brain workout! How about a visual cue?" },
+      { "role": "user", "content": "I've tried putting the bottle next to the paper, but I still ignore it." },
+      { "role": "assistant", "content": "Would you use an app that makes a 'pouring water' sound every 30 minutes?" },
+      { "role": "user", "content": "I'm not great with apps, I'd rather just have a loud kitchen timer." },
+      { "role": "assistant", "content": "A kitchen timer works perfectly for interval reminders." },
+      { "role": "user", "content": "A kitchen timer for my water breaks is exactly what I need for my puzzle time." }
+    ],
+    "memory": {
+      "health_goal": "morning hydration",
+      "forgetting_pattern": "distracted by crossword puzzle",
+      "tech_comfort": "low (prefers analog timers over apps)",
+      "current_strategy": "visual placement (failed)",
+      "intervention": "interval kitchen timer"
+    },
+    "must_use_keys": ["health_goal", "forgetting_pattern", "tech_comfort"]
+  },
+  {
+    "id": "097",
+    "dialogue": [
+      { "role": "user", "content": "Since my hand surgery, I can't hold my toothbrush steady anymore." },
+      { "role": "assistant", "content": "That's a common post-op hurdle. Have you tried a foam grip?" },
+      { "role": "user", "content": "I haven't, but my hand just cramps up when I try to squeeze the handle." },
+      { "role": "assistant", "content": "A built-up foam handle or an electric toothbrush would require much less grip strength." },
+      { "role": "user", "content": "I'm tech-savvy, so I'll check out those high-end electric brushes on my tablet." },
+      { "role": "assistant", "content": "The ones with a pressure sensor are great for sensitive gums too." },
+      { "role": "user", "content": "I'll look for an electric toothbrush on my tablet to help with my hand cramps." }
+    ],
+    "memory": {
+      "recovery_status": "post-hand surgery",
+      "symptom": "hand cramping / weak grip",
+      "tech_comfort": "high (comfortable with tablet research)",
+      "daily_task": "brushing teeth",
+      "proposed_aid": "electric toothbrush or foam grip"
+    },
+    "must_use_keys": ["recovery_status", "symptom", "tech_comfort"]
+  },
+  {
+    "id": "098",
+    "dialogue": [
+      { "role": "user", "content": "I'm finding it hard to get out of my wheelchair into the car." },
+      { "role": "assistant", "content": "Car transfers are very physically demanding. Are you using a swivel seat?" },
+      { "role": "user", "content": "No, I just try to pull myself in using the door handle." },
+      { "role": "assistant", "content": "A 'HandyBar' that fits into the door latch would give you a solid handle to push off from." },
+      { "role": "user", "content": "I'm not great with tech, but that sounds like a simple enough tool to use." },
+      { "role": "assistant", "content": "It's very sturdy and requires no installation." },
+      { "role": "user", "content": "That HandyBar tool sounds like just the thing I need for my car transfers." }
+    ],
+    "memory": {
+      "mobility_status": "wheelchair user",
+      "daily_challenge": "car transfers",
+      "tech_comfort": "low (prefers simple mechanical tools)",
+      "safety_risk": "pulling on door handles (unstable)",
+      "proposed_aid": "HandyBar / portable vehicle support handle"
+    },
+    "must_use_keys": ["mobility_status", "daily_challenge", "tech_comfort"]
+  },
+  {
+    "id": "099",
+    "dialogue": [
+      { "role": "user", "content": "I'm worried my hearing is getting worse because I keep missing the phone ringing." },
+      { "role": "assistant", "content": "That can be isolating. Have you considered a visual ringer?" },
+      { "role": "user", "content": "You mean one that flashes a light?" },
+      { "role": "assistant", "content": "Exactly. Or even a wearable that vibrates when someone calls." },
+      { "role": "user", "content": "I'm very comfortable with tech, so a vibrating watch would be perfect for me." },
+      { "role": "assistant", "content": "That way you'll feel the call even if you're in another room." },
+      { "role": "user", "content": "A vibrating watch for phone calls will help me stay connected!" }
+    ],
+    "memory": {
+      "sensory_issue": "hearing loss / missing phone calls",
+      "tech_comfort": "high (comfortable with wearables)",
+      "social_impact": "feeling isolated",
+      "desired_tool": "vibrating watch / visual ringer",
+      "goal": "staying reachable"
+    },
+    "must_use_keys": ["sensory_issue", "tech_comfort", "social_impact"]
+  },
+  {
+    "id": "100",
+    "dialogue": [
+      { "role": "user", "content": "I'm having a lot of trouble reaching the dials on my stove from my wheelchair." },
+      { "role": "assistant", "content": "Rear-mounted dials are a major burn risk when you have to reach over hot burners." },
+      { "role": "user", "content": "That's exactly what I'm afraid of. I've nearly singed my sleeve twice." },
+      { "role": "assistant", "content": "Front-control stoves are the gold standard for wheelchair accessibility." },
+      { "role": "user", "content": "I'm tech-savvy enough to browse for ADA-compliant ranges on my laptop." },
+      { "role": "assistant", "content": "Look for the 'ADA compliant' tag; it ensures the controls are within reach." },
+      { "role": "user", "content": "I'm going to look for an ADA-compliant stove on my laptop today." }
+    ],
+    "memory": {
+      "mobility_status": "wheelchair user",
+      "safety_risk": "burn risk from reaching over hot burners",
+      "tech_comfort": "high (comfortable with laptop research)",
+      "home_barrier": "rear-control stove dials",
+      "required_feature": "front-control / ADA compliant range"
+    },
+    "must_use_keys": ["mobility_status", "safety_risk", "tech_comfort"]
+  }
+
+]

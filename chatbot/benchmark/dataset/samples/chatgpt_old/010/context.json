@@ -1,0 +1,6 @@
+{
+  "USER_PERSONALITY": "Extraversion: 0.44\nNeuroticism: 0.53\nAgreeableness: 0.49\nConscientiousness: 0.39\nOpenness: 0.47",
+  "EMOTION_LOGITS": "anger: 0.00\ndisgust: 0.00\nfear: 0.00\nhappy: 0.09\nneutral: 0.58\nsad: 0.34\nsurprise: 0.00",
+  "KNOWN_PREFERENCES": "work_setup: laptop-only, screen slightly below eye level\nbreak_pattern: often goes 2\u20133 hours without moving\ntime_budget: 5 minutes per break\npreference: short interventions only\ntech_comfort: high\npain_trigger: long static posture",
+  "USER_MESSAGE": "If I could break up those long stretches without disrupting work, I think the tightness would improve a lot."
+}

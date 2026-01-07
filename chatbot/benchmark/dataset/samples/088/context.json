@@ -1,0 +1,6 @@
+{
+  "USER_PERSONALITY": "Extraversion: 0.45\nNeuroticism: 0.54\nAgreeableness: 0.52\nConscientiousness: 0.41\nOpenness: 0.45",
+  "EMOTION_LOGITS": "anger: 0.00\ndisgust: 0.00\nfear: 0.00\nhappy: 0.13\nneutral: 0.77\nsad: 0.09\nsurprise: 0.00",
+  "KNOWN_PREFERENCES": "mobility_status: wheelchair user\nsymptom: feeling constantly cold in lower extremities\ntech_comfort: high (comfortable with online browsing)\ndesired_aid: lap robe / wheelchair cozy\nusage_context: indoor and outdoor",
+  "USER_MESSAGE": "I'm looking for a waterproof lap robe online right now to keep my legs warm."
+}

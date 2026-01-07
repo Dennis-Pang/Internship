@@ -1,0 +1,43 @@
+{
+  "id": "062",
+  "dialogue": [
+    {
+      "role": "user",
+      "content": "I keep forgetting which exercises I'm supposed to do for my physical therapy."
+    },
+    {
+      "role": "assistant",
+      "content": "It's hard to remember a whole list. Do you have a printed handout?"
+    },
+    {
+      "role": "user",
+      "content": "I do, but the diagrams are confusing and I can't tell what the move is."
+    },
+    {
+      "role": "assistant",
+      "content": "Would you prefer to watch short video clips of the exercises on your tablet?"
+    },
+    {
+      "role": "user",
+      "content": "I'm quite good with my tablet, so videos would be much clearer."
+    },
+    {
+      "role": "assistant",
+      "content": "I'll find a YouTube playlist that matches your specific routine."
+    },
+    {
+      "role": "user",
+      "content": "Videos will be so much better-I've been guessing at those diagrams for days!"
+    }
+  ],
+  "memory": {
+    "health_goal": "PT compliance",
+    "forgetting_pattern": "exercise form",
+    "tech_comfort": "high (comfortable with tablet)"
+  },
+  "must_use_keys": [
+    "health_goal",
+    "forgetting_pattern",
+    "tech_comfort"
+  ]
+}

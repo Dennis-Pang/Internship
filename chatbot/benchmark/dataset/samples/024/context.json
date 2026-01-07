@@ -1,0 +1,6 @@
+{
+  "USER_PERSONALITY": "Extraversion: 0.45\nNeuroticism: 0.54\nAgreeableness: 0.45\nConscientiousness: 0.35\nOpenness: 0.49",
+  "EMOTION_LOGITS": "anger: 0.00\ndisgust: 0.00\nfear: 0.00\nhappy: 0.00\nneutral: 0.66\nsad: 0.34\nsurprise: 0.00",
+  "KNOWN_PREFERENCES": "health_treatment: dialysis\ndietary_restriction: renal diet (low potassium)\ntech_comfort: low (old/slow device)\nfood_triggers: bananas and potatoes\npreferred_tool: physical cheat sheet",
+  "USER_MESSAGE": "A color-coded cheat sheet on the fridge is better for my renal diet than a slow phone app."
+}

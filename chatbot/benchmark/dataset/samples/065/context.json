@@ -1,0 +1,6 @@
+{
+  "USER_PERSONALITY": "Extraversion: 0.43\nNeuroticism: 0.54\nAgreeableness: 0.47\nConscientiousness: 0.34\nOpenness: 0.45",
+  "EMOTION_LOGITS": "anger: 0.00\ndisgust: 0.00\nfear: 0.00\nhappy: 0.44\nneutral: 0.41\nsad: 0.15\nsurprise: 0.00",
+  "KNOWN_PREFERENCES": "safety_risk: shower fall anxiety\nhousing_status: renter\ntech_comfort: high",
+  "USER_MESSAGE": "I'll check those ratings now-safety first, especially in the bathroom!"
+}

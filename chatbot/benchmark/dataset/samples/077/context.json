@@ -1,0 +1,6 @@
+{
+  "USER_PERSONALITY": "Extraversion: 0.47\nNeuroticism: 0.55\nAgreeableness: 0.47\nConscientiousness: 0.36\nOpenness: 0.48",
+  "EMOTION_LOGITS": "anger: 0.00\ndisgust: 0.00\nfear: 0.00\nhappy: 0.00\nneutral: 0.94\nsad: 0.06\nsurprise: 0.00",
+  "KNOWN_PREFERENCES": "symptom: morning stiffness\nsafety_concern: fear of falling while stretching alone\ntech_comfort: high (iPad expert)\nresource_preference: SilverSneakers / senior-specific videos\nequipment_available: sturdy kitchen chairs",
+  "USER_MESSAGE": "I'm going to look for a SilverSneakers morning routine on my iPad right away."
+}

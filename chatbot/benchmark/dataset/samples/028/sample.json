@@ -1,0 +1,45 @@
+{
+  "id": "028",
+  "dialogue": [
+    {
+      "role": "user",
+      "content": "I'm feeling very isolated lately because it's so hard to get my wheelchair down the front steps."
+    },
+    {
+      "role": "assistant",
+      "content": "Isolation can really impact your mental health. Do you have a ramp installed?"
+    },
+    {
+      "role": "user",
+      "content": "No, we looked at permanent ones, but they are too expensive for my budget."
+    },
+    {
+      "role": "assistant",
+      "content": "There are modular, portable ramps that are much more affordable. Want to check some prices?"
+    },
+    {
+      "role": "user",
+      "content": "I can use my phone to check, but I'm worried about the assembly being too hard."
+    },
+    {
+      "role": "assistant",
+      "content": "Many come pre-assembled or just unfold. I'll find the easiest ones for you."
+    },
+    {
+      "role": "user",
+      "content": "Checking portable ramp prices on my phone might be my ticket out of the house."
+    }
+  ],
+  "memory": {
+    "mobility_status": "wheelchair user",
+    "mental_health": "feeling isolated",
+    "tech_comfort": "moderate (uses smartphone for browsing)",
+    "home_barrier": "front steps / no ramp",
+    "financial_constraint": "cannot afford permanent ramp"
+  },
+  "must_use_keys": [
+    "mobility_status",
+    "mental_health",
+    "tech_comfort"
+  ]
+}

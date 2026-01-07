@@ -1,0 +1,57 @@
+{
+  "id": "039",
+  "dialogue": [
+    {
+      "role": "user",
+      "content": "I'm trying to cut down on smoking."
+    },
+    {
+      "role": "assistant",
+      "content": "What situations make it hardest-stress, social settings, or routines?"
+    },
+    {
+      "role": "user",
+      "content": "Stress and after meals."
+    },
+    {
+      "role": "assistant",
+      "content": "Got it. Are you aiming to quit entirely or reduce first?"
+    },
+    {
+      "role": "user",
+      "content": "Reduce first. I don't want an all-or-nothing plan."
+    },
+    {
+      "role": "assistant",
+      "content": "Okay. Do you want behavioral swaps or tracking to start?"
+    },
+    {
+      "role": "user",
+      "content": "Behavioral swaps. Tracking makes me obsess."
+    },
+    {
+      "role": "assistant",
+      "content": "Understood. We'll build small replacements around your triggers."
+    },
+    {
+      "role": "user",
+      "content": "If I could handle stress and after-meal cravings without lighting up, I'd be proud of myself."
+    }
+  ],
+  "memory": {
+    "goal": "reduce cigarettes per day",
+    "trigger_stress": "work stress",
+    "trigger_after_meals": "after lunch and dinner",
+    "approach_preference": "behavioral swaps",
+    "tech_comfort": "medium",
+    "current_strategy": "none"
+  },
+  "must_use_keys": [
+    "goal",
+    "trigger_stress",
+    "trigger_after_meals"
+  ],
+  "must_not_use_keys": [
+    "tech_comfort"
+  ]
+}

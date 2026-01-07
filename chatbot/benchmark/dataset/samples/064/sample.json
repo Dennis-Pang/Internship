@@ -1,0 +1,43 @@
+{
+  "id": "064",
+  "dialogue": [
+    {
+      "role": "user",
+      "content": "I'm having a hard time hearing my daughter's voice over the phone lately."
+    },
+    {
+      "role": "assistant",
+      "content": "Is it the volume, or does her voice sound muffled?"
+    },
+    {
+      "role": "user",
+      "content": "A bit of both. I have to keep asking her to repeat herself."
+    },
+    {
+      "role": "assistant",
+      "content": "Would you like to try a 'captioned telephone' that shows her words on a screen?"
+    },
+    {
+      "role": "user",
+      "content": "I'm not great with new gadgets, is it hard to set up?"
+    },
+    {
+      "role": "assistant",
+      "content": "Many services offer free professional installation for seniors. I can help you find a local one."
+    },
+    {
+      "role": "user",
+      "content": "If someone else can set it up, I'd love to actually follow a conversation again."
+    }
+  ],
+  "memory": {
+    "sensory_issue": "hearing loss on phone",
+    "social_impact": "difficulty with daughter",
+    "tech_comfort": "low"
+  },
+  "must_use_keys": [
+    "sensory_issue",
+    "social_impact",
+    "tech_comfort"
+  ]
+}

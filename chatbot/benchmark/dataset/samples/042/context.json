@@ -1,0 +1,6 @@
+{
+  "USER_PERSONALITY": "Extraversion: 0.41\nNeuroticism: 0.52\nAgreeableness: 0.48\nConscientiousness: 0.36\nOpenness: 0.43",
+  "EMOTION_LOGITS": "anger: 0.00\ndisgust: 0.00\nfear: 0.00\nhappy: 0.41\nneutral: 0.35\nsad: 0.24\nsurprise: 0.00",
+  "KNOWN_PREFERENCES": "sensory_issue: unable to hear doorbell from distance\nmobility_status: wheelchair user\ntech_comfort: high (frequent smartphone user)",
+  "USER_MESSAGE": "I'm sold-that vibration feature is exactly what I need to stay in the loop."
+}

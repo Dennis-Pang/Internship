@@ -1,0 +1,45 @@
+{
+  "id": "031",
+  "dialogue": [
+    {
+      "role": "user",
+      "content": "I'm terrified of slipping in the kitchen since my balance has been off."
+    },
+    {
+      "role": "assistant",
+      "content": "Kitchen floors can be treacherous. Do you wear non-slip shoes at home?"
+    },
+    {
+      "role": "user",
+      "content": "No, I usually just wear my old slippers, but they are quite worn out."
+    },
+    {
+      "role": "assistant",
+      "content": "We should get you some proper orthopedic house shoes. Can I show you some online?"
+    },
+    {
+      "role": "user",
+      "content": "I'm not great at online shopping; I'm always worried about the wrong size."
+    },
+    {
+      "role": "assistant",
+      "content": "I can find a site with an easy return policy and a printable size guide for you."
+    },
+    {
+      "role": "user",
+      "content": "If you find a site with easy returns, I'll finally get some non-slip kitchen shoes."
+    }
+  ],
+  "memory": {
+    "symptom": "poor balance / fall anxiety",
+    "home_environment": "slippery kitchen floors",
+    "tech_comfort": "low (wary of online shopping)",
+    "current_habit": "wearing worn-out slippers",
+    "safety_need": "orthopedic non-slip shoes"
+  },
+  "must_use_keys": [
+    "symptom",
+    "home_environment",
+    "tech_comfort"
+  ]
+}

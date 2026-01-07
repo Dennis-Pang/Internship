@@ -1,0 +1,6 @@
+{
+  "USER_PERSONALITY": "Extraversion: 0.42\nNeuroticism: 0.54\nAgreeableness: 0.48\nConscientiousness: 0.40\nOpenness: 0.45",
+  "EMOTION_LOGITS": "anger: 0.00\ndisgust: 0.00\nfear: 0.00\nhappy: 0.50\nneutral: 0.28\nsad: 0.22\nsurprise: 0.00",
+  "KNOWN_PREFERENCES": "activity_baseline: ~1500 steps/day\npreferred_activity: walking\ntime_window: evenings after work\ngoal: increase steps gradually\ninjury_history: none recent\ncurrent_strategy: none",
+  "USER_MESSAGE": "If I could hit a simple evening walking goal consistently, I'd feel better about my health."
+}

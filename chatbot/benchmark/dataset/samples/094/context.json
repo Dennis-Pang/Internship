@@ -1,0 +1,6 @@
+{
+  "USER_PERSONALITY": "Extraversion: 0.48\nNeuroticism: 0.55\nAgreeableness: 0.48\nConscientiousness: 0.39\nOpenness: 0.53",
+  "EMOTION_LOGITS": "anger: 0.00\ndisgust: 0.00\nfear: 0.00\nhappy: 0.01\nneutral: 0.98\nsad: 0.01\nsurprise: 0.00",
+  "KNOWN_PREFERENCES": "health_treatment: dialysis\nsymptom: slouching / back pain during treatment\ntech_comfort: low (relies on medical staff for solutions)\nphysical_need: postural support\nproposed_aid: lumbar pillow or non-slip mat",
+  "USER_MESSAGE": "I'll ask the dialysis nurse for a lumbar pillow to help me stop slouching."
+}

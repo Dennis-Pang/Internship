@@ -1,0 +1,6 @@
+{
+  "USER_PERSONALITY": "Extraversion: 0.37\nNeuroticism: 0.52\nAgreeableness: 0.49\nConscientiousness: 0.38\nOpenness: 0.42",
+  "EMOTION_LOGITS": "anger: 0.00\ndisgust: 0.00\nfear: 0.00\nhappy: 0.50\nneutral: 0.42\nsad: 0.08\nsurprise: 0.00",
+  "KNOWN_PREFERENCES": "symptom: leg swelling\nforgetting_pattern: fails to elevate legs\ntech_comfort: high",
+  "USER_MESSAGE": "Perfect, that'll remind me to take a break from my book and help my ankles."
+}

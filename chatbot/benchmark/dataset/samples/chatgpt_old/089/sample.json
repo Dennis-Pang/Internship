@@ -1,0 +1,57 @@
+{
+  "id": "089",
+  "dialogue": [
+    {
+      "role": "user",
+      "content": "I started running again and my shins hurt."
+    },
+    {
+      "role": "assistant",
+      "content": "Did it come on suddenly, or build up over a week or two?"
+    },
+    {
+      "role": "user",
+      "content": "It built up. I increased my runs pretty quickly."
+    },
+    {
+      "role": "assistant",
+      "content": "Got it. How many days per week are you running right now?"
+    },
+    {
+      "role": "user",
+      "content": "Four days. I jumped from zero to that."
+    },
+    {
+      "role": "assistant",
+      "content": "Okay. Do you want a plan to keep running or are you open to a short break?"
+    },
+    {
+      "role": "user",
+      "content": "I want to keep running if possible, just smarter."
+    },
+    {
+      "role": "assistant",
+      "content": "Understood. We'll focus on load management and recovery."
+    },
+    {
+      "role": "user",
+      "content": "If I could keep training without the shin pain getting worse, that's all I want."
+    }
+  ],
+  "memory": {
+    "injury": "shin splints-like pain",
+    "load_change": "increased from 0 to 4 runs/week",
+    "goal": "continue running safely",
+    "surface": "mostly pavement",
+    "time_budget": "20–30 minutes/run",
+    "current_strategy": "none"
+  },
+  "must_use_keys": [
+    "injury",
+    "load_change",
+    "goal"
+  ],
+  "must_not_use_keys": [
+    "surface"
+  ]
+}

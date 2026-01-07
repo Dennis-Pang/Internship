@@ -1,0 +1,45 @@
+{
+  "id": "008",
+  "dialogue": [
+    {
+      "role": "user",
+      "content": "The doctor said I need to lower my sodium, but food tastes so bland now."
+    },
+    {
+      "role": "assistant",
+      "content": "It's a big adjustment. Have you tried using herb blends instead of salt?"
+    },
+    {
+      "role": "user",
+      "content": "A little, but I don't really know which spices go with what."
+    },
+    {
+      "role": "assistant",
+      "content": "I can send you some digital recipe cards. Do you use Pinterest or Instagram?"
+    },
+    {
+      "role": "user",
+      "content": "I use Pinterest all the time for home decor, so that works!"
+    },
+    {
+      "role": "assistant",
+      "content": "Perfect, I'll share a board with low-sodium, high-flavor meals."
+    },
+    {
+      "role": "user",
+      "content": "Finding low-sodium recipes on Pinterest will make this diet much easier."
+    }
+  ],
+  "memory": {
+    "dietary_restriction": "low sodium",
+    "primary_challenge": "flavor perception / blandness",
+    "tech_comfort": "active Pinterest user",
+    "cooking_skill": "intermediate",
+    "goal": "hypertension management"
+  },
+  "must_use_keys": [
+    "dietary_restriction",
+    "primary_challenge",
+    "tech_comfort"
+  ]
+}

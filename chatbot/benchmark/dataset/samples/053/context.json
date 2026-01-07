@@ -1,0 +1,6 @@
+{
+  "USER_PERSONALITY": "Extraversion: 0.37\nNeuroticism: 0.55\nAgreeableness: 0.44\nConscientiousness: 0.29\nOpenness: 0.44",
+  "EMOTION_LOGITS": "anger: 0.00\ndisgust: 0.00\nfear: 0.00\nhappy: 0.50\nneutral: 0.44\nsad: 0.06\nsurprise: 0.00",
+  "KNOWN_PREFERENCES": "health_goal: daily afternoon walk\nforgetting_pattern: afternoon (due to napping)\ntech_comfort: moderate (comfortable with Alexa)",
+  "USER_MESSAGE": "Great idea-Alexa's voice is much harder to ignore than my own conscience!"
+}

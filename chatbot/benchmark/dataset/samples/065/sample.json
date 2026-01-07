@@ -1,0 +1,43 @@
+{
+  "id": "065",
+  "dialogue": [
+    {
+      "role": "user",
+      "content": "I'm worried about slipping in the shower, but I don't want a permanent grab bar."
+    },
+    {
+      "role": "assistant",
+      "content": "Is it because you're renting, or you just don't like the look of them?"
+    },
+    {
+      "role": "user",
+      "content": "I'm renting, so I can't drill into the tiles."
+    },
+    {
+      "role": "assistant",
+      "content": "Suction-cup grab bars are a great temporary solution. Have you used them?"
+    },
+    {
+      "role": "user",
+      "content": "I'm okay with tech, so I'll read the safety ratings on my phone before I buy one."
+    },
+    {
+      "role": "assistant",
+      "content": "That's wise. Make sure the indicator light is green before you put your weight on it."
+    },
+    {
+      "role": "user",
+      "content": "I'll check those ratings now-safety first, especially in the bathroom!"
+    }
+  ],
+  "memory": {
+    "safety_risk": "shower fall anxiety",
+    "housing_status": "renter",
+    "tech_comfort": "high"
+  },
+  "must_use_keys": [
+    "safety_risk",
+    "housing_status",
+    "tech_comfort"
+  ]
+}

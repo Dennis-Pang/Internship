@@ -1,0 +1,6 @@
+{
+  "USER_PERSONALITY": "Extraversion: 0.48\nNeuroticism: 0.57\nAgreeableness: 0.45\nConscientiousness: 0.34\nOpenness: 0.51",
+  "EMOTION_LOGITS": "anger: 0.00\ndisgust: 0.00\nfear: 0.00\nhappy: 0.19\nneutral: 0.73\nsad: 0.08\nsurprise: 0.00",
+  "KNOWN_PREFERENCES": "condition: migraine\ntrigger_light: bright light\ntrigger_sleep: sleep deprivation\ntrigger_screen: prolonged screen time\nmed_preference: avoid frequent painkillers\ncurrent_strategy: none",
+  "USER_MESSAGE": "If I could reduce those light-triggered migraines, it would help a lot."
+}

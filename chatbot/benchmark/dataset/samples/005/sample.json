@@ -1,0 +1,45 @@
+{
+  "id": "005",
+  "dialogue": [
+    {
+      "role": "user",
+      "content": "My CPAP machine is so uncomfortable, I keep taking it off in my sleep."
+    },
+    {
+      "role": "assistant",
+      "content": "That's a struggle many new users face. Where exactly does it feel tight?"
+    },
+    {
+      "role": "user",
+      "content": "It presses hard on the bridge of my nose and leaves red marks."
+    },
+    {
+      "role": "assistant",
+      "content": "It might be the mask size. Are you okay checking an online fitting guide?"
+    },
+    {
+      "role": "user",
+      "content": "I can do that, I'm fine with using the manufacturer's website."
+    },
+    {
+      "role": "assistant",
+      "content": "Excellent. We might need to switch you to a nasal pillow instead."
+    },
+    {
+      "role": "user",
+      "content": "If a nasal pillow stops the nose bridge pain, I'll use the CPAP every night."
+    }
+  ],
+  "memory": {
+    "medical_device": "CPAP for sleep apnea",
+    "discomfort_area": "bridge of the nose",
+    "tech_comfort": "comfortable with web-based guides",
+    "usage_pattern": "removes device unconsciously during sleep",
+    "mask_type": "full-face (current)"
+  },
+  "must_use_keys": [
+    "medical_device",
+    "discomfort_area",
+    "tech_comfort"
+  ]
+}

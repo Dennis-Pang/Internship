@@ -1,0 +1,57 @@
+{
+  "id": "017",
+  "dialogue": [
+    {
+      "role": "user",
+      "content": "I want to move more, but I'm pretty sedentary right now."
+    },
+    {
+      "role": "assistant",
+      "content": "What kind of movement feels most realistic-walking, cycling, home workouts?"
+    },
+    {
+      "role": "user",
+      "content": "Walking. I can do that."
+    },
+    {
+      "role": "assistant",
+      "content": "Got it. Do you prefer a daily goal or a few days per week?"
+    },
+    {
+      "role": "user",
+      "content": "Daily, but it has to be small. I overdo it and then quit."
+    },
+    {
+      "role": "assistant",
+      "content": "Understood. Any time of day that's easiest?"
+    },
+    {
+      "role": "user",
+      "content": "Evenings are easiest after work."
+    },
+    {
+      "role": "assistant",
+      "content": "Okay. We'll keep it small and build consistency first."
+    },
+    {
+      "role": "user",
+      "content": "If I could hit a simple evening walking goal consistently, I'd feel better about my health."
+    }
+  ],
+  "memory": {
+    "activity_baseline": "~1500 steps/day",
+    "preferred_activity": "walking",
+    "time_window": "evenings after work",
+    "goal": "increase steps gradually",
+    "injury_history": "none recent",
+    "current_strategy": "none"
+  },
+  "must_use_keys": [
+    "activity_baseline",
+    "time_window",
+    "goal"
+  ],
+  "must_not_use_keys": [
+    "injury_history"
+  ]
+}

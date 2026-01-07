@@ -1,0 +1,45 @@
+{
+  "id": "077",
+  "dialogue": [
+    {
+      "role": "user",
+      "content": "I'm feeling very stiff in the morning, but I'm scared to stretch alone."
+    },
+    {
+      "role": "assistant",
+      "content": "It's natural to worry about a fall. Do you have a chair you can hold onto?"
+    },
+    {
+      "role": "user",
+      "content": "I have my heavy kitchen chairs, but I never know if I'm pushing too hard."
+    },
+    {
+      "role": "assistant",
+      "content": "What if you used a tablet-based class where the instructor focuses on senior safety?"
+    },
+    {
+      "role": "user",
+      "content": "I'm an expert with my iPad, so finding a 'SilverSneakers' video would be easy."
+    },
+    {
+      "role": "assistant",
+      "content": "Perfect. They have great 'seated-to-standing' routines."
+    },
+    {
+      "role": "user",
+      "content": "I'm going to look for a SilverSneakers morning routine on my iPad right away."
+    }
+  ],
+  "memory": {
+    "symptom": "morning stiffness",
+    "safety_concern": "fear of falling while stretching alone",
+    "tech_comfort": "high (iPad expert)",
+    "resource_preference": "SilverSneakers / senior-specific videos",
+    "equipment_available": "sturdy kitchen chairs"
+  },
+  "must_use_keys": [
+    "symptom",
+    "safety_concern",
+    "tech_comfort"
+  ]
+}

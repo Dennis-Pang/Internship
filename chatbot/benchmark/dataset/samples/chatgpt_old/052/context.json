@@ -1,0 +1,6 @@
+{
+  "USER_PERSONALITY": "Extraversion: 0.41\nNeuroticism: 0.56\nAgreeableness: 0.47\nConscientiousness: 0.36\nOpenness: 0.46",
+  "EMOTION_LOGITS": "anger: 0.00\ndisgust: 0.00\nfear: 0.00\nhappy: 0.50\nneutral: 0.47\nsad: 0.03\nsurprise: 0.00",
+  "KNOWN_PREFERENCES": "condition: asthma\ncold_air_trigger: cold air worsens symptoms\nreliever_inhaler_use: has a reliever inhaler but often forgets to bring it\nexercise_type: brisk walking\nwarmup_habit: usually skips warm-up\nsymptom_timing: starts after a few minutes",
+  "USER_MESSAGE": "I'd feel a lot safer if cold-weather walks didn't turn into a breathing issue."
+}

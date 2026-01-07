@@ -1,0 +1,6 @@
+{
+  "USER_PERSONALITY": "Extraversion: 0.38\nNeuroticism: 0.52\nAgreeableness: 0.50\nConscientiousness: 0.40\nOpenness: 0.42",
+  "EMOTION_LOGITS": "anger: 0.00\ndisgust: 0.00\nfear: 0.00\nhappy: 0.41\nneutral: 0.47\nsad: 0.12\nsurprise: 0.00",
+  "KNOWN_PREFERENCES": "mobility_aid: walker\ndaily_challenge: carrying liquids safely\ntech_comfort: high (comfortable with online shopping)\npreferred_solution: no-spill tray attachment\nhabit: drinking coffee on the porch",
+  "USER_MESSAGE": "Found one! This no-spill walker tray is exactly what I need for my morning coffee."
+}

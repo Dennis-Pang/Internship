@@ -1,0 +1,6 @@
+{
+  "USER_PERSONALITY": "Extraversion: 0.48\nNeuroticism: 0.54\nAgreeableness: 0.47\nConscientiousness: 0.36\nOpenness: 0.47",
+  "EMOTION_LOGITS": "anger: 0.00\ndisgust: 0.00\nfear: 0.40\nhappy: 0.04\nneutral: 0.50\nsad: 0.06\nsurprise: 0.00",
+  "KNOWN_PREFERENCES": "health_condition: Type 2 Diabetes\nmonitoring_habit: evening only\ntech_comfort: prefers smartwatch apps\nequipment_barrier: current monitor is too bulky for travel\nsymptom_trigger: fatigue",
+  "USER_MESSAGE": "I'll start logging every meal on my smartwatch from now on."
+}

@@ -1,0 +1,45 @@
+{
+  "id": "027",
+  "dialogue": [
+    {
+      "role": "user",
+      "content": "My back is killing me when I try to transfer from the bed to my wheelchair."
+    },
+    {
+      "role": "assistant",
+      "content": "Transfers are the most common source of strain. Are you using a slide board?"
+    },
+    {
+      "role": "user",
+      "content": "I have one, but it feels slippery and I'm afraid of falling."
+    },
+    {
+      "role": "assistant",
+      "content": "We might need to adjust your technique or add a high-friction mat. Are you okay watching a training video?"
+    },
+    {
+      "role": "user",
+      "content": "I use YouTube all the time for DIY stuff, so a video is fine."
+    },
+    {
+      "role": "assistant",
+      "content": "I'll send a video from a physical therapist specializing in safe chair transfers."
+    },
+    {
+      "role": "user",
+      "content": "Watching a YouTube tutorial on safe wheelchair transfers should help my back pain."
+    }
+  ],
+  "memory": {
+    "mobility_status": "wheelchair user",
+    "symptom": "back pain during transfers",
+    "tech_comfort": "high (frequent YouTube user)",
+    "equipment": "slide board (current safety concern)",
+    "learning_preference": "visual / video-based instruction"
+  },
+  "must_use_keys": [
+    "mobility_status",
+    "symptom",
+    "tech_comfort"
+  ]
+}

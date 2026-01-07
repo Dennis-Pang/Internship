@@ -1,0 +1,57 @@
+{
+  "id": "051",
+  "dialogue": [
+    {
+      "role": "user",
+      "content": "I'm trying to eat better, but dinner is where I mess up."
+    },
+    {
+      "role": "assistant",
+      "content": "What tends to happen at dinner-timing, portions, cravings, or snacking?"
+    },
+    {
+      "role": "user",
+      "content": "Timing. Dinner ends up late, then I snack after."
+    },
+    {
+      "role": "assistant",
+      "content": "What's the main goal-energy, weight, digestion, blood sugar?"
+    },
+    {
+      "role": "user",
+      "content": "Energy. I hate that mid-day sugar crash feeling."
+    },
+    {
+      "role": "assistant",
+      "content": "Got it. Do you want strict rules, or small changes you can repeat?"
+    },
+    {
+      "role": "user",
+      "content": "Small changes. I won't measure everything."
+    },
+    {
+      "role": "assistant",
+      "content": "Okay-then we'll focus on the highest-impact change first."
+    },
+    {
+      "role": "user",
+      "content": "If the late dinners and after-dinner snacking calmed down, my energy would be way steadier."
+    }
+  ],
+  "memory": {
+    "meal_pattern": "late dinner around 22:00",
+    "snacking_pattern": "snacks after dinner 4+ nights/week",
+    "goal": "fewer afternoon sugar crashes",
+    "tracking_tolerance": "light tracking only",
+    "current_strategy": "none",
+    "snack_type": "usually savory"
+  },
+  "must_use_keys": [
+    "meal_pattern",
+    "snacking_pattern",
+    "goal"
+  ],
+  "must_not_use_keys": [
+    "snack_type"
+  ]
+}

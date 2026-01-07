@@ -1,0 +1,57 @@
+{
+  "id": "004",
+  "dialogue": [
+    {
+      "role": "user",
+      "content": "My knee flares up when I do stairs."
+    },
+    {
+      "role": "assistant",
+      "content": "How long has it been going on, and does it ever swell or lock?"
+    },
+    {
+      "role": "user",
+      "content": "A few months. No swelling or locking, just soreness."
+    },
+    {
+      "role": "assistant",
+      "content": "Got it. Anything besides stairs that clearly makes it worse?"
+    },
+    {
+      "role": "user",
+      "content": "Deep bending and crouching. I feel it the next day."
+    },
+    {
+      "role": "assistant",
+      "content": "Do you have access to a gym, or are you mostly at home?"
+    },
+    {
+      "role": "user",
+      "content": "Mostly at home, and I only have about 10 minutes a day for this."
+    },
+    {
+      "role": "assistant",
+      "content": "Perfect-short routines can work well if they're consistent."
+    },
+    {
+      "role": "user",
+      "content": "If it helped me handle stairs without flare-ups, I'd actually keep doing it."
+    }
+  ],
+  "memory": {
+    "pain_trigger": "stairs and deep bending",
+    "activity_constraint": "no gym access",
+    "time_budget": "12 minutes per day",
+    "goal": "reduce flare-ups and build tolerance",
+    "pain_location": "front of knee",
+    "current_activity_level": "sedentary weekdays"
+  },
+  "must_use_keys": [
+    "pain_trigger",
+    "activity_constraint",
+    "time_budget"
+  ],
+  "must_not_use_keys": [
+    "pain_location"
+  ]
+}

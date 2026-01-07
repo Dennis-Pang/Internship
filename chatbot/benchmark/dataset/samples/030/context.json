@@ -1,0 +1,6 @@
+{
+  "USER_PERSONALITY": "Extraversion: 0.49\nNeuroticism: 0.54\nAgreeableness: 0.45\nConscientiousness: 0.33\nOpenness: 0.49",
+  "EMOTION_LOGITS": "anger: 0.00\ndisgust: 0.00\nfear: 0.02\nhappy: 0.00\nneutral: 0.97\nsad: 0.01\nsurprise: 0.00",
+  "KNOWN_PREFERENCES": "condition: Essential Tremor\nside_effect: afternoon drowsiness\ntech_comfort: high (Apple Watch / Kindle user)\nmonitoring_habit: sleep tracking via smartwatch\naction_item: discuss medication timing with doctor",
+  "USER_MESSAGE": "I'll show my Apple Watch sleep data to the doctor to discuss this afternoon drowsiness."
+}

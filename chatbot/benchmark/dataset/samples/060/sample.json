@@ -1,0 +1,43 @@
+{
+  "id": "060",
+  "dialogue": [
+    {
+      "role": "user",
+      "content": "I'm worried about my husband getting lost when he goes for his short walks."
+    },
+    {
+      "role": "assistant",
+      "content": "Is he becoming more disoriented lately?"
+    },
+    {
+      "role": "user",
+      "content": "Just occasionally, especially if he takes a new turn in the neighborhood."
+    },
+    {
+      "role": "assistant",
+      "content": "Would you like him to wear a GPS watch that lets you see his location on your phone?"
+    },
+    {
+      "role": "user",
+      "content": "I'm fine with using a tracking app, as long as it's easy for me to read the map."
+    },
+    {
+      "role": "assistant",
+      "content": "I'll help you set up a 'safe zone' alert so you'll know if he goes too far."
+    },
+    {
+      "role": "user",
+      "content": "That would be such a relief; I'd finally stop pacing the floor whenever he's out."
+    }
+  ],
+  "memory": {
+    "caregiving_target": "husband with disorientation",
+    "safety_concern": "getting lost",
+    "tech_comfort": "moderate"
+  },
+  "must_use_keys": [
+    "caregiving_target",
+    "safety_concern",
+    "tech_comfort"
+  ]
+}

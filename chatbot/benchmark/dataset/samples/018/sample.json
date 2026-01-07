@@ -1,0 +1,45 @@
+{
+  "id": "018",
+  "dialogue": [
+    {
+      "role": "user",
+      "content": "Since I started using the wheelchair, I can't reach the thermostat anymore."
+    },
+    {
+      "role": "assistant",
+      "content": "That must be frustrating during these cold winter months."
+    },
+    {
+      "role": "user",
+      "content": "It is. I have to wait for my son to come over to change the heat."
+    },
+    {
+      "role": "assistant",
+      "content": "A smart thermostat you can control from your phone would give you that independence back."
+    },
+    {
+      "role": "user",
+      "content": "I'm not great with apps, but I can use my iPad for basic things."
+    },
+    {
+      "role": "assistant",
+      "content": "We can set up a very simple interface on your iPad with just 'Warmer' and 'Cooler'."
+    },
+    {
+      "role": "user",
+      "content": "Controlling the heat from my iPad would mean I don't have to wait for my son."
+    }
+  ],
+  "memory": {
+    "mobility_status": "wheelchair user",
+    "home_barrier": "high-mounted thermostat",
+    "tech_comfort": "moderate (comfortable with iPad)",
+    "primary_need": "environmental control / independence",
+    "support_system": "son (currently assists)"
+  },
+  "must_use_keys": [
+    "mobility_status",
+    "home_barrier",
+    "tech_comfort"
+  ]
+}

@@ -1,0 +1,6 @@
+{
+  "USER_PERSONALITY": "Extraversion: 0.42\nNeuroticism: 0.54\nAgreeableness: 0.48\nConscientiousness: 0.35\nOpenness: 0.48",
+  "EMOTION_LOGITS": "anger: 0.00\ndisgust: 0.00\nfear: 0.00\nhappy: 0.42\nneutral: 0.49\nsad: 0.09\nsurprise: 0.00",
+  "KNOWN_PREFERENCES": "dietary_restriction: low sodium\nprimary_challenge: flavor perception / blandness\ntech_comfort: active Pinterest user\ncooking_skill: intermediate\ngoal: hypertension management",
+  "USER_MESSAGE": "Finding low-sodium recipes on Pinterest will make this diet much easier."
+}

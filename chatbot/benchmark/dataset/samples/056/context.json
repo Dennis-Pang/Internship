@@ -1,0 +1,6 @@
+{
+  "USER_PERSONALITY": "Extraversion: 0.43\nNeuroticism: 0.53\nAgreeableness: 0.48\nConscientiousness: 0.38\nOpenness: 0.45",
+  "EMOTION_LOGITS": "anger: 0.00\ndisgust: 0.00\nfear: 0.00\nhappy: 0.50\nneutral: 0.46\nsad: 0.04\nsurprise: 0.00",
+  "KNOWN_PREFERENCES": "physical_limitation: arthritis in hands\ndaily_struggle: opening prescription caps\ntech_comfort: high (comfortable with email)",
+  "USER_MESSAGE": "Sent! Hopefully, my next refill won't be such a battle for my poor hands."
+}

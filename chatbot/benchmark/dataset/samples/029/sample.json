@@ -1,0 +1,45 @@
+{
+  "id": "029",
+  "dialogue": [
+    {
+      "role": "user",
+      "content": "My feet are getting so cold and numb in the wheelchair during the winter."
+    },
+    {
+      "role": "assistant",
+      "content": "Poor circulation is common. Are you able to do any ankle pumps while sitting?"
+    },
+    {
+      "role": "user",
+      "content": "I forget to do them. I just sit there under a blanket all day."
+    },
+    {
+      "role": "assistant",
+      "content": "What if we used a 'smart' heated foot warmer that you can control via a remote?"
+    },
+    {
+      "role": "user",
+      "content": "I'm okay with a remote, but I don't want anything that connects to the internet."
+    },
+    {
+      "role": "assistant",
+      "content": "Understood. A simple plug-in warmer with a wired remote is very safe and effective."
+    },
+    {
+      "role": "user",
+      "content": "A simple heated foot warmer with a remote will help my circulation this winter."
+    }
+  ],
+  "memory": {
+    "mobility_status": "wheelchair user",
+    "symptom": "cold / numb feet (poor circulation)",
+    "tech_comfort": "low (dislikes IoT/internet-connected devices)",
+    "current_habit": "sedentary with a blanket",
+    "intervention": "heated foot warmer with wired remote"
+  },
+  "must_use_keys": [
+    "mobility_status",
+    "symptom",
+    "tech_comfort"
+  ]
+}

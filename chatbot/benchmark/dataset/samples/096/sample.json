@@ -1,0 +1,45 @@
+{
+  "id": "096",
+  "dialogue": [
+    {
+      "role": "user",
+      "content": "I keep forgetting to drink my morning water because I'm focused on the crossword."
+    },
+    {
+      "role": "assistant",
+      "content": "The crossword puzzle is a great brain workout! How about a visual cue?"
+    },
+    {
+      "role": "user",
+      "content": "I've tried putting the bottle next to the paper, but I still ignore it."
+    },
+    {
+      "role": "assistant",
+      "content": "Would you use an app that makes a 'pouring water' sound every 30 minutes?"
+    },
+    {
+      "role": "user",
+      "content": "I'm not great with apps, I'd rather just have a loud kitchen timer."
+    },
+    {
+      "role": "assistant",
+      "content": "A kitchen timer works perfectly for interval reminders."
+    },
+    {
+      "role": "user",
+      "content": "A kitchen timer for my water breaks is exactly what I need for my puzzle time."
+    }
+  ],
+  "memory": {
+    "health_goal": "morning hydration",
+    "forgetting_pattern": "distracted by crossword puzzle",
+    "tech_comfort": "low (prefers analog timers over apps)",
+    "current_strategy": "visual placement (failed)",
+    "intervention": "interval kitchen timer"
+  },
+  "must_use_keys": [
+    "health_goal",
+    "forgetting_pattern",
+    "tech_comfort"
+  ]
+}

@@ -1,0 +1,6 @@
+{
+  "USER_PERSONALITY": "Extraversion: 0.45\nNeuroticism: 0.55\nAgreeableness: 0.46\nConscientiousness: 0.36\nOpenness: 0.47",
+  "EMOTION_LOGITS": "anger: 0.00\ndisgust: 0.00\nfear: 0.00\nhappy: 0.49\nneutral: 0.36\nsad: 0.15\nsurprise: 0.00",
+  "KNOWN_PREFERENCES": "hydration_goal: 2.0 liters/day\nforgetting_pattern: busy afternoons\ntech_comfort: medium\npast_issue: history of kidney stones\npreferred_container: 1L bottle\ncurrent_strategy: none",
+  "USER_MESSAGE": "If I could hit a steady target without thinking about it all day, I'd be happy."
+}

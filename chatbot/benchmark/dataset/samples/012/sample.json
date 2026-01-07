@@ -1,0 +1,45 @@
+{
+  "id": "012",
+  "dialogue": [
+    {
+      "role": "user",
+      "content": "My grandmother keeps leaving her walker in the hallway and then falling."
+    },
+    {
+      "role": "assistant",
+      "content": "That's a major fall risk. Why does she leave it behind?"
+    },
+    {
+      "role": "user",
+      "content": "She says it's too heavy to push onto the thick carpet in the bedroom."
+    },
+    {
+      "role": "assistant",
+      "content": "We might need to look at a lightweight rollator with larger wheels. Is she open to new gear?"
+    },
+    {
+      "role": "user",
+      "content": "She's very stubborn about 'fancy' gadgets, she likes simple things."
+    },
+    {
+      "role": "assistant",
+      "content": "Understood. A simple, large-wheeled manual walker might be the best compromise."
+    },
+    {
+      "role": "user",
+      "content": "A simple walker with bigger wheels might stop her from leaving it in the hall."
+    }
+  ],
+  "memory": {
+    "caregiving_target": "stubborn grandmother",
+    "safety_issue": "fall risk / abandoning walker",
+    "tech_comfort": "very low (prefers simple mechanical tools)",
+    "environmental_barrier": "thick carpeting",
+    "equipment_requirement": "lightweight with large wheels"
+  },
+  "must_use_keys": [
+    "caregiving_target",
+    "safety_issue",
+    "tech_comfort"
+  ]
+}

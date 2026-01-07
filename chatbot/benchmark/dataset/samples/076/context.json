@@ -1,0 +1,6 @@
+{
+  "USER_PERSONALITY": "Extraversion: 0.50\nNeuroticism: 0.57\nAgreeableness: 0.45\nConscientiousness: 0.33\nOpenness: 0.52",
+  "EMOTION_LOGITS": "anger: 0.00\ndisgust: 0.00\nfear: 0.00\nhappy: 0.00\nneutral: 0.75\nsad: 0.25\nsurprise: 0.00",
+  "KNOWN_PREFERENCES": "safety_risk: medication confusion (blue vs purple pills)\nsensory_issue: poor color differentiation in low light\ntech_comfort: moderate (prefers visual/light-based alerts)\nmedication_schedule: morning and evening doses\ndesired_tool: smart pill dispenser with light alerts",
+  "USER_MESSAGE": "Can you show me how those light-up dispensers work? I need a clear signal."
+}

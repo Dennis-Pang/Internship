@@ -1,0 +1,43 @@
+{
+  "id": "066",
+  "dialogue": [
+    {
+      "role": "user",
+      "content": "My feet are swelling a lot because I forget to put them up on the ottoman."
+    },
+    {
+      "role": "assistant",
+      "content": "Elevation is so important for that. Do you forget because you're busy?"
+    },
+    {
+      "role": "user",
+      "content": "I just get caught up reading my Kindle and forget the time."
+    },
+    {
+      "role": "assistant",
+      "content": "What if we set a 'foot elevation' timer on your smartphone?"
+    },
+    {
+      "role": "user",
+      "content": "I'm comfortable with my smartphone, I use it for my Kindle app anyway."
+    },
+    {
+      "role": "assistant",
+      "content": "Great. We can set a reminder every 2 hours to put your feet up for 20 minutes."
+    },
+    {
+      "role": "user",
+      "content": "Perfect, that'll remind me to take a break from my book and help my ankles."
+    }
+  ],
+  "memory": {
+    "symptom": "leg swelling",
+    "forgetting_pattern": "fails to elevate legs",
+    "tech_comfort": "high"
+  },
+  "must_use_keys": [
+    "symptom",
+    "forgetting_pattern",
+    "tech_comfort"
+  ]
+}

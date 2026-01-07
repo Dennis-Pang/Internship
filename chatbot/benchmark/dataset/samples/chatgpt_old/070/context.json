@@ -1,0 +1,6 @@
+{
+  "USER_PERSONALITY": "Extraversion: 0.41\nNeuroticism: 0.55\nAgreeableness: 0.47\nConscientiousness: 0.36\nOpenness: 0.44",
+  "EMOTION_LOGITS": "anger: 0.00\ndisgust: 0.00\nfear: 0.00\nhappy: 0.06\nneutral: 0.80\nsad: 0.14\nsurprise: 0.00",
+  "KNOWN_PREFERENCES": "medication_type: daily blood pressure pill\nforgetting_pattern: mornings on weekends\ntech_comfort: high\nwake_time_shift: wakes ~2 hours later on weekends\ncurrent_strategy: none\nreminder_devices: smartphone available",
+  "USER_MESSAGE": "If it worked for weekend mornings, I'd finally be consistent."
+}

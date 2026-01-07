@@ -1,0 +1,45 @@
+{
+  "id": "076",
+  "dialogue": [
+    {
+      "role": "user",
+      "content": "I can't tell the difference between my blue pills and my purple pills in the dim light."
+    },
+    {
+      "role": "assistant",
+      "content": "That's a dangerous mix-up. Do you take them at the same time?"
+    },
+    {
+      "role": "user",
+      "content": "No, one is for morning and one is for night, but the bottles look identical."
+    },
+    {
+      "role": "assistant",
+      "content": "Have you considered high-contrast tactile labels or a smart pill dispenser?"
+    },
+    {
+      "role": "user",
+      "content": "I'm okay with a smart dispenser if it lights up when I'm supposed to take one."
+    },
+    {
+      "role": "assistant",
+      "content": "A 'Hero' or 'Pria' dispenser would do exactly that."
+    },
+    {
+      "role": "user",
+      "content": "Can you show me how those light-up dispensers work? I need a clear signal."
+    }
+  ],
+  "memory": {
+    "safety_risk": "medication confusion (blue vs purple pills)",
+    "sensory_issue": "poor color differentiation in low light",
+    "tech_comfort": "moderate (prefers visual/light-based alerts)",
+    "medication_schedule": "morning and evening doses",
+    "desired_tool": "smart pill dispenser with light alerts"
+  },
+  "must_use_keys": [
+    "safety_risk",
+    "sensory_issue",
+    "tech_comfort"
+  ]
+}

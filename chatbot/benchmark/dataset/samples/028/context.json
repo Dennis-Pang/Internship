@@ -1,0 +1,6 @@
+{
+  "USER_PERSONALITY": "Extraversion: 0.41\nNeuroticism: 0.54\nAgreeableness: 0.49\nConscientiousness: 0.40\nOpenness: 0.44",
+  "EMOTION_LOGITS": "anger: 0.00\ndisgust: 0.00\nfear: 0.00\nhappy: 0.00\nneutral: 0.88\nsad: 0.12\nsurprise: 0.00",
+  "KNOWN_PREFERENCES": "mobility_status: wheelchair user\nmental_health: feeling isolated\ntech_comfort: moderate (uses smartphone for browsing)\nhome_barrier: front steps / no ramp\nfinancial_constraint: cannot afford permanent ramp",
+  "USER_MESSAGE": "Checking portable ramp prices on my phone might be my ticket out of the house."
+}

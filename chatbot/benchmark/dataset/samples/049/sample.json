@@ -1,0 +1,43 @@
+{
+  "id": "049",
+  "dialogue": [
+    {
+      "role": "user",
+      "content": "I keep forgetting if I've fed the dog since my memory started getting fuzzy."
+    },
+    {
+      "role": "assistant",
+      "content": "It's easy to lose track of routine chores. Does the dog let you know?"
+    },
+    {
+      "role": "user",
+      "content": "He's a lab, he always acts like he's starving even if he just ate!"
+    },
+    {
+      "role": "assistant",
+      "content": "How about a simple 'Did You Feed the Dog' slider board on the wall?"
+    },
+    {
+      "role": "user",
+      "content": "I like that. I don't want to use an app for something so small."
+    },
+    {
+      "role": "assistant",
+      "content": "Agreed. A physical slider board is a great visual cue for the whole house."
+    },
+    {
+      "role": "user",
+      "content": "Exactly! I'll put a slider board right by his bowl so there's no more guessing."
+    }
+  ],
+  "memory": {
+    "symptom": "mild memory fuzziness",
+    "daily_task": "pet care (feeding the dog)",
+    "tech_comfort": "low"
+  },
+  "must_use_keys": [
+    "symptom",
+    "daily_task",
+    "tech_comfort"
+  ]
+}

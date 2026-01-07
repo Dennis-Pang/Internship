@@ -1,0 +1,45 @@
+{
+  "id": "099",
+  "dialogue": [
+    {
+      "role": "user",
+      "content": "I'm worried my hearing is getting worse because I keep missing the phone ringing."
+    },
+    {
+      "role": "assistant",
+      "content": "That can be isolating. Have you considered a visual ringer?"
+    },
+    {
+      "role": "user",
+      "content": "You mean one that flashes a light?"
+    },
+    {
+      "role": "assistant",
+      "content": "Exactly. Or even a wearable that vibrates when someone calls."
+    },
+    {
+      "role": "user",
+      "content": "I'm very comfortable with tech, so a vibrating watch would be perfect for me."
+    },
+    {
+      "role": "assistant",
+      "content": "That way you'll feel the call even if you're in another room."
+    },
+    {
+      "role": "user",
+      "content": "A vibrating watch for phone calls will help me stay connected!"
+    }
+  ],
+  "memory": {
+    "sensory_issue": "hearing loss / missing phone calls",
+    "tech_comfort": "high (comfortable with wearables)",
+    "social_impact": "feeling isolated",
+    "desired_tool": "vibrating watch / visual ringer",
+    "goal": "staying reachable"
+  },
+  "must_use_keys": [
+    "sensory_issue",
+    "tech_comfort",
+    "social_impact"
+  ]
+}

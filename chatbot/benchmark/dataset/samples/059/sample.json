@@ -1,0 +1,43 @@
+{
+  "id": "059",
+  "dialogue": [
+    {
+      "role": "user",
+      "content": "My walker keeps snagging on the doorway transitions between rooms."
+    },
+    {
+      "role": "assistant",
+      "content": "Those little bumps can be quite jarring. Are they high metal strips?"
+    },
+    {
+      "role": "user",
+      "content": "Yes, they are about half an inch high and very annoying."
+    },
+    {
+      "role": "assistant",
+      "content": "Small rubber threshold ramps would smooth those transitions right out."
+    },
+    {
+      "role": "user",
+      "content": "I'm tech-savvy enough to order those online, I'll just need to measure the width."
+    },
+    {
+      "role": "assistant",
+      "content": "Make sure to measure the height of the 'bump' too, so the ramp fits perfectly."
+    },
+    {
+      "role": "user",
+      "content": "Got it; I'll grab the tape measure and find some ramps that fit."
+    }
+  ],
+  "memory": {
+    "mobility_aid": "walker",
+    "home_barrier": "doorway transitions",
+    "tech_comfort": "high"
+  },
+  "must_use_keys": [
+    "mobility_aid",
+    "home_barrier",
+    "tech_comfort"
+  ]
+}

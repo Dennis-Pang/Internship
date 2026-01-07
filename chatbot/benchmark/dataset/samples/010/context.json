@@ -1,0 +1,6 @@
+{
+  "USER_PERSONALITY": "Extraversion: 0.47\nNeuroticism: 0.55\nAgreeableness: 0.47\nConscientiousness: 0.35\nOpenness: 0.50",
+  "EMOTION_LOGITS": "anger: 0.00\ndisgust: 0.00\nfear: 0.00\nhappy: 0.01\nneutral: 0.92\nsad: 0.07\nsurprise: 0.00",
+  "KNOWN_PREFERENCES": "caregiving_role: daughter managing mother's health\nhealth_need: daily vitamin consistency\ntech_comfort: low (prefers voice interfaces/Alexa)\ncognitive_barrier: confusion regarding days of the week\ncurrent_tool: manual pill organizer (failing)",
+  "USER_MESSAGE": "Using Alexa for vitamin reminders won't overwhelm her like a complex machine would."
+}

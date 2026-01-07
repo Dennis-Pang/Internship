@@ -1,0 +1,45 @@
+{
+  "id": "035",
+  "dialogue": [
+    {
+      "role": "user",
+      "content": "My father is getting confused about his evening insulin dose."
+    },
+    {
+      "role": "assistant",
+      "content": "Confusion with insulin is dangerous. Is he taking too much or forgetting it entirely?"
+    },
+    {
+      "role": "user",
+      "content": "Sometimes both. He can't remember if he already injected himself."
+    },
+    {
+      "role": "assistant",
+      "content": "A smart insulin pen cap that records the time of the last dose would be perfect."
+    },
+    {
+      "role": "user",
+      "content": "He's not good with smartphones, but he can read a digital display on a pen."
+    },
+    {
+      "role": "assistant",
+      "content": "The Timesulin cap doesn't need an app; it just shows a timer right on the pen."
+    },
+    {
+      "role": "user",
+      "content": "A timer cap on his insulin pen would help him know if he's already taken his dose."
+    }
+  ],
+  "memory": {
+    "caregiving_target": "elderly father",
+    "health_condition": "diabetes (insulin dependent)",
+    "tech_comfort": "low (prefers on-device displays over apps)",
+    "safety_issue": "double-dosing or missing insulin",
+    "desired_tool": "smart pen cap with timer"
+  },
+  "must_use_keys": [
+    "caregiving_target",
+    "health_condition",
+    "tech_comfort"
+  ]
+}

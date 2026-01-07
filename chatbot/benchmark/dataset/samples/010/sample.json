@@ -1,0 +1,53 @@
+{
+  "id": "010",
+  "dialogue": [
+    {
+      "role": "user",
+      "content": "I'm worried about my mother's vitamin intake; she keeps forgetting her pills."
+    },
+    {
+      "role": "assistant",
+      "content": "It's tough caregiving from a distance. Does she have a pill organizer?"
+    },
+    {
+      "role": "user",
+      "content": "She has one, but she forgets which day it is and takes the wrong slot."
+    },
+    {
+      "role": "assistant",
+      "content": "Would she be open to an automated pill dispenser that glows and beeps?"
+    },
+    {
+      "role": "user",
+      "content": "She's very old-fashioned. Anything with too many buttons will scare her."
+    },
+    {
+      "role": "assistant",
+      "content": "Understood. How about a simple voice-activated reminder via a smart speaker?"
+    },
+    {
+      "role": "user",
+      "content": "She likes talking to her Alexa, so that might actually work."
+    },
+    {
+      "role": "assistant",
+      "content": "Let's set up a recurring voice alert for her morning vitamins."
+    },
+    {
+      "role": "user",
+      "content": "Using Alexa for vitamin reminders won't overwhelm her like a complex machine would."
+    }
+  ],
+  "memory": {
+    "caregiving_role": "daughter managing mother's health",
+    "health_need": "daily vitamin consistency",
+    "tech_comfort": "low (prefers voice interfaces/Alexa)",
+    "cognitive_barrier": "confusion regarding days of the week",
+    "current_tool": "manual pill organizer (failing)"
+  },
+  "must_use_keys": [
+    "caregiving_role",
+    "health_need",
+    "tech_comfort"
+  ]
+}

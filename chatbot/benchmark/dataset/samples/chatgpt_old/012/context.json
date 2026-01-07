@@ -1,0 +1,6 @@
+{
+  "USER_PERSONALITY": "Extraversion: 0.45\nNeuroticism: 0.55\nAgreeableness: 0.48\nConscientiousness: 0.35\nOpenness: 0.47",
+  "EMOTION_LOGITS": "anger: 0.00\ndisgust: 0.00\nfear: 0.00\nhappy: 0.40\nneutral: 0.21\nsad: 0.39\nsurprise: 0.00",
+  "KNOWN_PREFERENCES": "pain_trigger: prolonged sitting\nwork_setup: laptop on table, chair without lumbar support\nbreak_pattern: 2\u20133 hours without standing\ntime_budget: 1\u20132 minutes per break\npreference: micro-breaks\ncurrent_strategy: none",
+  "USER_MESSAGE": "If the breaks were short enough to not interrupt work, I'd stick with it."
+}

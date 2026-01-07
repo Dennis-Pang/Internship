@@ -252,16 +252,19 @@ def fuse_emotions(
     speech_weight: float,
     text_weight: float,
 ) -> Dict[str, float]:
-    """Fuse speech and text emotions using probability averaging: p = λ * p_speech + (1-λ) * p_text
+    """Fuse speech and text emotions using simple probability averaging.
+
+    Note: Input MUST be probabilities (not logits). This performs weighted average
+    in probability space without additional softmax normalization.
 
     Args:
-        speech_emotion: Speech emotion logits
-        text_emotion: Text emotion logits
+        speech_emotion: Speech emotion probabilities (sum=1.0)
+        text_emotion: Text emotion probabilities (sum=1.0)
         speech_weight: Weight for speech emotion (0.0-1.0)
         text_weight: Weight for text emotion (0.0-1.0)
 
     Returns:
-        Fused emotion probabilities (normalized, sum=1.0)
+        Fused emotion probabilities (sum=1.0)
     """
     # Normalize weights
     total_weight = speech_weight + text_weight
@@ -273,19 +276,13 @@ def fuse_emotions(
     lambda_speech = speech_weight / total_weight
     lambda_text = text_weight / total_weight
 
-    # Convert logits to probabilities via softmax
-    speech_logits_array = np.array([speech_emotion[label] for label in TEXT_EMOTION_LABELS])
-    speech_exp = np.exp(speech_logits_array - np.max(speech_logits_array))
-    speech_probs = speech_exp / np.sum(speech_exp)
+    # Simple weighted average in probability space
+    fused = {
+        label: lambda_speech * speech_emotion[label] + lambda_text * text_emotion[label]
+        for label in TEXT_EMOTION_LABELS
+    }
 
-    text_logits_array = np.array([text_emotion[label] for label in TEXT_EMOTION_LABELS])
-    text_exp = np.exp(text_logits_array - np.max(text_logits_array))
-    text_probs = text_exp / np.sum(text_exp)
-
-    # Weighted average
-    fused_probs = lambda_speech * speech_probs + lambda_text * text_probs
-
-    return {TEXT_EMOTION_LABELS[i]: float(fused_probs[i]) for i in range(len(TEXT_EMOTION_LABELS))}
+    return fused
 
 
 def log_emotion_scores(speech_emotion: Dict[str, float], text_emotion: Dict[str, float]) -> None:
@@ -349,8 +346,7 @@ def fetch_memory_context_wrapper(
 def build_prompt_context(
     text: str,
     personality_df: pd.DataFrame,
-    speech_emotion: Dict[str, float],
-    text_emotion: Dict[str, float],
+    fused_emotion: Dict[str, float],
     history: List[Dict[str, str]],
     preferences: Dict[str, Any],
     history_window_size: int,
@@ -360,8 +356,7 @@ def build_prompt_context(
     Args:
         text: User input text
         personality_df: Personality analysis dataframe
-        speech_emotion: Speech-based emotion probabilities/logits
-        text_emotion: Text-based emotion probabilities/logits
+        fused_emotion: Fused emotion probabilities (from speech + text)
         history: Conversation history
         preferences: User preferences
         history_window_size: Number of conversation rounds to include
@@ -375,21 +370,17 @@ def build_prompt_context(
     # Format contexts
     personality_traits = ", ".join([f"{row['theta']}: {row['r']:.2f}" for _, row in personality_df.iterrows()])
     personality_context = f"user's personality: {personality_traits}"
-    preferences_context = json.dumps(preferences) if preferences else "None."
+    preferences_context = json.dumps(preferences, ensure_ascii=False, indent=2) if preferences else "None."
     memory_context = format_short_term_memory(recent_history)
 
-    # Format emotion context for both modalities
-    def _format_emotions(name: str, data: Dict[str, float]) -> str:
-        if not data:
-            return f"{name}: unavailable"
-        ordered = ", ".join(
-            [f"{label}: {data[label]:.2f}" for label in sorted(data.keys())]
+    # Format fused emotion context
+    if not fused_emotion:
+        emotion_context = "user's detected emotion: unavailable"
+    else:
+        emotion_str = ", ".join(
+            [f"{label}: {fused_emotion[label]:.2f}" for label in sorted(fused_emotion.keys())]
         )
-        return f"{name}: {ordered}"
-
-    speech_context = _format_emotions("speech emotion", speech_emotion)
-    text_context = _format_emotions("text emotion", text_emotion)
-    emotion_context = f"user's detected emotions => {speech_context}; {text_context}"
+        emotion_context = f"user's detected emotion: {emotion_str}"
 
     # Build system prompt
     system_prompt = "\n\n".join([
@@ -406,7 +397,13 @@ def build_prompt_context(
 
     return [
         {"role": "system", "content": system_prompt},
-        {"role": "user", "content": text},
+        {
+            "role": "user",
+            "content": (
+                "Below is the latest user input. Use the conversation history, personality, emotion, and preferences above to reply naturally.\n\n"
+                f"{text}"
+            ),
+        },
     ]
 
 
@@ -451,7 +448,9 @@ def get_llm_response(
 
 def save_conversation_data(speaker: str, predictions: List[float], user_uuid: str,
                           user_text: str, response: str, db_session,
-                          speech_emotion: Optional[dict] = None, text_emotion: Optional[dict] = None) -> None:
+                          speech_emotion: Optional[dict] = None,
+                          text_emotion: Optional[dict] = None,
+                          fused_emotion: Optional[dict] = None) -> None:
     """Save conversation data to database.
 
     Args:
@@ -461,13 +460,14 @@ def save_conversation_data(speaker: str, predictions: List[float], user_uuid: st
         user_text: User input text
         response: Assistant response
         db_session: Database session
-        speech_emotion: Speech emotion probabilities
-        text_emotion: Text emotion probabilities
+        speech_emotion: Speech emotion probabilities (original)
+        text_emotion: Text emotion probabilities (original)
+        fused_emotion: Fused emotion probabilities (for LLM)
     """
     # Store personality traits
     store_personality_traits(speaker, predictions, db_session)
 
-    # Cache conversation (with dummy durations for now)
+    # Cache conversation (with all three emotion sources)
     if user_uuid and response:
         append_chat_to_cache(
             user_uuid,
@@ -478,6 +478,7 @@ def save_conversation_data(speaker: str, predictions: List[float], user_uuid: st
             0.0,  # llm_duration - handled separately
             speech_emotion=speech_emotion,
             text_emotion=text_emotion,
+            fused_emotion=fused_emotion,
         )
 
 
@@ -678,15 +679,22 @@ def process_audio(
         _record_timing("[Parallel] Audio processing (Whisper + speech2emotion + text2emotion + personality + memory)",
                       time.perf_counter() - parallel_audio_start)
 
-        # Step 3: Provide both emotion sources to the prompt (fusion disabled)
+        # Step 3: Fuse speech and text emotions (weighted probability averaging)
+        fused_emotion = fuse_emotions(
+            speech_emotion,
+            text_emotion,
+            app_state.speech_emotion_weight,
+            app_state.text_emotion_weight
+        )
+
+        # Log individual emotion sources for debugging
         log_emotion_scores(speech_emotion, text_emotion)
 
         # Build context and get LLM response
         chat_messages = build_prompt_context(
             text,
             personality_df,
-            speech_emotion,
-            text_emotion,
+            fused_emotion,
             state.history,
             app_state.preferences,
             app_state.history_window_size,
@@ -731,6 +739,7 @@ def process_audio(
             db_session,
             speech_emotion=speech_emotion,
             text_emotion=text_emotion,
+            fused_emotion=fused_emotion,
         )
         # Persist updated memory cache immediately so the dashboard backend sees new data
         flush_cache_to_disk()

@@ -1,0 +1,6 @@
+{
+  "USER_PERSONALITY": "Extraversion: 0.46\nNeuroticism: 0.53\nAgreeableness: 0.50\nConscientiousness: 0.41\nOpenness: 0.50",
+  "EMOTION_LOGITS": "anger: 0.00\ndisgust: 0.00\nfear: 0.34\nhappy: 0.15\nneutral: 0.49\nsad: 0.02\nsurprise: 0.00",
+  "KNOWN_PREFERENCES": "symptom: edema / ankle swelling\nlifestyle_factor: sedentary volunteer work\ntech_comfort: moderate (can navigate provided links)\nprescribed_treatment: compression stockings\nbarrier_to_care: uncertainty about sizing",
+  "USER_MESSAGE": "If you help me find the right compression stocking size online, I'll start wearing them to my shift."
+}

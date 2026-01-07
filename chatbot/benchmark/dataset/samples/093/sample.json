@@ -1,0 +1,45 @@
+{
+  "id": "093",
+  "dialogue": [
+    {
+      "role": "user",
+      "content": "I keep dropping my glasses behind the bed and I can't reach down to get them."
+    },
+    {
+      "role": "assistant",
+      "content": "That's a frustrating way to start the morning! Have you tried a glasses strap?"
+    },
+    {
+      "role": "user",
+      "content": "I don't like how they look. I only wear them for reading in bed."
+    },
+    {
+      "role": "assistant",
+      "content": "Maybe we could use a small stick-on 'caddy' on the side of your nightstand?"
+    },
+    {
+      "role": "user",
+      "content": "I'm okay with tech, so I'll see if I can find a magnetic one on my phone."
+    },
+    {
+      "role": "assistant",
+      "content": "A magnetic holder would keep them very secure."
+    },
+    {
+      "role": "user",
+      "content": "A magnetic glasses caddy on my phone search looks like the perfect solution!"
+    }
+  ],
+  "memory": {
+    "sensory_aid": "reading glasses",
+    "daily_struggle": "dropping glasses in unreachable spots",
+    "tech_comfort": "moderate (comfortable with mobile searching)",
+    "habit": "reading in bed",
+    "proposed_fix": "magnetic nightstand caddy"
+  },
+  "must_use_keys": [
+    "sensory_aid",
+    "daily_struggle",
+    "tech_comfort"
+  ]
+}

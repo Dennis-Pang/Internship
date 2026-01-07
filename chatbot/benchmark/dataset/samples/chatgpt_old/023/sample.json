@@ -1,0 +1,57 @@
+{
+  "id": "023",
+  "dialogue": [
+    {
+      "role": "user",
+      "content": "My eczema has been flaring and my skin feels really dry."
+    },
+    {
+      "role": "assistant",
+      "content": "Is it in a specific area, like hands, arms, or face?"
+    },
+    {
+      "role": "user",
+      "content": "Mostly hands and forearms."
+    },
+    {
+      "role": "assistant",
+      "content": "Got it. Do you moisturize regularly?"
+    },
+    {
+      "role": "user",
+      "content": "Not consistently. I do it for a few days and then forget."
+    },
+    {
+      "role": "assistant",
+      "content": "Okay. Do you prefer a very simple routine or multiple products?"
+    },
+    {
+      "role": "user",
+      "content": "Simple. One product is best."
+    },
+    {
+      "role": "assistant",
+      "content": "Understood. Consistency matters more than having many products."
+    },
+    {
+      "role": "user",
+      "content": "If I could stop forgetting the moisturizer and keep the dryness down, I'd be relieved."
+    }
+  ],
+  "memory": {
+    "condition": "eczema",
+    "affected_area": "hands and forearms",
+    "forgetting_pattern": "after a few days of consistency",
+    "routine_preference": "single-product routine",
+    "goal": "reduce dryness and flare frequency",
+    "current_strategy": "none"
+  },
+  "must_use_keys": [
+    "condition",
+    "forgetting_pattern",
+    "routine_preference"
+  ],
+  "must_not_use_keys": [
+    "affected_area"
+  ]
+}

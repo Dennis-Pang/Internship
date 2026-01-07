@@ -1,0 +1,6 @@
+{
+  "USER_PERSONALITY": "Extraversion: 0.42\nNeuroticism: 0.53\nAgreeableness: 0.50\nConscientiousness: 0.43\nOpenness: 0.44",
+  "EMOTION_LOGITS": "anger: 0.00\ndisgust: 0.00\nfear: 0.00\nhappy: 0.50\nneutral: 0.41\nsad: 0.09\nsurprise: 0.00",
+  "KNOWN_PREFERENCES": "symptom: hand tremors\ndaily_struggle: spilling food / eating soup\ntech_comfort: moderate (wary of online security)",
+  "USER_MESSAGE": "Please do; I'd love to be able to enjoy a bowl of soup without the mess."
+}

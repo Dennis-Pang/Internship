@@ -1,0 +1,45 @@
+{
+  "id": "098",
+  "dialogue": [
+    {
+      "role": "user",
+      "content": "I'm finding it hard to get out of my wheelchair into the car."
+    },
+    {
+      "role": "assistant",
+      "content": "Car transfers are very physically demanding. Are you using a swivel seat?"
+    },
+    {
+      "role": "user",
+      "content": "No, I just try to pull myself in using the door handle."
+    },
+    {
+      "role": "assistant",
+      "content": "A 'HandyBar' that fits into the door latch would give you a solid handle to push off from."
+    },
+    {
+      "role": "user",
+      "content": "I'm not great with tech, but that sounds like a simple enough tool to use."
+    },
+    {
+      "role": "assistant",
+      "content": "It's very sturdy and requires no installation."
+    },
+    {
+      "role": "user",
+      "content": "That HandyBar tool sounds like just the thing I need for my car transfers."
+    }
+  ],
+  "memory": {
+    "mobility_status": "wheelchair user",
+    "daily_challenge": "car transfers",
+    "tech_comfort": "low (prefers simple mechanical tools)",
+    "safety_risk": "pulling on door handles (unstable)",
+    "proposed_aid": "HandyBar / portable vehicle support handle"
+  },
+  "must_use_keys": [
+    "mobility_status",
+    "daily_challenge",
+    "tech_comfort"
+  ]
+}

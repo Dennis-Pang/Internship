@@ -1,0 +1,6 @@
+{
+  "USER_PERSONALITY": "Extraversion: 0.45\nNeuroticism: 0.55\nAgreeableness: 0.46\nConscientiousness: 0.36\nOpenness: 0.45",
+  "EMOTION_LOGITS": "anger: 0.00\ndisgust: 0.00\nfear: 0.00\nhappy: 0.46\nneutral: 0.53\nsad: 0.01\nsurprise: 0.00",
+  "KNOWN_PREFERENCES": "condition: type 2 diabetes\nmeal_pattern: late dinner around 21:00\ngoal: reduce large spikes after dinner\ntracking_tolerance: light tracking only\ncurrent_strategy: inconsistent carb counting\ntech_comfort: high",
+  "USER_MESSAGE": "If late dinners stopped causing big spikes afterward, I'd feel like I'm finally making progress."
+}

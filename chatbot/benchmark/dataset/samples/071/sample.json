@@ -1,0 +1,45 @@
+{
+  "id": "071",
+  "dialogue": [
+    {
+      "role": "user",
+      "content": "I keep forgetting to apply my medicated cream to my feet before bed."
+    },
+    {
+      "role": "assistant",
+      "content": "Foot care is so important for circulation. Where do you keep the tube?"
+    },
+    {
+      "role": "user",
+      "content": "In the bathroom medicine cabinet, but I usually forget once I'm already tucked in."
+    },
+    {
+      "role": "assistant",
+      "content": "What if you kept it right on your nightstand with a pack of wet wipes?"
+    },
+    {
+      "role": "user",
+      "content": "I'm not techy, so I don't want phone alerts. Just having it there might work."
+    },
+    {
+      "role": "assistant",
+      "content": "Exactly. A physical reminder is often the best visual cue."
+    },
+    {
+      "role": "user",
+      "content": "That makes sense; I'm moving the cream to my nightstand tonight so I can't miss it."
+    }
+  ],
+  "memory": {
+    "medication_type": "topical foot cream",
+    "habit_barrier": "forgetting after getting into bed",
+    "tech_comfort": "low (avoids digital alerts)",
+    "new_strategy": "relocating medication to nightstand",
+    "priority": "circulation maintenance"
+  },
+  "must_use_keys": [
+    "medication_type",
+    "habit_barrier",
+    "tech_comfort"
+  ]
+}

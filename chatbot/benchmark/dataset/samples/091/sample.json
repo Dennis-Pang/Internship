@@ -1,0 +1,45 @@
+{
+  "id": "091",
+  "dialogue": [
+    {
+      "role": "user",
+      "content": "I'm having a hard time remembering to do my breathing exercises for my COPD."
+    },
+    {
+      "role": "assistant",
+      "content": "Pursed-lip breathing can really help your stamina. When do you usually forget?"
+    },
+    {
+      "role": "user",
+      "content": "Just throughout the day when I'm busy with housework."
+    },
+    {
+      "role": "assistant",
+      "content": "Would you use a vibrating watch that nudges you every hour to breathe?"
+    },
+    {
+      "role": "user",
+      "content": "I'm not great with tech, but I can handle a watch if it only has one button."
+    },
+    {
+      "role": "assistant",
+      "content": "A simple 'habit' watch is perfect for that. No complicated menus."
+    },
+    {
+      "role": "user",
+      "content": "A simple vibrating watch would be a great way to remind me to breathe!"
+    }
+  ],
+  "memory": {
+    "condition": "COPD",
+    "health_goal": "consistent pursed-lip breathing",
+    "tech_comfort": "low (prefers single-button devices)",
+    "forgetting_pattern": "during daily housework",
+    "intervention": "vibrating reminder watch"
+  },
+  "must_use_keys": [
+    "condition",
+    "health_goal",
+    "tech_comfort"
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "id": "072",
+  "dialogue": [
+    {
+      "role": "user",
+      "content": "My hearing aids are great, but the batteries are so tiny and hard to change."
+    },
+    {
+      "role": "assistant",
+      "content": "Those size 10 batteries are a real test of fine motor skills! Do you use a magnet tool?"
+    },
+    {
+      "role": "user",
+      "content": "I've tried, but I still drop them on the carpet and lose them forever."
+    },
+    {
+      "role": "assistant",
+      "content": "Would you consider switching to a rechargeable model next time?"
+    },
+    {
+      "role": "user",
+      "content": "I'm very comfortable with tech, so a charging dock sounds way better than fumbling with tabs."
+    },
+    {
+      "role": "assistant",
+      "content": "It simplifies things significantly. You just drop them in at night."
+    },
+    {
+      "role": "user",
+      "content": "A rechargeable dock is definitely going on my wishlist for my next pair of aids."
+    }
+  ],
+  "memory": {
+    "medical_device": "hearing aids (disposable battery type)",
+    "dexterity_issue": "fumbling with small batteries",
+    "tech_comfort": "high (prefers rechargeable/docking systems)",
+    "daily_annoyance": "dropping batteries on carpet",
+    "future_goal": "upgrade to rechargeable model"
+  },
+  "must_use_keys": [
+    "medical_device",
+    "dexterity_issue",
+    "tech_comfort"
+  ]
+}

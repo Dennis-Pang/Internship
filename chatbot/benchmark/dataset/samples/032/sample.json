@@ -1,0 +1,45 @@
+{
+  "id": "032",
+  "dialogue": [
+    {
+      "role": "user",
+      "content": "Since my stroke, I can only use my left hand to get dressed, and buttons are impossible."
+    },
+    {
+      "role": "assistant",
+      "content": "That's a very common challenge. Have you heard of adaptive clothing with magnetic closures?"
+    },
+    {
+      "role": "user",
+      "content": "Magnetic buttons? I didn't know that was even a thing."
+    },
+    {
+      "role": "assistant",
+      "content": "They look just like regular shirts but snap together easily. I can show you a video of how they work."
+    },
+    {
+      "role": "user",
+      "content": "I'm comfortable with YouTube, so a video would be great to see if I can manage them."
+    },
+    {
+      "role": "assistant",
+      "content": "I'll find a demonstration of the Tommy Hilfiger Adaptive line for you."
+    },
+    {
+      "role": "user",
+      "content": "Watching a video on magnetic buttons might solve my struggle with dressing myself."
+    }
+  ],
+  "memory": {
+    "recovery_status": "post-stroke (one-sided weakness)",
+    "primary_challenge": "dressing / fastening buttons",
+    "tech_comfort": "moderate (comfortable with YouTube)",
+    "adaptive_solution": "magnetic closure clothing",
+    "goal": "independent dressing"
+  },
+  "must_use_keys": [
+    "recovery_status",
+    "primary_challenge",
+    "tech_comfort"
+  ]
+}

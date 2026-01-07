@@ -1,0 +1,6 @@
+{
+  "USER_PERSONALITY": "Extraversion: 0.43\nNeuroticism: 0.54\nAgreeableness: 0.46\nConscientiousness: 0.34\nOpenness: 0.47",
+  "EMOTION_LOGITS": "anger: 0.00\ndisgust: 0.00\nfear: 0.00\nhappy: 0.14\nneutral: 0.84\nsad: 0.01\nsurprise: 0.00",
+  "KNOWN_PREFERENCES": "medical_device: hearing aids (disposable battery type)\ndexterity_issue: fumbling with small batteries\ntech_comfort: high (prefers rechargeable/docking systems)\ndaily_annoyance: dropping batteries on carpet\nfuture_goal: upgrade to rechargeable model",
+  "USER_MESSAGE": "A rechargeable dock is definitely going on my wishlist for my next pair of aids."
+}

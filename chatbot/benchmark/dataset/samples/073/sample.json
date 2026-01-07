@@ -1,0 +1,45 @@
+{
+  "id": "073",
+  "dialogue": [
+    {
+      "role": "user",
+      "content": "Since I started using the walker, I can't carry my coffee from the kitchen to the porch."
+    },
+    {
+      "role": "assistant",
+      "content": "That's a classic walker dilemma. Do you have a tray attachment?"
+    },
+    {
+      "role": "user",
+      "content": "No, I usually just try to balance it, which is obviously a bad idea."
+    },
+    {
+      "role": "assistant",
+      "content": "A clip-on cup holder or a tray would give you your hands back for the brakes."
+    },
+    {
+      "role": "user",
+      "content": "I'm tech-savvy enough to find a 'no-spill' version on Amazon."
+    },
+    {
+      "role": "assistant",
+      "content": "Look for the ones with a deep well for the mug."
+    },
+    {
+      "role": "user",
+      "content": "Found one! This no-spill walker tray is exactly what I need for my morning coffee."
+    }
+  ],
+  "memory": {
+    "mobility_aid": "walker",
+    "daily_challenge": "carrying liquids safely",
+    "tech_comfort": "high (comfortable with online shopping)",
+    "preferred_solution": "no-spill tray attachment",
+    "habit": "drinking coffee on the porch"
+  },
+  "must_use_keys": [
+    "mobility_aid",
+    "daily_challenge",
+    "tech_comfort"
+  ]
+}

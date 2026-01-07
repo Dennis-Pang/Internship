@@ -1,0 +1,6 @@
+{
+  "USER_PERSONALITY": "Extraversion: 0.48\nNeuroticism: 0.53\nAgreeableness: 0.51\nConscientiousness: 0.41\nOpenness: 0.48",
+  "EMOTION_LOGITS": "anger: 0.00\ndisgust: 0.00\nfear: 0.00\nhappy: 0.20\nneutral: 0.58\nsad: 0.22\nsurprise: 0.00",
+  "KNOWN_PREFERENCES": "caregiving_target: husband with disorientation\nsafety_concern: getting lost\ntech_comfort: moderate",
+  "USER_MESSAGE": "That would be such a relief; I'd finally stop pacing the floor whenever he's out."
+}

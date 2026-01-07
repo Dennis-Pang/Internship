@@ -1,0 +1,45 @@
+{
+  "id": "087",
+  "dialogue": [
+    {
+      "role": "user",
+      "content": "I'm having a lot of trouble with the stairs since my knee surgery."
+    },
+    {
+      "role": "assistant",
+      "content": "Stairs are often the biggest hurdle post-op. Are you using the 'good' leg first?"
+    },
+    {
+      "role": "user",
+      "content": "I try to remember 'Up with the good, down with the bad,' but I get confused."
+    },
+    {
+      "role": "assistant",
+      "content": "What if we put a little 'Up' arrow sticker at the bottom of the stairs?"
+    },
+    {
+      "role": "user",
+      "content": "I'm not great with gadgets, so a simple sticker is a perfect reminder."
+    },
+    {
+      "role": "assistant",
+      "content": "It's a great way to reinforce the habit without thinking."
+    },
+    {
+      "role": "user",
+      "content": "A simple arrow sticker at the stairs will keep me from mixing up my legs."
+    }
+  ],
+  "memory": {
+    "recovery_status": "post-knee surgery",
+    "mobility_challenge": "stair navigation",
+    "tech_comfort": "low (prefers simple visual cues)",
+    "mnemonic_used": "Up with the good, down with the bad",
+    "intervention": "tactile/visual stickers on stairs"
+  },
+  "must_use_keys": [
+    "recovery_status",
+    "mobility_challenge",
+    "tech_comfort"
+  ]
+}

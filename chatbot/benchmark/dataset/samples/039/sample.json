@@ -1,0 +1,45 @@
+{
+  "id": "039",
+  "dialogue": [
+    {
+      "role": "user",
+      "content": "My daughter is worried I'm not drinking enough water throughout the day."
+    },
+    {
+      "role": "assistant",
+      "content": "Dehydration can lead to confusion and UTIs in seniors. Do you feel thirsty often?"
+    },
+    {
+      "role": "user",
+      "content": "Not really, I just forget to drink until I get a headache in the evening."
+    },
+    {
+      "role": "assistant",
+      "content": "How about a smart water bottle that glows when it's time to take a sip?"
+    },
+    {
+      "role": "user",
+      "content": "I'm okay with a glowing bottle, but I don't want to deal with charging it every day."
+    },
+    {
+      "role": "assistant",
+      "content": "There are models with batteries that last months. I'll find one of those for you."
+    },
+    {
+      "role": "user",
+      "content": "A smart water bottle with a long battery life would remind me to stay hydrated."
+    }
+  ],
+  "memory": {
+    "health_risk": "dehydration / headache trigger",
+    "caregiving_source": "daughter",
+    "tech_comfort": "moderate (accepts gadgets but hates frequent charging)",
+    "symptom": "evening headaches",
+    "intervention": "glowing reminder water bottle"
+  },
+  "must_use_keys": [
+    "health_risk",
+    "caregiving_source",
+    "tech_comfort"
+  ]
+}

@@ -1,0 +1,6 @@
+{
+  "USER_PERSONALITY": "Extraversion: 0.40\nNeuroticism: 0.54\nAgreeableness: 0.49\nConscientiousness: 0.41\nOpenness: 0.43",
+  "EMOTION_LOGITS": "anger: 0.00\ndisgust: 0.00\nfear: 0.00\nhappy: 0.49\nneutral: 0.48\nsad: 0.02\nsurprise: 0.00",
+  "KNOWN_PREFERENCES": "pain_location: wrist (mouse hand)\ntrigger: long laptop/mouse use\nconstraint: no new equipment purchases\nbreak_pattern: rarely takes hand breaks\ngoal: reduce soreness during workdays\ncurrent_strategy: none",
+  "USER_MESSAGE": "If I could reduce the soreness without buying anything, that would be perfect."
+}

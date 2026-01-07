@@ -1,0 +1,57 @@
+{
+  "id": "038",
+  "dialogue": [
+    {
+      "role": "user",
+      "content": "My skin has been breaking out more lately."
+    },
+    {
+      "role": "assistant",
+      "content": "Is it mostly on your face, back, or both?"
+    },
+    {
+      "role": "user",
+      "content": "Mostly my face, especially around the jaw."
+    },
+    {
+      "role": "assistant",
+      "content": "Got it. Do you have a skincare routine right now?"
+    },
+    {
+      "role": "user",
+      "content": "Not consistent. I skip steps when I'm tired."
+    },
+    {
+      "role": "assistant",
+      "content": "Okay. Do you want a minimal routine or are you open to multiple products?"
+    },
+    {
+      "role": "user",
+      "content": "Minimal. I'll quit if it's too much."
+    },
+    {
+      "role": "assistant",
+      "content": "Understood. A simple, consistent routine can still help."
+    },
+    {
+      "role": "user",
+      "content": "If I could keep it to two steps and actually do it daily, that would be perfect."
+    }
+  ],
+  "memory": {
+    "concern": "acne flare-ups",
+    "routine_preference": "minimal (2 steps)",
+    "forgetting_pattern": "night when tired",
+    "skin_type": "oily-combination",
+    "irritant_history": "benzoyl peroxide causes dryness",
+    "current_strategy": "none"
+  },
+  "must_use_keys": [
+    "routine_preference",
+    "forgetting_pattern",
+    "skin_type"
+  ],
+  "must_not_use_keys": [
+    "irritant_history"
+  ]
+}

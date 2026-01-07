@@ -1,0 +1,45 @@
+{
+  "id": "024",
+  "dialogue": [
+    {
+      "role": "user",
+      "content": "My dialysis schedule is so draining, I keep forgetting my renal diet rules."
+    },
+    {
+      "role": "assistant",
+      "content": "It's a lot to manage. Which part of the diet is the hardest-potassium or phosphorus?"
+    },
+    {
+      "role": "user",
+      "content": "Potassium. I love bananas and potatoes, and I forget they are off-limits."
+    },
+    {
+      "role": "assistant",
+      "content": "Would a meal-scanning app that flags high-potassium foods help you?"
+    },
+    {
+      "role": "user",
+      "content": "I'm not very good with apps. My phone is old and slow."
+    },
+    {
+      "role": "assistant",
+      "content": "In that case, would a simple color-coded 'cheat sheet' on your fridge work better?"
+    },
+    {
+      "role": "user",
+      "content": "A color-coded cheat sheet on the fridge is better for my renal diet than a slow phone app."
+    }
+  ],
+  "memory": {
+    "health_treatment": "dialysis",
+    "dietary_restriction": "renal diet (low potassium)",
+    "tech_comfort": "low (old/slow device)",
+    "food_triggers": "bananas and potatoes",
+    "preferred_tool": "physical cheat sheet"
+  },
+  "must_use_keys": [
+    "health_treatment",
+    "dietary_restriction",
+    "tech_comfort"
+  ]
+}

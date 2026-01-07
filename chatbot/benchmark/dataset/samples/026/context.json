@@ -1,0 +1,6 @@
+{
+  "USER_PERSONALITY": "Extraversion: 0.47\nNeuroticism: 0.55\nAgreeableness: 0.47\nConscientiousness: 0.37\nOpenness: 0.49",
+  "EMOTION_LOGITS": "anger: 0.00\ndisgust: 0.00\nfear: 0.00\nhappy: 0.48\nneutral: 0.38\nsad: 0.14\nsurprise: 0.00",
+  "KNOWN_PREFERENCES": "health_condition: diabetes\nphysical_impairment: blurry vision\ntech_comfort: moderate (prefers voice-guided tech)\ncurrent_barrier: squinting at small device screens\nrecommended_device: Prodigy Voice glucometer",
+  "USER_MESSAGE": "A talking glucometer will help me manage my diabetes even with my blurry vision."
+}

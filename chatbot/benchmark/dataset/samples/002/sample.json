@@ -1,0 +1,53 @@
+{
+  "id": "002",
+  "dialogue": [
+    {
+      "role": "user",
+      "content": "My blood sugar readings are all over the place lately."
+    },
+    {
+      "role": "assistant",
+      "content": "That sounds frustrating. Are you tracking what you eat before those spikes?"
+    },
+    {
+      "role": "user",
+      "content": "Not really, I just check the levels when I feel tired."
+    },
+    {
+      "role": "assistant",
+      "content": "We should find a better routine. Do you carry your glucose monitor everywhere?"
+    },
+    {
+      "role": "user",
+      "content": "I leave it at home because it's bulky. I only use it in the evening."
+    },
+    {
+      "role": "assistant",
+      "content": "I see. Would a smaller, portable device or a digital log help?"
+    },
+    {
+      "role": "user",
+      "content": "A digital log on my watch would be perfect actually."
+    },
+    {
+      "role": "assistant",
+      "content": "Let's set that up then. Consistency is key for diabetes management."
+    },
+    {
+      "role": "user",
+      "content": "I'll start logging every meal on my smartwatch from now on."
+    }
+  ],
+  "memory": {
+    "health_condition": "Type 2 Diabetes",
+    "monitoring_habit": "evening only",
+    "tech_comfort": "prefers smartwatch apps",
+    "equipment_barrier": "current monitor is too bulky for travel",
+    "symptom_trigger": "fatigue"
+  },
+  "must_use_keys": [
+    "health_condition",
+    "monitoring_habit",
+    "tech_comfort"
+  ]
+}

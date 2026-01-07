@@ -1,0 +1,45 @@
+{
+  "id": "023",
+  "dialogue": [
+    {
+      "role": "user",
+      "content": "I'm worried about my post-stroke exercises; I'm not sure if I'm doing the arm lifts correctly."
+    },
+    {
+      "role": "assistant",
+      "content": "Form is very important for neuro-recovery. Do you have a mirror in your workout area?"
+    },
+    {
+      "role": "user",
+      "content": "No, I usually just do them in my recliner while watching the news."
+    },
+    {
+      "role": "assistant",
+      "content": "What if we used a motion-tracking app on your tablet that 'watches' your form?"
+    },
+    {
+      "role": "user",
+      "content": "I'm a retired engineer, so I'm very comfortable with motion-tracking tech."
+    },
+    {
+      "role": "assistant",
+      "content": "That's great! An app like Kaia Health could give you real-time feedback."
+    },
+    {
+      "role": "user",
+      "content": "Using a motion-tracking app on my tablet will ensure my post-stroke arm lifts are effective."
+    }
+  ],
+  "memory": {
+    "recovery_phase": "post-stroke rehabilitation",
+    "exercise_type": "arm lifts",
+    "tech_comfort": "high (retired engineer)",
+    "current_habit": "exercising without visual feedback",
+    "goal": "proper form for neuro-recovery"
+  },
+  "must_use_keys": [
+    "recovery_phase",
+    "exercise_type",
+    "tech_comfort"
+  ]
+}

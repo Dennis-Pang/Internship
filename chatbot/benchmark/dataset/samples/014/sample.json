@@ -1,0 +1,45 @@
+{
+  "id": "014",
+  "dialogue": [
+    {
+      "role": "user",
+      "content": "My father's arthritis is making it impossible for him to check his own blood pressure."
+    },
+    {
+      "role": "assistant",
+      "content": "Is it the Velcro cuff that's the problem?"
+    },
+    {
+      "role": "user",
+      "content": "Exactly. He can't grip the strap to pull it tight enough."
+    },
+    {
+      "role": "assistant",
+      "content": "There are 'one-touch' automatic cuffs designed for people with limited dexterity."
+    },
+    {
+      "role": "user",
+      "content": "He's okay with technology as long as it's just one big button."
+    },
+    {
+      "role": "assistant",
+      "content": "Perfect. An automatic arm-type monitor with a pre-formed cuff would be ideal."
+    },
+    {
+      "role": "user",
+      "content": "A one-button automatic cuff would let him manage his blood pressure independently again."
+    }
+  ],
+  "memory": {
+    "caregiving_target": "father with arthritis",
+    "dexterity_issue": "unable to fasten Velcro straps",
+    "tech_comfort": "moderate (likes single-button interfaces)",
+    "medical_need": "blood pressure monitoring",
+    "required_feature": "pre-formed automatic cuff"
+  },
+  "must_use_keys": [
+    "caregiving_target",
+    "dexterity_issue",
+    "tech_comfort"
+  ]
+}

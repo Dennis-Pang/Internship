@@ -1,0 +1,57 @@
+{
+  "id": "093",
+  "dialogue": [
+    {
+      "role": "user",
+      "content": "I keep missing my medication sometimes."
+    },
+    {
+      "role": "assistant",
+      "content": "That's common. Do you notice it more on weekdays or weekends?"
+    },
+    {
+      "role": "user",
+      "content": "Mostly weekends. My mornings look different and I forget."
+    },
+    {
+      "role": "assistant",
+      "content": "Got it. What usually happens right before you realize you missed it?"
+    },
+    {
+      "role": "user",
+      "content": "I wake up later, start doing things, and it just slips my mind."
+    },
+    {
+      "role": "assistant",
+      "content": "Makes sense. Do you want something very simple, or are you okay using your phone?"
+    },
+    {
+      "role": "user",
+      "content": "Simple, but phone reminders are fine."
+    },
+    {
+      "role": "assistant",
+      "content": "Okay-simple and repeatable. We'll fit it to your weekend rhythm."
+    },
+    {
+      "role": "user",
+      "content": "If it worked for weekend mornings, I'd finally be consistent."
+    }
+  ],
+  "memory": {
+    "medication_type": "daily blood pressure pill",
+    "forgetting_pattern": "mornings on weekends",
+    "tech_comfort": "high",
+    "wake_time_shift": "wakes ~2 hours later on weekends",
+    "current_strategy": "none",
+    "reminder_devices": "smartphone available"
+  },
+  "must_use_keys": [
+    "medication_type",
+    "forgetting_pattern",
+    "tech_comfort"
+  ],
+  "must_not_use_keys": [
+    "wake_time_shift"
+  ]
+}

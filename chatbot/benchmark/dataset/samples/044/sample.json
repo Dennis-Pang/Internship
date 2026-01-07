@@ -1,0 +1,43 @@
+{
+  "id": "044",
+  "dialogue": [
+    {
+      "role": "user",
+      "content": "I'm having trouble getting up from my favorite armchair lately."
+    },
+    {
+      "role": "assistant",
+      "content": "Is the chair too low, or are the cushions just too soft?"
+    },
+    {
+      "role": "user",
+      "content": "It's a bit of both. I feel like I'm sinking and I can't get any leverage."
+    },
+    {
+      "role": "assistant",
+      "content": "We could add some furniture risers to lift the whole chair by a few inches."
+    },
+    {
+      "role": "user",
+      "content": "I'm okay with that as long as the chair stays stable."
+    },
+    {
+      "role": "assistant",
+      "content": "They are designed to be very sturdy. I'll show you a few options on my tablet."
+    },
+    {
+      "role": "user",
+      "content": "If those risers can save my knees, I'm definitely willing to give them a shot."
+    }
+  ],
+  "memory": {
+    "physical_struggle": "difficulty standing from seated position",
+    "home_barrier": "low/soft armchair",
+    "tech_comfort": "moderate"
+  },
+  "must_use_keys": [
+    "physical_struggle",
+    "home_barrier",
+    "tech_comfort"
+  ]
+}

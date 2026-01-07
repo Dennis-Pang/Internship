@@ -1,0 +1,45 @@
+{
+  "id": "079",
+  "dialogue": [
+    {
+      "role": "user",
+      "content": "I'm tired of having to wait for my son to help me cut my steak."
+    },
+    {
+      "role": "assistant",
+      "content": "Independence at the dinner table is important. Is it a grip issue?"
+    },
+    {
+      "role": "user",
+      "content": "Yes, I can't hold the knife steady and apply enough pressure."
+    },
+    {
+      "role": "assistant",
+      "content": "An 'L-shaped' rocker knife allows you to cut with a simple rocking motion."
+    },
+    {
+      "role": "user",
+      "content": "I'm tech-savvy enough to shop for adaptive cutlery on my phone."
+    },
+    {
+      "role": "assistant",
+      "content": "They make some very sleek stainless steel ones now."
+    },
+    {
+      "role": "user",
+      "content": "Shopping for a rocker knife on my phone will finally get me off my son's help."
+    }
+  ],
+  "memory": {
+    "physical_limitation": "weak grip / difficulty cutting food",
+    "tech_comfort": "high (comfortable with mobile shopping)",
+    "goal": "mealtime independence",
+    "desired_aid": "rocker knife / adaptive cutlery",
+    "support_system": "son (currently assists)"
+  },
+  "must_use_keys": [
+    "physical_limitation",
+    "tech_comfort",
+    "goal"
+  ]
+}

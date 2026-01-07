@@ -1,0 +1,6 @@
+{
+  "USER_PERSONALITY": "Extraversion: 0.49\nNeuroticism: 0.55\nAgreeableness: 0.49\nConscientiousness: 0.39\nOpenness: 0.51",
+  "EMOTION_LOGITS": "anger: 0.00\ndisgust: 0.00\nfear: 0.00\nhappy: 0.49\nneutral: 0.49\nsad: 0.01\nsurprise: 0.00",
+  "KNOWN_PREFERENCES": "symptom: lightheadedness during physical activity\nhobby: gardening\ntech_comfort: high (interested in Apple Watch features)\nsafety_risk: potential falls while alone outdoors\ndesired_feature: heart rate alerts / fall detection",
+  "USER_MESSAGE": "I'm getting an Apple Watch to keep an eye on my heart while I garden."
+}

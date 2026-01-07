@@ -1,0 +1,45 @@
+{
+  "id": "084",
+  "dialogue": [
+    {
+      "role": "user",
+      "content": "I'm having a hard time standing long enough to brush my teeth."
+    },
+    {
+      "role": "assistant",
+      "content": "Leg fatigue is common with your condition. Do you have a stool in the bathroom?"
+    },
+    {
+      "role": "user",
+      "content": "I don't. I'm afraid I'll slip if I try to sit on a regular chair in there."
+    },
+    {
+      "role": "assistant",
+      "content": "A wall-mounted folding seat or a high-perch stool with non-slip feet would be safer."
+    },
+    {
+      "role": "user",
+      "content": "I'm not great with tech, but I can ask my handyman to install a seat."
+    },
+    {
+      "role": "assistant",
+      "content": "That's a very practical solution."
+    },
+    {
+      "role": "user",
+      "content": "I'll call my handyman to put a folding seat in the bathroom this week."
+    }
+  ],
+  "memory": {
+    "symptom": "leg fatigue / unable to stand for hygiene tasks",
+    "safety_concern": "slipping while sitting on un-secured chairs",
+    "tech_comfort": "low (prefers hiring help for physical tasks)",
+    "proposed_aid": "wall-mounted folding bathroom seat",
+    "action_item": "contact handyman"
+  },
+  "must_use_keys": [
+    "symptom",
+    "safety_concern",
+    "tech_comfort"
+  ]
+}

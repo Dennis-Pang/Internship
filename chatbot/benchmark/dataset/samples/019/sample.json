@@ -1,0 +1,45 @@
+{
+  "id": "019",
+  "dialogue": [
+    {
+      "role": "user",
+      "content": "My Parkinson's is making it really hard to use my computer mouse."
+    },
+    {
+      "role": "assistant",
+      "content": "The tremors can make precise clicking very difficult. Have you tried a trackball?"
+    },
+    {
+      "role": "user",
+      "content": "I tried one, but it was still too sensitive. I keep clicking the wrong things."
+    },
+    {
+      "role": "assistant",
+      "content": "There is software that filters out tremor movements for the cursor."
+    },
+    {
+      "role": "user",
+      "content": "I'm okay with installing software, I used to be an accountant."
+    },
+    {
+      "role": "assistant",
+      "content": "That's perfect. SteadyMouse or similar programs can be a game-changer for you."
+    },
+    {
+      "role": "user",
+      "content": "Using tremor-filtering software would let me use my computer without clicking the wrong icons."
+    }
+  ],
+  "memory": {
+    "condition": "Parkinson's Disease",
+    "symptom": "hand tremors affecting fine motor skills",
+    "tech_comfort": "high (former accountant)",
+    "software_need": "cursor stabilization / tremor filtering",
+    "previous_attempt": "trackball mouse (unsuccessful)"
+  },
+  "must_use_keys": [
+    "condition",
+    "symptom",
+    "tech_comfort"
+  ]
+}

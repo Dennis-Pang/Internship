@@ -1,0 +1,43 @@
+{
+  "id": "050",
+  "dialogue": [
+    {
+      "role": "user",
+      "content": "My back hurts after sitting at the dining table for my morning puzzles."
+    },
+    {
+      "role": "assistant",
+      "content": "Dining chairs often lack proper lumbar support. How long are you sitting?"
+    },
+    {
+      "role": "user",
+      "content": "Usually about an hour. I get so involved in the crossword."
+    },
+    {
+      "role": "assistant",
+      "content": "A portable lumbar roll might make a big difference for your spine."
+    },
+    {
+      "role": "user",
+      "content": "I'm okay with tech, so I'll check some reviews on my phone for the best one."
+    },
+    {
+      "role": "assistant",
+      "content": "Look for one with an adjustable strap so it stays put on your chair."
+    },
+    {
+      "role": "user",
+      "content": "Found one with great reviews! I'll order this lumbar roll and see if my back improves."
+    }
+  ],
+  "memory": {
+    "symptom": "lower back pain",
+    "activity": "morning puzzles / crosswords",
+    "tech_comfort": "high"
+  },
+  "must_use_keys": [
+    "symptom",
+    "activity",
+    "tech_comfort"
+  ]
+}

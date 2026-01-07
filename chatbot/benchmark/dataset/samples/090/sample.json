@@ -1,0 +1,45 @@
+{
+  "id": "090",
+  "dialogue": [
+    {
+      "role": "user",
+      "content": "My father's dementia is making him paranoid about who is at the door."
+    },
+    {
+      "role": "assistant",
+      "content": "That must be very stressful for both of you. Does he recognize your voice?"
+    },
+    {
+      "role": "user",
+      "content": "Usually, but he panics before I can even get there to answer it."
+    },
+    {
+      "role": "assistant",
+      "content": "A video doorbell that you can answer from your phone might help you calm him down."
+    },
+    {
+      "role": "user",
+      "content": "I'm very comfortable with apps, so I can show him the screen before I open the door."
+    },
+    {
+      "role": "assistant",
+      "content": "Seeing your face on the screen might help bridge that gap of trust."
+    },
+    {
+      "role": "user",
+      "content": "Showing him the video doorbell screen on my phone should help lower his anxiety."
+    }
+  ],
+  "memory": {
+    "caregiving_target": "father with dementia",
+    "symptom": "paranoia / anxiety regarding visitors",
+    "tech_comfort": "high (comfortable with smart home apps)",
+    "intervention": "video doorbell with mobile access",
+    "goal": "reduce panic and build trust"
+  },
+  "must_use_keys": [
+    "caregiving_target",
+    "symptom",
+    "tech_comfort"
+  ]
+}

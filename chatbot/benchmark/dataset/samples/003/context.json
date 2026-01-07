@@ -1,0 +1,6 @@
+{
+  "USER_PERSONALITY": "Extraversion: 0.41\nNeuroticism: 0.55\nAgreeableness: 0.46\nConscientiousness: 0.37\nOpenness: 0.43",
+  "EMOTION_LOGITS": "anger: 0.00\ndisgust: 0.00\nfear: 0.00\nhappy: 0.00\nneutral: 0.97\nsad: 0.03\nsurprise: 0.00",
+  "KNOWN_PREFERENCES": "injury_type: ACL recovery\ncompliance_issue: boredom during home exercises\ntech_comfort: comfortable with tablets\nexercise_environment: prefers guided video content\nrecovery_duration: 2 weeks post-start",
+  "USER_MESSAGE": "Using the tablet for my ACL rehab might actually make me do it."
+}

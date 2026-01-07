@@ -1,0 +1,6 @@
+{
+  "USER_PERSONALITY": "Extraversion: 0.44\nNeuroticism: 0.54\nAgreeableness: 0.47\nConscientiousness: 0.34\nOpenness: 0.46",
+  "EMOTION_LOGITS": "anger: 0.00\ndisgust: 0.00\nfear: 0.10\nhappy: 0.39\nneutral: 0.49\nsad: 0.02\nsurprise: 0.00",
+  "KNOWN_PREFERENCES": "caregiving_target: wife\nhealth_risk: hypoglycemia during sleep\ntech_comfort: high (uses tablet for health tracking)\nmonitoring_habit: tracking meals digitally\ndesired_tool: CGM with remote alerts",
+  "USER_MESSAGE": "The CGM alert on my tablet would give me such peace of mind while she's napping."
+}

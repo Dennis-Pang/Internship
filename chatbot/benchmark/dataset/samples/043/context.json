@@ -1,0 +1,6 @@
+{
+  "USER_PERSONALITY": "Extraversion: 0.42\nNeuroticism: 0.52\nAgreeableness: 0.51\nConscientiousness: 0.44\nOpenness: 0.48",
+  "EMOTION_LOGITS": "anger: 0.00\ndisgust: 0.00\nfear: 0.00\nhappy: 0.50\nneutral: 0.50\nsad: 0.00\nsurprise: 0.00",
+  "KNOWN_PREFERENCES": "symptom: hand stiffness / cold sensitivity\nmobility_aid: manual wheelchair\ntech_comfort: low (relies on family for online purchases)",
+  "USER_MESSAGE": "That would be a huge help; I'll tell my son to keep an eye out for your message."
+}

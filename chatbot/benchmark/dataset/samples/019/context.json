@@ -1,0 +1,6 @@
+{
+  "USER_PERSONALITY": "Extraversion: 0.41\nNeuroticism: 0.53\nAgreeableness: 0.50\nConscientiousness: 0.41\nOpenness: 0.48",
+  "EMOTION_LOGITS": "anger: 0.00\ndisgust: 0.00\nfear: 0.00\nhappy: 0.00\nneutral: 0.85\nsad: 0.14\nsurprise: 0.00",
+  "KNOWN_PREFERENCES": "condition: Parkinson's Disease\nsymptom: hand tremors affecting fine motor skills\ntech_comfort: high (former accountant)\nsoftware_need: cursor stabilization / tremor filtering\nprevious_attempt: trackball mouse (unsuccessful)",
+  "USER_MESSAGE": "Using tremor-filtering software would let me use my computer without clicking the wrong icons."
+}

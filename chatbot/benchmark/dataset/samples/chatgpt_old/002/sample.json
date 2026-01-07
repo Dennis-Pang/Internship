@@ -1,0 +1,57 @@
+{
+  "id": "002",
+  "dialogue": [
+    {
+      "role": "user",
+      "content": "My sleep has been pretty messy lately."
+    },
+    {
+      "role": "assistant",
+      "content": "What's the main issue-falling asleep, staying asleep, or waking too early?"
+    },
+    {
+      "role": "user",
+      "content": "Falling asleep. I feel wired even when I'm tired."
+    },
+    {
+      "role": "assistant",
+      "content": "What does the last hour before bed usually look like?"
+    },
+    {
+      "role": "user",
+      "content": "I scroll on my phone, and I often have coffee mid-afternoon to push through work."
+    },
+    {
+      "role": "assistant",
+      "content": "Got it. Do you want a strict routine or something realistic you can repeat?"
+    },
+    {
+      "role": "user",
+      "content": "Realistic. I won't stick to anything complicated."
+    },
+    {
+      "role": "assistant",
+      "content": "Okay-then we'll keep changes small and consistent."
+    },
+    {
+      "role": "user",
+      "content": "If I could be asleep by around 11:30 without fighting it, that would be huge."
+    }
+  ],
+  "memory": {
+    "bedtime_target": "23:00",
+    "screen_time_habit": "uses phone in bed",
+    "caffeine_intake": "coffee around 4pm",
+    "sleep_onset_issue": "takes ~50 minutes to fall asleep",
+    "morning_wake_time": "07:30",
+    "current_strategy": "melatonin occasionally"
+  },
+  "must_use_keys": [
+    "bedtime_target",
+    "screen_time_habit",
+    "caffeine_intake"
+  ],
+  "must_not_use_keys": [
+    "morning_wake_time"
+  ]
+}

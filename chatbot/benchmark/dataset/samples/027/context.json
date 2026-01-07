@@ -1,0 +1,6 @@
+{
+  "USER_PERSONALITY": "Extraversion: 0.48\nNeuroticism: 0.55\nAgreeableness: 0.47\nConscientiousness: 0.35\nOpenness: 0.48",
+  "EMOTION_LOGITS": "anger: 0.00\ndisgust: 0.00\nfear: 0.00\nhappy: 0.50\nneutral: 0.42\nsad: 0.08\nsurprise: 0.00",
+  "KNOWN_PREFERENCES": "mobility_status: wheelchair user\nsymptom: back pain during transfers\ntech_comfort: high (frequent YouTube user)\nequipment: slide board (current safety concern)\nlearning_preference: visual / video-based instruction",
+  "USER_MESSAGE": "Watching a YouTube tutorial on safe wheelchair transfers should help my back pain."
+}

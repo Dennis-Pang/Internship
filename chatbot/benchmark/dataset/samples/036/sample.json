@@ -1,0 +1,45 @@
+{
+  "id": "036",
+  "dialogue": [
+    {
+      "role": "user",
+      "content": "I'm struggling to get my wheelchair through the bathroom door; it's just too narrow."
+    },
+    {
+      "role": "assistant",
+      "content": "Bathroom accessibility is a major hurdle. Have you considered offset 'swing-clear' hinges?"
+    },
+    {
+      "role": "user",
+      "content": "I've never heard of those. Do they require a lot of construction?"
+    },
+    {
+      "role": "assistant",
+      "content": "No, they just replace your existing hinges and give you an extra 2 inches of space. I can find a video."
+    },
+    {
+      "role": "user",
+      "content": "I'm okay with tech, so I'll check out the video on my tablet."
+    },
+    {
+      "role": "assistant",
+      "content": "I'll send a link that shows how they are installed. It's a very cheap fix."
+    },
+    {
+      "role": "user",
+      "content": "Checking a video for swing-clear hinges on my tablet might finally let me use the bathroom easily."
+    }
+  ],
+  "memory": {
+    "mobility_status": "wheelchair user",
+    "home_barrier": "narrow bathroom doorway",
+    "tech_comfort": "moderate (comfortable with tablet/video)",
+    "home_modification": "swing-clear hinges",
+    "goal": "independent bathroom access"
+  },
+  "must_use_keys": [
+    "mobility_status",
+    "home_barrier",
+    "tech_comfort"
+  ]
+}

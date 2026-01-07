@@ -1,0 +1,6 @@
+{
+  "USER_PERSONALITY": "Extraversion: 0.44\nNeuroticism: 0.53\nAgreeableness: 0.52\nConscientiousness: 0.43\nOpenness: 0.51",
+  "EMOTION_LOGITS": "anger: 0.00\ndisgust: 0.00\nfear: 0.00\nhappy: 0.33\nneutral: 0.64\nsad: 0.03\nsurprise: 0.00",
+  "KNOWN_PREFERENCES": "mobility_aid: walker\nhome_barrier: doorway transitions\ntech_comfort: high",
+  "USER_MESSAGE": "Got it; I'll grab the tape measure and find some ramps that fit."
+}

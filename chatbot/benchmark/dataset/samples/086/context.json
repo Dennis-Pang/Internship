@@ -1,0 +1,6 @@
+{
+  "USER_PERSONALITY": "Extraversion: 0.53\nNeuroticism: 0.56\nAgreeableness: 0.43\nConscientiousness: 0.30\nOpenness: 0.51",
+  "EMOTION_LOGITS": "anger: 0.00\ndisgust: 0.00\nfear: 0.00\nhappy: 0.48\nneutral: 0.47\nsad: 0.05\nsurprise: 0.00",
+  "KNOWN_PREFERENCES": "caregiving_target: husband (wheelchair user)\nhome_barrier: narrow bedroom doorway\ntech_comfort: high (comfortable with DIY tutorials)\nsafety_issue: hand/knuckle injuries during transit\nproposed_fix: swing-clear hinges",
+  "USER_MESSAGE": "I'm going to watch a video on swing-clear hinges and try to fix this door!"
+}

@@ -1,0 +1,6 @@
+{
+  "USER_PERSONALITY": "Extraversion: 0.45\nNeuroticism: 0.54\nAgreeableness: 0.47\nConscientiousness: 0.38\nOpenness: 0.45",
+  "EMOTION_LOGITS": "anger: 0.00\ndisgust: 0.00\nfear: 0.00\nhappy: 0.07\nneutral: 0.64\nsad: 0.29\nsurprise: 0.00",
+  "KNOWN_PREFERENCES": "monitoring_task: home blood pressure measurement\nforgetting_pattern: drops off after 1 week\ntime_window: evenings\ntech_comfort: high\ngoal: measure 5 days/week\ndevice_type: arm cuff monitor",
+  "USER_MESSAGE": "If I could measure consistently in the evening for a month, I'd feel much more in control."
+}

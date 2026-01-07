@@ -1,0 +1,45 @@
+{
+  "id": "013",
+  "dialogue": [
+    {
+      "role": "user",
+      "content": "Getting into the shower has become a nightmare with my hip pain."
+    },
+    {
+      "role": "assistant",
+      "content": "I'm sorry to hear that. Do you have a walk-in shower or a tub?"
+    },
+    {
+      "role": "user",
+      "content": "It's a high tub. Lifting my leg over the edge is where the pain spikes."
+    },
+    {
+      "role": "assistant",
+      "content": "A transfer bench could help you slide in while seated. Have you looked at any online?"
+    },
+    {
+      "role": "user",
+      "content": "I tried searching on my laptop, but there are too many options and it's confusing."
+    },
+    {
+      "role": "assistant",
+      "content": "I can filter the best-rated ones for you. We need something with a non-slip grip."
+    },
+    {
+      "role": "user",
+      "content": "If you could pick a non-slip transfer bench from my laptop search, it would help my hip."
+    }
+  ],
+  "memory": {
+    "physical_limitation": "hip pain / limited range of motion",
+    "home_barrier": "high-sided bathtub",
+    "tech_comfort": "moderate (can use laptop but gets overwhelmed)",
+    "prescribed_aid": "shower transfer bench",
+    "safety_preference": "non-slip features"
+  },
+  "must_use_keys": [
+    "physical_limitation",
+    "home_barrier",
+    "tech_comfort"
+  ]
+}

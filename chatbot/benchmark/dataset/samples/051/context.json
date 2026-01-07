@@ -1,0 +1,6 @@
+{
+  "USER_PERSONALITY": "Extraversion: 0.45\nNeuroticism: 0.54\nAgreeableness: 0.50\nConscientiousness: 0.39\nOpenness: 0.47",
+  "EMOTION_LOGITS": "anger: 0.00\ndisgust: 0.00\nfear: 0.00\nhappy: 0.48\nneutral: 0.47\nsad: 0.05\nsurprise: 0.00",
+  "KNOWN_PREFERENCES": "sensory_issue: difficulty reading labels\ntech_comfort: high (iPhone user)\ncurrent_barrier: misplacing physical magnifying glass",
+  "USER_MESSAGE": "That is incredibly handy! I'm going to set up that Magnifier shortcut right now."
+}

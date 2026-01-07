@@ -1,0 +1,44 @@
+{
+  "id": "041",
+  "dialogue": [
+    {
+      "role": "user",
+      "content": "I nearly tripped over my bedroom rug again this morning."
+    },
+    {
+      "role": "assistant",
+      "content": "That's scary. Is it a loose rug, or does it have curled edges?"
+    },
+    {
+      "role": "user",
+      "content": "The corners are curling up. I try to flatten them, but they just pop back."
+    },
+    {
+      "role": "assistant",
+      "content": "We should fix that. Would you be open to using some double-sided rug tape?"
+    },
+    {
+      "role": "user",
+      "content": "I'm fine with tape as long as it doesn't ruin the hardwood floors."
+    },
+    {
+      "role": "assistant",
+      "content": "There are floor-safe options. I'll find a brand that's easy to peel off later."
+    },
+    {
+      "role": "user",
+      "content": "Perfect, let's get some of that tape before I actually end up on the floor!"
+    }
+  ],
+  "memory": {
+    "safety_hazard": "curled rug corners in bedroom",
+    "fall_history": "recent near-miss trip",
+    "tech_comfort": "moderate",
+    "home_setup": "hardwood flooring"
+  },
+  "must_use_keys": [
+    "safety_hazard",
+    "fall_history",
+    "tech_comfort"
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "id": "086",
+  "dialogue": [
+    {
+      "role": "user",
+      "content": "My husband's wheelchair is too wide for our bedroom door."
+    },
+    {
+      "role": "assistant",
+      "content": "That's a major barrier. Is he bumping his knuckles on the frame?"
+    },
+    {
+      "role": "user",
+      "content": "Yes, and it's tearing up the wood too. We can't afford a full remodel."
+    },
+    {
+      "role": "assistant",
+      "content": "Swing-clear hinges can give you that extra two inches without widening the frame."
+    },
+    {
+      "role": "user",
+      "content": "I'm tech-savvy enough to watch a DIY video and see if I can swap them myself."
+    },
+    {
+      "role": "assistant",
+      "content": "They usually just use the same screw holes as your current hinges."
+    },
+    {
+      "role": "user",
+      "content": "I'm going to watch a video on swing-clear hinges and try to fix this door!"
+    }
+  ],
+  "memory": {
+    "caregiving_target": "husband (wheelchair user)",
+    "home_barrier": "narrow bedroom doorway",
+    "tech_comfort": "high (comfortable with DIY tutorials)",
+    "safety_issue": "hand/knuckle injuries during transit",
+    "proposed_fix": "swing-clear hinges"
+  },
+  "must_use_keys": [
+    "caregiving_target",
+    "home_barrier",
+    "tech_comfort"
+  ]
+}

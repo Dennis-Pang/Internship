@@ -1,0 +1,57 @@
+{
+  "id": "011",
+  "dialogue": [
+    {
+      "role": "user",
+      "content": "I'm trying to drink more water but I keep forgetting."
+    },
+    {
+      "role": "assistant",
+      "content": "When is it hardest to remember-mornings, afternoons, or evenings?"
+    },
+    {
+      "role": "user",
+      "content": "During busy afternoons. I look up and hours have passed."
+    },
+    {
+      "role": "assistant",
+      "content": "Got it. Do you prefer reminders, or setting a simple rule for yourself?"
+    },
+    {
+      "role": "user",
+      "content": "Reminders are fine, I just don't want them every five minutes."
+    },
+    {
+      "role": "assistant",
+      "content": "Understood. Any reason you're focusing on hydration right now?"
+    },
+    {
+      "role": "user",
+      "content": "I had a scare before and don't want a repeat."
+    },
+    {
+      "role": "assistant",
+      "content": "Okay. We'll keep it simple and realistic for your afternoons."
+    },
+    {
+      "role": "user",
+      "content": "If I could hit a steady target without thinking about it all day, I'd be happy."
+    }
+  ],
+  "memory": {
+    "hydration_goal": "2.2 liters/day",
+    "forgetting_pattern": "busy afternoons",
+    "tech_comfort": "medium",
+    "past_issue": "history of kidney stones",
+    "preferred_container": "1L bottle",
+    "current_strategy": "none"
+  },
+  "must_use_keys": [
+    "hydration_goal",
+    "forgetting_pattern",
+    "past_issue"
+  ],
+  "must_not_use_keys": [
+    "preferred_container"
+  ]
+}

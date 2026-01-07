@@ -1,0 +1,53 @@
+{
+  "id": "006",
+  "dialogue": [
+    {
+      "role": "user",
+      "content": "I've been feeling very lightheaded when I stand up quickly."
+    },
+    {
+      "role": "assistant",
+      "content": "That sounds like it could be related to your new heart medication."
+    },
+    {
+      "role": "user",
+      "content": "Maybe. It usually happens right after my morning dose."
+    },
+    {
+      "role": "assistant",
+      "content": "Do you take it with food or on an empty stomach?"
+    },
+    {
+      "role": "user",
+      "content": "Empty stomach, usually with just a sip of coffee."
+    },
+    {
+      "role": "assistant",
+      "content": "That might be the issue. Are you okay using a meal-tracking app for a week?"
+    },
+    {
+      "role": "user",
+      "content": "I'm not great with apps, I'd rather just write it on a notepad."
+    },
+    {
+      "role": "assistant",
+      "content": "Noted. Paper and pen works just as well for tracking."
+    },
+    {
+      "role": "user",
+      "content": "I'll start writing down my breakfast and dizzy spells on a notepad."
+    }
+  ],
+  "memory": {
+    "symptom": "orthostatic hypotension / dizziness",
+    "medication_trigger": "post-morning dose of heart meds",
+    "tech_comfort": "low (prefers paper tracking)",
+    "dietary_habit": "takes medication with coffee only",
+    "tracking_method": "physical notepad"
+  },
+  "must_use_keys": [
+    "symptom",
+    "medication_trigger",
+    "tech_comfort"
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "id": "015",
+  "dialogue": [
+    {
+      "role": "user",
+      "content": "I'm finding it harder to navigate the ramps at the local library in my manual chair."
+    },
+    {
+      "role": "assistant",
+      "content": "Are the ramps too steep, or are you feeling more fatigue in your arms?"
+    },
+    {
+      "role": "user",
+      "content": "A bit of both. My shoulders are really starting to ache by the end of the day."
+    },
+    {
+      "role": "assistant",
+      "content": "Have you considered a power-assist add-on? It clips onto your manual chair."
+    },
+    {
+      "role": "user",
+      "content": "I've seen those! I'm pretty tech-savvy, I've even watched videos on how they sync."
+    },
+    {
+      "role": "assistant",
+      "content": "They are great for preserving your joints while keeping the chair's footprint small."
+    },
+    {
+      "role": "user",
+      "content": "Syncing a power-assist wheel to my chair would definitely save my shoulders."
+    }
+  ],
+  "memory": {
+    "mobility_aid": "manual wheelchair",
+    "symptom": "shoulder fatigue / joint pain",
+    "tech_comfort": "high (watches tech tutorials)",
+    "environmental_challenge": "steep library ramps",
+    "potential_solution": "power-assist add-on"
+  },
+  "must_use_keys": [
+    "mobility_aid",
+    "symptom",
+    "tech_comfort"
+  ]
+}

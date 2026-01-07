@@ -1,0 +1,45 @@
+{
+  "id": "088",
+  "dialogue": [
+    {
+      "role": "user",
+      "content": "I'm always cold in my wheelchair, even with the heat on."
+    },
+    {
+      "role": "assistant",
+      "content": "Being stationary means your body doesn't generate as much heat. Is it your legs specifically?"
+    },
+    {
+      "role": "user",
+      "content": "Yes, my lap and feet are like ice."
+    },
+    {
+      "role": "assistant",
+      "content": "A specialized wheelchair cozy or a fleece-lined apron might be warmer than a standard blanket."
+    },
+    {
+      "role": "user",
+      "content": "I'm tech-savvy, so I'll browse some adaptive clothing sites for a proper lap robe."
+    },
+    {
+      "role": "assistant",
+      "content": "Look for one with a waterproof outer shell if you go outside."
+    },
+    {
+      "role": "user",
+      "content": "I'm looking for a waterproof lap robe online right now to keep my legs warm."
+    }
+  ],
+  "memory": {
+    "mobility_status": "wheelchair user",
+    "symptom": "feeling constantly cold in lower extremities",
+    "tech_comfort": "high (comfortable with online browsing)",
+    "desired_aid": "lap robe / wheelchair cozy",
+    "usage_context": "indoor and outdoor"
+  },
+  "must_use_keys": [
+    "mobility_status",
+    "symptom",
+    "tech_comfort"
+  ]
+}

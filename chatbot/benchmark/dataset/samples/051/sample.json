@@ -1,0 +1,43 @@
+{
+  "id": "051",
+  "dialogue": [
+    {
+      "role": "user",
+      "content": "I'm finding it hard to read the labels on my spice jars in the kitchen."
+    },
+    {
+      "role": "assistant",
+      "content": "Small text can be a real pain. Have you tried using a magnifying glass?"
+    },
+    {
+      "role": "user",
+      "content": "I have one, but I'm always misplacing it when I'm cooking."
+    },
+    {
+      "role": "assistant",
+      "content": "What about using the 'Magnifier' app that's built into your iPhone?"
+    },
+    {
+      "role": "user",
+      "content": "Oh, I'm very comfortable with my iPhone! I didn't know it could do that."
+    },
+    {
+      "role": "assistant",
+      "content": "It's great; it even has a flashlight to help you see in the cupboards."
+    },
+    {
+      "role": "user",
+      "content": "That is incredibly handy! I'm going to set up that Magnifier shortcut right now."
+    }
+  ],
+  "memory": {
+    "sensory_issue": "difficulty reading labels",
+    "tech_comfort": "high (iPhone user)",
+    "current_barrier": "misplacing physical magnifying glass"
+  },
+  "must_use_keys": [
+    "sensory_issue",
+    "tech_comfort",
+    "current_barrier"
+  ]
+}

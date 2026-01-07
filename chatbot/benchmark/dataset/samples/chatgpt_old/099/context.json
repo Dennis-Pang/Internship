@@ -1,0 +1,6 @@
+{
+  "USER_PERSONALITY": "Extraversion: 0.50\nNeuroticism: 0.54\nAgreeableness: 0.48\nConscientiousness: 0.39\nOpenness: 0.51",
+  "EMOTION_LOGITS": "anger: 0.00\ndisgust: 0.00\nfear: 0.00\nhappy: 0.00\nneutral: 0.97\nsad: 0.03\nsurprise: 0.00",
+  "KNOWN_PREFERENCES": "anxiety_pattern: evenings after work\ncaffeine_sensitivity: feels jittery after coffee\npreferred_coping_style: short exercises\nsleep_goal: asleep by midnight\ncurrent_strategy: doomscrolling\nstress_trigger: end-of-day rumination",
+  "USER_MESSAGE": "When it hits after work, I just want something fast that actually cuts through the spiral."
+}

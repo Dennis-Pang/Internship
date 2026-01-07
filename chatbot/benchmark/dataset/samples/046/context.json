@@ -1,0 +1,6 @@
+{
+  "USER_PERSONALITY": "Extraversion: 0.50\nNeuroticism: 0.55\nAgreeableness: 0.45\nConscientiousness: 0.33\nOpenness: 0.52",
+  "EMOTION_LOGITS": "anger: 0.00\ndisgust: 0.00\nfear: 0.00\nhappy: 0.00\nneutral: 0.98\nsad: 0.01\nsurprise: 0.01",
+  "KNOWN_PREFERENCES": "emotional_state: loneliness / isolation\ntransport_barrier: difficulty using the bus with a walker\ntech_comfort: low",
+  "USER_MESSAGE": "A 'one-click' tablet? That sounds like something even I can't mess up!"
+}

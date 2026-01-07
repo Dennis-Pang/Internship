@@ -1,0 +1,45 @@
+{
+  "id": "078",
+  "dialogue": [
+    {
+      "role": "user",
+      "content": "My voice gets so weak by the end of the day; I can't even call for my cat."
+    },
+    {
+      "role": "assistant",
+      "content": "Is this a new symptom, or has it been gradual?"
+    },
+    {
+      "role": "user",
+      "content": "It's been happening since my Parkinson's diagnosis. My throat just feels tired."
+    },
+    {
+      "role": "assistant",
+      "content": "There are voice-amplification apps and small wearable mics. Would you try one?"
+    },
+    {
+      "role": "user",
+      "content": "I'm not great with wearables, but I can use an app on my smartphone."
+    },
+    {
+      "role": "assistant",
+      "content": "A simple 'Megaphone' app can turn your phone into a speaker."
+    },
+    {
+      "role": "user",
+      "content": "Using a megaphone app on my phone is much better than straining my voice!"
+    }
+  ],
+  "memory": {
+    "condition": "Parkinson's Disease",
+    "symptom": "vocal weakness / vocal fatigue",
+    "tech_comfort": "moderate (smartphone user / dislikes wearables)",
+    "daily_need": "calling for the pet",
+    "intervention": "voice amplification app"
+  },
+  "must_use_keys": [
+    "condition",
+    "symptom",
+    "tech_comfort"
+  ]
+}

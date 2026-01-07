@@ -1,0 +1,6 @@
+{
+  "USER_PERSONALITY": "Extraversion: 0.44\nNeuroticism: 0.54\nAgreeableness: 0.48\nConscientiousness: 0.37\nOpenness: 0.47",
+  "EMOTION_LOGITS": "anger: 0.00\ndisgust: 0.00\nfear: 0.00\nhappy: 0.00\nneutral: 0.98\nsad: 0.02\nsurprise: 0.00",
+  "KNOWN_PREFERENCES": "mobility_aid: standard hospital-style wheelchair\nsymptom: shoulder ache / poor postural support\ntech_comfort: high (comfortable with online research)\nequipment_need: backrest extension or ergonomic shell\naction_item: measure chair width",
+  "USER_MESSAGE": "I'm going to measure my chair and look for those extensions on my laptop."
+}

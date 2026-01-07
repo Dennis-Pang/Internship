@@ -1,0 +1,45 @@
+{
+  "id": "020",
+  "dialogue": [
+    {
+      "role": "user",
+      "content": "I'm having trouble remembering if I took my heart medication in the morning."
+    },
+    {
+      "role": "assistant",
+      "content": "Memory slips happen to everyone. Do you use a pillbox currently?"
+    },
+    {
+      "role": "user",
+      "content": "I do, but I sometimes forget to even look at the pillbox."
+    },
+    {
+      "role": "assistant",
+      "content": "Would you like a pillbox that sends a notification to your daughter if it isn't opened?"
+    },
+    {
+      "role": "user",
+      "content": "That sounds too complicated. Can I just have a simple alarm?"
+    },
+    {
+      "role": "assistant",
+      "content": "Of course. A digital clock with a loud 'Medication Time' alarm might be simpler."
+    },
+    {
+      "role": "user",
+      "content": "A simple alarm clock that says 'Medication' is better for me than a smart pillbox."
+    }
+  ],
+  "memory": {
+    "health_condition": "heart disease",
+    "forgetting_pattern": "morning doses",
+    "tech_comfort": "low (prefers simple alarms)",
+    "current_strategy": "manual pillbox (ineffective)",
+    "support_system": "daughter (potential monitor)"
+  },
+  "must_use_keys": [
+    "health_condition",
+    "forgetting_pattern",
+    "tech_comfort"
+  ]
+}

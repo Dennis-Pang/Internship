@@ -1,0 +1,45 @@
+{
+  "id": "082",
+  "dialogue": [
+    {
+      "role": "user",
+      "content": "I can't seem to get the TV volume right; it's either too quiet or it wakes the neighbors."
+    },
+    {
+      "role": "assistant",
+      "content": "Do you find yourself struggling with dialogue specifically?"
+    },
+    {
+      "role": "user",
+      "content": "Yes, the background music is always louder than the people talking."
+    },
+    {
+      "role": "assistant",
+      "content": "Wireless TV headphones or a 'Zvox' soundbar can boost voices specifically."
+    },
+    {
+      "role": "user",
+      "content": "I'm very tech-savvy, I've already got a Bluetooth setup on my TV."
+    },
+    {
+      "role": "assistant",
+      "content": "In that case, specialized Bluetooth headphones for the hard of hearing would be perfect."
+    },
+    {
+      "role": "user",
+      "content": "I'm ordering some voice-boosting Bluetooth headphones today!"
+    }
+  ],
+  "memory": {
+    "sensory_issue": "hearing difficulty / dialogue clarity on TV",
+    "tech_comfort": "high (comfortable with Bluetooth setup)",
+    "home_issue": "disturbing neighbors with high volume",
+    "desired_tool": "voice-boosting Bluetooth headphones",
+    "current_barrier": "background music drowning out speech"
+  },
+  "must_use_keys": [
+    "sensory_issue",
+    "tech_comfort",
+    "home_issue"
+  ]
+}

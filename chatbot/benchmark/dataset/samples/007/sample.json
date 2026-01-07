@@ -1,0 +1,53 @@
+{
+  "id": "007",
+  "dialogue": [
+    {
+      "role": "user",
+      "content": "I'm struggling to keep track of my inhaler usage during allergy season."
+    },
+    {
+      "role": "assistant",
+      "content": "It's a busy time for your lungs. How many times a day are you reaching for it?"
+    },
+    {
+      "role": "user",
+      "content": "At least four or five times when I'm gardening outside."
+    },
+    {
+      "role": "assistant",
+      "content": "Gardening is a huge trigger. Do you have a smart inhaler sensor?"
+    },
+    {
+      "role": "user",
+      "content": "I don't even know what that is. I just use the standard plastic one."
+    },
+    {
+      "role": "assistant",
+      "content": "It's a clip-on that syncs with your phone. Would you be open to trying that?"
+    },
+    {
+      "role": "user",
+      "content": "Sure, I love gadgets if they actually help me breathe better."
+    },
+    {
+      "role": "assistant",
+      "content": "They provide great data for your doctor. Let's look into the Propeller sensor."
+    },
+    {
+      "role": "user",
+      "content": "Adding a smart sensor to my inhaler would really help me track these allergy triggers."
+    }
+  ],
+  "memory": {
+    "medication_type": "rescue inhaler",
+    "trigger_activity": "gardening / allergy season",
+    "tech_comfort": "high (enjoys gadgets)",
+    "usage_frequency": "4-5 times daily during peaks",
+    "device_type": "standard MDI"
+  },
+  "must_use_keys": [
+    "medication_type",
+    "trigger_activity",
+    "tech_comfort"
+  ]
+}

@@ -1,0 +1,6 @@
+{
+  "USER_PERSONALITY": "Extraversion: 0.40\nNeuroticism: 0.53\nAgreeableness: 0.46\nConscientiousness: 0.34\nOpenness: 0.43",
+  "EMOTION_LOGITS": "anger: 0.00\ndisgust: 0.00\nfear: 0.00\nhappy: 0.26\nneutral: 0.74\nsad: 0.00\nsurprise: 0.00",
+  "KNOWN_PREFERENCES": "sensory_issue: hearing loss / missing phone calls\ntech_comfort: high (comfortable with wearables)\nsocial_impact: feeling isolated\ndesired_tool: vibrating watch / visual ringer\ngoal: staying reachable",
+  "USER_MESSAGE": "A vibrating watch for phone calls will help me stay connected!"
+}

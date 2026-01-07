@@ -1,0 +1,6 @@
+{
+  "USER_PERSONALITY": "Extraversion: 0.46\nNeuroticism: 0.55\nAgreeableness: 0.47\nConscientiousness: 0.40\nOpenness: 0.47",
+  "EMOTION_LOGITS": "anger: 0.00\ndisgust: 0.00\nfear: 0.00\nhappy: 0.50\nneutral: 0.46\nsad: 0.05\nsurprise: 0.00",
+  "KNOWN_PREFERENCES": "goal: reduce cigarettes per day\ntrigger_stress: work stress\ntrigger_after_meals: after lunch and dinner\napproach_preference: behavioral swaps\ntech_comfort: medium\ncurrent_strategy: none",
+  "USER_MESSAGE": "If I could handle stress and after-meal cravings without lighting up, I'd be proud of myself."
+}

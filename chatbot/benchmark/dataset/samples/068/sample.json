@@ -1,0 +1,43 @@
+{
+  "id": "068",
+  "dialogue": [
+    {
+      "role": "user",
+      "content": "I'm finding it hard to stay motivated with my daily arm stretches."
+    },
+    {
+      "role": "assistant",
+      "content": "Stretching can feel like a chore. Do you listen to any music or podcasts?"
+    },
+    {
+      "role": "user",
+      "content": "I haven't tried that, but I do like listening to old radio plays."
+    },
+    {
+      "role": "assistant",
+      "content": "What if you only allowed yourself to listen to those plays while you stretch?"
+    },
+    {
+      "role": "user",
+      "content": "I'm tech-savvy enough to find those on my tablet, so that might actually work!"
+    },
+    {
+      "role": "assistant",
+      "content": "It's called 'temptation bundling.' It makes the habit much more enjoyable."
+    },
+    {
+      "role": "user",
+      "content": "That's a great bribe! I'll save my favorite mystery series for tomorrow's session."
+    }
+  ],
+  "memory": {
+    "health_goal": "daily stretches",
+    "primary_challenge": "lack of motivation",
+    "tech_comfort": "high"
+  },
+  "must_use_keys": [
+    "health_goal",
+    "primary_challenge",
+    "tech_comfort"
+  ]
+}

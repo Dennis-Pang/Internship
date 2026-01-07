@@ -1,0 +1,57 @@
+{
+  "id": "100",
+  "dialogue": [
+    {
+      "role": "user",
+      "content": "My stomach gets uncomfortable at night sometimes."
+    },
+    {
+      "role": "assistant",
+      "content": "Is it more burning, bloating, nausea, or cramps?"
+    },
+    {
+      "role": "user",
+      "content": "Burning, especially when I lie down."
+    },
+    {
+      "role": "assistant",
+      "content": "Does it seem linked to certain foods, or more the timing of eating?"
+    },
+    {
+      "role": "user",
+      "content": "More timing. I often eat late and then go straight to bed."
+    },
+    {
+      "role": "assistant",
+      "content": "Got it. Do you want small adjustments or a big overhaul?"
+    },
+    {
+      "role": "user",
+      "content": "Small adjustments. I'm not doing a whole new diet."
+    },
+    {
+      "role": "assistant",
+      "content": "Perfect-timing tweaks are often the easiest place to start."
+    },
+    {
+      "role": "user",
+      "content": "If I could stop the night burning without changing everything I eat, that would be ideal."
+    }
+  ],
+  "memory": {
+    "meal_timing": "dinner around 21:30 on most weekdays",
+    "bedtime": "23:30",
+    "goal": "reduce nighttime reflux",
+    "symptom_pattern": "burning reflux when lying down",
+    "trigger_food": "spicy foods worsen symptoms",
+    "current_strategy": "none"
+  },
+  "must_use_keys": [
+    "meal_timing",
+    "bedtime",
+    "goal"
+  ],
+  "must_not_use_keys": [
+    "trigger_food"
+  ]
+}

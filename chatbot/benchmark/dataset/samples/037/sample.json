@@ -1,0 +1,45 @@
+{
+  "id": "037",
+  "dialogue": [
+    {
+      "role": "user",
+      "content": "My asthma is acting up every time I go to the basement to do laundry."
+    },
+    {
+      "role": "assistant",
+      "content": "Basements can be damp. Do you notice a musty smell down there?"
+    },
+    {
+      "role": "user",
+      "content": "Yes, it's very damp. I think there might be mold growing near the washer."
+    },
+    {
+      "role": "assistant",
+      "content": "That's a huge trigger. Would you use a smart air quality monitor to check the levels?"
+    },
+    {
+      "role": "user",
+      "content": "I love seeing data on my phone, so a smart monitor sounds great."
+    },
+    {
+      "role": "assistant",
+      "content": "I'll recommend one that alerts your phone when mold spores or humidity get too high."
+    },
+    {
+      "role": "user",
+      "content": "A smart air quality monitor will tell me if the basement is safe for my asthma."
+    }
+  ],
+  "memory": {
+    "condition": "Asthma",
+    "trigger_environment": "damp basement / laundry room",
+    "tech_comfort": "high (enjoys data-tracking apps)",
+    "suspected_trigger": "mold / high humidity",
+    "prevention_strategy": "air quality monitoring"
+  },
+  "must_use_keys": [
+    "condition",
+    "trigger_environment",
+    "tech_comfort"
+  ]
+}

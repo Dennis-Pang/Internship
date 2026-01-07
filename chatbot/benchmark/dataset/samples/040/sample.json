@@ -1,0 +1,45 @@
+{
+  "id": "040",
+  "dialogue": [
+    {
+      "role": "user",
+      "content": "My prosthetic leg is chafing my skin where the socket meets my thigh."
+    },
+    {
+      "role": "assistant",
+      "content": "Chafing can lead to sores. Is the socket feeling loose lately?"
+    },
+    {
+      "role": "user",
+      "content": "A little. I've lost some weight, so it might be sliding around more."
+    },
+    {
+      "role": "assistant",
+      "content": "You might need to add a prosthetic sock or get a socket adjustment. Are you okay using an app to log the sore spots?"
+    },
+    {
+      "role": "user",
+      "content": "I'm quite tech-savvy, I already use a fitness tracker to count my steps."
+    },
+    {
+      "role": "assistant",
+      "content": "That's perfect. Logging the skin irritation alongside your step count will help the prosthetist."
+    },
+    {
+      "role": "user",
+      "content": "I'll start logging my skin chafing and my daily steps to show my prosthetist."
+    }
+  ],
+  "memory": {
+    "condition": "Lower limb amputee",
+    "symptom": "skin chafing / socket friction",
+    "tech_comfort": "high (uses fitness trackers)",
+    "physical_change": "recent weight loss",
+    "action_item": "log irritation for prosthetic adjustment"
+  },
+  "must_use_keys": [
+    "condition",
+    "symptom",
+    "tech_comfort"
+  ]
+}

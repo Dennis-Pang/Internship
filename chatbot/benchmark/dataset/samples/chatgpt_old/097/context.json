@@ -1,0 +1,6 @@
+{
+  "USER_PERSONALITY": "Extraversion: 0.45\nNeuroticism: 0.56\nAgreeableness: 0.46\nConscientiousness: 0.34\nOpenness: 0.47",
+  "EMOTION_LOGITS": "anger: 0.00\ndisgust: 0.00\nfear: 0.00\nhappy: 0.00\nneutral: 0.98\nsad: 0.02\nsurprise: 0.00",
+  "KNOWN_PREFERENCES": "meal_pattern: late dinner around 21:00\nsnacking_pattern: snacks after dinner 4+ nights/week\ngoal: fewer afternoon sugar crashes\ntracking_tolerance: light tracking only\ncurrent_strategy: none\nsnack_type: usually savory",
+  "USER_MESSAGE": "If the late dinners and after-dinner snacking calmed down, my energy would be way steadier."
+}

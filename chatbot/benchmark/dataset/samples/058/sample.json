@@ -1,0 +1,43 @@
+{
+  "id": "058",
+  "dialogue": [
+    {
+      "role": "user",
+      "content": "I'm finding it hard to reach the soaps in the back of my bathroom cabinet from my wheelchair."
+    },
+    {
+      "role": "assistant",
+      "content": "Deep cabinets are a nightmare for accessibility. Do you have any pull-out shelves?"
+    },
+    {
+      "role": "user",
+      "content": "No, it's just a standard cupboard. I have to use a reaching stick."
+    },
+    {
+      "role": "assistant",
+      "content": "A 'Lazy Susan' turntable would bring everything to the front with one spin."
+    },
+    {
+      "role": "user",
+      "content": "I'm not great with tech, but I can definitely handle a spinning tray!"
+    },
+    {
+      "role": "assistant",
+      "content": "It's a low-tech but highly effective way to reorganize your space."
+    },
+    {
+      "role": "user",
+      "content": "That's a brilliant low-tech fix-I'll get one for the kitchen spices too!"
+    }
+  ],
+  "memory": {
+    "mobility_status": "wheelchair user",
+    "home_barrier": "deep bathroom cabinets",
+    "tech_comfort": "low"
+  },
+  "must_use_keys": [
+    "mobility_status",
+    "home_barrier",
+    "tech_comfort"
+  ]
+}

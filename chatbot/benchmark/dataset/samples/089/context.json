@@ -1,0 +1,6 @@
+{
+  "USER_PERSONALITY": "Extraversion: 0.42\nNeuroticism: 0.52\nAgreeableness: 0.49\nConscientiousness: 0.41\nOpenness: 0.44",
+  "EMOTION_LOGITS": "anger: 0.00\ndisgust: 0.00\nfear: 0.00\nhappy: 0.29\nneutral: 0.69\nsad: 0.01\nsurprise: 0.00",
+  "KNOWN_PREFERENCES": "safety_risk: losing balance while dressing\nhome_setup: soft mattress (unstable for sitting)\ntech_comfort: low (prefers rearranging furniture over gadgets)\nhabit: dressing on the edge of the bed\nproposed_fix: using a sturdy armchair with armrests",
+  "USER_MESSAGE": "I'll move that wooden chair today so I have a safe place to get dressed."
+}

@@ -1,0 +1,6 @@
+{
+  "USER_PERSONALITY": "Extraversion: 0.44\nNeuroticism: 0.54\nAgreeableness: 0.45\nConscientiousness: 0.36\nOpenness: 0.47",
+  "EMOTION_LOGITS": "anger: 0.00\ndisgust: 0.00\nfear: 0.00\nhappy: 0.50\nneutral: 0.50\nsad: 0.00\nsurprise: 0.00",
+  "KNOWN_PREFERENCES": "sensory_issue: hearing loss on phone\nsocial_impact: difficulty with daughter\ntech_comfort: low",
+  "USER_MESSAGE": "If someone else can set it up, I'd love to actually follow a conversation again."
+}

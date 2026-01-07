@@ -1,0 +1,6 @@
+{
+  "USER_PERSONALITY": "Extraversion: 0.40\nNeuroticism: 0.54\nAgreeableness: 0.44\nConscientiousness: 0.31\nOpenness: 0.44",
+  "EMOTION_LOGITS": "anger: 0.00\ndisgust: 0.00\nfear: 0.00\nhappy: 0.21\nneutral: 0.76\nsad: 0.03\nsurprise: 0.00",
+  "KNOWN_PREFERENCES": "sensory_aid: reading glasses\ndaily_struggle: dropping glasses in unreachable spots\ntech_comfort: moderate (comfortable with mobile searching)\nhabit: reading in bed\nproposed_fix: magnetic nightstand caddy",
+  "USER_MESSAGE": "A magnetic glasses caddy on my phone search looks like the perfect solution!"
+}

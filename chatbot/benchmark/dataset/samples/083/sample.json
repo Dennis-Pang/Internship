@@ -1,0 +1,45 @@
+{
+  "id": "083",
+  "dialogue": [
+    {
+      "role": "user",
+      "content": "Since I lost my leg, I can't figure out how to safely get my mail from the curb."
+    },
+    {
+      "role": "assistant",
+      "content": "That's a tricky balance act. Are you using your crutches or your chair?"
+    },
+    {
+      "role": "user",
+      "content": "I try to use the chair, but the curb is too high to reach the box."
+    },
+    {
+      "role": "assistant",
+      "content": "Could you install a mailbox that's lower, or use a reaching tool?"
+    },
+    {
+      "role": "user",
+      "content": "I'm okay with tech, so maybe I could just get a smart sensor that tells me when it's full?"
+    },
+    {
+      "role": "assistant",
+      "content": "That would at least save you the unnecessary trips."
+    },
+    {
+      "role": "user",
+      "content": "A mailbox sensor on my phone would definitely save me from rolling out for nothing."
+    }
+  ],
+  "memory": {
+    "mobility_status": "Amputee (wheelchair user)",
+    "daily_task": "collecting mail",
+    "tech_comfort": "moderate (uses smartphone apps)",
+    "environmental_barrier": "curb height / mailbox accessibility",
+    "intervention": "smart mailbox sensor"
+  },
+  "must_use_keys": [
+    "mobility_status",
+    "daily_task",
+    "tech_comfort"
+  ]
+}

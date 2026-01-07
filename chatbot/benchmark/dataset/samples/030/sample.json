@@ -1,0 +1,45 @@
+{
+  "id": "030",
+  "dialogue": [
+    {
+      "role": "user",
+      "content": "My medication for my tremors is making me very drowsy in the afternoons."
+    },
+    {
+      "role": "assistant",
+      "content": "Drowsiness is a common side effect. Are you taking it right before your nap?"
+    },
+    {
+      "role": "user",
+      "content": "I don't usually nap, but I find myself nodding off while reading the news on my Kindle."
+    },
+    {
+      "role": "assistant",
+      "content": "We might need to adjust the timing with your doctor. Do you track your sleep quality?"
+    },
+    {
+      "role": "user",
+      "content": "I use my Apple Watch to track sleep, so I have all that data ready."
+    },
+    {
+      "role": "assistant",
+      "content": "That data will be invaluable for your doctor to see if the meds are affecting your night sleep too."
+    },
+    {
+      "role": "user",
+      "content": "I'll show my Apple Watch sleep data to the doctor to discuss this afternoon drowsiness."
+    }
+  ],
+  "memory": {
+    "condition": "Essential Tremor",
+    "side_effect": "afternoon drowsiness",
+    "tech_comfort": "high (Apple Watch / Kindle user)",
+    "monitoring_habit": "sleep tracking via smartwatch",
+    "action_item": "discuss medication timing with doctor"
+  },
+  "must_use_keys": [
+    "condition",
+    "side_effect",
+    "tech_comfort"
+  ]
+}

@@ -1,0 +1,57 @@
+{
+  "id": "012",
+  "dialogue": [
+    {
+      "role": "user",
+      "content": "My lower back gets sore when I sit too long."
+    },
+    {
+      "role": "assistant",
+      "content": "Does it improve when you stand up and move around?"
+    },
+    {
+      "role": "user",
+      "content": "Yes, but I forget to take breaks when I'm focused."
+    },
+    {
+      "role": "assistant",
+      "content": "Got it. Do you have any equipment at home, like a standing desk or foam roller?"
+    },
+    {
+      "role": "user",
+      "content": "Not really. Just a normal chair and a laptop."
+    },
+    {
+      "role": "assistant",
+      "content": "Okay. Would you rather do quick micro-breaks or a short routine once a day?"
+    },
+    {
+      "role": "user",
+      "content": "Micro-breaks. I'll actually do those."
+    },
+    {
+      "role": "assistant",
+      "content": "Perfect-small and consistent usually works best."
+    },
+    {
+      "role": "user",
+      "content": "If the breaks were short enough to not interrupt work, I'd stick with it."
+    }
+  ],
+  "memory": {
+    "pain_trigger": "prolonged sitting",
+    "work_setup": "laptop on table, chair without lumbar support",
+    "break_pattern": "2–3 hours without standing",
+    "time_budget": "1–2 minutes per break",
+    "preference": "micro-breaks",
+    "current_strategy": "none"
+  },
+  "must_use_keys": [
+    "pain_trigger",
+    "break_pattern",
+    "time_budget"
+  ],
+  "must_not_use_keys": [
+    "work_setup"
+  ]
+}

@@ -1,0 +1,6 @@
+{
+  "USER_PERSONALITY": "Extraversion: 0.44\nNeuroticism: 0.53\nAgreeableness: 0.49\nConscientiousness: 0.38\nOpenness: 0.46",
+  "EMOTION_LOGITS": "anger: 0.00\ndisgust: 0.00\nfear: 0.00\nhappy: 0.00\nneutral: 0.99\nsad: 0.01\nsurprise: 0.00",
+  "KNOWN_PREFERENCES": "caregiving_target: elderly father\nhealth_condition: diabetes (insulin dependent)\ntech_comfort: low (prefers on-device displays over apps)\nsafety_issue: double-dosing or missing insulin\ndesired_tool: smart pen cap with timer",
+  "USER_MESSAGE": "A timer cap on his insulin pen would help him know if he's already taken his dose."
+}

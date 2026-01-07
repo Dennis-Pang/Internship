@@ -1,0 +1,45 @@
+{
+  "id": "080",
+  "dialogue": [
+    {
+      "role": "user",
+      "content": "I'm worried about my wife's blood sugar during her long afternoon naps."
+    },
+    {
+      "role": "assistant",
+      "content": "Is she prone to hypoglycemia when she sleeps?"
+    },
+    {
+      "role": "user",
+      "content": "Yes, and I'm afraid she won't wake up if it drops too low."
+    },
+    {
+      "role": "assistant",
+      "content": "A Continuous Glucose Monitor (CGM) can send an alarm to your phone if she's low."
+    },
+    {
+      "role": "user",
+      "content": "I'm very comfortable with apps; I already track her meals on my tablet."
+    },
+    {
+      "role": "assistant",
+      "content": "That's perfect. You can both see the data in real-time."
+    },
+    {
+      "role": "user",
+      "content": "The CGM alert on my tablet would give me such peace of mind while she's napping."
+    }
+  ],
+  "memory": {
+    "caregiving_target": "wife",
+    "health_risk": "hypoglycemia during sleep",
+    "tech_comfort": "high (uses tablet for health tracking)",
+    "monitoring_habit": "tracking meals digitally",
+    "desired_tool": "CGM with remote alerts"
+  },
+  "must_use_keys": [
+    "caregiving_target",
+    "health_risk",
+    "tech_comfort"
+  ]
+}

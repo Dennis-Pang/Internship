@@ -1,0 +1,45 @@
+{
+  "id": "075",
+  "dialogue": [
+    {
+      "role": "user",
+      "content": "My wheelchair tires are leaving black scuff marks all over the hallway floor."
+    },
+    {
+      "role": "assistant",
+      "content": "That's a pain to clean. Are they the standard black rubber tires?"
+    },
+    {
+      "role": "user",
+      "content": "Yes, and the scuffs are so hard to get off the tiles."
+    },
+    {
+      "role": "assistant",
+      "content": "You might want to switch to 'non-marking' grey tires or use wheelchair tire covers."
+    },
+    {
+      "role": "user",
+      "content": "I'm not great with apps, but I can navigate a simple website to order parts."
+    },
+    {
+      "role": "assistant",
+      "content": "I'll find a site that specializes in non-marking tires for your chair model."
+    },
+    {
+      "role": "user",
+      "content": "Those grey non-marking tires sound like a lifesaver for my floors!"
+    }
+  ],
+  "memory": {
+    "mobility_aid": "wheelchair (black tires)",
+    "home_issue": "scuff marks on tile floors",
+    "tech_comfort": "moderate (basic web navigation)",
+    "proposed_fix": "non-marking grey tires",
+    "maintenance_barrier": "cleaning difficulty"
+  },
+  "must_use_keys": [
+    "mobility_aid",
+    "home_issue",
+    "tech_comfort"
+  ]
+}

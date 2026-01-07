@@ -1,0 +1,45 @@
+{
+  "id": "097",
+  "dialogue": [
+    {
+      "role": "user",
+      "content": "Since my hand surgery, I can't hold my toothbrush steady anymore."
+    },
+    {
+      "role": "assistant",
+      "content": "That's a common post-op hurdle. Have you tried a foam grip?"
+    },
+    {
+      "role": "user",
+      "content": "I haven't, but my hand just cramps up when I try to squeeze the handle."
+    },
+    {
+      "role": "assistant",
+      "content": "A built-up foam handle or an electric toothbrush would require much less grip strength."
+    },
+    {
+      "role": "user",
+      "content": "I'm tech-savvy, so I'll check out those high-end electric brushes on my tablet."
+    },
+    {
+      "role": "assistant",
+      "content": "The ones with a pressure sensor are great for sensitive gums too."
+    },
+    {
+      "role": "user",
+      "content": "I'll look for an electric toothbrush on my tablet to help with my hand cramps."
+    }
+  ],
+  "memory": {
+    "recovery_status": "post-hand surgery",
+    "symptom": "hand cramping / weak grip",
+    "tech_comfort": "high (comfortable with tablet research)",
+    "daily_task": "brushing teeth",
+    "proposed_aid": "electric toothbrush or foam grip"
+  },
+  "must_use_keys": [
+    "recovery_status",
+    "symptom",
+    "tech_comfort"
+  ]
+}

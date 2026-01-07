@@ -1,0 +1,43 @@
+{
+  "id": "046",
+  "dialogue": [
+    {
+      "role": "user",
+      "content": "I've been feeling quite lonely since I stopped going to the senior center."
+    },
+    {
+      "role": "assistant",
+      "content": "I'm sorry to hear that. Is it because the transport is too difficult now?"
+    },
+    {
+      "role": "user",
+      "content": "Yes, the bus is too hard to manage with my walker on rainy days."
+    },
+    {
+      "role": "assistant",
+      "content": "Would you be interested in joining a virtual coffee morning via Zoom?"
+    },
+    {
+      "role": "user",
+      "content": "I'm not very confident with Zoom, I'm afraid I'll press the wrong button."
+    },
+    {
+      "role": "assistant",
+      "content": "I can mail you a 'one-click' tablet that's set up just for video calls."
+    },
+    {
+      "role": "user",
+      "content": "A 'one-click' tablet? That sounds like something even I can't mess up!"
+    }
+  ],
+  "memory": {
+    "emotional_state": "loneliness / isolation",
+    "transport_barrier": "difficulty using the bus with a walker",
+    "tech_comfort": "low"
+  },
+  "must_use_keys": [
+    "emotional_state",
+    "transport_barrier",
+    "tech_comfort"
+  ]
+}

@@ -1,0 +1,53 @@
+{
+  "id": "009",
+  "dialogue": [
+    {
+      "role": "user",
+      "content": "My eyes are constantly burning and dry after work."
+    },
+    {
+      "role": "assistant",
+      "content": "That sounds like digital eye strain. How many hours are you staring at screens?"
+    },
+    {
+      "role": "user",
+      "content": "At least 10 hours a day for my coding job."
+    },
+    {
+      "role": "assistant",
+      "content": "That's a lot. Do you use the 20-20-20 rule during your shifts?"
+    },
+    {
+      "role": "user",
+      "content": "I try, but I get into the 'zone' and forget to blink, let alone look away."
+    },
+    {
+      "role": "assistant",
+      "content": "Would you use a desktop software that dims your screen every 20 minutes?"
+    },
+    {
+      "role": "user",
+      "content": "Yeah, I'm a developer, so I'm very comfortable with background scripts."
+    },
+    {
+      "role": "assistant",
+      "content": "I'll recommend a script that forces a micro-break for your eyes."
+    },
+    {
+      "role": "user",
+      "content": "A background script for eye breaks is exactly what I need for my coding sessions."
+    }
+  ],
+  "memory": {
+    "condition": "digital eye strain / dry eyes",
+    "occupation": "software developer",
+    "tech_comfort": "expert (comfortable with scripts)",
+    "screen_time": "10+ hours daily",
+    "lifestyle_habit": "forgets to blink while working"
+  },
+  "must_use_keys": [
+    "condition",
+    "occupation",
+    "tech_comfort"
+  ]
+}

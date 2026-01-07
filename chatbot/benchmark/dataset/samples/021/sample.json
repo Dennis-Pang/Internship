@@ -1,0 +1,45 @@
+{
+  "id": "021",
+  "dialogue": [
+    {
+      "role": "user",
+      "content": "My oxygen levels have been dipping slightly during my evening walks."
+    },
+    {
+      "role": "assistant",
+      "content": "Are you carrying your portable concentrator with you on these walks?"
+    },
+    {
+      "role": "user",
+      "content": "Yes, but it's heavy and I think I'm overexerting myself just carrying it."
+    },
+    {
+      "role": "assistant",
+      "content": "We could look into a lightweight travel model or a pulse-dose setting. Do you track your O2?"
+    },
+    {
+      "role": "user",
+      "content": "I use a pulse oximeter, but I find it hard to read the small screen while walking."
+    },
+    {
+      "role": "assistant",
+      "content": "There are oximeters that sync via Bluetooth to your phone with large-text alerts."
+    },
+    {
+      "role": "user",
+      "content": "A Bluetooth oximeter with large text on my phone would help me monitor my oxygen while walking."
+    }
+  ],
+  "memory": {
+    "condition": "COPD / Oxygen dependency",
+    "activity": "evening walks",
+    "tech_comfort": "moderate (uses smartphone)",
+    "equipment_issue": "concentrator weight causing overexertion",
+    "accessibility_need": "large-text display for vitals"
+  },
+  "must_use_keys": [
+    "condition",
+    "activity",
+    "tech_comfort"
+  ]
+}

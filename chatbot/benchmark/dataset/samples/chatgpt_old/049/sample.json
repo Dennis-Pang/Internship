@@ -1,0 +1,57 @@
+{
+  "id": "049",
+  "dialogue": [
+    {
+      "role": "user",
+      "content": "I've been getting headaches more often."
+    },
+    {
+      "role": "assistant",
+      "content": "When do they usually show up-morning, afternoon, or evening?"
+    },
+    {
+      "role": "user",
+      "content": "Afternoons, especially after long stretches on my laptop."
+    },
+    {
+      "role": "assistant",
+      "content": "Any patterns you've noticed-stress, posture, hydration, meals?"
+    },
+    {
+      "role": "user",
+      "content": "Hydration is probably part of it. I realize late that I barely drank water."
+    },
+    {
+      "role": "assistant",
+      "content": "Got it. Are you trying to prevent them, or just manage them when they hit?"
+    },
+    {
+      "role": "user",
+      "content": "Prevent them. I don't want to rely on painkillers unless I have to."
+    },
+    {
+      "role": "assistant",
+      "content": "That's reasonable. Let's make the first step easy to repeat during work."
+    },
+    {
+      "role": "user",
+      "content": "On heavy screen days, I just want a simple autopilot habit so it doesn't spiral."
+    }
+  ],
+  "memory": {
+    "trigger": "prolonged screen time",
+    "hydration_habit": "often forgets to drink water",
+    "med_preference": "avoid frequent painkiller use",
+    "headache_timing": "usually afternoon",
+    "break_habit": "rarely takes scheduled breaks",
+    "caffeine_intake": "coffee around 4pm"
+  },
+  "must_use_keys": [
+    "trigger",
+    "hydration_habit",
+    "med_preference"
+  ],
+  "must_not_use_keys": [
+    "headache_timing"
+  ]
+}
