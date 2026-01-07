@@ -5,12 +5,14 @@ This script:
 2. Generates responses using LOCAL Ollama models (gemma3:4b, phi3:3.8b, qwen2.5:3b-instruct)
 3. Evaluates with all 12 metrics using CLOUD API judge models (auto-selected)
 4. Saves results as CSV: {model_name}_{num_samples}.csv
+5. Auto-generates TXT summary: {model_name}_{num_samples}_summary.txt
 
 Key Features:
 - Local Ollama: Generate responses (fast, no API cost)
 - Cloud API: Judge evaluation (parallel, best models)
 - Auto-select judge models: Each metric uses optimal model (Claude Opus 4.5, GPT-4o, Gemini 2.0, etc.)
 - Parallel evaluation: All 12 metrics run concurrently (60s instead of 240s)
+- TXT summary: Human-readable summary with rankings and score distributions
 
 Usage:
     # Evaluate all 100 samples with all 3 models (recommended)
@@ -500,6 +502,14 @@ def run_batch_evaluation(
             print_summary_statistics(all_results, metric_names, model)
         else:
             logger.error(f"No successful results for model {model}")
+
+    # Generate comparison TXT after all models are done
+    try:
+        from generate_comparison import generate_comparison_txt
+        comparison_file = generate_comparison_txt()
+        logger.info(f"\n✓ Model comparison saved to: {comparison_file}")
+    except Exception as e:
+        logger.warning(f"Failed to generate comparison TXT: {e}")
 
 
 def print_summary_statistics(results: List[Dict], metric_names: List[str], model: str):

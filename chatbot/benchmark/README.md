@@ -19,7 +19,7 @@ All 12 metrics automatically use the best judge model based on LMArena benchmark
 | **logical_consistency** | GPT-5.2 | Perfect 100% on AIME 2025, 52.9% on ARC-AGI abstract reasoning |
 | **conversational_continuity** | Gemini 2.0 Flash | #1 overall (1501 Elo), excellent multimodal context understanding |
 | **groundedness** | Claude Opus 4.5 | High precision, low hallucination rate, best for fact-checking |
-| **relevance** | OpenAI Embeddings | Fast, cost-effective embeddings for semantic similarity |
+| **relevance** | Gemini 2.0 Flash | #1 overall (1501 Elo), excellent context understanding for query-response matching |
 
 **Sources:** [LMArena Leaderboard](https://lmarena.ai/leaderboard), [AI Benchmarks Dec 2025](https://lmcouncil.ai/benchmarks), [Sage: Empathy Evaluation](https://arxiv.org/html/2505.02847)
 
@@ -208,32 +208,39 @@ This benchmark evaluates twelve independent metrics:
 
 ### 3. Response Relevance (`metrics/relevance.py`)
 
-**Purpose**: Measures semantic similarity between user query and assistant response using OpenAI embeddings.
+**Purpose**: Evaluates how well the assistant's response addresses the user's query using LLM-as-a-judge.
 
 **Process**:
-1. Generate embeddings for both query and response using OpenAI API
-2. Calculate cosine similarity between the two embedding vectors
-3. Return relevance score as similarity measure
+1. LLM judge reads the user query and assistant response
+2. Applies 1-5 relevance rubric to assess topical alignment
+3. Returns structured fields via Pydantic AI
+
+**Scoring (1-5)**:
+- **5 - Highly Relevant**: Directly addresses the query with comprehensive, on-topic information
+- **4 - Mostly Relevant**: Answers the query with minor tangents or omissions
+- **3 - Moderately Relevant**: Partially addresses the query but includes off-topic content
+- **2 - Slightly Relevant**: Barely touches on the query, mostly unrelated
+- **1 - Not Relevant**: Completely off-topic or fails to address the query
 
 **Metrics**:
-- **Relevance Score** = cosine_similarity(query_emb, response_emb) [0-1, higher is better]
-  - 1.0: Perfect semantic alignment
-  - 0.5-0.8: Moderately relevant
-  - <0.5: Low relevance
+- **Relevance Score**: Integer 1-5 (higher is better)
+- **On-Topic Elements**: List of query aspects addressed
+- **Off-Topic Elements**: List of unrelated content
 
 **Aggregation**:
-- **Average**: Mean relevance score across all samples
-- **Statistics**: Min, max, median, standard deviation
+- Average/median/min/max/std of scores
+- Score distribution across 1-5
 
-**Configuration**:
-- **Embedding Model**: `text-embedding-3-small` (OpenAI, default)
-  - Alternative: `text-embedding-3-large` for higher accuracy
-- **API Key**: Requires `OPENAI_API_KEY` environment variable
+**Rules**:
+- Focus on query-response topical alignment, not quality or correctness
+- Generic advice that doesn't match query specifics scores low
+- Empty or non-responsive answers score 1
+- Healthcare context: medical advice must match the health concern
 
 **Notes**:
-- Does not use LLM judge (uses deterministic embedding similarity)
-- Fast and cost-effective compared to LLM-based evaluation
-- Captures semantic similarity, not factual correctness
+- Uses LLM judge (Gemini 2.0 Flash) for nuanced semantic understanding
+- Captures both semantic similarity AND task alignment
+- More accurate than embedding-based similarity for complex queries
 
 ---
 
@@ -535,20 +542,21 @@ This benchmark evaluates twelve independent metrics:
 
 ### LLM Judge (Pydantic AI)
 
-Nine metrics use LLM-as-a-judge with `instructor` for structured output (all 1-5 except safety/politeness at 0-1):
+All eleven LLM-based metrics use LLM-as-a-judge with `instructor` for structured output:
 
-- Memory Utilization → `MemoryUtilizationJudgment(cited_keys)`
-- Groundedness → `FactualClaim`, `GroundednessJudgment(claims, groundedness_score, hallucination_rate)`
-- Coherence → `CoherenceJudgment(coherence_score, explanation, grammar_issues, strengths)`
-- Emotional Congruence → `EmotionalCongruenceJudgment(emotional_congruence_score, matched_emotions, mismatched_emotions, tone_notes)`
-- Helpfulness → `HelpfulnessJudgment(helpfulness_score, missing_info, suggested_followups)`
-- Safety / Toxicity → `SafetyJudgment(safety_score, category, flagged_content, suggested_fixes)`
-- Politeness / Social Acceptability → `PolitenessJudgment(politeness_score, category, impolite_phrases, improvement_suggestions)`
-- Persona Consistency → `PersonaConsistencyJudgment(persona_consistency_score, matched_traits, mismatched_traits, tailoring_notes)`
-- Logical Consistency → `Contradiction`, `LogicalConsistencyJudgment(consistency_score, contradictions, reasoning_issues, consistent_elements)`
-- Empathy → `EmpathyJudgment(empathy_score, warmth_level, validation_present, supportive_elements, empathy_gaps)`
+- Memory Utilization → `MemoryUtilizationJudgment(cited_keys)` (F1 score)
+- Groundedness → `FactualClaim`, `GroundednessJudgment(claims, groundedness_score, hallucination_rate)` (0-1)
+- Relevance → `RelevanceJudgment(relevance_score, on_topic_elements, off_topic_elements)` (1-5)
+- Coherence → `CoherenceJudgment(coherence_score, explanation, grammar_issues, strengths)` (1-5)
+- Emotional Congruence → `EmotionalCongruenceJudgment(emotional_congruence_score, matched_emotions, mismatched_emotions, tone_notes)` (1-5)
+- Helpfulness → `HelpfulnessJudgment(helpfulness_score, missing_info, suggested_followups)` (1-5)
+- Safety / Toxicity → `SafetyJudgment(safety_score, category, flagged_content, suggested_fixes)` (0-1)
+- Politeness / Social Acceptability → `PolitenessJudgment(politeness_score, category, impolite_phrases, improvement_suggestions)` (0-1)
+- Persona Consistency → `PersonaConsistencyJudgment(persona_consistency_score, matched_traits, mismatched_traits, tailoring_notes)` (1-5)
+- Logical Consistency → `Contradiction`, `LogicalConsistencyJudgment(consistency_score, contradictions, reasoning_issues, consistent_elements)` (1-5)
+- Empathy → `EmpathyJudgment(empathy_score, warmth_level, validation_present, supportive_elements, empathy_gaps)` (1-5)
 
-Note: Relevance uses embeddings (no LLM judge).
+Note: Conversational Continuity also uses LLM judge (1-5 scale).
 
 ## Example Results
 
@@ -593,14 +601,21 @@ Macro-averaged (for reference):
   Hallucination Rate:    0.0813
 
 ----------------------------------------------------------------------
-[3] RESPONSE RELEVANCE (EMBEDDING SIMILARITY)
+[3] RESPONSE RELEVANCE (QUERY-RESPONSE ALIGNMENT)
 ----------------------------------------------------------------------
-  Average Relevance:     0.7842  (higher is better)
-  Median Relevance:      0.8023
-  Min Relevance:         0.4521
-  Max Relevance:         0.9456
-  Std Deviation:         0.1234
+  Average Relevance:     4.12/5.00  (higher is better)
+  Median Relevance:      4/5
+  Min Relevance:         2/5
+  Max Relevance:         5/5
+  Std Deviation:         0.68
   Total Samples:         100
+
+  Score Distribution:
+    Score 5:  38 ( 38.0%) ███████
+    Score 4:  45 ( 45.0%) █████████
+    Score 3:  12 ( 12.0%) ██
+    Score 2:   5 (  5.0%)
+    Score 1:   0 (  0.0%)
 
 ----------------------------------------------------------------------
 [4] RESPONSE COHERENCE (LLM RUBRIC SCORING)
@@ -778,18 +793,18 @@ The benchmark has a modular architecture that makes adding new metrics straightf
 ## Dependencies
 
 All dependencies are installed in parent chatbot environment:
-- `instructor`: Pydantic AI for structured outputs (Memory Utilization, Groundedness, Coherence, Emotional Congruence, Helpfulness, Logical Consistency, Empathy)
+- `instructor`: Pydantic AI for structured outputs (all 12 metrics use LLM judge)
 - `pydantic`: Data validation
-- `openai`: LLM client (multi-provider support) + embeddings API (Relevance metric)
+- `openai`: LLM client (multi-provider support)
 - `anthropic`: Anthropic Claude API (optional, for judge LLM)
-- `google-generativeai`: Google Gemini API (optional, for judge LLM or embeddings)
-- `numpy`: Numerical operations (cosine similarity, aggregation)
+- `google-generativeai`: Google Gemini API (optional, for judge LLM)
+- `numpy`: Numerical operations (aggregation)
 - Standard chatbot modules (emotion, personality, etc.)
 
 **Environment Variables**:
-- `OPENAI_API_KEY`: For OpenAI judge LLM or embeddings (default)
+- `OPENAI_API_KEY`: For OpenAI judge LLM (optional)
 - `ANTHROPIC_API_KEY`: For Claude judge LLM (optional)
-- `GOOGLE_API_KEY`: For Gemini judge LLM or embeddings (optional)
+- `GOOGLE_API_KEY`: For Gemini judge LLM (optional)
 
 ## Troubleshooting
 
