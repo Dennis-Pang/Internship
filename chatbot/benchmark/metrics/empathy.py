@@ -33,7 +33,7 @@ from pydantic import BaseModel, Field
 # Add parent directory to path for imports
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
-from modules.config import logger
+from core.config import logger
 from .llm_router import get_structured_response, get_default_model
 
 
@@ -105,28 +105,29 @@ Assistant Response:
 EMPATHY RUBRIC:
 
 Score 5 - Highly Empathetic:
-• Warm and supportive tone
-• Shows understanding of user's situation
-• Generally caring and encouraging
-• Acknowledges user's feelings or experiences
+• Very warm and supportive tone
+• Clearly validates user's feelings or concerns
+• Shows strong understanding and compassion
+• Provides emotional reassurance or encouragement
+• Makes the user feel genuinely heard and cared for
 
 Score 4 - Mostly Empathetic:
-• Friendly and approachable tone
-• Some validation or support present
-• Professional but warm
-• Overall positive and helpful
+• Warm and caring tone
+• Shows understanding and acknowledges user's situation
+• Offers appropriate support and encouragement
+• Generally kind and compassionate
 
 Score 3 - Moderately Empathetic:
-• Neutral but not cold tone
-• Basic professionalism maintained
-• Some attempt at being helpful
-• Not dismissive or harsh
+• Friendly or neutral but appropriate tone
+• Shows basic awareness of user's situation
+• Professionally helpful and respectful
+• Adequate but not particularly warm
 
 Score 2 - Lacks Empathy:
-• Somewhat cold or overly clinical
-• Minimal warmth or validation
+• Cold, overly clinical, or detached tone
+• Little to no acknowledgment of user's feelings
 • Very transactional or robotic
-• Feels detached or indifferent
+• Feels indifferent or impersonal
 
 Score 1 - No Empathy:
 • Harsh, inappropriate, or very dismissive

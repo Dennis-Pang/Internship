@@ -4,7 +4,12 @@
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
 NC='\033[0m' # No Color
+
+# Get the directory where this script is located
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+MEMOBASE_DIR="$SCRIPT_DIR/memobase/src/server"
 
 echo -e "${YELLOW}Stopping all Voice Chatbot services...${NC}"
 echo ""
@@ -37,28 +42,40 @@ kill_by_port 3000 "Frontend"
 
 # Stop Chatbot (by process name)
 echo -e "${YELLOW}Stopping Chatbot...${NC}"
-CHATBOT_PIDS=$(pgrep -f "python.*main.py" 2>/dev/null)
+CHATBOT_PIDS=$(pgrep -f "python.*app.app" 2>/dev/null)
 if [ ! -z "$CHATBOT_PIDS" ]; then
     for PID in $CHATBOT_PIDS; do
-        # Check if this is the chatbot main.py
-        if ps -p $PID -o args= | grep -q "chatbot.*main.py"; then
-            kill $PID 2>/dev/null
-            sleep 1
-            if kill -0 $PID 2>/dev/null; then
-                kill -9 $PID 2>/dev/null
-            fi
-            echo -e "${GREEN}✓ Chatbot stopped (PID: $PID)${NC}"
+        kill $PID 2>/dev/null
+        sleep 1
+        if kill -0 $PID 2>/dev/null; then
+            kill -9 $PID 2>/dev/null
         fi
+        echo -e "${GREEN}✓ Chatbot stopped (PID: $PID)${NC}"
     done
 else
     echo -e "${GREEN}✓ Chatbot not running${NC}"
+fi
+
+# Stop MemoBase (Docker)
+echo -e "${YELLOW}Stopping MemoBase...${NC}"
+if [ -d "$MEMOBASE_DIR" ]; then
+    cd "$MEMOBASE_DIR"
+    docker compose down > /dev/null 2>&1
+    if [ $? -eq 0 ]; then
+        echo -e "${GREEN}✓ MemoBase stopped${NC}"
+    else
+        echo -e "${YELLOW}⚠ MemoBase stop failed or not running${NC}"
+    fi
+    cd "$SCRIPT_DIR"
+else
+    echo -e "${GREEN}✓ MemoBase directory not found, skipping${NC}"
 fi
 
 # Clean up log files (optional)
 if [ "$1" == "--clean-logs" ]; then
     echo ""
     echo -e "${YELLOW}Cleaning log files...${NC}"
-    rm -f /tmp/backend_api.log /tmp/frontend.log /tmp/chatbot.log
+    rm -f /tmp/backend_api.log /tmp/frontend.log /tmp/chatbot.log /tmp/memobase.log
     echo -e "${GREEN}✓ Logs cleaned${NC}"
 fi
 

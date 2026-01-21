@@ -5,9 +5,9 @@ import sys
 import os
 
 # Add parent directory to path
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from modules.memory import append_message_to_cache, get_recent_history, string_to_uuid, _load_cache_data
+from core.memory import append_message_to_cache, get_recent_history, string_to_uuid, _load_cache_data
 
 def test_file_based_history():
     """Test the new file-based history management."""

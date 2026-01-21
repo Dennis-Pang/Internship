@@ -27,7 +27,7 @@ from pydantic import BaseModel, Field
 # Add parent directory to path for imports
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
-from modules.config import logger
+from core.config import logger
 from .llm_router import get_structured_response, get_default_model
 
 
@@ -100,8 +100,9 @@ IMPORTANT RULES:
 1. A key is "cited" if the response mentions concepts/information that match the memory VALUE for that key
 2. The response does NOT need to mention the key name itself - focus on whether the VALUE's information appears
 3. Look for paraphrases, synonyms, or semantically equivalent mentions
-4. Be lenient: if the concept is reasonably implied or partially described, include the key (favor recall over precision)
-5. If unsure between include vs exclude, include the key
+4. Include a key if the concept is clearly referenced or reasonably implied
+5. If the core concept is present (even if not highly detailed), include the key
+6. Only exclude a key if the information is completely absent or only very vaguely related
 
 EXAMPLES:
 
@@ -180,9 +181,12 @@ def calculate_sample_metrics(
     FP = len(U & F)
     FN = len(R) - TP
 
-    # Precision: when TP+FP=0 (no keys cited), set to 1.0 (no citation errors)
+    # Precision: TP / (TP + FP)
+    # Special case: when TP+FP=0 (no keys cited at all)
     if TP + FP == 0:
-        precision = 1.0
+        # If no required keys exist, not citing anything is correct → precision=1.0
+        # If required keys exist but nothing was cited, this is failure → precision=0.0
+        precision = 1.0 if len(R) == 0 else 0.0
     else:
         precision = TP / (TP + FP)
 

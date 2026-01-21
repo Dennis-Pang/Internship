@@ -24,9 +24,9 @@ import numpy as np
 # Ensure repo root on path
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
-from modules.config import logger, SPEECH_EMOTION_WEIGHT, TEXT_EMOTION_WEIGHT  # noqa: E402
-from modules.emotion.text_analyzer import TEXT_EMOTION_LABELS  # noqa: E402
-from chatbot_cli import (  # noqa: E402
+from core.config import logger, SPEECH_EMOTION_WEIGHT, TEXT_EMOTION_WEIGHT  # noqa: E402
+from models.emotion.text import TEXT_EMOTION_LABELS  # noqa: E402
+from core.pipeline import (  # noqa: E402
     analyze_speech_emotion,
     analyze_text_emotion,
     analyze_personality,

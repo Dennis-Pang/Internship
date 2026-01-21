@@ -2,11 +2,11 @@
 
 For each sample directory:
 - Load sample.json (expects fields: id, dialogue, memory, etc.)
-- Use the last user turn as USER_MESSAGE
+- Use the last user turn for emotion/personality analysis
 - Run speech2emotion on query.wav and text2emotion on the last user text
 - Fuse emotions using chatbot_cli weights
 - Run personality analysis on the last user text
-- Render a Markdown prompt in the latest format and save to prompt.md
+- Render a Markdown prompt in the latest format (matching samples/001) and save to prompt.md
 
 Usage:
     python build_prompts.py                      # process all samples in dataset/samples
@@ -22,9 +22,9 @@ from typing import List, Dict, Any, Tuple
 # Ensure imports work like chatbot_cli
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
-from modules.config import logger, SPEECH_EMOTION_WEIGHT, TEXT_EMOTION_WEIGHT  # noqa: E402
-from modules.emotion import TEXT_EMOTION_LABELS  # noqa: E402
-from chatbot_cli import (  # noqa: E402
+from core.config import logger, SPEECH_EMOTION_WEIGHT, TEXT_EMOTION_WEIGHT  # noqa: E402
+from models.emotion import TEXT_EMOTION_LABELS  # noqa: E402
+from core.pipeline import (  # noqa: E402
     analyze_speech_emotion,
     analyze_text_emotion,
     analyze_personality,
@@ -34,65 +34,41 @@ from chatbot_cli import (  # noqa: E402
 SAMPLES_DIR = Path(__file__).parent / "samples"
 
 
-PROMPT_TEMPLATE = """You are Hackcelerate — a warm, practical health companion. You talk like a real person: brief, clear, natural.
+PROMPT_TEMPLATE = """You are Hackcelerate — a health companion who chats naturally with users. You adapt your responses to the moment: sometimes you ask questions, sometimes you share thoughts, sometimes you just listen. When something connects to what you know about the user, you reference it naturally to make the conversation personal.
 
-GOAL
-Reply to USER_MESSAGE using the provided context. Use EMOTION_LOGITS and USER_PERSONALITY to adjust tone naturally.
-Write only the reply text — no preambles, no meta commentary.
-
-USING KNOWN_PREFERENCES
-- These are facts you already know about this user
-- Reference them directly when relevant to USER_MESSAGE (e.g., "your insulin," "that lunch dose")
-- Use them to make your reply specific and personalized
-- Don't mention preferences that don't connect to the current message
-- If unsure about a detail, ask one quick question instead of guessing
-
-STYLE
-- 2–5 sentences, conversational
-- If user wants improvement → offer 1–2 small steps
-- If user is sharing → respond supportively, don't push
-- No meta talk about context or memory
+INSTRUCTIONS:
+- Use EMOTION_LOGITS to adjust emotional tone and USER_PERSONALITY to adjust interaction style
+- Reference KNOWN_PREFERENCES directly when relevant (e.g., "your blood pressure pill," "your weekend mornings")
+- 2–5 sentences, conversational tone, no meta-talk about context/memory/prompts
+- User wants help → offer 1–2 small steps | User is sharing → respond supportively
+- Write ONLY your reply as Assistant, no analysis or commentary
 
 ---
 
-EXAMPLES
+EXAMPLES:
 
-Ex1:
-EMOTION: frustrated=0.8, sad=0.2
-KNOWN_PREFERENCES: medication=insulin, struggle=remembering_lunch_dose
-USER: "Forgot my insulin again at work"
-REPLY: "That lunch dose is tricky. Does your work routine vary a lot day to day?"
+Example 1:
+KNOWN_PREFERENCES: medication=insulin, struggle=lunch_dose_at_work
+User: "Forgot my insulin again at work"
+Assistant: "That lunch dose is tricky. Does your work routine vary a lot day to day?"
 
-Ex2:
-EMOTION: happy=0.7, excited=0.2
-KNOWN_PREFERENCES: goal=walking_habit, milestone=walked_3_days_straight
-USER: "Hit 3 days of walking!"
-REPLY: "Nice! How's your energy feeling? Notice any difference yet?"
-
-Ex3:
-EMOTION: neutral=0.75, fear=0.15
-KNOWN_PREFERENCES: concern=blood_pressure, last_reading=145/92
-USER: "My BP was high again this morning"
-REPLY: "145/92. Was it right after waking up, or later in the morning?"
+Example 2:
+KNOWN_PREFERENCES: goal=walking_habit, milestone=walked_3_days
+User: "Hit 3 days of walking!"
+Assistant: "Nice! How's your energy feeling? Notice any difference yet?"
 
 ---
 
-### CONVERSATION_HISTORY
+CONTEXT:
+
+USER_PERSONALITY: {personality_block}
+
+EMOTION_LOGITS: {emotion_block}
+
+KNOWN_PREFERENCES: {preferences_block}
+
+CONVERSATION:
 {conversation_history}
-
-### USER_PERSONALITY
-{personality_block}
-
-### EMOTION_LOGITS
-{emotion_block}
-
-### KNOWN_PREFERENCES
-{preferences_block}
-
-### USER_MESSAGE
-{user_message}
-
-Write only the reply.
 """
 
 
@@ -132,15 +108,13 @@ def format_conversation_history(history: List[Dict[str, str]]) -> str:
 
 
 def format_personality(personality_df) -> str:
-    return "\n".join(
-        f"{row['theta']}: {row['r']:.2f}"
-        for _, row in personality_df.iterrows()
-    )
+    entries = [f"{row['theta']}={row['r']:.2f}" for _, row in personality_df.iterrows()]
+    return ", ".join(entries)
 
 
 def format_emotion_block(fused_emotion: Dict[str, float]) -> str:
-    return "\n".join(
-        f"{label}: {fused_emotion.get(label, 0.0):.2f}"
+    return ", ".join(
+        f"{label}={fused_emotion.get(label, 0.0):.2f}"
         for label in TEXT_EMOTION_LABELS
     )
 
@@ -148,7 +122,7 @@ def format_emotion_block(fused_emotion: Dict[str, float]) -> str:
 def format_preferences(memory: Dict[str, Any]) -> str:
     if not memory:
         return "No known user preferences."
-    return "\n".join(f"{k}: {v}" for k, v in memory.items())
+    return ", ".join(f"{k}={v}" for k, v in memory.items())
 
 
 def build_prompt_markdown(sample: Dict[str, Any], sample_dir: Path) -> str:
@@ -158,6 +132,7 @@ def build_prompt_markdown(sample: Dict[str, Any], sample_dir: Path) -> str:
     history, last_user = split_dialogue(dialogue)
     if not last_user:
         raise ValueError(f"Last user turn is empty for {sample_dir.name}")
+    full_history = dialogue
 
     wav_path = sample_dir / "query.wav"
     if not wav_path.exists():
@@ -177,11 +152,10 @@ def build_prompt_markdown(sample: Dict[str, Any], sample_dir: Path) -> str:
     personality_df = analyze_personality(last_user)
 
     prompt_text = PROMPT_TEMPLATE.format(
-        conversation_history=format_conversation_history(history),
+        conversation_history=format_conversation_history(full_history),
         personality_block=format_personality(personality_df),
         emotion_block=format_emotion_block(fused_emotion),
         preferences_block=format_preferences(memory),
-        user_message=last_user,
     ).strip() + "\n"
 
     return prompt_text

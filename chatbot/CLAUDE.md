@@ -11,13 +11,13 @@ AI Voice Chatbot with personality analysis and long-term memory. Combines speech
 ### Running the Application
 ```bash
 # Basic usage (default: 60% speech + 40% text emotion)
-python main.py
+python -m app.app
 
 # With custom conversation history window
-python main.py --history-window 10
+python -m app.app --history-window 10
 
 # Debug mode (prints full prompts sent to LLM)
-python main.py --debug
+python -m app.app --debug
 ```
 
 ### Emotion Analysis Control
@@ -26,13 +26,13 @@ The application supports dual-source emotion analysis with configurable weightin
 
 ```bash
 # Use only speech-based emotion (faster, audio-only)
-python main.py --speech-emotion-weight 1.0 --text-emotion-weight 0.0
+python -m app.app --speech-emotion-weight 1.0 --text-emotion-weight 0.0
 
 # Use only text-based emotion (text content only)
-python main.py --speech-emotion-weight 0.0 --text-emotion-weight 1.0
+python -m app.app --speech-emotion-weight 0.0 --text-emotion-weight 1.0
 
 # Custom weighted fusion (e.g., 70% speech, 30% text)
-python main.py --speech-emotion-weight 0.7 --text-emotion-weight 0.3
+python -m app.app --speech-emotion-weight 0.7 --text-emotion-weight 0.3
 ```
 
 **Weight Configuration:**
@@ -50,7 +50,7 @@ python main.py --speech-emotion-weight 0.7 --text-emotion-weight 0.3
 ### Syncing Memory Cache to MemoBase
 ```bash
 # Sync cached conversations to MemoBase
-python sync_memory_cache.py --batch-size 10
+python -m app.sync --batch-size 10
 ```
 
 ### Dependencies
@@ -91,7 +91,7 @@ The chatbot follows a carefully optimized pipeline that balances **serial and pa
 
 ---
 
-#### 🚀 **STARTUP SEQUENCE** (main.py lines 699-803)
+#### 🚀 **STARTUP SEQUENCE** (app/cli.py)
 
 The initialization sequence is carefully orchestrated to balance speed and stability:
 

@@ -31,7 +31,7 @@ cleanup() {
     pkill -P $$ 2>/dev/null
 
     # Also clean up any api_server.py processes
-    pkill -f "api_server.py" 2>/dev/null
+    pkill -f "app.server" 2>/dev/null
 
     # Clean up any processes on port 5000
     BACKEND_PORT=$(lsof -ti:5000 2>/dev/null)
@@ -68,6 +68,7 @@ fi
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 FRONTEND_DIR="$SCRIPT_DIR/frontend"
 CHATBOT_DIR="$SCRIPT_DIR/chatbot"
+MEMOBASE_DIR="$SCRIPT_DIR/memobase/src/server"
 
 # Check if directories exist
 if [ ! -d "$FRONTEND_DIR" ]; then
@@ -108,6 +109,25 @@ echo ""
 echo -e "${GREEN}Starting services...${NC}"
 echo ""
 
+# Start MemoBase (Docker)
+echo -e "${BLUE}[0/3] Starting MemoBase...${NC}"
+if [ -d "$MEMOBASE_DIR" ]; then
+    cd "$MEMOBASE_DIR"
+    docker compose up -d > /tmp/memobase.log 2>&1
+    if [ $? -eq 0 ]; then
+        echo -e "${GREEN}✓ MemoBase started${NC}"
+        echo -e "  URL: ${BLUE}http://localhost:8019${NC}"
+        echo -e "  Logs: ${YELLOW}docker compose -f $MEMOBASE_DIR/docker-compose.yaml logs -f${NC}"
+    else
+        echo -e "${YELLOW}⚠ MemoBase failed to start (chatbot will run without long-term memory)${NC}"
+        echo -e "  Check: ${YELLOW}tail -f /tmp/memobase.log${NC}"
+    fi
+    cd "$SCRIPT_DIR"
+else
+    echo -e "${YELLOW}⚠ MemoBase directory not found, skipping${NC}"
+fi
+echo ""
+
 # Check and kill any existing backend API processes
 echo -e "${BLUE}Checking for existing processes...${NC}"
 EXISTING_BACKEND=$(lsof -ti:5000 2>/dev/null)
@@ -118,13 +138,13 @@ if [ ! -z "$EXISTING_BACKEND" ]; then
 fi
 
 # Also check for any api_server.py processes
-pkill -f "api_server.py" 2>/dev/null
+pkill -f "app.server" 2>/dev/null
 sleep 1
 
 # Start Backend API
-echo -e "${BLUE}[1/2] Starting Backend API...${NC}"
+echo -e "${BLUE}[1/3] Starting Backend API...${NC}"
 cd "$CHATBOT_DIR"
-python3 api_server.py > /tmp/backend_api.log 2>&1 &
+python3 -m app.server > /tmp/backend_api.log 2>&1 &
 BACKEND_PID=$!
 sleep 3
 
@@ -140,7 +160,7 @@ echo -e "  Logs: ${YELLOW}tail -f /tmp/backend_api.log${NC}"
 echo ""
 
 # Start Frontend
-echo -e "${BLUE}[2/2] Starting Frontend...${NC}"
+echo -e "${BLUE}[2/3] Starting Frontend...${NC}"
 cd "$FRONTEND_DIR"
 npm run dev > /tmp/frontend.log 2>&1 &
 FRONTEND_PID=$!
@@ -159,19 +179,21 @@ echo -e "  Logs: ${YELLOW}tail -f /tmp/frontend.log${NC}"
 echo ""
 
 echo -e "${GREEN}========================================${NC}"
-echo -e "${GREEN}   Backend & Frontend Running!${NC}"
+echo -e "${GREEN}   All Services Running!${NC}"
 echo -e "${GREEN}========================================${NC}"
 echo ""
 echo -e "${BLUE}Services:${NC}"
+echo -e "  MemoBase:     http://localhost:8019"
 echo -e "  Backend API:  http://localhost:5000"
 echo -e "  Frontend:     http://localhost:3000"
 echo ""
 echo -e "${BLUE}Background Logs:${NC}"
+echo -e "  MemoBase: docker compose -f $MEMOBASE_DIR/docker-compose.yaml logs -f"
 echo -e "  Backend:  tail -f /tmp/backend_api.log"
 echo -e "  Frontend: tail -f /tmp/frontend.log"
 echo ""
 echo -e "${YELLOW}========================================${NC}"
-echo -e "${YELLOW}   Starting Chatbot (Interactive)${NC}"
+echo -e "${YELLOW}   [3/3] Starting Chatbot (Interactive)${NC}"
 echo -e "${YELLOW}========================================${NC}"
 echo ""
 echo -e "${GREEN}Now you can interact with the chatbot!${NC}"
@@ -183,15 +205,11 @@ echo ""
 # Start Chatbot in foreground (interactive mode)
 cd "$CHATBOT_DIR"
 
-# Set environment variables for ONNX Runtime (required for Piper TTS on ARM64)
-export OMP_NUM_THREADS=1
-export ONNXRUNTIME_INTRA_OP_NUM_THREADS=1
-export ONNXRUNTIME_INTER_OP_NUM_THREADS=1
+# Enable NeuTTS (PyTorch-based TTS with voice cloning, no ONNX dependency)
+export USE_NEUTTS=true
+export USE_PIPER_TTS=false
 
-# Enable GPU-accelerated Piper TTS (ONNX Runtime 1.23.0 + CUDA)
-export USE_PIPER_TTS=true
-
-python3 chatbot_cli.py
+python3 -m app.app
 
 # When chatbot exits or Ctrl+C is pressed, cleanup
 cleanup

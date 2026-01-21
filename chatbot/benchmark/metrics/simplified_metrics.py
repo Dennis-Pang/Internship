@@ -25,7 +25,7 @@ from typing import Dict, List, Any
 # Add parent directory to path
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
-from modules.config import logger
+from core.config import logger
 from .judge_config import get_judge_model
 
 # Map raw 1-5 judge scores to 0-1 for unified downstream use

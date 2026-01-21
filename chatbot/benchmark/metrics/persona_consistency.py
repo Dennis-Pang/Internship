@@ -27,7 +27,7 @@ from pydantic import BaseModel, Field
 # Add parent directory to path for imports
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
-from modules.config import logger
+from core.config import logger
 from .llm_router import get_structured_response, get_default_model
 
 
@@ -124,17 +124,16 @@ Assistant response:
 {response}
 
 Task: Assign a persona consistency score (1-5) using this rubric:
-- 5: Response shows some consideration of personality traits or adapts tone appropriately.
-- 4: Response is generally appropriate and doesn't conflict with major traits.
-- 3: Neutral response that doesn't strongly align or conflict with the profile.
-- 2: Response seems to ignore personality or has minor conflicts with traits.
-- 1: Response clearly conflicts with multiple key traits or is completely inappropriate.
+- 5: Excellent alignment; advice and tone clearly tailored to key personality traits (e.g., structured steps for high conscientiousness, reassurance for high neuroticism).
+- 4: Good alignment; shows clear awareness of traits and adapts response appropriately, even if not highly detailed.
+- 3: Acceptable; response is appropriate and doesn't conflict with traits, but remains fairly generic.
+- 2: Poor alignment; response ignores personality context or has noticeable conflicts with traits.
+- 1: No alignment; conflicts with multiple key traits or completely ignores persona.
 
 Rules:
-- Give credit for any reasonable personalization attempt or appropriate tone.
-- Consider generic but helpful responses as acceptable (score 3-4).
-- Only penalize responses that actively conflict with personality traits.
-- Acknowledge that brief responses may not show personalization but can still be appropriate.
+- Score 4-5 when the response shows consideration of personality traits in tone or approach.
+- Generic but appropriate and helpful responses should receive 3.
+- Only penalize with 1-2 if the response actively conflicts with traits or is completely generic when personalization is clearly needed.
 - Empty/non-responsive answers score 1.
 
 Return structured JSON with:

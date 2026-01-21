@@ -26,7 +26,7 @@ from pydantic import BaseModel, Field
 # Add parent directory to path for imports
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
-from modules.config import logger
+from core.config import logger
 from .llm_router import get_structured_response, get_default_model
 
 
@@ -89,17 +89,17 @@ Assistant response:
 {response}
 
 Task: Assign a helpfulness score (1-5) using this rubric:
-- 5: Addresses the user's need with relevant guidance; provides helpful direction or suggestions.
-- 4: Generally helpful and on-topic; offers useful information even if not fully complete.
-- 3: Shows attempt to help; provides some relevant information or asks clarifying questions.
-- 2: Minimal usefulness; very generic or vague but not completely off-topic.
-- 1: Not helpful or completely off-topic; fails to address the user's need at all.
+- 5: Very helpful; provides specific, actionable guidance or clear recommendations that effectively address the user's need.
+- 4: Helpful; offers relevant information, useful suggestions, or asks good clarifying questions that move toward a solution.
+- 3: Moderately helpful; provides some useful information or shows understanding, but may be somewhat generic or incomplete.
+- 2: Minimally helpful; response is very vague, overly generic, or only tangentially addresses the need.
+- 1: Not helpful; completely off-topic, irrelevant, or fails to address the user's need at all.
 
 Rules:
-- Focus on whether the response attempts to help and is relevant to the query.
-- Consider partial help or asking good clarifying questions as valuable.
-- Acknowledge that brief responses can still be helpful if they're on-topic.
-- Only score 1-2 for responses that are clearly unhelpful or completely miss the point.
+- Score 4-5 for responses that provide relevant guidance or demonstrate clear understanding of the user's need.
+- Score 3 for responses that are on-topic and show some helpfulness, even if generic.
+- Clarifying questions that show good understanding can receive 4.
+- Only score 1-2 for responses that are clearly unhelpful, irrelevant, or extremely vague.
 - If the response is empty or non-responsive, score = 1.
 
 Return structured JSON with:

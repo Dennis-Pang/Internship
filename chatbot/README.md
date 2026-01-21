@@ -118,38 +118,44 @@ Total: ~6.8s per conversation (saves ~4s vs all sequential)
 
 ```
 chatbot/
-├── chatbot_cli.py            # Main application entry point (interactive CLI)
-├── api_server.py             # Flask REST API for frontend dashboard
-├── sync_memory.py            # Utility to sync cache to MemoBase
-├── start_backend.sh          # Script to start backend API
-├── requirements.txt          # Python dependencies
-├── DEBUG.md                  # PiperTTS CUDA context fix documentation
-├── CLAUDE.md                 # Claude Code project instructions
-├── README.md                 # This file
+├── app/                      # Application entry points
+│   ├── __init__.py
+│   ├── cli.py                # Main interactive CLI chatbot
+│   ├── server.py             # Flask REST API for frontend dashboard
+│   └── sync.py               # Utility to sync cache to MemoBase
+├── core/                     # Core infrastructure
+│   ├── __init__.py
+│   ├── config.py             # Configuration constants
+│   ├── database.py           # SQLAlchemy models and DB ops
+│   ├── memory.py             # MemoBase memory management
+│   └── timing.py             # Performance monitoring
+├── models/                   # AI models
+│   ├── __init__.py
+│   ├── llm.py                # Ollama LLM integration
+│   ├── personality.py        # Big Five personality analysis (BERT)
+│   ├── cnn_transf_parallel_model.pt  # Speech emotion model (symlink)
+│   └── emotion/              # Emotion analysis package
+│       ├── __init__.py
+│       ├── speech.py         # Speech emotion (Transformer+CNN)
+│       └── text.py           # Text emotion (DeBERTa-v3-Large)
+├── audio/                    # Audio processing
+│   ├── __init__.py           # TTSEngine, PiperTTSEngine exports
+│   ├── recorder.py           # Audio recording and TTS engines
+│   ├── tts.py                # CPU-optimized PiperTTS (ONNX Runtime)
+│   └── stt.py                # Whisper speech-to-text
 ├── data/
 │   ├── memories.sqlite       # SQLite database (personality traits)
 │   └── memory_cache.json     # Conversation cache (emotions, transcripts)
-├── modules/
-│   ├── config.py             # Configuration constants
-│   ├── database.py           # SQLAlchemy models and DB ops
-│   ├── llm.py                # Ollama LLM integration
-│   ├── memory.py             # MemoBase memory management
-│   ├── personality.py        # Big Five personality analysis (BERT)
-│   ├── timing.py             # Performance monitoring
-│   ├── audio/                # Audio processing package
-│   │   ├── __init__.py       # TTSEngine, PiperTTSEngine exports
-│   │   ├── recorder.py       # Audio recording and TTS engines
-│   │   ├── piper_tts.py      # GPU-accelerated PiperTTS (ONNX Runtime)
-│   │   └── speech2text.py    # Whisper speech-to-text
-│   └── emotion/              # Emotion analysis package
-│       ├── __init__.py       # Emotion model exports
-│       ├── speech_analyzer.py  # Speech emotion (Transformer+CNN)
-│       └── text_analyzer.py    # Text emotion (DeBERTa-v3-Large)
-├── models/                   # Downloaded model cache
+├── scripts/
+│   └── start_backend.sh      # Script to start backend API
+├── benchmark/                # LLM evaluation system
 ├── tests/                    # Test scripts
-└── legacy/                   # Legacy/backup files
+├── requirements.txt          # Python dependencies
+├── DEBUG.md                  # PiperTTS debugging documentation
+├── CLAUDE.md                 # Claude Code project instructions
+└── README.md                 # This file
 ```
-## Backend API (api_server.py)
+## Backend API (app/server.py)
 
 A Flask REST API server that provides dashboard data to the frontend application.
 
@@ -180,10 +186,10 @@ A Flask REST API server that provides dashboard data to the frontend application
 **Starting the Backend:**
 ```bash
 # Using the startup script
-./start_backend.sh
+./scripts/start_backend.sh
 
 # Or manually
-python api_server.py
+python -m app.server
 ```
 
 The API will be available at `http://localhost:5000`.
@@ -236,7 +242,7 @@ python -c "import onnxruntime as ort; print('Version:', ort.__version__); print(
 
 1. **Whisper Model**: Download Whisper Large-v3-Turbo
 ```bash
-# Update WHISPER_MODEL_PATH in modules/config.py
+# Update WHISPER_MODEL_PATH in core/config.py
 # Default: /mnt/ssd/huggingface/hub/models--openai--whisper-large-v3-turbo/...
 ```
 
@@ -258,7 +264,7 @@ ollama pull gemma3:1b
 
 ### Audio Configuration
 
-Edit [modules/config.py](modules/config.py):
+Edit [core/config.py](core/config.py):
 
 ```python
 # Audio settings
@@ -291,7 +297,7 @@ OLLAMA_MAX_TOKENS = 256
 ```bash
 # Default: 60% speech emotion + 40% text emotion, GPU-accelerated PiperTTS
 export USE_PIPER_TTS=true
-python chatbot_cli.py
+python -m app.app
 ```
 
 After initialization, start interacting:
@@ -304,43 +310,43 @@ After initialization, start interacting:
 ```bash
 # Use GPU-accelerated PiperTTS (default on Jetson)
 export USE_PIPER_TTS=true
-python chatbot_cli.py
+python -m app.app
 
 # Use pyttsx3 fallback (CPU-based)
 export USE_PIPER_TTS=false
-python chatbot_cli.py
+python -m app.app
 ```
 
 ### Emotion Analysis Configuration
 
 ```bash
 # Custom emotion weights (e.g., 70% speech + 30% text)
-python chatbot_cli.py --speech-emotion-weight 0.7 --text-emotion-weight 0.3
+python -m app.app --speech-emotion-weight 0.7 --text-emotion-weight 0.3
 
 # Speech-only emotion analysis (faster)
-python chatbot_cli.py --speech-emotion-weight 1.0 --text-emotion-weight 0.0
+python -m app.app --speech-emotion-weight 1.0 --text-emotion-weight 0.0
 
 # Text-only emotion analysis
-python chatbot_cli.py --speech-emotion-weight 0.0 --text-emotion-weight 1.0
+python -m app.app --speech-emotion-weight 0.0 --text-emotion-weight 1.0
 ```
 
 ### With Custom History Window
 
 ```bash
-python chatbot_cli.py --history-window 10
+python -m app.app --history-window 10
 ```
 
 ### Debug Mode
 
 ```bash
 # Prints full prompts sent to LLM
-python chatbot_cli.py --debug
+python -m app.app --debug
 ```
 
 ### Sync Memory Cache to MemoBase
 
 ```bash
-python sync_memory.py --batch-size 10
+python -m app.sync --batch-size 10
 ```
 
 ### Interactive Commands
@@ -380,17 +386,17 @@ A: I'm doing great! How can I help you?
 
 The system analyzes emotions from two independent sources and fuses them:
 
-**Speech-based Emotion** (`modules/emotion/speech_analyzer.py`):
+**Speech-based Emotion** (`models/emotion/speech.py`):
 - Model: Transformer + CNN
 - Analyzes acoustic features (prosody, tone, pitch)
 - 7 emotion classes: anger, disgust, fear, happy, neutral, sad, surprise
 
-**Text-based Emotion** (`modules/emotion/text_analyzer.py`):
+**Text-based Emotion** (`models/emotion/text.py`):
 - Model: DeBERTa-v3-Large fine-tuned on emotion classification
 - Analyzes semantic content and language patterns
 - Same 7 emotion classes for alignment
 
-**Emotion Fusion** (`chatbot_cli.py:fuse_emotions()`):
+**Emotion Fusion** (`app/cli.py:fuse_emotions()`):
 - Simple probability averaging: `p = λ * p_speech + (1-λ) * p_text`
 - Configurable weights via command-line arguments
 - Default: 60% speech + 40% text
@@ -421,16 +427,14 @@ user's personality: Extraversion: 0.70, Neuroticism: 0.50, Agreeableness: 0.60, 
 
 The chatbot supports two TTS engines with automatic fallback:
 
-**PiperTTS (GPU-accelerated, default)** (`modules/audio/piper_tts.py`):
-- GPU-accelerated neural TTS using ONNX Runtime 1.23.0
-- Real-time streaming synthesis (0.5x RTF - synthesizes 2x faster than playback)
+**PiperTTS (CPU-optimized, default)** (`audio/tts.py`):
+- CPU-optimized neural TTS using ONNX Runtime
+- Real-time streaming synthesis (~0.2 RTF on modern CPUs)
 - Parallel synthesis and playback pipeline
-- **Platform**: Optimized for Jetson AGX Orin (CUDA 12.6, cuDNN 9.3)
 - **Performance**: ~1.2s for typical response (vs ~3s for pyttsx3)
 - **Model**: Piper en_US-amy-medium (22050Hz)
-- **Critical Fix**: PyTorch CUDA pre-initialization to avoid malloc() conflicts (see `DEBUG.md`)
 
-**pyttsx3 (CPU fallback)** (`modules/audio/recorder.py:TTSEngine`):
+**pyttsx3 (fallback)** (`audio/recorder.py:TTSEngine`):
 - CPU-based offline TTS
 - No GPU required
 - Automatic fallback if PiperTTS initialization fails

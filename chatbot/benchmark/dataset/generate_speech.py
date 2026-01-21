@@ -23,7 +23,7 @@ from typing import Dict, List, Any, Tuple
 # Add repo root to path for logger/config
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
-from modules.config import logger  # noqa: E402
+from core.config import logger  # noqa: E402
 
 OPENAI_TTS_MODEL = "tts-1"
 OPENAI_TTS_VOICE = "alloy"

@@ -20,7 +20,7 @@ from typing import Dict, Any
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
 from pydantic import BaseModel, Field
-from modules.config import logger
+from core.config import logger
 from .llm_router import get_structured_response
 
 
@@ -76,17 +76,17 @@ RESPONSE:
 {response}
 
 RUBRIC (1-5):
-5 - Highly relevant: Addresses the main topic or concern from the query appropriately
-4 - Mostly relevant: Responds to the query with reasonable connection to the topic
-3 - Moderately relevant: Related to the general topic area, even if not addressing all details
-2 - Somewhat related: Touches on related concepts but may miss the specific point
-1 - Completely irrelevant: Unrelated to the query or addresses entirely different topic
+5 - Highly relevant: Directly addresses the specific query with clear focus and understanding.
+4 - Mostly relevant: Clearly responds to the main topic or concern, even if not covering all details.
+3 - Moderately relevant: Related to the topic and generally on-point, but may be somewhat generic or miss some aspects.
+2 - Somewhat related: Only loosely related or addresses the topic in a very generic way.
+1 - Completely irrelevant: Unrelated to the query or addresses an entirely different topic.
 
 EVALUATION CRITERIA:
-1. Is the response generally on-topic and related to the query subject?
-2. Does it show understanding of the user's general concern or question?
-3. Even if brief, does it attempt to address the query in a reasonable way?
-4. Give credit for responses that are in the right topic area, even if not comprehensive.
+1. Does the response address the main concern or topic of the query?
+2. Does it demonstrate understanding of what the user is asking about?
+3. Is the response reasonably focused on the query topic, or is it off-topic?
+4. Responses that are on-topic and attempt to address the query should receive 3-4.
 
 Provide:
 1. relevance_score: Integer from 1-5 based on rubric

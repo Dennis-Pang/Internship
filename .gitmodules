@@ -1,0 +1,3 @@
+[submodule "neutts"]
+	path = neutts
+	url = https://github.com/neuphonic/neutts.git

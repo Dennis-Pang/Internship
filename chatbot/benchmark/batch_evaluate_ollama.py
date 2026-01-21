@@ -2,7 +2,7 @@
 
 This script:
 1. Reads all samples from dataset/samples/
-2. Generates responses using LOCAL Ollama models (gemma3:4b, phi3:3.8b, qwen2.5:3b-instruct)
+2. Generates responses using LOCAL Ollama models (6 models: gemma3:4b, phi3:3.8b, qwen2.5:3b-instruct, mistral:7b-instruct, qwen2.5:7b-instruct, llama3.1:8b)
 3. Evaluates with all 12 metrics using CLOUD API judge models (auto-selected)
 4. Saves results as CSV: {model_name}_{num_samples}.csv
 5. Auto-generates TXT summary: {model_name}_{num_samples}_summary.txt
@@ -15,7 +15,7 @@ Key Features:
 - TXT summary: Human-readable summary with rankings and score distributions
 
 Usage:
-    # Evaluate all 100 samples with all 3 models (recommended)
+    # Evaluate all 100 samples with all 6 models (recommended)
     python batch_evaluate_ollama.py
 
     # Evaluate only first 10 samples (quick test)
@@ -55,8 +55,8 @@ if env_file.exists():
 # Add parent directory to path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from modules.config import logger
-from modules.llm import client as ollama_client
+from core.config import logger
+from models.llm import client as ollama_client
 
 # Import metrics
 from metrics import simplified_metrics as metrics
@@ -124,7 +124,7 @@ def generate_response_ollama(
     model: str,
     temperature: float = 0.7,
     max_tokens: int = 256,
-) -> Optional[str]:
+) -> tuple[Optional[str], Optional[float]]:
     """Generate response from local Ollama.
 
     Args:
@@ -134,21 +134,30 @@ def generate_response_ollama(
         max_tokens: Max tokens to generate
 
     Returns:
-        Generated response text, or None if failed
+        Tuple of (response text, generation time in seconds), or (None, None) if failed
     """
+    import time
+
     try:
+        start_time = time.time()
         response = ollama_client.chat.completions.create(
             model=model,
             messages=[{"role": "user", "content": prompt}],
             temperature=temperature,
             max_tokens=max_tokens,
+            stream=False,  # Disable streaming for accurate timing
         )
-        return response.choices[0].message.content.strip()
+        end_time = time.time()
+
+        generation_time = end_time - start_time
+        response_text = response.choices[0].message.content.strip()
+
+        return response_text, generation_time
 
     except Exception as e:
         logger.error(f"Failed to generate response with {model}: {e}")
         traceback.print_exc()
-        return None
+        return None, None
 
 
 # ============================================================================
@@ -376,7 +385,12 @@ def run_batch_evaluation(
         judge_model: Judge model name (None = auto-select best)
         output_dir: Directory to save results
     """
-    output_path = Path(__file__).parent / output_dir
+    # Create timestamped directory: YYYYMMDD_HHMM
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M")
+    base_output_path = Path(__file__).parent / output_dir
+    base_output_path.mkdir(exist_ok=True)
+
+    output_path = base_output_path / timestamp
     output_path.mkdir(exist_ok=True)
 
     num_samples = end - start + 1
@@ -409,9 +423,22 @@ def run_batch_evaluation(
         logger.info(f"Evaluating model: {model}")
         logger.info(f"{'='*80}")
 
+        # Warm-up: Pre-load model to avoid including loading time in first sample
+        logger.info(f"Warming up model {model}...")
+        warmup_response, warmup_time = generate_response_ollama(
+            prompt="Hello, this is a test.",
+            model=model,
+            temperature=0.7,
+            max_tokens=10,
+        )
+        if warmup_response:
+            logger.info(f"✓ Model warmed up (warmup time: {warmup_time:.2f}s, will not be counted)")
+        else:
+            logger.warning(f"⚠ Model warmup failed, continuing anyway...")
+
         model_safe_name = model.replace("/", "_").replace(":", "_")
         csv_file = output_path / f"{model_safe_name}_{num_samples}.csv"
-        fieldnames = ["sample_id", "query", "response"] + metric_names
+        fieldnames = ["sample_id", "query", "response", "generation_time_s"] + metric_names
         all_results = []
 
         # Open CSV file for streaming writes
@@ -435,11 +462,12 @@ def run_batch_evaluation(
 
                     # Generate response
                     logger.info(f"Generating response with {model}...")
-                    response = generate_response_ollama(sample["prompt_text"], model)
+                    response, generation_time = generate_response_ollama(sample["prompt_text"], model)
                     if not response:
                         logger.error(f"Failed to generate response for sample {sample_id:03d}")
                         continue
 
+                    logger.info(f"Response generated in {generation_time:.2f}s")
                     logger.info(f"Response preview: {response[:100]}...")
 
                     # Parse context
@@ -459,6 +487,7 @@ def run_batch_evaluation(
                         "sample_id": sample["id"],
                         "query": sample["query"],
                         "response": response,
+                        "generation_time_s": round(generation_time, 2),
                         **scores  # Unpack all metric scores
                     }
                     all_results.append(result)
@@ -468,6 +497,7 @@ def run_batch_evaluation(
                         "sample_id": result["sample_id"],
                         "query": result["query"],
                         "response": result["response"],
+                        "generation_time_s": result["generation_time_s"],
                     }
                     for metric in metric_names:
                         row[metric] = result.get(metric, None)
@@ -475,7 +505,7 @@ def run_batch_evaluation(
                     writer.writerow(row)
                     f.flush()  # Force write to disk immediately
 
-                    logger.info(f"✓ Sample {sample_id:03d} saved to CSV")
+                    logger.info(f"✓ Sample {sample_id:03d} saved to CSV (generation_time: {generation_time:.2f}s)")
                     logger.info(f"Sample {sample_id:03d} scores: {scores}")
 
                 except Exception as exc:
@@ -487,6 +517,7 @@ def run_batch_evaluation(
                         "sample_id": f"{sample_id:03d}",
                         "query": "ERROR",
                         "response": f"Error: {str(exc)}",
+                        "generation_time_s": None,
                     }
                     for metric in metric_names:
                         error_row[metric] = None
@@ -503,13 +534,20 @@ def run_batch_evaluation(
         else:
             logger.error(f"No successful results for model {model}")
 
-    # Generate comparison TXT after all models are done
+    # Generate comparison TXT after all models are done (optional)
     try:
         from generate_comparison import generate_comparison_txt
-        comparison_file = generate_comparison_txt()
+        comparison_file = generate_comparison_txt(results_dir=str(output_path))
         logger.info(f"\n✓ Model comparison saved to: {comparison_file}")
+    except ImportError:
+        logger.info(f"\nNote: generate_comparison.py not found, skipping comparison generation")
     except Exception as e:
         logger.warning(f"Failed to generate comparison TXT: {e}")
+
+    # Log final output location
+    logger.info(f"\n{'='*80}")
+    logger.info(f"All results saved to: {output_path}")
+    logger.info(f"{'='*80}")
 
 
 def print_summary_statistics(results: List[Dict], metric_names: List[str], model: str):
@@ -543,8 +581,15 @@ if __name__ == "__main__":
     parser.add_argument(
         "--models",
         nargs="+",
-        default=["gemma3:4b", "phi3:3.8b", "qwen2.5:3b-instruct"],
-        help="Ollama model names (default: gemma3:4b phi3:3.8b qwen2.5:3b-instruct)"
+        default=[
+            "gemma3:4b",
+            "phi3:3.8b",
+            "qwen2.5:3b-instruct",
+            "mistral:7b-instruct",
+            "qwen2.5:7b-instruct",
+            "llama3.1:8b"
+        ],
+        help="Ollama model names (default: gemma3:4b phi3:3.8b qwen2.5:3b-instruct mistral:7b-instruct qwen2.5:7b-instruct llama3.1:8b)"
     )
     parser.add_argument(
         "--start",

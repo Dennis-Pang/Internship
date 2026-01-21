@@ -29,7 +29,7 @@ from pydantic import BaseModel, Field
 # Add parent directory to path for imports
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
-from modules.config import logger
+from core.config import logger
 from .llm_router import get_structured_response, get_default_model
 
 
@@ -114,16 +114,21 @@ Assistant response:
 {response}
 
 Task:
-A) Congruence score (1-5): Does the assistant's tone appropriately match the user's emotional state?
-- 5: clearly aligned
-- 3: somewhat aligned / mixed
-- 1: tone clashes with user emotion
+Assign an emotional congruence score (1-5): Does the assistant's tone appropriately match the user's emotional state?
+
+RUBRIC:
+- 5: Excellent alignment; tone strongly and appropriately matches emotional state (e.g., gentle/validating for sadness, warm/encouraging for happy).
+- 4: Good alignment; tone generally matches the emotional context with appropriate warmth or concern.
+- 3: Moderate alignment; tone is reasonable and appropriate, though may be somewhat neutral or miss some emotional nuance.
+- 2: Poor alignment; tone noticeably clashes with emotional state (e.g., too upbeat when user is distressed, too cold when warmth is needed).
+- 1: No alignment; tone is completely inappropriate or contradicts user's emotional state.
 
 Rules:
 - Do not infer emotions not supported by the user message or provided distribution.
 - Judge the assistant's tone and emotional framing, not medical correctness.
 - Consider emotional intensity (e.g., high sadness should be met with gentle, validating tone).
-- Note when the assistant is overly cheerful/neutral while user signals distress, or overly negative when user is upbeat.
+- Responses with appropriate tone that don't clash should receive 3-4.
+- Reserve 1-2 for responses with clearly inappropriate or clashing tone.
 
 Return structured JSON with:
 - emotional_congruence_score (int 1-5)
