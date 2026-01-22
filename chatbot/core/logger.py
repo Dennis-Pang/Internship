@@ -9,9 +9,9 @@ import json
 
 class StructuredLogger:
     """Logger with structured logging support and consistent formatting."""
-    
-    _instance: Optional['StructuredLogger'] = None
-    
+
+    _instances: Dict[str, 'StructuredLogger'] = {}
+
     def __init__(self, name: str = "chatbot", level: str = "INFO"):
         """Initialize structured logger.
         
@@ -26,15 +26,18 @@ class StructuredLogger:
     def _setup_handler(self, level: str) -> None:
         """Setup logger with console handler."""
         self.logger.setLevel(getattr(logging, level.upper(), logging.INFO))
-        
+
+        # Prevent propagation to root logger (avoids duplicate logs)
+        self.logger.propagate = False
+
         # Avoid adding handlers if already configured
         if self.logger.handlers:
             return
-        
+
         # Console handler with structured format
         handler = logging.StreamHandler(sys.stdout)
         handler.setLevel(getattr(logging, level.upper(), logging.INFO))
-        
+
         # Structured format
         formatter = logging.Formatter(
             '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
@@ -44,10 +47,10 @@ class StructuredLogger:
     
     @classmethod
     def get_instance(cls, name: str = "chatbot") -> 'StructuredLogger':
-        """Get or create singleton instance."""
-        if cls._instance is None:
-            cls._instance = cls(name)
-        return cls._instance
+        """Get or create singleton instance for given name."""
+        if name not in cls._instances:
+            cls._instances[name] = cls(name)
+        return cls._instances[name]
     
     def set_level(self, level: str) -> None:
         """Set logging level.

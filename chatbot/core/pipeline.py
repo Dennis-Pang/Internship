@@ -1,14 +1,28 @@
 """Core pipeline components and analysis helpers."""
 from __future__ import annotations
 
+import atexit
 import random
 import time
-from concurrent.futures import ThreadPoolExecutor
+from concurrent.futures import ThreadPoolExecutor, Future
 from dataclasses import dataclass, field
 from typing import Any, Callable, Dict, List, Optional, Tuple
 
 import numpy as np
 import pandas as pd
+
+
+# Shared thread pool executor for parallel operations (avoids creation overhead)
+_shared_executor: Optional[ThreadPoolExecutor] = None
+
+
+def get_shared_executor() -> ThreadPoolExecutor:
+    """Get or create shared thread pool executor."""
+    global _shared_executor
+    if _shared_executor is None:
+        _shared_executor = ThreadPoolExecutor(max_workers=4, thread_name_prefix="pipeline")
+        atexit.register(_shared_executor.shutdown, wait=False)
+    return _shared_executor
 
 from .config import (
     DEFAULT_HISTORY_WINDOW,
@@ -246,15 +260,15 @@ class AudioProcessor:
     def process_audio_parallel(self, audio_file: str) -> Dict[str, Any]:
         """Process audio file with parallel transcription and emotion analysis."""
         with self.performance_tracker.start("parallel_audio_processing"):
-            with ThreadPoolExecutor(max_workers=MAX_PARALLEL_WORKERS) as executor:
-                transcription_future = executor.submit(self.transcribe_audio_file, audio_file)
-                speech_emotion_future = executor.submit(self.analyze_speech_emotion, audio_file)
+            executor = get_shared_executor()
+            transcription_future = executor.submit(self.transcribe_audio_file, audio_file)
+            speech_emotion_future = executor.submit(self.analyze_speech_emotion, audio_file)
 
-                text = transcription_future.result()
-                self.logger.info(f"User input: {text}")
-                speech_emotion = speech_emotion_future.result()
+            text = transcription_future.result()
+            self.logger.info(f"User input: {text}")
+            speech_emotion = speech_emotion_future.result()
 
-                return {"text": text, "speech_emotion": speech_emotion}
+            return {"text": text, "speech_emotion": speech_emotion}
 
 
 class TextAnalyzer:
@@ -299,20 +313,20 @@ class TextAnalyzer:
     def analyze_text_parallel(self, text: str) -> Dict[str, Any]:
         """Perform parallel text analysis (emotion, personality, memory)."""
         with self.performance_tracker.start("parallel_text_analysis"):
-            with ThreadPoolExecutor(max_workers=MAX_PARALLEL_WORKERS) as executor:
-                text_emotion_future = executor.submit(self.analyze_text_emotion, text)
-                personality_future = executor.submit(self.analyze_personality, text)
-                memory_future = executor.submit(self.fetch_memory_context, text)
+            executor = get_shared_executor()
+            text_emotion_future = executor.submit(self.analyze_text_emotion, text)
+            personality_future = executor.submit(self.analyze_personality, text)
+            memory_future = executor.submit(self.fetch_memory_context, text)
 
-                text_emotion = text_emotion_future.result()
-                personality_df = personality_future.result()
-                memory_context = memory_future.result()
+            text_emotion = text_emotion_future.result()
+            personality_df = personality_future.result()
+            memory_context = memory_future.result()
 
-                return {
-                    "text_emotion": text_emotion,
-                    "personality_df": personality_df,
-                    "memory_context": memory_context,
-                }
+            return {
+                "text_emotion": text_emotion,
+                "personality_df": personality_df,
+                "memory_context": memory_context,
+            }
 
 
 class EmotionFusion:
@@ -494,6 +508,7 @@ class DataPersister:
         self.db_session = db_session
         self.notification_service = get_default_service()
         self.logger = get_logger("data_persister")
+        self._pending_future: Optional[Future] = None
 
     def save_conversation_data(
         self,
@@ -535,6 +550,45 @@ class DataPersister:
             self.logger.debug("Cache flushed and dashboard notified")
         except Exception as exc:
             self.logger.error(f"Failed to flush cache and notify: {exc}")
+
+    def save_and_notify_background(
+        self,
+        speaker: str,
+        personality_df: pd.DataFrame,
+        user_uuid: str,
+        user_text: str,
+        response: str,
+        speech_emotion: Optional[Dict] = None,
+        text_emotion: Optional[Dict] = None,
+        fused_emotion: Optional[Dict] = None,
+    ) -> Future:
+        """Save conversation data and notify in background thread.
+
+        Returns Future that can be awaited if needed.
+        """
+        def _persist():
+            try:
+                self.save_conversation_data(
+                    speaker, personality_df, user_uuid, user_text, response,
+                    speech_emotion, text_emotion, fused_emotion
+                )
+                self.flush_and_notify(speaker)
+            except Exception as exc:
+                self.logger.error(f"Background persistence failed: {exc}")
+
+        executor = get_shared_executor()
+        self._pending_future = executor.submit(_persist)
+        return self._pending_future
+
+    def wait_for_pending(self, timeout: float = 5.0) -> None:
+        """Wait for any pending background persistence to complete."""
+        if self._pending_future is not None:
+            try:
+                self._pending_future.result(timeout=timeout)
+            except Exception as exc:
+                self.logger.error(f"Pending persistence failed: {exc}")
+            finally:
+                self._pending_future = None
 
 
 class AudioProcessingPipeline:
@@ -634,7 +688,11 @@ class AudioProcessingPipeline:
                     memobase_context=memory_context,
                 )
 
-                self.data_persister.save_conversation_data(
+                # Update conversation history immediately (fast, needed for next turn)
+                self.conversation_manager.add_exchange(user_text, response_content)
+
+                # Start data persistence in background (runs while TTS finishes)
+                self.data_persister.save_and_notify_background(
                     self.app_state.current_speaker,
                     personality_df,
                     user_uuid,
@@ -644,8 +702,6 @@ class AudioProcessingPipeline:
                     text_emotion=text_emotion,
                     fused_emotion=fused_emotion,
                 )
-                self.data_persister.flush_and_notify(self.app_state.current_speaker)
-                self.conversation_manager.add_exchange(user_text, response_content)
 
                 first_playback_time = self.llm_generator.finish_streaming()
                 if first_playback_time:
@@ -659,6 +715,9 @@ class AudioProcessingPipeline:
                     total_processing_time = time.perf_counter() - total_processing_start
                     self.logger.info("Processing completed in %.4fs", total_processing_time)
                     self.performance_tracker.record("Total processing (fallback)", total_processing_time)
+
+                # Wait for background persistence before logging summary
+                self.data_persister.wait_for_pending(timeout=2.0)
 
                 self.performance_tracker.log_summary("Audio Processing Performance", self.logger.logger)
                 self.notification_service.push_status(

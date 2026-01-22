@@ -2,16 +2,18 @@
 
 # Set environment variables BEFORE heavy imports (avoids ONNX/PyTorch conflicts)
 import os
-
+import threading
 import argparse
-from typing import Any, Tuple
+from typing import Any, Optional, Tuple
 
 import torch
 
 try:
     import keyboard  # type: ignore
     _KEYBOARD_AVAILABLE = True
-except Exception:
+except Exception as e:
+    import sys
+    print(f"keyboard import failed: {type(e).__name__}: {e}", file=sys.stderr)
     keyboard = None  # type: ignore
     _KEYBOARD_AVAILABLE = False
 
@@ -90,36 +92,63 @@ def warm_up_llm() -> None:
 
 
 def initialize_system(app_state: ApplicationState, logger) -> Tuple[AudioProcessingPipeline, Any, Any]:
-    """Initialize dependencies and return pipeline + resources."""
+    """Initialize dependencies and return pipeline + resources.
+
+    Optimized startup sequence:
+    - NeuTTS (CPU, 12-16s) runs in background thread
+    - GPU models load sequentially while NeuTTS loads in parallel
+    - Total time: max(NeuTTS, GPU_models) instead of sum
+    """
     startup_tracker = PerformanceTracker("Startup")
 
-    # Database
+    # Container for TTS engine (set by background thread or main thread)
+    tts_result: dict = {"engine": None, "error": None}
+    tts_thread: Optional[threading.Thread] = None
+
+    def _init_tts_background():
+        """Initialize TTS engine in background thread (for NeuTTS CPU loading)."""
+        try:
+            if USE_NEUTTS:
+                logger.info("Initializing NeuTTS engine (PyTorch-based, background)")
+                engine = NeuTTSEngine()
+                if engine.tts is None:
+                    logger.warning("NeuTTS initialization failed, falling back to pyttsx3")
+                    engine = TTSEngine()
+                tts_result["engine"] = engine
+            elif USE_PIPER_TTS:
+                logger.info("Initializing Piper TTS engine")
+                engine = PiperTTSEngine()
+                if engine.engine is None:
+                    logger.warning("Piper TTS initialization failed, falling back to pyttsx3")
+                    engine = TTSEngine()
+                tts_result["engine"] = engine
+            else:
+                logger.info("Using pyttsx3 TTS engine")
+                tts_result["engine"] = TTSEngine()
+        except Exception as e:
+            logger.error(f"TTS initialization failed: {e}")
+            tts_result["error"] = e
+            tts_result["engine"] = TTSEngine()  # Fallback
+
+    # === PHASE 1: Start NeuTTS in background (CPU-only, no GPU conflict) ===
+    if USE_NEUTTS:
+        with startup_tracker.start("TTS engine initialization (background start)"):
+            tts_thread = threading.Thread(target=_init_tts_background, daemon=True)
+            tts_thread.start()
+            logger.info("NeuTTS loading in background thread while GPU models load...")
+    else:
+        # Non-NeuTTS engines are fast, load synchronously
+        with startup_tracker.start("TTS engine initialization"):
+            _init_tts_background()
+
+    # === PHASE 2: Load GPU models sequentially (while NeuTTS loads in parallel) ===
+
+    # Database (fast)
     with startup_tracker.start("Database initialization"):
         Session = init_db()
         db_session = Session()
 
-    # TTS
-    with startup_tracker.start("TTS engine initialization"):
-        if USE_NEUTTS:
-            logger.info("Initializing NeuTTS engine (PyTorch-based)")
-            tts_engine = NeuTTSEngine()
-            if tts_engine.tts is None:
-                logger.warning("NeuTTS initialization failed, falling back to pyttsx3")
-                tts_engine = TTSEngine()
-        elif USE_PIPER_TTS:
-            logger.info("Initializing Piper TTS engine")
-            tts_engine = PiperTTSEngine()
-            if tts_engine.engine is None:
-                logger.warning("Piper TTS initialization failed, falling back to pyttsx3")
-                tts_engine = TTSEngine()
-        else:
-            logger.info("Using pyttsx3 TTS engine")
-            tts_engine = TTSEngine()
-
-    with startup_tracker.start("TTS warm-up"):
-        warm_up_tts(tts_engine)
-
-    # Models
+    # GPU Models (sequential to avoid VRAM spikes)
     with startup_tracker.start("Big5 personality model & tokenizer"):
         try:
             load_personality_model()
@@ -143,7 +172,7 @@ def initialize_system(app_state: ApplicationState, logger) -> Tuple[AudioProcess
                 logger.error(f"Failed to load text emotion model: {exc}")
                 logger.warning("Continuing without text emotion analysis")
 
-    # Whisper
+    # Whisper (large model, keep sequential)
     use_gpu = torch.cuda.is_available()
     with startup_tracker.start("Whisper speech-to-text model"):
         try:
@@ -156,9 +185,22 @@ def initialize_system(app_state: ApplicationState, logger) -> Tuple[AudioProcess
     with startup_tracker.start("Whisper warm-up"):
         AudioProcessor(app_state.whisper_pipeline).warm_up_whisper()
 
-    # LLM warm-up
+    # LLM warm-up (external service, no local GPU usage)
     with startup_tracker.start("Ollama LLM warm-up"):
         warm_up_llm()
+
+    # === PHASE 3: Wait for NeuTTS background thread to complete ===
+    if tts_thread is not None:
+        with startup_tracker.start("TTS engine initialization (wait for completion)"):
+            tts_thread.join()
+            if tts_result["error"]:
+                logger.warning(f"NeuTTS had error: {tts_result['error']}")
+
+    tts_engine = tts_result["engine"]
+
+    # TTS warm-up (after engine is ready)
+    with startup_tracker.start("TTS warm-up"):
+        warm_up_tts(tts_engine)
 
     # Log startup summary
     startup_tracker.log_summary("System Initialization", logger.logger)
@@ -183,6 +225,8 @@ def interactive_loop(pipeline: AudioProcessingPipeline, app_state: ApplicationSt
             if hold_mode:
                 try:
                     event = keyboard.read_event()  # type: ignore[attr-defined]
+                    # Debug: show what event was captured
+                    print(f"[DEBUG] Event: type={event.event_type}, name={event.name}, scan_code={event.scan_code}")
                 except Exception as exc:
                     logger.warning(f"keyboard read failed; falling back to text commands: {exc}")
                     hold_mode = False

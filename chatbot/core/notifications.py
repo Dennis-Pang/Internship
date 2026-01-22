@@ -52,27 +52,13 @@ class NotificationService:
         self._executor.submit(_send)
 
     def notify_dashboard_update(self, user_id: str) -> None:
-        """Notify backend that dashboard data should be updated.
+        """Notify backend that dashboard data should be updated (non-blocking).
 
         Args:
             user_id: User identifier
         """
-        try:
-            url = f"{self.backend_url}/api/notify/{user_id}"
-            response = requests.post(url, timeout=1.0)
-            if response.status_code == 200:
-                result = response.json()
-                logger.info(
-                    f"Dashboard notified: {result.get('status')} ({result.get('clients', 0)} clients)"
-                )
-            else:
-                logger.warning(f"Dashboard notification failed: {response.status_code}")
-        except requests.exceptions.Timeout:
-            logger.debug("Dashboard notification timeout (backend may not be running)")
-        except requests.exceptions.ConnectionError:
-            logger.debug("Dashboard notification failed (backend not reachable)")
-        except Exception as e:
-            logger.debug(f"Dashboard notification error: {e}")
+        # Use fire-and-forget to avoid blocking the main thread
+        self._fire_and_forget_post(f"/api/notify/{user_id}", {}, timeout=1.0)
 
     def push_user_input(self, user_id: str, text: str) -> None:
         """Push user input text to backend immediately.

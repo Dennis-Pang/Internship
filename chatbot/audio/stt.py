@@ -69,7 +69,7 @@ def load_whisper_pipeline(use_gpu: bool = None) -> Any:
         pipeline_kwargs: Dict[str, Any] = {
             "task": "automatic-speech-recognition",
             "model": WHISPER_MODEL_PATH,
-            "dtype": torch_dtype,
+            "torch_dtype": torch_dtype,
             "device": pipeline_device,
             "model_kwargs": {
                 "attn_implementation": "sdpa",

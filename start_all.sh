@@ -209,7 +209,20 @@ cd "$CHATBOT_DIR"
 export USE_NEUTTS=true
 export USE_PIPER_TTS=false
 
-python3 -m app.app
+# Preserve user's Python paths for sudo
+USER_LOCAL_PACKAGES="/home/user/.local/lib/python3.10/site-packages"
+USER_PACKAGES="/home/user/lib/python3.10/site-packages"
+COMBINED_PYTHONPATH="${USER_LOCAL_PACKAGES}:${USER_PACKAGES}:${PYTHONPATH}"
+
+# Run with sudo for keyboard input device access (hold-to-talk)
+# Pass environment variables directly to bypass sudo env_reset
+sudo \
+    PYTHONPATH="$COMBINED_PYTHONPATH" \
+    HOME="/home/user" \
+    HF_HOME="/home/user/.cache/huggingface" \
+    USE_NEUTTS="$USE_NEUTTS" \
+    USE_PIPER_TTS="$USE_PIPER_TTS" \
+    python3 -m app.app
 
 # When chatbot exits or Ctrl+C is pressed, cleanup
 cleanup
