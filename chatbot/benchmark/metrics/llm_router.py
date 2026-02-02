@@ -173,8 +173,14 @@ def get_structured_response(
                 "model": model,
                 "messages": messages,
                 "response_model": response_model,
-                "temperature": temperature,
             }
+
+            # o1/o3 family disallow temperature; omit it
+            if "o1" in model.lower() or "o3" in model.lower():
+                pass
+            else:
+                kwargs["temperature"] = temperature
+
             if max_tokens:
                 # GPT-5.2 and newer models require max_completion_tokens instead of max_tokens
                 if "gpt-5" in model.lower() or "o1" in model.lower() or "o3" in model.lower():

@@ -1,25 +1,92 @@
 # AI Voice Chatbot
 
-Voice chatbot with Whisper STT, NeuTTS/Piper TTS, fused emotion analysis, Big Five personality, and MemoBase-backed memory.
+Voice chatbot with Whisper STT, Kokoro TTS, fused emotion analysis (speech + text), Big Five personality detection, and MemoBase-backed long-term memory.
 
 ## Run
+
 ```bash
 cd chatbot
 python -m app.app           # Interactive voice CLI
 python -m app.server        # REST/SSE backend for the dashboard
+python -m app.sync          # Sync memory cache to MemoBase
 ```
-Key flags (CLI): `--history-window`, `--speech-emotion-weight`, `--text-emotion-weight`, `--debug`.  
-Toggle TTS engines via env: `USE_NEUTTS=true` (default), `USE_PIPER_TTS=true` or both false to fall back to pyttsx3.
+
+## CLI Flags
+
+```bash
+python -m app.app \
+  --history-window 5         # Conversation rounds for short-term memory (default: 5)
+  --speech-emotion-weight 0.5 # Weight for speech-based emotion (0.0-1.0, 0=disabled)
+  --text-emotion-weight 0.5   # Weight for text-based emotion (0.0-1.0, 0=disabled)
+  --debug                     # Print full prompts sent to LLM
+```
+
+## Environment Variables
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `USE_KOKORO` | `true` | Use Kokoro TTS engine (`false` to fallback to pyttsx3) |
+| `OLLAMA_MODEL` | `qwen2.5:3b-infect` | LLM model name |
+| `OLLAMA_BASE_URL` | `http://localhost:11434/v1` | Ollama API endpoint |
+| `MEMOBASE_PROJECT_URL` | `http://localhost:8019` | MemoBase API base URL |
+| `MEMOBASE_API_KEY` | `secret` | MemoBase authentication token |
+| `LOG_LEVEL` | `INFO` | Logging verbosity (DEBUG, INFO, WARNING, ERROR) |
+| `PLAY_GREETING` | `false` | Enable greeting TTS on startup |
+| `KOKORO_VOICE` | `af_heart` | Kokoro TTS voice |
+| `KOKORO_SPEED` | `1.0` | Kokoro TTS speed multiplier |
+| `KOKORO_DEVICE` | `auto` | Kokoro device (`auto`, `cpu`, `cuda`) |
 
 ## Features
-- Whisper transcription with configurable recording (hold-to-talk or timed).
-- Emotion fusion (speech + text) and personality extraction; Ollama model configurable via `OLLAMA_MODEL`.
-- Long-term memory through MemoBase; short-term cache in SQLite (`data/memories.sqlite`) and JSON (`data/memory_cache.json`).
-- Backend exposes `/api/dashboard/<user_id>`, `/api/stream/<user_id>`, `/api/notify/<user_id>` plus memory CRUD endpoints consumed by the frontend.
+
+- **Whisper STT**: GPU-accelerated speech-to-text with configurable recording (hold-to-talk or timed)
+- **Emotion Fusion**: Dual-source emotion analysis combining speech acoustics (CNN+Transformer) and text semantics (DeBERTa-v3-Large), with configurable weighting
+- **Big Five Personality**: BERT-based personality detection (Extraversion, Neuroticism, Agreeableness, Conscientiousness, Openness)
+- **Memory System**:
+  - Short-term: SQLite database + JSON cache with sliding window history
+  - Long-term: MemoBase API with semantic search for context retrieval
+- **Kokoro TTS**: High-quality neural TTS with real-time audio streaming to frontend
+- **Real-time Dashboard**: Flask backend with Server-Sent Events (SSE) for live updates
 
 ## Layout
-- `app/app.py` – interactive loop and audio pipeline setup.
-- `app/server.py` – Flask API + SSE streaming.
-- `audio/` – STT/TTS engines (Whisper, NeuTTS, Piper).
-- `models/` – emotion and personality models.
-- `core/` – configuration, DB, logging, and pipeline utilities.
+
+```
+chatbot/
+├── app/
+│   ├── app.py          # Interactive voice CLI entrypoint
+│   ├── server.py       # Flask API + SSE streaming backend
+│   └── sync.py         # Memory cache sync utility
+├── audio/
+│   ├── recorder.py     # Audio recording (sounddevice)
+│   ├── stt.py          # Whisper STT pipeline
+│   └── tts.py          # Kokoro TTS engine
+├── models/
+│   ├── emotion/        # Speech + Text emotion models
+│   ├── llm.py          # Ollama chat client
+│   └── personality.py  # BERT Big Five model
+├── core/
+│   ├── config.py       # Configuration constants
+│   ├── database.py     # SQLAlchemy models
+│   ├── memory.py       # MemoBase API + cache management
+│   ├── notifications.py # HTTP notification service
+│   ├── pipeline.py     # Core processing pipeline
+│   └── logger.py       # Structured logging
+├── data/               # Runtime data (SQLite, models cache)
+├── requirements.txt    # Python dependencies
+└── README.md           # This file
+```
+
+## External Services
+
+Before running, ensure these services are running:
+
+- **Ollama**: `http://localhost:11434` with model specified in `OLLAMA_MODEL`
+- **MemoBase**: `http://localhost:8019` (default) for long-term memory storage
+
+```bash
+# Start Ollama
+ollama serve
+ollama pull qwen2.5:3b-instruct
+
+# Optional: start MemoBase
+# docker run -p 8019:8019 memobase:latest
+```

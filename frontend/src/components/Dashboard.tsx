@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import RadarChart from './RadarChart';
 import DualRadarChart from './DualRadarChart';
 import TranscriptionDisplay from './TranscriptionDisplay';
 import MemoryViewer from './MemoryViewer';
 import { fetchDashboardData, subscribeToUpdates, fetchDefaultUser } from '../api/client';
 import type { DashboardData } from '../types';
+import { StreamingAudioPlayer } from '../audio/StreamingAudioPlayer';
 
 const Dashboard: React.FC = () => {
   const [data, setData] = useState<DashboardData | null>(null);
@@ -17,6 +18,10 @@ const Dashboard: React.FC = () => {
   const [currentUserInput, setCurrentUserInput] = useState<string>('');
   const [currentTimestamp, setCurrentTimestamp] = useState<string>('');
   const [currentStatus, setCurrentStatus] = useState<string>('idle');
+  const [audioEnabled, setAudioEnabled] = useState<boolean>(false);
+  const audioPlayerRef = useRef<StreamingAudioPlayer | null>(null);
+  const unsubscribeRef = useRef<null | (() => void)>(null);
+  const retryTimerRef = useRef<number | null>(null);
 
   const loadDashboardData = async (currentUserId: string) => {
     try {
@@ -33,13 +38,32 @@ const Dashboard: React.FC = () => {
   };
 
   useEffect(() => {
+    if (!audioPlayerRef.current) {
+      audioPlayerRef.current = new StreamingAudioPlayer();
+    }
+  }, []);
+
+  useEffect(() => {
     // Fetch default user from backend config first
+    let isActive = true;
+
     const initDashboard = async () => {
       const defaultUser = await fetchDefaultUser();
+      if (!isActive) return;
+      if (!defaultUser) {
+        retryTimerRef.current = window.setTimeout(initDashboard, 2000);
+        return;
+      }
       console.log('[Dashboard] Using user:', defaultUser);
       setUserId(defaultUser);
 
       await loadDashboardData(defaultUser);
+      if (!isActive) return;
+
+      if (unsubscribeRef.current) {
+        unsubscribeRef.current();
+        unsubscribeRef.current = null;
+      }
 
       const unsubscribe = subscribeToUpdates(
         defaultUser,
@@ -75,22 +99,35 @@ const Dashboard: React.FC = () => {
           onStatusUpdate: (status) => {
             // Update processing status
             setCurrentStatus(status);
+          },
+          onAudioChunk: (chunk, sampleRate, isFinal) => {
+            audioPlayerRef.current?.handleChunk(chunk, sampleRate, isFinal);
           }
         }
       );
 
-      return unsubscribe;
+      unsubscribeRef.current = unsubscribe;
     };
 
-    let cleanup: (() => void) | undefined;
-    initDashboard().then(unsubscribe => {
-      cleanup = unsubscribe;
-    });
+    initDashboard();
 
     return () => {
-      if (cleanup) cleanup();
+      isActive = false;
+      if (retryTimerRef.current) {
+        window.clearTimeout(retryTimerRef.current);
+        retryTimerRef.current = null;
+      }
+      if (unsubscribeRef.current) {
+        unsubscribeRef.current();
+        unsubscribeRef.current = null;
+      }
     };
   }, []);
+
+  const enableAudio = async () => {
+    const ok = await audioPlayerRef.current?.enable();
+    setAudioEnabled(Boolean(ok));
+  };
 
   if (isLoading) {
     return (
@@ -140,6 +177,16 @@ const Dashboard: React.FC = () => {
               }}>
                 MemoBot
               </h1>
+              <button
+                onClick={enableAudio}
+                className="ml-auto px-4 py-2 rounded-full text-sm font-semibold transition-all shadow-sm hover:shadow-md"
+                style={audioEnabled
+                  ? { background: 'rgba(0, 188, 212, 0.18)', color: 'var(--color-text-primary)' }
+                  : { background: 'rgba(30, 136, 229, 0.18)', color: 'var(--color-text-primary)' }
+                }
+              >
+                {audioEnabled ? 'Audio: On' : 'Enable Audio'}
+              </button>
             </div>
             <p className="text-base" style={{ color: 'var(--color-text-secondary)' }}>
               AI-Powered Emotion & Personality Analysis Dashboard

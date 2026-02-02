@@ -73,6 +73,11 @@ from .politeness import (
     judge_politeness,
 )
 
+from .medqa import (
+    MedQAJudgment,
+    judge_medqa,
+)
+
 from .conversational_continuity import (
     ContinuityJudgment,
     judge_conversational_continuity,
@@ -118,4 +123,7 @@ __all__ = [
     # Conversational Continuity
     "ContinuityJudgment",
     "judge_conversational_continuity",
+    # MedQA factual consistency
+    "MedQAJudgment",
+    "judge_medqa",
 ]

@@ -2,7 +2,6 @@
 import json
 import os
 import sqlite3
-import time
 from datetime import datetime
 from typing import Dict, List, Optional, Any
 from flask import Flask, jsonify, Response, request
@@ -26,6 +25,80 @@ CORS(app)  # Enable CORS for frontend access
 # Global update notification system
 _update_queues: Dict[str, List[Queue]] = {}
 _queues_lock = Lock()
+
+
+def _broadcast_to_queues(user_id: str, data: Any) -> int:
+    """Broadcast data to all queues for a user.
+
+    Args:
+        user_id: User identifier
+        data: Data to broadcast (string or dict)
+
+    Returns:
+        Number of clients notified
+    """
+    if user_id not in _update_queues:
+        return 0
+    count = 0
+    for q in _update_queues[user_id]:
+        try:
+            q.put_nowait(data)
+            count += 1
+        except:
+            pass  # Queue full, skip this client
+    return count
+
+
+def _get_latest_conversation(user_uuid: str) -> Optional[Dict]:
+    """Get the latest conversation from memory cache.
+
+    Args:
+        user_uuid: UUID of the user
+
+    Returns:
+        Latest conversation dict or None
+    """
+    if not os.path.exists(MEMORY_CACHE_FILE):
+        return None
+
+    with open(MEMORY_CACHE_FILE, 'r', encoding='utf-8') as f:
+        cache_data = json.load(f)
+
+    if user_uuid not in cache_data:
+        return None
+
+    sessions = cache_data[user_uuid].get("sessions", {})
+    if not sessions:
+        return None
+
+    sorted_sessions = sorted(sessions.items(), reverse=True)
+    for session_id, session_data in sorted_sessions:
+        conversations = session_data.get("conversations", [])
+        if conversations:
+            return conversations[-1]
+
+    return None
+
+
+def _parse_emotions(conversation: Dict) -> tuple[Optional[Dict], Optional[Dict]]:
+    """Parse emotion data from a conversation.
+
+    Args:
+        conversation: Conversation dict
+
+    Returns:
+        Tuple of (speech_emotion, text_emotion) dicts
+    """
+    speech_emotion = None
+    text_emotion = None
+
+    if "speech_emotion" in conversation:
+        speech_emotion = json.loads(conversation["speech_emotion"])
+
+    if "text_emotion" in conversation:
+        text_emotion = json.loads(conversation["text_emotion"])
+
+    return speech_emotion, text_emotion
 
 
 def get_big5_personality(user_name: str) -> Optional[Dict[str, float]]:
@@ -74,40 +147,9 @@ def get_latest_emotions(user_uuid: str) -> tuple[Optional[Dict], Optional[Dict]]
         Tuple of (speech_emotion, text_emotion) dicts
     """
     try:
-        if not os.path.exists(MEMORY_CACHE_FILE):
-            return None, None
-
-        with open(MEMORY_CACHE_FILE, 'r', encoding='utf-8') as f:
-            cache_data = json.load(f)
-
-        if user_uuid not in cache_data:
-            return None, None
-
-        # Get latest conversation from most recent session
-        sessions = cache_data[user_uuid].get("sessions", {})
-        if not sessions:
-            return None, None
-
-        # Sort sessions by date to get most recent
-        sorted_sessions = sorted(sessions.items(), reverse=True)
-
-        for session_id, session_data in sorted_sessions:
-            conversations = session_data.get("conversations", [])
-            if conversations:
-                # Get the last conversation
-                latest = conversations[-1]
-
-                speech_emotion = None
-                text_emotion = None
-
-                if "speech_emotion" in latest:
-                    speech_emotion = json.loads(latest["speech_emotion"])
-
-                if "text_emotion" in latest:
-                    text_emotion = json.loads(latest["text_emotion"])
-
-                return speech_emotion, text_emotion
-
+        latest = _get_latest_conversation(user_uuid)
+        if latest:
+            return _parse_emotions(latest)
     except Exception as e:
         logger.error(f"Failed to fetch emotion data: {e}")
 
@@ -186,46 +228,17 @@ def get_latest_transcription(user_uuid: str) -> Optional[Dict]:
         Transcription dict or None
     """
     try:
-        if not os.path.exists(MEMORY_CACHE_FILE):
-            return None
-
-        with open(MEMORY_CACHE_FILE, 'r', encoding='utf-8') as f:
-            cache_data = json.load(f)
-
-        if user_uuid not in cache_data:
-            return None
-
-        # Get latest conversation
-        sessions = cache_data[user_uuid].get("sessions", {})
-        if not sessions:
-            return None
-
-        sorted_sessions = sorted(sessions.items(), reverse=True)
-
-        for session_id, session_data in sorted_sessions:
-            conversations = session_data.get("conversations", [])
-            if conversations:
-                latest = conversations[-1]
-
-                # Parse emotions
-                speech_emotion = None
-                text_emotion = None
-
-                if "speech_emotion" in latest:
-                    speech_emotion = json.loads(latest["speech_emotion"])
-
-                if "text_emotion" in latest:
-                    text_emotion = json.loads(latest["text_emotion"])
-
-                return {
-                    "text": latest.get("user_text", ""),
-                    "response": latest.get("assistant_text", ""),
-                    "timestamp": latest.get("timestamp", ""),
-                    "speechEmotion": speech_emotion or {},
-                    "textEmotion": text_emotion or {},
-                    "big5": {},  # Will be filled from database
-                }
-
+        latest = _get_latest_conversation(user_uuid)
+        if latest:
+            speech_emotion, text_emotion = _parse_emotions(latest)
+            return {
+                "text": latest.get("user_text", ""),
+                "response": latest.get("assistant_text", ""),
+                "timestamp": latest.get("timestamp", ""),
+                "speechEmotion": speech_emotion or {},
+                "textEmotion": text_emotion or {},
+                "big5": {},  # Will be filled from database
+            }
     except Exception as e:
         logger.error(f"Failed to fetch transcription: {e}")
 
@@ -392,7 +405,6 @@ def delete_profile(profile_id: str):
     """
     try:
         # Get user_id from query params (required for MemoBase API)
-        from flask import request
         user_id = request.args.get('user_id')
         if not user_id:
             return jsonify({"error": "user_id parameter is required"}), 400
@@ -421,7 +433,6 @@ def delete_event(event_id: str):
     """
     try:
         # Get user_id from query params (required for MemoBase API)
-        from flask import request
         user_id = request.args.get('user_id')
         if not user_id:
             return jsonify({"error": "user_id parameter is required"}), 400
@@ -450,15 +461,10 @@ def notify_update(user_id: str):
     """
     try:
         with _queues_lock:
-            if user_id in _update_queues:
-                # Send notification to all connected clients for this user
-                for q in _update_queues[user_id]:
-                    try:
-                        q.put_nowait("UPDATE")
-                    except:
-                        pass  # Queue full, skip this client
-                logger.info(f"Notified {len(_update_queues[user_id])} SSE client(s) for user {user_id}")
-                return jsonify({"status": "notified", "clients": len(_update_queues[user_id])}), 200
+            client_count = _broadcast_to_queues(user_id, "UPDATE")
+            if client_count > 0:
+                logger.info(f"Notified {client_count} SSE client(s) for user {user_id}")
+                return jsonify({"status": "notified", "clients": client_count}), 200
             else:
                 logger.info(f"No SSE clients connected for user {user_id}")
                 return jsonify({"status": "no_clients"}), 200
@@ -486,25 +492,19 @@ def push_user_input(user_id: str):
         user_text = data.get("text", "")
         timestamp = data.get("timestamp", "")
 
+        event_data = {
+            "event": "user_input",
+            "data": {
+                "text": user_text,
+                "timestamp": timestamp,
+            }
+        }
+
         with _queues_lock:
-            if user_id in _update_queues:
-                event_data = {
-                    "event": "user_input",
-                    "data": {
-                        "text": user_text,
-                        "timestamp": timestamp,
-                    }
-                }
-
-                # Push to all connected clients
-                for q in _update_queues[user_id]:
-                    try:
-                        q.put_nowait(event_data)
-                    except:
-                        pass  # Queue full, skip this client
-
-                logger.info(f"User input pushed to {len(_update_queues[user_id])} client(s)")
-                return jsonify({"status": "pushed", "clients": len(_update_queues[user_id])}), 200
+            client_count = _broadcast_to_queues(user_id, event_data)
+            if client_count > 0:
+                logger.info(f"User input pushed to {client_count} client(s)")
+                return jsonify({"status": "pushed", "clients": client_count}), 200
             else:
                 return jsonify({"status": "no_clients"}), 200
 
@@ -531,29 +531,77 @@ def stream_chunk(user_id: str):
         chunk_text = data.get("chunk", "")
         is_final = data.get("is_final", False)
 
+        event_data = {
+            "event": "streaming_complete" if is_final else "streaming_chunk",
+            "data": {
+                "chunk": chunk_text,
+                "is_final": is_final,
+            }
+        }
+
         with _queues_lock:
-            if user_id in _update_queues:
-                event_data = {
-                    "event": "streaming_complete" if is_final else "streaming_chunk",
-                    "data": {
-                        "chunk": chunk_text,
-                        "is_final": is_final,
-                    }
-                }
-
-                # Push to all connected clients
-                for q in _update_queues[user_id]:
-                    try:
-                        q.put_nowait(event_data)
-                    except:
-                        pass  # Queue full, skip this client
-
-                return jsonify({"status": "pushed", "clients": len(_update_queues[user_id])}), 200
+            client_count = _broadcast_to_queues(user_id, event_data)
+            if client_count > 0:
+                return jsonify({"status": "pushed", "clients": client_count}), 200
             else:
                 return jsonify({"status": "no_clients"}), 200
 
     except Exception as e:
         logger.error(f"Stream chunk endpoint error: {e}")
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route('/api/audio-chunk/<user_id>', methods=['POST'])
+def audio_chunk(user_id: str):
+    """Webhook endpoint for chatbot to push streaming audio chunks.
+
+    Args:
+        user_id: User identifier
+
+    Returns:
+        JSON response with status
+    """
+    try:
+        data = request.json
+        if not data:
+            return jsonify({"error": "No data provided"}), 400
+
+        chunk_b64 = data.get("chunk", "")
+        sample_rate = data.get("sample_rate", 24000)
+        is_final = data.get("is_final", False)
+        text_hash = data.get("text_hash")
+        text_preview = data.get("text_preview")
+
+        # DEBUG: Log received audio chunk details
+        logger.info(f"[AudioChunk DEBUG] Received: user={user_id}, chunk_len={len(chunk_b64) if chunk_b64 else 0}, "
+                   f"sample_rate={sample_rate}, is_final={is_final}, text_hash={text_hash}, "
+                   f"text_preview={text_preview[:60] if text_preview else ''}...")
+
+        payload: Dict[str, Any] = {
+            "chunk": chunk_b64,
+            "sample_rate": sample_rate,
+            "is_final": is_final,
+        }
+        # Optional debugging aids for correlating audio with text.
+        if text_hash is not None:
+            payload["text_hash"] = text_hash
+        if text_preview is not None:
+            payload["text_preview"] = text_preview
+
+        event_data = {
+            "event": "audio_chunk",
+            "data": payload
+        }
+
+        with _queues_lock:
+            client_count = _broadcast_to_queues(user_id, event_data)
+            if client_count > 0:
+                return jsonify({"status": "pushed", "clients": client_count}), 200
+            else:
+                return jsonify({"status": "no_clients"}), 200
+
+    except Exception as e:
+        logger.error(f"Audio chunk endpoint error: {e}")
         return jsonify({"error": str(e)}), 500
 
 
@@ -574,24 +622,18 @@ def push_status(user_id: str):
 
         status = data.get("status", "")
 
+        event_data = {
+            "event": "status_update",
+            "data": {
+                "status": status,
+            }
+        }
+
         with _queues_lock:
-            if user_id in _update_queues:
-                event_data = {
-                    "event": "status_update",
-                    "data": {
-                        "status": status,
-                    }
-                }
-
-                # Push to all connected clients
-                for q in _update_queues[user_id]:
-                    try:
-                        q.put_nowait(event_data)
-                    except:
-                        pass  # Queue full, skip this client
-
-                logger.debug(f"Status '{status}' pushed to {len(_update_queues[user_id])} client(s)")
-                return jsonify({"status": "pushed", "clients": len(_update_queues[user_id])}), 200
+            client_count = _broadcast_to_queues(user_id, event_data)
+            if client_count > 0:
+                logger.debug(f"Status '{status}' pushed to {client_count} client(s)")
+                return jsonify({"status": "pushed", "clients": client_count}), 200
             else:
                 return jsonify({"status": "no_clients"}), 200
 

@@ -8,15 +8,6 @@ from typing import Any, Optional, Tuple
 
 import torch
 
-try:
-    import keyboard  # type: ignore
-    _KEYBOARD_AVAILABLE = True
-except Exception as e:
-    import sys
-    print(f"keyboard import failed: {type(e).__name__}: {e}", file=sys.stderr)
-    keyboard = None  # type: ignore
-    _KEYBOARD_AVAILABLE = False
-
 from core.config import (
     AUDIO_FILE,
     DEFAULT_HISTORY_WINDOW,
@@ -26,8 +17,8 @@ from core.config import (
     STATUS_IDLE,
     STATUS_RECORDING,
     TEXT_EMOTION_WEIGHT,
-    USE_NEUTTS,
-    USE_PIPER_TTS,
+    USE_KOKORO,
+    KOKORO_DEVICE,
 )
 from core.database import init_db
 from core.logger import get_logger
@@ -36,21 +27,15 @@ from core.notifications import get_default_service
 from core.performance import PerformanceTracker
 from core.pipeline import ApplicationState, AudioProcessingPipeline, AudioProcessor
 from audio import (
-    NeuTTSEngine,
-    PiperTTSEngine,
     TTSEngine,
+    KokoroTTSEngine,
     load_whisper_pipeline,
     record_audio,
-    record_audio_hold_to_talk,
     select_input_device,
 )
 from models.emotion import load_speech_emotion_model, load_text_emotion_model
 from models.llm import client as llm_client
 from models.personality import load_personality_model
-
-
-HOLD_KEY = "r"
-MAX_HOLD_SECONDS = 30.0
 
 
 def warm_up_tts(tts_engine: TTSEngine) -> None:
@@ -66,9 +51,7 @@ def warm_up_tts(tts_engine: TTSEngine) -> None:
         except Exception:
             pass
 
-        tts_engine.start_streaming()
-        tts_engine.stream_text("warm up")
-        tts_engine.finish_streaming(wait=True)
+        tts_engine.say("warm up")
 
         try:
             engine.setProperty("volume", original_volume)
@@ -95,9 +78,9 @@ def initialize_system(app_state: ApplicationState, logger) -> Tuple[AudioProcess
     """Initialize dependencies and return pipeline + resources.
 
     Optimized startup sequence:
-    - NeuTTS (CPU, 12-16s) runs in background thread
-    - GPU models load sequentially while NeuTTS loads in parallel
-    - Total time: max(NeuTTS, GPU_models) instead of sum
+    - TTS runs in background thread
+    - GPU models load sequentially while TTS loads in parallel
+    - Total time: max(TTS, GPU_models) instead of sum
     """
     startup_tracker = PerformanceTracker("Startup")
 
@@ -105,21 +88,22 @@ def initialize_system(app_state: ApplicationState, logger) -> Tuple[AudioProcess
     tts_result: dict = {"engine": None, "error": None}
     tts_thread: Optional[threading.Thread] = None
 
+    def _tts_uses_gpu() -> bool:
+        if not USE_KOKORO or not torch.cuda.is_available():
+            return False
+        device = (KOKORO_DEVICE or "").lower()
+        if device in {"cpu"}:
+            return False
+        return True
+
     def _init_tts_background():
-        """Initialize TTS engine in background thread (for NeuTTS CPU loading)."""
+        """Initialize TTS engine (optionally in background for CPU loading)."""
         try:
-            if USE_NEUTTS:
-                logger.info("Initializing NeuTTS engine (PyTorch-based, background)")
-                engine = NeuTTSEngine()
-                if engine.tts is None:
-                    logger.warning("NeuTTS initialization failed, falling back to pyttsx3")
-                    engine = TTSEngine()
-                tts_result["engine"] = engine
-            elif USE_PIPER_TTS:
-                logger.info("Initializing Piper TTS engine")
-                engine = PiperTTSEngine()
-                if engine.engine is None:
-                    logger.warning("Piper TTS initialization failed, falling back to pyttsx3")
+            if USE_KOKORO:
+                logger.info("Initializing Kokoro TTS engine")
+                engine = KokoroTTSEngine()
+                if engine.model is None or engine.pipeline is None:
+                    logger.warning("Kokoro initialization failed, falling back to pyttsx3")
                     engine = TTSEngine()
                 tts_result["engine"] = engine
             else:
@@ -130,18 +114,18 @@ def initialize_system(app_state: ApplicationState, logger) -> Tuple[AudioProcess
             tts_result["error"] = e
             tts_result["engine"] = TTSEngine()  # Fallback
 
-    # === PHASE 1: Start NeuTTS in background (CPU-only, no GPU conflict) ===
-    if USE_NEUTTS:
+    # === PHASE 1: Start TTS in background (CPU-only, no GPU conflict) ===
+    if USE_KOKORO and not _tts_uses_gpu():
         with startup_tracker.start("TTS engine initialization (background start)"):
             tts_thread = threading.Thread(target=_init_tts_background, daemon=True)
             tts_thread.start()
-            logger.info("NeuTTS loading in background thread while GPU models load...")
+            logger.info("Kokoro loading in background thread while GPU models load...")
     else:
-        # Non-NeuTTS engines are fast, load synchronously
+        # Non-Kokoro engines are fast, load synchronously
         with startup_tracker.start("TTS engine initialization"):
             _init_tts_background()
 
-    # === PHASE 2: Load GPU models sequentially (while NeuTTS loads in parallel) ===
+    # === PHASE 2: Load GPU models sequentially (while TTS loads in parallel) ===
 
     # Database (fast)
     with startup_tracker.start("Database initialization"):
@@ -189,12 +173,12 @@ def initialize_system(app_state: ApplicationState, logger) -> Tuple[AudioProcess
     with startup_tracker.start("Ollama LLM warm-up"):
         warm_up_llm()
 
-    # === PHASE 3: Wait for NeuTTS background thread to complete ===
+    # === PHASE 3: Wait for TTS background thread to complete ===
     if tts_thread is not None:
         with startup_tracker.start("TTS engine initialization (wait for completion)"):
             tts_thread.join()
             if tts_result["error"]:
-                logger.warning(f"NeuTTS had error: {tts_result['error']}")
+                logger.warning(f"TTS had error: {tts_result['error']}")
 
     tts_engine = tts_result["engine"]
 
@@ -212,41 +196,16 @@ def initialize_system(app_state: ApplicationState, logger) -> Tuple[AudioProcess
 def interactive_loop(pipeline: AudioProcessingPipeline, app_state: ApplicationState, logger) -> None:
     """Run the interactive record → process loop."""
     notification_service = get_default_service()
-    hold_mode = _KEYBOARD_AVAILABLE
 
-    if hold_mode:
-        print(f"Hold '{HOLD_KEY}' to record (max {int(MAX_HOLD_SECONDS)}s). Release to stop. Press 'q' to quit.")
-    else:
-        print("keyboard package not installed; fallback to command mode (pip install keyboard for hold-to-talk).")
-        print("Type 'r' to record, 'q' to quit.")
+    print("Type 'r' to record 5 seconds of audio, 'q' to quit.")
 
     try:
         while True:
-            if hold_mode:
-                try:
-                    event = keyboard.read_event()  # type: ignore[attr-defined]
-                    # Debug: show what event was captured
-                    print(f"[DEBUG] Event: type={event.event_type}, name={event.name}, scan_code={event.scan_code}")
-                except Exception as exc:
-                    logger.warning(f"keyboard read failed; falling back to text commands: {exc}")
-                    hold_mode = False
-                    print("Type 'r' to record, 'q' to quit.")
-                    continue
-
-                if event.event_type != "down":
-                    continue
-
-                key_name = (event.name or "").lower()
-                if key_name == "q":
-                    break
-                if key_name != HOLD_KEY:
-                    continue
-            else:
-                command = input().strip().lower()
-                if command == "q":
-                    break
-                if command != "r":
-                    continue
+            command = input().strip().lower()
+            if command == "q":
+                break
+            if command != "r":
+                continue
 
             if app_state.selected_device_index is None:
                 print("\nFirst time setup - select your audio input device:")
@@ -255,23 +214,10 @@ def interactive_loop(pipeline: AudioProcessingPipeline, app_state: ApplicationSt
 
             notification_service.push_status(DEFAULT_SPEAKER, STATUS_RECORDING)
 
-            if hold_mode:
-                def _is_holding() -> bool:
-                    try:
-                        return bool(keyboard.is_pressed(HOLD_KEY))  # type: ignore[attr-defined]
-                    except Exception:
-                        return False
-
-                success = record_audio_hold_to_talk(
-                    is_holding_key=_is_holding,
-                    device_index=app_state.selected_device_index,
-                    max_duration=MAX_HOLD_SECONDS,
-                )
-            else:
-                success = record_audio(
-                    device_index=app_state.selected_device_index,
-                    duration=int(MAX_HOLD_SECONDS),
-                )
+            success = record_audio(
+                device_index=app_state.selected_device_index,
+                duration=5,  # Fixed 5 second recording
+            )
 
             if not success:
                 notification_service.push_status(DEFAULT_SPEAKER, STATUS_IDLE)
@@ -321,6 +267,7 @@ def main() -> None:
         debug_mode=args.debug,
         speech_emotion_weight=args.speech_emotion_weight,
         text_emotion_weight=args.text_emotion_weight,
+        streaming_tts=False,
     )
 
     pipeline = None

@@ -47,6 +47,7 @@ from . import (
     judge_logical_consistency,
     judge_conversational_continuity,
     judge_groundedness,
+    judge_medqa,
 )
 
 
@@ -347,3 +348,23 @@ def groundedness(
     if score is None:
         raise ValueError(f"groundedness judge ({provider}/{model}) returned None score")
     return _to_unit(score)
+
+
+def medqa(
+    response: str,
+    gold_answer: str,
+    question: str,
+    provider: str = None,
+    model: str = None,
+) -> float:
+    """MedQA factual consistency (0-1 from 1-5 rubric)."""
+    if provider is None and model is None:
+        provider, model = get_judge_model("medqa")
+    elif (provider is None) != (model is None):
+        raise ValueError("medqa override requires both provider and model")
+
+    result = judge_medqa(response, gold_answer, question, provider, model)
+    raw = result.get("medqa_score_raw")
+    if raw is None:
+        raise ValueError("medqa judge returned None score")
+    return (float(raw) - 1.0) / 4.0

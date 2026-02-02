@@ -6,7 +6,7 @@ import random
 import time
 from concurrent.futures import ThreadPoolExecutor, Future
 from dataclasses import dataclass, field
-from typing import Any, Callable, Dict, List, Optional, Tuple
+from typing import Any, Dict, List, Optional, Tuple
 
 import numpy as np
 import pandas as pd
@@ -29,6 +29,7 @@ from .config import (
     DEFAULT_MAX_CONTEXT_SIZE,
     DEFAULT_SPEAKER,
     GREETING_MESSAGES,
+    PLAY_GREETING,
     MAX_PARALLEL_WORKERS,
     SPEECH_EMOTION_WEIGHT,
     STATUS_GENERATING,
@@ -156,7 +157,7 @@ def log_emotion_scores(
         text_val = text_emotion.get(label)
         if speech_val is None and text_val is None:
             continue
-        log.info("  %-14s speech=%s | text=%s", f"{label}:", fmt(speech_val), fmt(text_val))
+        log.info(f"  {label + ':':<14} speech={fmt(speech_val)} | text={fmt(text_val)}")
 
 
 # ---------- State management ----------
@@ -345,7 +346,7 @@ class EmotionFusion:
 
 
 class LLMResponseGenerator:
-    """Handles LLM response generation with streaming TTS."""
+    """Handles LLM response generation and blocking TTS playback."""
 
     def __init__(self, tts_engine: TTSEngine, debug_mode: bool = False):
         self.tts_engine = tts_engine
@@ -456,30 +457,19 @@ class LLMResponseGenerator:
             {"role": "user", "content": text},
         ]
 
-    def build_streaming_tts_callback(self) -> Callable[[str, bool], None]:
-        """Build callback for streaming TTS."""
-        def on_chunk(text_delta: str, is_final: bool):
-            if text_delta:
-                self.tts_engine.stream_text(text_delta)
-
-        return on_chunk
-
     def generate_response(
         self,
         chat_messages: List[Dict[str, str]],
         current_speaker: str,
         memobase_context: Optional[str] = None,
     ) -> Tuple[str, Optional[str]]:
-        """Generate LLM response with streaming TTS."""
+        """Generate full LLM response, then synthesize and play once."""
         with self.performance_tracker.start("llm_response_generation"):
-            self.tts_engine.start_streaming()
-            tts_callback = self.build_streaming_tts_callback()
-
             def on_chunk_callback(chunk: str, is_final: bool):
+                # Still push to dashboard, but do not stream TTS
                 self.notification_service.push_streaming_chunk(
                     current_speaker or DEFAULT_SPEAKER, chunk, is_final
                 )
-                tts_callback(chunk, is_final)
 
             response_content, user_uuid = chat(
                 chat_messages,
@@ -494,11 +484,50 @@ class LLMResponseGenerator:
             if not response_content:
                 raise ValueError("LLM response empty")
 
+            # Store response for blocking TTS playback
+            self._pending_response = response_content
+            self._pending_speaker = current_speaker or DEFAULT_SPEAKER
             return response_content, user_uuid
 
-    def finish_streaming(self) -> Optional[float]:
-        """Finish streaming TTS and return first playback time."""
-        return self.tts_engine.finish_streaming(wait=True)
+    def finish_streaming(
+        self,
+        streaming_tts: bool = False,
+        response_text: Optional[str] = None,
+        speaker: Optional[str] = None,
+    ) -> Optional[float]:
+        """Synthesize and play the full response after LLM finishes.
+
+        Returns:
+            The perf_counter time when TTS playback actually started (user hears audio),
+            or None if no response to play.
+        """
+        text_to_play = response_text
+        if not text_to_play and hasattr(self, '_pending_response') and self._pending_response:
+            text_to_play = self._pending_response
+
+        # DEBUG: Log what we're about to synthesize
+        self.logger.info(f"[TTS DEBUG] finish_streaming called with text: {text_to_play[:80] if text_to_play else 'None'}...")
+
+        if text_to_play:
+            pending_speaker = speaker or getattr(self, "_pending_speaker", None)
+            if streaming_tts and hasattr(self.tts_engine, "say_streaming"):
+                self.logger.info("Streaming TTS: synthesizing response...")
+                success, playback_start_time = self.tts_engine.say_streaming(
+                    text_to_play,
+                    user_id=pending_speaker,
+                )
+            else:
+                self.logger.info("Blocking TTS: synthesizing full response...")
+                success, playback_start_time = self.tts_engine.say(
+                    text_to_play,
+                    user_id=pending_speaker,
+                )
+            self._pending_response = None
+            if hasattr(self, "_pending_speaker"):
+                self._pending_speaker = None
+            if success and playback_start_time > 0:
+                return playback_start_time
+        return None
 
 
 class DataPersister:
@@ -619,6 +648,8 @@ class AudioProcessingPipeline:
         self.notification_service = get_default_service()
 
     def say_greeting(self) -> None:
+        if not PLAY_GREETING:
+            return
         if self.conversation_manager.should_play_greeting():
             greeting = (
                 f"Hello {self.app_state.current_speaker}. {random.choice(GREETING_MESSAGES)}"
@@ -631,11 +662,12 @@ class AudioProcessingPipeline:
     def process_audio(self, audio_file: str) -> None:
         """Process audio file through the complete pipeline."""
         self.performance_tracker.clear()
-        total_processing_start = time.perf_counter()
-        self.logger.info("Starting audio processing for %s", audio_file)
+        self.logger.info(f"Starting audio processing for {audio_file}")
 
         try:
             self.say_greeting()
+            # Start timing AFTER greeting - measure only user input → response latency
+            total_processing_start = time.perf_counter()
             self.notification_service.push_status(
                 self.app_state.current_speaker or DEFAULT_SPEAKER, STATUS_TRANSCRIBING
             )
@@ -703,17 +735,20 @@ class AudioProcessingPipeline:
                     fused_emotion=fused_emotion,
                 )
 
-                first_playback_time = self.llm_generator.finish_streaming()
+                first_playback_time = self.llm_generator.finish_streaming(
+                    self.app_state.streaming_tts,
+                    response_text=response_content,
+                    speaker=self.app_state.current_speaker or DEFAULT_SPEAKER,
+                )
                 if first_playback_time:
                     user_perceived_latency = first_playback_time - total_processing_start
                     self.logger.info(
-                        "User-perceived latency: %.4fs (audio end → first TTS playback)",
-                        user_perceived_latency,
+                        f"User-perceived latency: {user_perceived_latency:.4f}s (audio end → first TTS playback)"
                     )
                     self.performance_tracker.record("🎯 USER PERCEIVED LATENCY", user_perceived_latency)
                 else:
                     total_processing_time = time.perf_counter() - total_processing_start
-                    self.logger.info("Processing completed in %.4fs", total_processing_time)
+                    self.logger.info(f"Processing completed in {total_processing_time:.4f}s")
                     self.performance_tracker.record("Total processing (fallback)", total_processing_time)
 
                 # Wait for background persistence before logging summary
@@ -731,4 +766,3 @@ class AudioProcessingPipeline:
             raise
         finally:
             cleanup_audio_file(audio_file)
-

@@ -1,11 +1,10 @@
 """Speech-to-text module using Whisper."""
-import io
 import logging
 import os
 from typing import Any, Dict
 
 import torch
-from transformers import pipeline
+from transformers import AutoModelForSpeechSeq2Seq, AutoProcessor, pipeline
 
 from core.config import WHISPER_MODEL_PATH
 
@@ -29,9 +28,6 @@ def transcribe_whisper(audio_file: str, pipe) -> str:
         if not audio_data:
             logger.error("Audio file is empty.")
             return ""
-
-        audio_file_io = io.BytesIO(audio_data)
-        audio_file_io.name = "audio.wav"
 
         # Run Whisper transcription
         outputs = pipe(audio_data, batch_size=48, return_timestamps=False)
@@ -66,21 +62,26 @@ def load_whisper_pipeline(use_gpu: bool = None) -> Any:
         raise FileNotFoundError(f"Whisper model directory not found: {WHISPER_MODEL_PATH}")
 
     try:
-        pipeline_kwargs: Dict[str, Any] = {
-            "task": "automatic-speech-recognition",
-            "model": WHISPER_MODEL_PATH,
-            "torch_dtype": torch_dtype,
-            "device": pipeline_device,
-            "model_kwargs": {
-                "attn_implementation": "sdpa",
-                "low_cpu_mem_usage": False,  # PyTorch 2.7+ compatibility
-            },
-            "generate_kwargs": {
-                "task": "transcribe",
-                "language": "en",
-            },
-        }
-        pipe = pipeline(**pipeline_kwargs)
+        # Load model without device_map to avoid meta tensor issues on PyTorch 2.7+
+        device = f"cuda:{pipeline_device}" if use_gpu else "cpu"
+        processor = AutoProcessor.from_pretrained(WHISPER_MODEL_PATH)
+        model = AutoModelForSpeechSeq2Seq.from_pretrained(
+            WHISPER_MODEL_PATH,
+            torch_dtype=torch_dtype,
+            low_cpu_mem_usage=False,
+            attn_implementation="sdpa",
+        )
+        model.to(device)
+        model.eval()
+
+        pipe = pipeline(
+            task="automatic-speech-recognition",
+            model=model,
+            tokenizer=processor.tokenizer,
+            feature_extractor=processor.feature_extractor,
+            torch_dtype=torch_dtype,
+            generate_kwargs={"task": "transcribe", "language": "en"},
+        )
         return pipe
 
     except Exception as e:

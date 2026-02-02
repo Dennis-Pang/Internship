@@ -2,7 +2,15 @@
 import argparse
 import json
 import logging
+import os
+import sys
 from typing import Any, Dict, List
+
+# Add parent directory to path for direct script execution
+_SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+_CHATBOT_DIR = os.path.dirname(_SCRIPT_DIR)
+if _CHATBOT_DIR not in sys.path:
+    sys.path.insert(0, _CHATBOT_DIR)
 
 from core.config import MEMORY_CACHE_FILE, MEMORY_CACHE_BATCH_SIZE, MEMOBASE_SYNC_TIMEOUT
 from core.memory import ensure_memobase_user, memobase_request
@@ -61,8 +69,6 @@ def load_cache_entries(cache_file: str) -> List[Dict[str, Any]]:
     Returns:
         List of cache entries in flat format for processing.
     """
-    import os
-
     if not os.path.exists(cache_file):
         return []
 
@@ -115,8 +121,6 @@ def persist_remaining_entries(cache_file: str, entries: List[Dict[str, Any]]) ->
         cache_file: Path to cache file.
         entries: List of entries to persist.
     """
-    import os
-
     if not entries:
         if os.path.exists(cache_file):
             os.remove(cache_file)

@@ -95,6 +95,12 @@ JUDGE_MODELS: Dict[str, Tuple[str, str, str]] = {
         "gemini-2.0-flash-exp",
         "#1 overall (1501 Elo), best conversational understanding, 5x cheaper than GPT-4o"
     ),
+
+    "medqa": (
+        "openai",
+        "o1",
+        "Strongest open-general model on medical QA (no domain finetune), robust factual judgment"
+    ),
 }
 
 

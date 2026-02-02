@@ -12,13 +12,13 @@ const apiClient = axios.create({
 });
 
 // Fetch current default user from backend config
-export const fetchDefaultUser = async (): Promise<string> => {
+export const fetchDefaultUser = async (): Promise<string | null> => {
   try {
     const response = await apiClient.get<{ defaultUser: string }>('/config');
     return response.data.defaultUser;
   } catch (error) {
-    console.error('Failed to fetch default user from backend, falling back to "test1":', error);
-    return 'test1'; // Fallback
+    console.error('Failed to fetch default user from backend:', error);
+    return null;
   }
 };
 
@@ -45,6 +45,7 @@ export interface StreamingCallbacks {
   onStreamingChunk?: (chunk: string, isFinal: boolean) => void;
   onUserInput?: (text: string, timestamp: string) => void;
   onStatusUpdate?: (status: string) => void;
+  onAudioChunk?: (chunk: string, sampleRate: number, isFinal: boolean) => void;
 }
 
 export const subscribeToUpdates = (
@@ -52,9 +53,8 @@ export const subscribeToUpdates = (
   onUpdate: (data: DashboardData) => void,
   callbacks?: StreamingCallbacks
 ) => {
-  const sseUrl = API_BASE_URL.startsWith('http')
-    ? `${API_BASE_URL}/stream/${userId}`
-    : `http://localhost:5000/api/stream/${userId}`;
+  const sseBase = API_BASE_URL;
+  const sseUrl = `${sseBase}/stream/${encodeURIComponent(userId)}`;
 
   console.log('[SSE] Connecting to:', sseUrl);
   const eventSource = new EventSource(sseUrl);
@@ -97,6 +97,18 @@ export const subscribeToUpdates = (
     }
   });
 
+  // Handle streaming audio chunks
+  eventSource.addEventListener('audio_chunk', (event) => {
+    const data = JSON.parse(event.data);
+    // DEBUG: Log received audio chunk from SSE
+    console.log(
+      `[SSE DEBUG] audio_chunk received: chunk_length=${data.chunk?.length || 0}, sample_rate=${data.sample_rate}, is_final=${data.is_final}, text_hash=${data.text_hash || ''}, text_preview=${(data.text_preview || '').slice(0, 60)}`
+    );
+    if (callbacks?.onAudioChunk) {
+      callbacks.onAudioChunk(data.chunk, data.sample_rate, data.is_final);
+    }
+  });
+
   // Handle status updates
   eventSource.addEventListener('status_update', (event) => {
     const data = JSON.parse(event.data);
@@ -115,7 +127,7 @@ export const subscribeToUpdates = (
 
   eventSource.onerror = (error) => {
     console.error('[SSE] Connection error:', error);
-    eventSource.close();
+    // Keep EventSource open to allow automatic reconnection.
   };
 
   eventSource.onopen = () => {

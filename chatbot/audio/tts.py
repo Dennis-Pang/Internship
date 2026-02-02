@@ -1,305 +1,333 @@
-"""Streaming CPU-optimized TTS using PiperTTS + ONNX Runtime.
-
-Provides real-time text-to-speech synthesis with streaming support.
-Uses CPU-optimized inference via onnxruntime.
-
-Usage:
-    from audio.tts import PiperTTSEngine
-
-    tts = PiperTTSEngine()
-    tts.say("Hello, this is a test.")
-"""Streaming TTS using PiperTTS."""
-
-import json
-import queue
+"""Text-to-Speech engines with streaming support."""
+import base64
+import hashlib
+import logging
+import os
 import threading
 import time
-import logging
-from typing import Iterator, Optional
+from fractions import Fraction
+from typing import Optional
 
 import numpy as np
-import sounddevice as sd
+import pyttsx3
+import torch
+from scipy.signal import resample_poly
+
+from core.config import (
+    TTS_RATE,
+    TTS_VOLUME,
+    KOKORO_REPO_ID,
+    KOKORO_LANG,
+    KOKORO_VOICE,
+    KOKORO_SPEED,
+    KOKORO_DEVICE,
+    KOKORO_OUTPUT_DEVICE_INDEX,
+    KOKORO_OUTPUT_SAMPLE_RATE,
+)
+from core.notifications import get_default_service
 
 logger = logging.getLogger(__name__)
 
 
-class StreamingPiperTTS:
-    """
-    Streaming TTS engine using PiperTTS (CPU-optimized)
+class TTSEngine:
+    """Simple blocking pyttsx3 wrapper (fallback)."""
 
-    Processes text chunks as they arrive and plays audio immediately
-    with parallel synthesis and playback pipeline.
-    """
+    def __init__(self):
+        self.engine: Optional[pyttsx3.Engine] = None
+        self._engine_lock = threading.Lock()
+        self._init_engine()
 
-    def __init__(self, model_path: str, config_path: str, sentence_min_words: int = 5):
-        """Initialize streaming Piper TTS engine.
-
-        Args:
-            model_path: Path to ONNX model file
-            config_path: Path to model JSON config file
-            sentence_min_words: Minimum words before synthesizing incomplete sentence
-        """
-        logger.info("Initializing Streaming Piper TTS (CPU)")
-
-        # Load model config
-        with open(config_path, "r") as f:
-            self.config = json.load(f)
-        logger.info(f"Config loaded from {config_path}")
-
-        # Setup ONNX Runtime session (CPU only)
-        sess_options = ort.SessionOptions()
-        sess_options.graph_optimization_level = (
-            ort.GraphOptimizationLevel.ORT_ENABLE_ALL
-        )
-        # Limit threads to avoid affinity/allocator issues
-        sess_options.intra_op_num_threads = 1
-        sess_options.inter_op_num_threads = 1
-        # Suppress verbose warnings
-        sess_options.log_severity_level = 3
-
-        self.session = ort.InferenceSession(
-            model_path, sess_options=sess_options, providers=["CPUExecutionProvider"]
-        )
-
-        logger.info("CPU execution enabled")
-
-        self.sample_rate = self.config.get("audio", {}).get("sample_rate", 22050)
-        self.phoneme_to_id = self.config.get("phoneme_id_map", {})
-
-        # Streaming control
-        self.sentence_min_words = sentence_min_words
-        self.text_buffer = ""
-        self.audio_queue = queue.Queue()
-        self.is_playing = False
-        self.stop_flag = False
-        self._player_thread: Optional[threading.Thread] = None
-        self._first_playback_time: Optional[float] = None  # Track first audio playback
-
-        logger.info(f"Initialized (sample_rate={self.sample_rate}Hz)")
-
-    def text_to_phonemes(self, text: str) -> np.ndarray:
-        """Convert text to phoneme IDs using simple character mapping.
-
-        Args:
-            text: Input text
-
-        Returns:
-            Numpy array of phoneme IDs
-        """
-        phonemes = []
-        for char in text.lower():
-            if char in self.phoneme_to_id:
-                phonemes.append(self.phoneme_to_id[char])
-            elif char == " ":
-                phonemes.append(self.phoneme_to_id.get("_", 0))
-        return np.array(phonemes, dtype=np.int64)
-
-    def synthesize_chunk(self, text: str) -> Optional[np.ndarray]:
-        """Synthesize a single text chunk on GPU.
-
-        Args:
-            text: Text to synthesize
-
-        Returns:
-            Audio array or None if synthesis failed
-        """
-        if not text.strip():
-            return None
-
-        # Convert to phonemes
-        phoneme_ids = self.text_to_phonemes(text)
-        if len(phoneme_ids) == 0:
-            return None
-
-        # Prepare model inputs
-        inputs = {
-            "input": phoneme_ids.reshape(1, -1),
-            "input_lengths": np.array([len(phoneme_ids)], dtype=np.int64),
-            "scales": np.array([0.667, 1.0, 0.8], dtype=np.float32),
-        }
-
-        # GPU inference
+    def _init_engine(self):
         try:
-            outputs = self.session.run(None, inputs)
-            audio = outputs[0].squeeze()
-            return audio
+            self.engine = pyttsx3.init()
+            self.engine.setProperty('rate', TTS_RATE)
+            self.engine.setProperty('volume', TTS_VOLUME)
+            voices = self.engine.getProperty('voices')
+            if len(voices) > 1:
+                self.engine.setProperty('voice', voices[0].id)
         except Exception as e:
-            logger.error(f"Synthesis error: {e}")
-            return None
+            logger.error(f"Failed to initialize TTS engine: {e}")
+            self.engine = None
 
-    def split_into_sentences(self, text: str) -> tuple[list[str], str]:
-        """Split text into synthesizable chunks.
-
-        Args:
-            text: Input text
-
-        Returns:
-            Tuple of (complete_sentences, remaining_text)
-        """
-        sentences = []
-        current = ""
-
-        for char in text:
-            current += char
-            # End sentence on punctuation followed by space
-            if char in ".!?,;:" and current.strip():
-                sentences.append(current.strip())
-                current = ""
-
-        if current.strip():
-            # Check if remaining text has enough words
-            words = current.strip().split()
-            if len(words) >= self.sentence_min_words:
-                sentences.append(current.strip())
-            else:
-                # Return incomplete for buffering
-                return sentences, current.strip()
-
-        return sentences, ""
-
-    def _audio_player_thread(self):
-        """Background thread for continuous audio playback."""
-        logger.info("Audio player thread started")
-
-        while not self.stop_flag:
-            try:
-                # Get audio chunk from queue (with timeout)
-                audio = self.audio_queue.get(timeout=0.5)
-
-                if audio is not None and len(audio) > 0:
-                    # Record time of first playback (user-perceived latency)
-                    if self._first_playback_time is None:
-                        self._first_playback_time = time.perf_counter()
-
-                    # Play audio chunk
-                    sd.play(audio, self.sample_rate, blocking=True)
-
-            except queue.Empty:
-                continue
-            except Exception as e:
-                logger.error(f"Playback error: {e}")
-
-        logger.info("Audio player thread stopped")
-
-    def process_streaming_text(self, text_generator: Iterator[str]) -> Optional[float]:
-        """Process streaming text from generator (e.g., LLM).
-
-        Args:
-            text_generator: Iterator/generator yielding text chunks (tokens)
-
-        Returns:
-            Time of first playback (perf_counter timestamp), or None if no audio played
-        """
-        logger.info("Streaming TTS started")
-
-        # Reset first playback time for new streaming session
-        self._first_playback_time = None
-
-        # Start audio player thread
-        self.stop_flag = False
-        self._player_thread = threading.Thread(
-            target=self._audio_player_thread, daemon=True
-        )
-        self._player_thread.start()
-
-        self.text_buffer = ""
-        chunk_count = 0
-
+    def say(self, text: str, user_id: Optional[str] = None) -> tuple[bool, float]:
+        if not self.engine:
+            return False, 0.0
         try:
-            for text_chunk in text_generator:
-                self.text_buffer += text_chunk
-
-                # Try to split into complete sentences
-                sentences, remaining = self.split_into_sentences(self.text_buffer)
-
-                # Synthesize and queue each complete sentence
-                for sentence in sentences:
-                    chunk_count += 1
-                    logger.debug(f"Chunk {chunk_count}: '{sentence}'")
-
-                    start_time = time.time()
-                    audio = self.synthesize_chunk(sentence)
-                    synth_time = time.time() - start_time
-
-                    if audio is not None:
-                        # Add to playback queue
-                        self.audio_queue.put(audio)
-                        rtf = (len(audio) / self.sample_rate) / synth_time
-                        logger.debug(
-                            f"Synthesized in {synth_time * 1000:.0f}ms (RTF: {rtf:.2f}x)"
-                        )
-                    else:
-                        logger.warning(f"Synthesis failed for chunk {chunk_count}")
-
-                # Keep incomplete sentence in buffer
-                self.text_buffer = remaining
-
-            # Process any remaining text
-            if self.text_buffer.strip():
-                chunk_count += 1
-                logger.debug(f"Final chunk: '{self.text_buffer}'")
-                audio = self.synthesize_chunk(self.text_buffer)
-                if audio is not None:
-                    self.audio_queue.put(audio)
-                    logger.debug("Synthesized final chunk")
-
-        except KeyboardInterrupt:
-            logger.info("Interrupted by user")
+            with self._engine_lock:
+                self.engine.say(text)
+                playback_start = time.perf_counter()
+                self.engine.runAndWait()
+            return True, playback_start
         except Exception as e:
-            logger.error(f"Streaming TTS error: {e}", exc_info=True)
-        finally:
-            # Wait for audio queue to finish
-            logger.info("Waiting for audio playback to complete...")
-            while not self.audio_queue.empty():
-                time.sleep(0.1)
+            logger.error(f"TTS failed: {e}")
+            return False, 0.0
 
-            time.sleep(0.5)  # Extra buffer for last chunk
-
-            self.stop_flag = True
-            if self._player_thread:
-                self._player_thread.join(timeout=2)
-
-            logger.info(f"Streaming TTS completed ({chunk_count} chunks)")
-
-        return self._first_playback_time
-
-    def say(self, text: str) -> bool:
-        """Speak text using TTS (blocking).
-
-        Args:
-            text: Text to speak
-
-        Returns:
-            True if successful, False otherwise
-        """
-        try:
-            audio = self.synthesize_chunk(text)
-            if audio is not None and len(audio) > 0:
-                sd.play(audio, self.sample_rate, blocking=True)
-                return True
-            else:
-                logger.error("Synthesis failed")
-                return False
-        except Exception as e:
-            logger.error(f"Failed to speak text: {e}")
-            return False
+    def say_streaming(self, text: str, user_id: Optional[str] = None) -> tuple[bool, float]:
+        return self.say(text, user_id=user_id)
 
     def cleanup(self):
-        """Clean up TTS engine resources."""
-        logger.info("Cleaning up Piper TTS engine")
+        if self.engine:
+            try:
+                self.engine.stop()
+            except Exception:
+                pass
+            self.engine = None
 
-        # Stop playback thread first
-        self.stop_flag = True
-        if self._player_thread and self._player_thread.is_alive():
-            self._player_thread.join(timeout=2)
 
-        # Clear audio queue
+class KokoroTTSEngine:
+    """Kokoro TTS engine (non-streaming, high quality)."""
+
+    def __init__(self):
+        self.model = None
+        self.pipeline = None
+        self.voice = KOKORO_VOICE
+        self.speed = KOKORO_SPEED
+        self.sample_rate = 24000
+        self.output_rate = 24000
+        self.output_device_index = None
+        self._output_rate_override = None
+        self._stream_to_frontend = True  # Always push full audio to frontend when user_id is provided
+        self._engine_lock = threading.Lock()
+        self._pyaudio = None
+        self._notification_service = None
+        self._init_engine()
+        self._load_output_config()
+
+    def _load_output_config(self):
+        device_env = (KOKORO_OUTPUT_DEVICE_INDEX or "").strip()
+        if device_env:
+            try:
+                self.output_device_index = int(device_env)
+            except ValueError:
+                logger.warning("Invalid KOKORO_OUTPUT_DEVICE_INDEX: %s", device_env)
+        rate_env = (KOKORO_OUTPUT_SAMPLE_RATE or "").strip()
+        if rate_env:
+            try:
+                self._output_rate_override = int(rate_env)
+            except ValueError:
+                logger.warning("Invalid KOKORO_OUTPUT_SAMPLE_RATE: %s", rate_env)
+
+    def _resolve_device(self) -> str:
+        pref = (KOKORO_DEVICE or "auto").strip().lower()
+        if pref == "auto":
+            return "cuda" if torch.cuda.is_available() else "cpu"
+        if pref == "cuda" and not torch.cuda.is_available():
+            logger.warning("CUDA requested for Kokoro but not available; falling back to CPU.")
+            return "cpu"
+        return pref
+
+    def _init_engine(self):
         try:
-            while not self.audio_queue.empty():
-                self.audio_queue.get_nowait()
+            import pyaudio
+            from kokoro import KModel, KPipeline
+
+            self._pyaudio = pyaudio
+            device = self._resolve_device()
+
+            # Enforce the configured language and voice
+            lang_code = KOKORO_LANG
+            voice = self.voice
+            if not (voice.startswith("a") or voice.startswith("b")):
+                logger.warning("Non-English voice requested (%s); falling back to af_heart.", voice)
+                voice = "af_heart"
+            self.voice = voice
+
+            self.model = KModel(repo_id=KOKORO_REPO_ID).to(device).eval()
+            self.pipeline = KPipeline(
+                lang_code=lang_code,
+                repo_id=KOKORO_REPO_ID,
+                model=self.model,
+            )
+            logger.info(
+                "Kokoro initialized (repo=%s, lang=%s, voice=%s, device=%s)",
+                KOKORO_REPO_ID,
+                lang_code,
+                self.voice,
+                device,
+            )
+        except Exception as e:
+            logger.exception(f"Failed to initialize Kokoro TTS: {e}")
+            self.model = None
+            self.pipeline = None
+            self._pyaudio = None
+
+    def _select_output_rate(self, p, device_index: Optional[int]) -> int:
+        candidates = []
+        if self._output_rate_override:
+            candidates.append(self._output_rate_override)
+        candidates.extend([self.sample_rate, 48000, 44100, 32000, 24000, 22050, 16000])
+
+        try:
+            dev_info = (
+                p.get_device_info_by_index(device_index)
+                if device_index is not None
+                else p.get_default_output_device_info()
+            )
+            default_rate = int(dev_info.get("defaultSampleRate", 48000))
+        except Exception:
+            default_rate = 48000
+
+        if default_rate not in candidates:
+            candidates.append(default_rate)
+
+        seen = set()
+        for rate in candidates:
+            if rate in seen:
+                continue
+            seen.add(rate)
+            try:
+                p.is_format_supported(
+                    rate,
+                    output_device=device_index,
+                    output_channels=1,
+                    output_format=self._pyaudio.paInt16,
+                )
+                return int(rate)
+            except Exception:
+                continue
+
+        return int(default_rate)
+
+    def _open_output_stream(self):
+        if not self._pyaudio:
+            raise RuntimeError("PyAudio is not available.")
+        p = self._pyaudio.PyAudio()
+        device_index = self.output_device_index
+        output_rate = self._select_output_rate(p, device_index)
+        try:
+            stream = p.open(
+                format=self._pyaudio.paInt16,
+                channels=1,
+                rate=output_rate,
+                output=True,
+                output_device_index=device_index,
+            )
+        except Exception:
+            if device_index is not None:
+                logger.warning(
+                    "Output device %s failed at %s Hz; retrying default device.",
+                    device_index,
+                    output_rate,
+                )
+                device_index = None
+                output_rate = self._select_output_rate(p, device_index)
+                stream = p.open(
+                    format=self._pyaudio.paInt16,
+                    channels=1,
+                    rate=output_rate,
+                    output=True,
+                )
+            else:
+                raise
+        self.output_rate = output_rate
+        return p, stream
+
+    def _resample_if_needed(self, audio: np.ndarray) -> np.ndarray:
+        if self.output_rate == self.sample_rate:
+            return audio
+        audio = np.asarray(audio, dtype=np.float32).reshape(-1)
+        ratio = Fraction(int(self.output_rate), int(self.sample_rate)).limit_denominator(1000)
+        return resample_poly(audio, ratio.numerator, ratio.denominator)
+
+    def _close_output_stream(self, p, stream):
+        try:
+            stream.stop_stream()
+        except Exception:
+            pass
+        try:
+            stream.close()
+        except Exception:
+            pass
+        try:
+            p.terminate()
         except Exception:
             pass
 
-        # Note: ONNX Runtime session cleanup is deliberately skipped
-        # Explicit deletion causes "invalid pointer" errors on exit
-        # Let Python garbage collector handle it naturally
+    def _synthesize(self, text: str) -> Optional[np.ndarray]:
+        if not self.pipeline or not self.model:
+            return None
+        audio_chunks: list[np.ndarray] = []
+        try:
+            for result in self.pipeline(text, voice=self.voice, speed=self.speed, model=self.model):
+                audio = result.audio
+                if audio is None:
+                    continue
+                if isinstance(audio, torch.Tensor):
+                    audio = audio.detach().cpu().float().numpy()
+                else:
+                    audio = np.asarray(audio, dtype=np.float32)
+                audio_chunks.append(audio.reshape(-1))
+        except Exception as e:
+            logger.error(f"Kokoro synthesis failed: {e}")
+            return None
+        if not audio_chunks:
+            return None
+        return np.concatenate(audio_chunks)
+
+    def say(self, text: str, user_id: Optional[str] = None) -> tuple[bool, float]:
+        if not self.pipeline or not self.model:
+            return False, 0.0
+        if self._stream_to_frontend and user_id:
+            return self._send_full_audio_to_frontend(user_id, text)
+        if not self._pyaudio:
+            return False, 0.0
+        try:
+            with self._engine_lock:
+                wav = self._synthesize(text)
+                if wav is None:
+                    return False, 0.0
+                playback_start = time.perf_counter()
+                self._play_audio(wav)
+            return True, playback_start
+        except Exception as e:
+            logger.error(f"Kokoro TTS failed: {e}")
+            return False, 0.0
+
+    def say_streaming(self, text: str, user_id: Optional[str] = None) -> tuple[bool, float]:
+        return self.say(text, user_id=user_id)
+
+    def _play_audio(self, wav: np.ndarray):
+        p, stream = self._open_output_stream()
+        try:
+            resampled = self._resample_if_needed(wav)
+            audio = (np.clip(resampled, -1.0, 1.0) * 32767).astype(np.int16)
+            stream.write(audio.tobytes())
+        finally:
+            self._close_output_stream(p, stream)
+
+    def _send_full_audio_to_frontend(self, user_id: str, text: str) -> tuple[bool, float]:
+        if not self.pipeline or not self.model:
+            return False, 0.0
+
+        text_hash = hashlib.sha1(text.encode("utf-8")).hexdigest()[:10]
+        text_preview = (text or "")[:120]
+
+        playback_start = 0.0
+        if self._notification_service is None:
+            self._notification_service = get_default_service()
+
+        try:
+            with self._engine_lock:
+                wav = self._synthesize(text)
+                if wav is None:
+                    return False, 0.0
+                playback_start = time.perf_counter()
+                audio = (np.clip(wav, -1.0, 1.0) * 32767).astype(np.int16)
+                chunk_b64 = base64.b64encode(audio.tobytes()).decode("ascii")
+                self._notification_service.push_audio_chunk(
+                    user_id,
+                    chunk_b64,
+                    self.sample_rate,
+                    True,
+                    text_hash=text_hash,
+                    text_preview=text_preview,
+                )
+            return True, playback_start
+        except Exception as e:
+            logger.error(f"Kokoro send-to-frontend failed: {e}")
+            return False, 0.0
+
+    def cleanup(self):
+        self.model = None
+        self.pipeline = None
+        self._pyaudio = None

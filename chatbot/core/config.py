@@ -3,6 +3,13 @@ import os
 import logging
 import warnings
 
+# Ensure HF cache dir is writable and consistent across modules (avoids meta tensor issues)
+HF_CACHE_DIR = os.getenv("HF_HOME", "/mnt/ssd/huggingface")
+os.environ.setdefault("HF_HOME", HF_CACHE_DIR)
+os.environ.setdefault("TRANSFORMERS_CACHE", os.path.join(HF_CACHE_DIR, "hub"))
+os.environ.setdefault("HF_DATASETS_CACHE", os.path.join(HF_CACHE_DIR, "datasets"))
+os.makedirs(HF_CACHE_DIR, exist_ok=True)
+
 # Base paths
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DATA_DIR = os.path.join(BASE_DIR, "data")
@@ -16,7 +23,7 @@ RECORD_DURATION = 5  # Seconds
 WHISPER_WARMUP_SAMPLES = 1600  # 0.1s @16k for initial graph compilation
 
 # User configuration
-DEFAULT_SPEAKER = "presentation"
+DEFAULT_SPEAKER = "test user"
 
 # Whisper model configuration
 # Default to local path if available, otherwise use HuggingFace model ID
@@ -61,30 +68,15 @@ PERSONALITY_MODELS_DIR = os.path.join(BASE_DIR, "data", "models")
 TTS_RATE = 200  # Speech rate (words per minute)
 TTS_VOLUME = 0.8  # Volume level (0.0 to 1.0)
 
-# Piper TTS (CPU-optimized) configuration
-USE_PIPER_TTS = os.getenv("USE_PIPER_TTS", "false").lower() == "true"
-PIPER_MODEL_PATH = os.path.expanduser(
-    os.getenv("PIPER_MODEL_PATH", "~/tts_models/en_US-amy-medium.onnx")
-)
-PIPER_CONFIG_PATH = os.path.expanduser(
-    os.getenv("PIPER_CONFIG_PATH", "~/tts_models/en_US-amy-medium.onnx.json")
-)
-PIPER_SENTENCE_MIN_WORDS = int(os.getenv("PIPER_SENTENCE_MIN_WORDS", "5"))
-
-# NeuTTS configuration (GGUF backbone + PyTorch codec, optimized for CPU)
-# This leaves GPU free for Ollama LLM inference
-USE_NEUTTS = os.getenv("USE_NEUTTS", "true").lower() == "true"
-# GGUF backbone runs on CPU via llama-cpp-python (fast, no GPU needed)
-NEUTTS_BACKBONE_REPO = os.getenv("NEUTTS_BACKBONE_REPO", "neuphonic/neutts-nano-q4-gguf")
-# PyTorch codec (ONNX codec has compatibility issues on Jetson, see onnxBug.md)
-NEUTTS_CODEC_REPO = os.getenv("NEUTTS_CODEC_REPO", "neuphonic/neucodec")
-# Always use CPU for NeuTTS to avoid GPU conflicts with Ollama
-NEUTTS_DEVICE = os.getenv("NEUTTS_DEVICE", "cpu")
-NEUTTS_REF_AUDIO = os.path.expanduser(os.getenv("NEUTTS_REF_AUDIO", "~/ai_agent/ai_agent_project/neutts/samples/jo.wav"))
-NEUTTS_REF_TEXT = os.path.expanduser(os.getenv("NEUTTS_REF_TEXT", "~/ai_agent/ai_agent_project/neutts/samples/jo.txt"))
-# Pre-encoded reference audio (.pt file) for faster startup
-NEUTTS_REF_CODES = os.path.expanduser(os.getenv("NEUTTS_REF_CODES", "~/ai_agent/ai_agent_project/neutts/samples/jo.pt"))
-NEUTTS_SENTENCE_MIN_WORDS = int(os.getenv("NEUTTS_SENTENCE_MIN_WORDS", "5"))
+# Kokoro TTS configuration
+USE_KOKORO = os.getenv("USE_KOKORO", "true").lower() == "true"
+KOKORO_REPO_ID = os.getenv("KOKORO_REPO_ID", "hexgrad/Kokoro-82M")
+KOKORO_LANG = "en-us"  # Force English only
+KOKORO_VOICE = os.getenv("KOKORO_VOICE", "af_heart")
+KOKORO_SPEED = float(os.getenv("KOKORO_SPEED", "1.0"))
+KOKORO_DEVICE = os.getenv("KOKORO_DEVICE", "auto")  # auto|cpu|cuda
+KOKORO_OUTPUT_DEVICE_INDEX = os.getenv("KOKORO_OUTPUT_DEVICE_INDEX", "")
+KOKORO_OUTPUT_SAMPLE_RATE = os.getenv("KOKORO_OUTPUT_SAMPLE_RATE", "")
 
 # Audio recording configuration
 AUDIO_TIMEOUT_MARGIN = 2.0  # Extra seconds to wait beyond duration before timeout
@@ -113,6 +105,9 @@ GREETING_MESSAGES = [
     "Hold on, I'll get right back to you.",
     "One moment while I put this together.",
 ]
+
+# Disable greeting TTS by default (set PLAY_GREETING=true to enable)
+PLAY_GREETING = os.getenv("PLAY_GREETING", "false").lower() == "true"
 
 # Logging configuration
 # Set to INFO to see audio debugging information, ERROR to suppress
